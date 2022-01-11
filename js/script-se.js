@@ -1,5 +1,4 @@
 $(function () {
-    console.log('*****DEVELOPMENT MODE File2*****');
     optionJudgment();
     expectedArrival();
 });

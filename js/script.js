@@ -1,5 +1,4 @@
 $(function () {
-    console.log('*****DEVELOPMENT MODE File1*****');
     previewModeDecision();//OK
     rewriteDOM();//OK
     globalNavi();//javaScriptParts
