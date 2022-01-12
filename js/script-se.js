@@ -1,6 +1,6 @@
-$(function () {
-    optionJudgment();
-    expectedArrival();
+$(window).on('load', function () {
+    optionJudgment();//order
+    expectedArrival();//order
 });
 
 /* checkout sizeOrderDisplayThum
