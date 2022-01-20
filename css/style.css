@@ -8779,6 +8779,14 @@ h2.productDescriptionTitle {
     vertical-align: middle;
 }
 
+#tnl-em-container .resultAreaInnerTop .selectedProductInnerSize {
+    background: #878376;
+    color: #fff;
+    text-align: center;
+    margin: 8px 0;
+    padding: 4px;
+}
+
 #tnl-em-container .resultAreaInnerTop .selectedProductImageText {
     text-align: right;
 }
