@@ -8725,7 +8725,7 @@ h2.productDescriptionTitle {
         background: #f4f2eb;
         width: 100%;
         padding: 6px 16px;
-        margin-left: -8px;
+        left: 0;
     }
 
     #tnl-em-container #productPriceBox .fs-c-productPrice__main {
