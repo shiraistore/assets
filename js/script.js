@@ -1672,12 +1672,20 @@ function productDetailAddData() {
         var url = location.pathname;
         var modelCode = url.split('/').pop();
 
+        // 商品詳細ページにテキストを表示
+        // $('.fs-c-productPlainImage img').each(function(){
+        //     $(this).after($(this).attr('alt'));
+        // });
+
+        //console.log('modelCode:',modelCode);
+
         var dataForProductDetailUrl = 'https://cdn.shirai-store.net/assets/json/productDetail/dataForProductDetail_' + modelCode + '_v2_1.json';
 
         //console.log(dataForProductDetailUrl);
 
 
         $.getJSON(dataForProductDetailUrl, function (data) {
+            console.log(data);
 
             if (data.nextArrivalDate[0] != undefined) {
                 const convertJST = new Date(data.nextArrivalDate[0].nextArrivalDate);
@@ -1687,7 +1695,7 @@ function productDetailAddData() {
                 $('.fs-c-productNotice--outOfStock span').html('次回の入荷日は<strong class="newArrivalDate">「' + nextArrivalDate + '」</strong>頃の予定です。');
             }
 
-            console.log(data.ranking[0]);
+            //console.log(data.ranking[0]);
             if (data.ranking[0] != undefined) {
                 var iconHtml = '<li class="fs-c-productMark__item"><a class="mark-categoryRank fs-c-productMark__mark--0 fs-c-productMark__mark" href="/f/ranking_' + data.ranking[0].categoryUrl + '"><span class="fs-c-productMark__label">' + data.ranking[0].categoryName + ' ' + data.ranking[0].categoryRanking + '位' + '</span></a></li>';
                 if ($('.fs-c-productMarks').length) {
@@ -1696,6 +1704,9 @@ function productDetailAddData() {
                     $('.fs-c-productPrices').before('<div class="fs-c-productMarks"><ul class="fs-c-productMark">' + iconHtml + '</ul></div>');
                 }
             }
+
+
+
 
 
             // console.log(data.price);
@@ -3101,6 +3112,31 @@ function tnl_em_select() {
                 }
 
                 $('#tnl_em_selectedProductButton').html(html);
+
+                //<div id="tnl_em_selectedProduct-innerSize" style="background: #878376;color: #fff;text-align: center;margin: 8px 0;"></div>
+
+                var innerWidth;
+                //console.log(optionDepth)
+                var innerHeight = Number(optionHeight) - 11.1;
+                var innerDepth;
+
+                if (optionDepth == 'A') {
+                    innerDepth = '16.7';
+                } else if (optionDepth == 'M') {
+                    innerDepth = '26.7';
+                } else if (optionDepth == 'F') {
+                    innerDepth = '41.7';
+                }
+
+                if (optionWidth >= 71) {
+                    innerWidth = (Number(optionWidth) - 5.4) / 2;
+                    var innerSizeHTML = `【内寸】高さ:${innerHeight}cm　幅左:${innerWidth}cm 幅右:${innerWidth}cm　奥行:${innerDepth}cm`
+                } else {
+                    innerWidth = Number(optionWidth) - 3.6;
+                    var innerSizeHTML = `【内寸】高さ:${innerHeight}cm　幅:${innerWidth}cm　奥行:${innerDepth}cm`
+                }
+
+                $('#tnl_em_selectedProduct-innerSize').html(innerSizeHTML);
             }
         });
     }
@@ -3209,6 +3245,31 @@ function tnl_emu_select() {
                 var html = '<form action="https://shirai-store.net/p/cart/add" method="post"><div style="display:none"><input type="hidden" name="products[' + productURL + '].productNo" value="' + productURL + '"><input type="hidden" name="products[' + productURL + '].productOptionsWithPrice[1].id" value="1"><select name="products[' + productURL + '].productOptionsWithPrice[1].value"><option value="' + optionCode + '"></option></select><input type="hidden" name="products[' + productURL + '].productOptionsWithPrice[2].id" value="2"><select name="products[' + productURL + '].productOptionsWithPrice[2].value"><option value="' + optionColor + '"></option></select><input type="hidden" name="products[' + productURL + '].productOptionsWithPrice[3].id" value="3"><select name="products[' + productURL + '].productOptionsWithPrice[3].value"><option value="' + optionADIS + '"></option></select><input name="products[' + productURL + '].quantity" type="text" value="1" size="5"></div><button type="submit">カートに入れる</button></form>';
 
                 $('#tnl_emu_selectedProductButton').html(html);
+
+                //<div id="tnl_em_selectedProduct-innerSize" style="background: #878376;color: #fff;text-align: center;margin: 8px 0;"></div>
+
+                var innerWidth;
+                var innerDepth;
+
+                if (optionDepth == 'A') {
+                    innerDepth = '17.0';
+                } else if (optionDepth == 'M') {
+                    innerDepth = '27.0';
+                } else if (optionDepth == 'F') {
+                    innerDepth = '42.0';
+                }
+
+                if (optionWidth >= 71) {
+                    innerWidth = (Number(optionWidth) - 5.4) / 2;
+                    var innerSizeHTML = `【内寸】高さ:25.4cm　幅左:${innerWidth}cm 幅右:${innerWidth}cm　奥行:${innerDepth}cm`
+                } else {
+                    innerWidth = Number(optionWidth) - 3.6;
+                    var innerSizeHTML = `【内寸】高さ:25.4cm　幅:${innerWidth}cm　奥行:${innerDepth}cm`
+                }
+
+                
+
+                $('#tnl_emu_selectedProduct-innerSize').html(innerSizeHTML)
             }
         });
     }
