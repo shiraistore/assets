@@ -3323,7 +3323,74 @@ div.fs-c-breadcrumb {
 h2.productDescriptionTitle {
     width: 100%;
     font-size: 2.4rem;
-    margin-top: 48px;
+    margin-top: 64px;
+}
+
+#fs_ProductDetails #productDetail-faq dl {
+    max-width: 640px;
+    margin: 0 auto 56px;
+}
+
+#fs_ProductDetails #productDetail-faq dt {
+    font-size: 1.6rem;
+    margin-top: 16px;
+    display: flex;
+    margin-top: 4px;
+}
+
+#fs_ProductDetails #productDetail-faq dd{
+    margin-left: 40px;
+    margin-bottom: 32px;
+}
+
+#fs_ProductDetails #productDetail-faq dt::before {
+    content: "Q";
+    display: inline-block;
+    background: #f65f5f;
+    color: #fff;
+    padding: 7px;
+    height: 32px;
+    width: 32px;
+    margin-right: 8px;
+    border-radius: 16px;
+    text-align: center;
+    line-height: 1;
+    min-width: 32px;
+    max-width: 32px;
+    margin-top: -4px;
+}
+
+#fs_ProductDetails #productDetail-faq ul {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+#fs_ProductDetails #productDetail-faq ul li {
+    width: 24%;
+    margin-right: 1%;
+}
+
+#fs_ProductDetails #productDetail-faq ul li span {
+    display: block;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+#fs_ProductDetails #productDetail-faq dd a {
+    text-decoration: underline;
+    color: #05a;
+}
+
+#fs_ProductDetails #productDetail-faq dd a:hover {
+    color: #e47911;
+}
+
+#fs_ProductDetails #productDetail-faq dt {
+    font-size: 1.6rem;
+        display: flex;
+        margin-top: 4px;
+        margin-bottom: 8px;
 }
 
 .fs-p-productDescription {
@@ -11571,7 +11638,7 @@ div.cal_wrapper table.cal tr td div.pointer {
     width: 100%;
     top: 0;
     left: 0;
-    z-index: 1;
+    z-index: 111111;
 }
 
 #instagramPost-modal_outer {
@@ -14582,3 +14649,47 @@ div.poplink.sphs>div.poplink_suggest>div.word.highlighted:after {
         margin: 16px 0;
     }
 }
+
+
+/* 新生活コンテンツ
+   ========================================================================== */
+
+#newLife2022 .newLife2022_inner {
+    text-align: center;
+}
+
+#newLife2022 .newLife2022_nav ul{
+    display: flex;
+}
+
+#newLife2022 .newLife2022_products{
+    display: flex;
+}
+
+#newLife2022 .newLife2022_2items{
+    display: flex;
+}
+
+#newLife2022 .productActionButton input[type="submit"] {
+    background: #e87909;
+    border-radius: 8px;
+    font-size: 1.4rem;
+    padding: 4px 0px;
+    color: #fff;
+    border: none;
+    width: 72%;
+ }
+
+ #newLife2022 .product-detail-button a {
+    background-color: rgb(255, 255, 255);
+    display: inline-block;
+    text-align: center;
+    border-radius: 24px;
+    padding: 8px 0px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(210, 210, 210);
+    border-image: initial;
+    width: 100%;
+ }
+ 
