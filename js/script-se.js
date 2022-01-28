@@ -395,7 +395,7 @@ function expectedArrival() {
                         if (sizeOrderArray.find(value => value.match(/サイズオーダー/g)) != undefined) {
                             //console.log('サイズオーダー');
                             orderLeadTime += 3;
-                            console.log('サイズオーダー:', orderLeadTime);
+                            //console.log('サイズオーダー:', orderLeadTime);
                             arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderLeadTime, operation_holyDay, '事務処理');
                             manufactureLeadTime += 9;
                             arrivalDate_ary = checkHolyDay(arrivalDate_ary, manufactureLeadTime, factory_holyDay, '生産');
@@ -413,14 +413,14 @@ function expectedArrival() {
                             if (optionResult_AIDS01 >= 0 || optionResult_AIDS02 >= 0) {
                                 //console.log('組立サービス')
                                 orderLeadTime += 3;
-                                console.log('組立サービス:', orderLeadTime);
+                                //console.log('組立サービス:', orderLeadTime);
                                 arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderLeadTime, operation_holyDay, '事務処理');
                                 assemblyLeadTime += 5;
                                 arrivalDate_ary = checkHolyDay(arrivalDate_ary, assemblyLeadTime, operation_holyDay, '組立');
                             } else {
                                 if ($('#fs_input_payment_bankTransfer').prop("checked")) {
                                     orderLeadTime += 1;
-                                    console.log('銀行振込:', orderLeadTime);
+                                    //console.log('銀行振込:', orderLeadTime);
                                     arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderLeadTime, operation_holyDay, '事務処理');
                                 }
                             }
