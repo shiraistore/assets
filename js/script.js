@@ -2112,7 +2112,7 @@ if (newLife_top10Slider12 == null) {
     newLife_top10Slider12 = $('#newLife2022 .bxslider12').bxSlider(top10Slider_option1);
 }
 if (newLife_top10Slider13 == null) {
-    newLife_top10Slider13 = $('#newLife2022 .bxslider12').bxSlider(top10Slider_option1);
+    newLife_top10Slider13 = $('#newLife2022 .bxslider13').bxSlider(top10Slider_option1);
 }
 
 function checkScreenSize() {
