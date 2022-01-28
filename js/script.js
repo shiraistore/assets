@@ -160,7 +160,7 @@ function productDetail_tnlListTableLink() {
             //console.log(series[series.length -1]);
             $('#tnl-listTable table td a').each(function () {
                 var link = $(this).attr('href');
-                console.log(link);
+                //console.log(link);
                 link = link.slice(0, -2) + color;
                 $(this).attr('href', link);
             });
@@ -467,7 +467,7 @@ function magazineImageChange() {
 ========================================================================== */
 function faqAnswerOpen() {
     $('#faq dt span').click(function () {
-        console.log('A');
+        //console.log('A');
         $(this).parents('dt').next('dd').slideToggle();
     });
 }
@@ -1685,7 +1685,7 @@ function productDetailAddData() {
 
 
         $.getJSON(dataForProductDetailUrl, function (data) {
-            console.log(data);
+            //console.log(data);
 
             if (data.nextArrivalDate[0] != undefined) {
                 const convertJST = new Date(data.nextArrivalDate[0].nextArrivalDate);
@@ -1705,18 +1705,17 @@ function productDetailAddData() {
                 }
             }
 
-
-
-
-
-            // console.log(data.price);
-            // console.log(data.price[0]);
-            // console.log(data.price[0].normalPrice);
-            // console.log(data.price[0][1]);
+            var faqHtml = '';
+            if (data.faq != undefined) {
+                for (var i in data.faq) {
+                    faqHtml += `<dt>${data.faq[i].question}</dt><dd>${data.faq[i].answer}</dd>`;
+                }
+                $('.productDescriptionTitle').before(`<div id="productDetail-faq"><h2 class="productDescriptionTitle">この商品に関するよくある質問</h2><dl>${faqHtml}</dl></div>`);
+            }
 
             if (data.price[0] != undefined) {
                 var salePrice = $('.fs-c-productPrice--selling .fs-c-price__value').text().replace(',', '');
-                console.log('salePrice:' + salePrice);
+                //console.log('salePrice:' + salePrice);
                 if (data.price[0].normalPrice != salePrice) {
                     $('body').addClass('time-sale');
                     $('.fs-c-productPrice--selling').addClass('salePrice');
@@ -2063,6 +2062,7 @@ function productDetailAddData() {
 var recommend_top10Slider;
 var ranking_top10Slider;
 var productDetail_top10Slider;
+var newLife_top10Slider1, newLife_top10Slider2, newLife_top10Slider3;
 var top10Slider_option1 = { infiniteLoop: false, pager: false, hideControlOnEnd: true, touchEnabled: false, minSlides: 5, maxSlides: 5, slideWidth: 203, slideMargin: 8, controls: false };
 var top10Slider_option2 = { infiniteLoop: false, pager: false, hideControlOnEnd: true, touchEnabled: false, minSlides: 5, maxSlides: 5, slideWidth: 203, slideMargin: 8 };
 
@@ -2075,6 +2075,16 @@ if (ranking_top10Slider == null) {
 if (productDetail_top10Slider == null) {
     productDetail_top10Slider = $('.productTop10Slider.series .bxslider').bxSlider(top10Slider_option1);
 }
+if (newLife_top10Slider1 == null) {
+    newLife_top10Slider1 = $('#newLife2022 .bxslider1').bxSlider(top10Slider_option1);
+}
+if (newLife_top10Slider2 == null) {
+    newLife_top10Slider2 = $('#newLife2022 .bxslider2').bxSlider(top10Slider_option1);
+}
+if (newLife_top10Slider3 == null) {
+    newLife_top10Slider3 = $('#newLife2022 .bxslider3').bxSlider(top10Slider_option1);
+}
+
 
 function checkScreenSize() {
     if ($('.productTop10Slider.recommend').length && recommend_top10Slider) {
@@ -2106,6 +2116,26 @@ function checkScreenSize() {
         } else {
             productDetail_top10Slider.reloadSlider(top10Slider_option2);
             $('.productTop10Slider').removeClass('destroy');
+        }
+    }
+    //newLife2022
+    if ($('#newLife2022').length && (newLife_top10Slider1 || newLife_top10Slider2 || newLife_top10Slider3)) {
+        var newWindowWidth = $(window).width();
+        if (newWindowWidth <= 1200) {
+            newLife_top10Slider1.destroySlider();
+            newLife_top10Slider2.destroySlider();
+            newLife_top10Slider3.destroySlider();
+            $('.productTop10Slider').each(function () {
+                $(this).addClass('destroy');
+            });
+
+        } else {
+            newLife_top10Slider1.reloadSlider(top10Slider_option2);
+            newLife_top10Slider2.reloadSlider(top10Slider_option2);
+            newLife_top10Slider3.reloadSlider(top10Slider_option2);
+            $('.productTop10Slider').each(function () {
+                $(this).removeClass('destroy');
+            });
         }
     }
 }
@@ -3267,7 +3297,7 @@ function tnl_emu_select() {
                     var innerSizeHTML = `【内寸】高さ:25.4cm　幅:${innerWidth}cm　奥行:${innerDepth}cm`
                 }
 
-                
+
 
                 $('#tnl_emu_selectedProduct-innerSize').html(innerSizeHTML)
             }
