@@ -2062,7 +2062,7 @@ function productDetailAddData() {
 var recommend_top10Slider;
 var ranking_top10Slider;
 var productDetail_top10Slider;
-var newLife_top10Slider1, newLife_top10Slider2, newLife_top10Slider3;
+var newLife_top10Slider1, newLife_top10Slider2, newLife_top10Slider3, newLife_top10Slider4, newLife_top10Slider5, newLife_top10Slider6, newLife_top10Slider7, newLife_top10Slider8, newLife_top10Slider9, newLife_top10Slider10, newLife_top10Slider11, newLife_top10Slider12, newLife_top10Slider13;
 var top10Slider_option1 = { infiniteLoop: false, pager: false, hideControlOnEnd: true, touchEnabled: false, minSlides: 5, maxSlides: 5, slideWidth: 203, slideMargin: 8, controls: false };
 var top10Slider_option2 = { infiniteLoop: false, pager: false, hideControlOnEnd: true, touchEnabled: false, minSlides: 5, maxSlides: 5, slideWidth: 203, slideMargin: 8 };
 
@@ -2084,7 +2084,36 @@ if (newLife_top10Slider2 == null) {
 if (newLife_top10Slider3 == null) {
     newLife_top10Slider3 = $('#newLife2022 .bxslider3').bxSlider(top10Slider_option1);
 }
-
+if (newLife_top10Slider4 == null) {
+    newLife_top10Slider4 = $('#newLife2022 .bxslider4').bxSlider(top10Slider_option1);
+}
+if (newLife_top10Slider5 == null) {
+    newLife_top10Slider5 = $('#newLife2022 .bxslider5').bxSlider(top10Slider_option1);
+}
+if (newLife_top10Slider6 == null) {
+    newLife_top10Slider6 = $('#newLife2022 .bxslider6').bxSlider(top10Slider_option1);
+}
+if (newLife_top10Slider7 == null) {
+    newLife_top10Slider7 = $('#newLife2022 .bxslider7').bxSlider(top10Slider_option1);
+}
+if (newLife_top10Slider8 == null) {
+    newLife_top10Slider8 = $('#newLife2022 .bxslider8').bxSlider(top10Slider_option1);
+}
+if (newLife_top10Slider9 == null) {
+    newLife_top10Slider9 = $('#newLife2022 .bxslider9').bxSlider(top10Slider_option1);
+}
+if (newLife_top10Slider10 == null) {
+    newLife_top10Slider10 = $('#newLife2022 .bxslider10').bxSlider(top10Slider_option1);
+}
+if (newLife_top10Slider11 == null) {
+    newLife_top10Slider11 = $('#newLife2022 .bxslider11').bxSlider(top10Slider_option1);
+}
+if (newLife_top10Slider12 == null) {
+    newLife_top10Slider12 = $('#newLife2022 .bxslider12').bxSlider(top10Slider_option1);
+}
+if (newLife_top10Slider13 == null) {
+    newLife_top10Slider13 = $('#newLife2022 .bxslider12').bxSlider(top10Slider_option1);
+}
 
 function checkScreenSize() {
     if ($('.productTop10Slider.recommend').length && recommend_top10Slider) {
@@ -2119,20 +2148,39 @@ function checkScreenSize() {
         }
     }
     //newLife2022
-    if ($('#newLife2022').length && (newLife_top10Slider1 || newLife_top10Slider2 || newLife_top10Slider3)) {
+    if ($('#newLife2022').length && (newLife_top10Slider1 || newLife_top10Slider2 || newLife_top10Slider3 || newLife_top10Slider4 || newLife_top10Slider5 || newLife_top10Slider6 || newLife_top10Slider7 || newLife_top10Slider8 || newLife_top10Slider9 || newLife_top10Slider10 || newLife_top10Slider11 || newLife_top10Slider12 || newLife_top10Slider13)) {
         var newWindowWidth = $(window).width();
         if (newWindowWidth <= 1200) {
             newLife_top10Slider1.destroySlider();
             newLife_top10Slider2.destroySlider();
             newLife_top10Slider3.destroySlider();
+            newLife_top10Slider4.destroySlider();
+            newLife_top10Slider5.destroySlider();
+            newLife_top10Slider6.destroySlider();
+            newLife_top10Slider7.destroySlider();
+            newLife_top10Slider8.destroySlider();
+            newLife_top10Slider9.destroySlider();
+            newLife_top10Slider10.destroySlider();
+            newLife_top10Slider11.destroySlider();
+            newLife_top10Slider12.destroySlider();
+            newLife_top10Slider13.destroySlider();
             $('.productTop10Slider').each(function () {
                 $(this).addClass('destroy');
             });
-
         } else {
             newLife_top10Slider1.reloadSlider(top10Slider_option2);
             newLife_top10Slider2.reloadSlider(top10Slider_option2);
             newLife_top10Slider3.reloadSlider(top10Slider_option2);
+            newLife_top10Slider4.reloadSlider(top10Slider_option2);
+            newLife_top10Slider5.reloadSlider(top10Slider_option2);
+            newLife_top10Slider6.reloadSlider(top10Slider_option2);
+            newLife_top10Slider7.reloadSlider(top10Slider_option2);
+            newLife_top10Slider8.reloadSlider(top10Slider_option2);
+            newLife_top10Slider9.reloadSlider(top10Slider_option2);
+            newLife_top10Slider10.reloadSlider(top10Slider_option2);
+            newLife_top10Slider11.reloadSlider(top10Slider_option2);
+            newLife_top10Slider12.reloadSlider(top10Slider_option2);
+            newLife_top10Slider13.reloadSlider(top10Slider_option2);
             $('.productTop10Slider').each(function () {
                 $(this).removeClass('destroy');
             });
