@@ -1706,7 +1706,7 @@ function productDetailAddData() {
             }
 
             var faqHtml = '';
-            if (data.faq != undefined) {
+            if (data.faq != undefined && data.faq != '') {
                 for (var i in data.faq) {
                     faqHtml += `<dt>${data.faq[i].question}</dt><dd>${data.faq[i].answer}</dd>`;
                 }
