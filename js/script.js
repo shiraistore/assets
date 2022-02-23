@@ -325,11 +325,11 @@ function searchTagTitle(name, url) {
             $('.fs-c-breadcrumb__listItem:last-child').text('歳末SALE 対象商品');
             $('title').text('歳末SALE 対象商品');
         }
-    } else if (results[2] == 'sale20211209-20211227') {//https://shirai-store.net/p/search?tag=search-tnl,sale20211028-20211111&keyword=%E3%82%BF%E3%83%8A%E3%83%AA%E3%82%AA&sort=price_low
+    } else if (results[2] == 'sale20220224-20220324') {
         if (results != "") {
-            $('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20211209-20211227_1184x240.jpg" alt="Winter SALE 第2弾 対象商品"><br>Winter SALE 第2弾 対象商品');
-            $('.fs-c-breadcrumb__listItem:last-child').text('Winter SALE 第2弾 対象商品');
-            $('title').text('Winter SALE 第2弾 対象商品');
+            $('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20220224-20220324_1184x240.jpg" alt="新生活応援セール 第1弾 対象商品"><br>新生活応援セール 第1弾 対象商品');
+            $('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール 第1弾 対象商品');
+            $('title').text('新生活応援セール 第1弾 対象商品');
 
             /*
             console.log('XXXX');
