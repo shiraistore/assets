@@ -753,7 +753,7 @@ function instagramPostList() {
                 var price_html = '<span class="itemPrice">¥ ' + sellingPrice + '<span class="tax">(税込)</span></span>'
             }
 
-            modalProductHtml = modalProductHtml + '<li class="relatedProductItem"><a href="https://shirai-store.net/c/series/' + seriesCode + '/' + productUrl + '"><img data-src="' + 'https://shiraistore.itembox.design/product/' + zeroPadding(item_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbNumber + '-s.jpg" alt="' + productName + '" src="https://shiraistore.itembox.design/item/src/loading.svg" class="lazyload"></a><p><a href="https://shirai-store.net/c/series/' + seriesCode + '/' + productUrl + '" class="itemName">' + productName + '</a>' + icon_html + averageRating_html + price_html + '</li>'
+            modalProductHtml = modalProductHtml + '<li class="relatedProductItem"><a href="https://shirai-store.net/c/series/' + seriesCode + '/' + productUrl + '"><img data-src="' + 'https://shiraistore.itembox.design/product/' + zeroPadding(item_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbNumber + '-s.jpg" alt="instagramPost_' + id + ' ' + productName + '" src="https://shiraistore.itembox.design/item/src/loading.svg" class="lazyload"></a><p><a href="https://shirai-store.net/c/series/' + seriesCode + '/' + productUrl + '" class="itemName">' + productName + '</a>' + icon_html + averageRating_html + price_html + '</li>'
 
         }
 
