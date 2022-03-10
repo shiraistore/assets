@@ -638,7 +638,7 @@ function instagramPostList() {
                     thumbnail_url = instagramPostData[i].thumbnail_url,
                     sizeAdjustment = instagramPostData[i].sizeAdjustment;
 
-                listHtml = '<li class="modal-open" data-target="instagramPost-modal" data-postid="' + postId + '"><img src="' + thumbnail_url + '" style="width:' + sizeAdjustment + '%;height:' + sizeAdjustment + '%;"></li>';
+                listHtml = '<li class="modal-open" data-target="instagramPost-modal" data-postid="' + postId + '"><img src="' + thumbnail_url + '" style="width:' + sizeAdjustment + '%;height:' + sizeAdjustment + '%;" alt="instagramPost_' + postId + '"></li>';
                 $('#postedList').append(listHtml);
 
                 if (i == 9 && $('#fs_Top').length) {
@@ -670,7 +670,7 @@ function instagramPostList() {
 
         var thumbnail_url = target.thumbnail_url;
         var author_name = target.author_name;
-        var modalHtml = '<div id="imageBox"><a href="https://www.instagram.com/p/' + id + '/" target="_blank"><img width="320" data-src="' + thumbnail_url + '" src="https://shiraistore.itembox.design/item/src/loading.svg" id="thumbnail" class="lazyload"></a><span id="author"><img src="https://shiraistore.itembox.design/item/src/icon-instagram-gr.svg" width="16"><span>Photo by</span><a href=https://www.instagram.com/' + author_name + ' target="_blank">' + author_name + '</a></span></div>';
+        var modalHtml = '<div id="imageBox"><a href="https://www.instagram.com/p/' + id + '/" target="_blank"><img width="320" data-src="' + thumbnail_url + '" src="https://shiraistore.itembox.design/item/src/loading.svg" id="thumbnail" class="lazyload" alt="instagramPost_' + id + '"></a><span id="author"><img src="https://shiraistore.itembox.design/item/src/icon-instagram-gr.svg" width="16"><span>Photo by</span><a href=https://www.instagram.com/' + author_name + ' target="_blank">' + author_name + '</a></span></div>';
 
         var modalProductHtml = '';
         for (var i = 0; target.relatedProduct.length > i; i++) {
