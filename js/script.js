@@ -142,7 +142,8 @@ function productDetailSeriesLink() {
         //console.log(categoryName);
 
         //console.log(series[0]);
-        var html = '<div id="seriesLink"><a href="' + categoryURL + '" class="mb-16">「' + categoryName + '」一覧を見る</a><br><a href="/c/series/' + series[0] + '">この商品のシリーズ一覧を見る</a></div>';
+        //var html = '<div id="seriesLink"><a href="' + categoryURL + '" class="mb-16">「' + categoryName + '」一覧を見る</a><br><a href="/c/series/' + series[0] + '">この商品のシリーズ一覧を見る</a></div>';
+        var html = '<div id="seriesLink"><a href="' + categoryURL + '" class="mb-16">「' + categoryName + '」一覧を見る</a></div>';
 
         $('#productActionBox').after(html);
     }
@@ -1805,6 +1806,21 @@ function productDetailAddData() {
                 $('#productDetail-rankingTop10').css('display', 'block');
             }
 
+            var newWindowWidth = $(window).width();
+
+            var faqHtml = '';
+            //console.log('data.faq:', data.faq);
+            if (data.faq != undefined && data.faq != '') {
+                for (var i in data.faq) {
+                    faqHtml += `<dt>${data.faq[i].question}</dt><dd>${data.faq[i].answer}</dd>`;
+                }
+
+                $('#product-review').before(`<div id="productDetail-faq"><h2 class="productDescriptionTitle">この商品に関するよくある質問</h2><dl>${faqHtml}</dl></div>`);
+                
+                
+                
+            }
+
 
             if (data.comparisonData != undefined && data.comparisonData != '') {
 
@@ -1916,8 +1932,10 @@ function productDetailAddData() {
 
 
 
-                comparisonHTML = `<h2 class="productDescriptionTitle">類似商品との比較</h2><div id="productComparison"><table><tbody><tr class="comparisonImage">${comparisonImage}</tr><tr class="comparisonReview">${comparisonReview}</tr><tr class="comparisonPrice">${comparisonPrice}</tr><tr class="comparisonColor">${comparisonColor}</tr><tr class="comparisonSize">${comparisonSize}</tr><tr class="comparisonButton">${comparisonButton}</tr></tbody></table>`;
-                $('.fs-c-productReview__addReview').append(comparisonHTML);
+                comparisonHTML = `<div id="productDetail-comparison"><h2 class="productDescriptionTitle">類似商品との比較</h2><div id="productComparison"><table><tbody><tr class="comparisonImage">${comparisonImage}</tr><tr class="comparisonReview">${comparisonReview}</tr><tr class="comparisonPrice">${comparisonPrice}</tr><tr class="comparisonColor">${comparisonColor}</tr><tr class="comparisonSize">${comparisonSize}</tr><tr class="comparisonButton">${comparisonButton}</tr></tbody></table></div>`;
+
+                $('.fs-p-productDescription--full').after(comparisonHTML);
+                
             }
 
             if (data.nextArrivalDate[0] != undefined) {
@@ -1938,14 +1956,7 @@ function productDetailAddData() {
                 }
             }
 
-            var faqHtml = '';
-            //console.log('data.faq:', data.faq);
-            if (data.faq != undefined && data.faq != '') {
-                for (var i in data.faq) {
-                    faqHtml += `<dt>${data.faq[i].question}</dt><dd>${data.faq[i].answer}</dd>`;
-                }
-                $('#product-review').after(`<div id="productDetail-faq"><h2 class="productDescriptionTitle">この商品に関するよくある質問</h2><dl>${faqHtml}</dl></div>`);
-            }
+            
 
             if (data.price[0] != undefined) {
                 var salePrice = $('.fs-c-productPrice--selling .fs-c-price__value').text().replace(',', '');
@@ -2107,7 +2118,7 @@ function productDetailAddData() {
                 });
 
                 //価格上部にレビュースコアを表示
-                $('#productPriceBox').before('<div id="product-ratingStars"><a href="' + reviewListURL + '"><span class="fs-c-reviewInfo__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"></span><span>' + averageRating + '</span><span>（' + reviewCount + '）</span></a></div>');
+                $('#productPriceBox').before('<div id="product-ratingStars"><a href="#product-review"><span class="fs-c-reviewInfo__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"></span><span>' + averageRating + '</span><span>（' + reviewCount + '）</span></a></div>');
 
                 $('#reviwRatingBox').css('display', 'block');
 
@@ -4422,8 +4433,8 @@ function windowWidthDOMChange() {
             $('.fs-l-productLayout__item--2 #_rcmdjp_display_1').insertAfter('#product-review');
             $('.fs-l-productLayout__item--2 #product-banner').insertAfter('#product-review');
 
-            $('#productDetail-rankingTop10').insertAfter('#productActionBox');
-            console.log('AA');
+            $('#productDetail-rankingTop10').insertAfter('#productDetail-comparison');
+            //console.log('AA');
         }
         /* slideNavi featureBox change */
         $('#productNavi #header-globalNavi-bannerArea').insertBefore('#slideNavi-utility');

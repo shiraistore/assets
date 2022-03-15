@@ -3093,7 +3093,12 @@ div.fs-c-breadcrumb {
 
 */
 
+#product-review {
+    margin-bottom: 48px;
+}
+
 #product-reviewTitle {
+    margin-top: 64px;
     font-size: 2.4rem;
 }
 
@@ -3571,9 +3576,13 @@ h2.productDescriptionTitle {
 }
 
 .fs-c-productPostage__price::after {
-    content: "/ 会員送料：無料";
-    color: #f21515;
+    content: "会員送料：無料";
+    background: #f65f5f;
     margin-left: 16px;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-size: 16px;
 }
 
 .fs-c-productPostage::before, .fs-c-productPostage::after {
