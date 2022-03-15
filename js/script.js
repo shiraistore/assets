@@ -1824,7 +1824,7 @@ function productDetailAddData() {
 
             if (data.comparisonData != undefined && data.comparisonData != '') {
 
-                console.log(data.comparisonData);
+                //console.log(data.comparisonData);
                 var comparisonData = data.comparisonData,
                     comparisonHTML = '',
                     comparisonImage = '<td></td>',
@@ -1867,7 +1867,7 @@ function productDetailAddData() {
                         var icon_ary = icon.split(',');
 
                         for (var j = 0; j < icon_ary.length; j++) {
-                            console.log('icon_ary[j]:', icon_ary[j]);
+                            //console.log('icon_ary[j]:', icon_ary[j]);
                             if (icon_ary[j] != '') {
                                 icon_ary[j] = icon_ary[j].split(':');
 

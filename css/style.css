@@ -1644,6 +1644,10 @@ div.fs-c-breadcrumb {
     text-align: center;
 }
 
+#banner-top img {
+    padding: 24px 48px;
+}
+
 /*
 #fs_Top .original_flick-product-pickup .rcmd-slick-slide .fr2-listItem__productPrice {
     font-weight: bold;
@@ -2692,6 +2696,24 @@ div.fs-c-breadcrumb {
     position: static;
 }
 
+.fs-l-productLayout__item--1 #productImageBoxSlider h3, .fs-l-productLayout__item--1 #productImageBoxSlider p {
+    display: none;
+}
+
+.fs-l-productLayout__item--1 #productImageBoxSlider .slick-track .fs-c-productPlainImage h3 {
+    display: block;
+    text-align: left;
+    font-weight: bold;
+    margin: 8px 0 4px;
+    font-size: 1.6rem;
+}
+
+.fs-l-productLayout__item--1 #productImageBoxSlider .slick-track .fs-c-productPlainImage p {
+    display: block;
+    text-align: left;
+    margin: 0;
+}
+
 .pswp {
     z-index: 100000;
 }
@@ -3098,7 +3120,8 @@ div.fs-c-breadcrumb {
 }
 
 #product-reviewTitle {
-    margin-top: 64px;
+    padding-top: 48px;
+    margin-top: 0;
     font-size: 2.4rem;
 }
 
@@ -3343,9 +3366,10 @@ h2.productDescriptionTitle {
     margin-top: 4px;
 }
 
-#fs_ProductDetails #productDetail-faq dd{
+#fs_ProductDetails #productDetail-faq dd {
     margin-left: 40px;
     margin-bottom: 32px;
+    text-align: left;
 }
 
 #fs_ProductDetails #productDetail-faq dt::before {
@@ -3393,9 +3417,141 @@ h2.productDescriptionTitle {
 
 #fs_ProductDetails #productDetail-faq dt {
     font-size: 1.6rem;
-        display: flex;
-        margin-top: 4px;
-        margin-bottom: 8px;
+    display: flex;
+    margin-top: 4px;
+    margin-bottom: 8px;
+}
+
+#fs_ProductDetails #productComparison {
+    overflow: scroll;
+}
+
+#fs_ProductDetails #productComparison table {
+    border: none;
+    table-layout: fixed;
+    margin-top: 20px;
+}
+
+#fs_ProductDetails #productComparison table th {
+    min-width: 96px;
+    width: 96px;
+}
+
+#fs_ProductDetails #productComparison table tr.comparisonImage td {
+    width: 192px;
+    padding: 0 16px 8px;
+    position: relative;
+    vertical-align: top;
+}
+
+#fs_ProductDetails #productComparison table tr.comparisonImage td .displayProduct {
+    position: absolute;
+    top: -18px;
+    background: #f4f2eb;
+    width: calc(100% - 32px);
+    text-align: center;
+    font-size: 1.2rem;
+    display: block;
+}
+
+
+#fs_ProductDetails #productComparison table tr.comparisonImage td .iconBox {
+    display: block;
+    margin: 4px 0 2px;
+}
+
+#fs_ProductDetails #productComparison table tr.comparisonImage td .iconBox span {
+    margin: 0 2px 2px 0;
+}
+
+#fs_ProductDetails #productComparison table tr.comparisonImage td .mark-catRank {
+    position: absolute;
+    top: 0;
+    left: 16px;
+    display: inline-block;
+    background: rgba(50, 48, 39, 0.8);
+    color: #fff;
+    padding: 2px 8px;
+    font-size: 1rem;
+    margin: inherit;
+}
+
+#fs_ProductDetails #productComparison table tr.comparisonImage td:first-child {
+    width: 96px;
+}
+
+#fs_ProductDetails #productComparison table tr {
+    border: none;
+}
+
+#fs_ProductDetails #productComparison table tr:nth-child(n+1) {
+    border-bottom: 1px solid #dcdcdc;
+}
+
+#fs_ProductDetails #productComparison table tr:last-child {
+    border: none;
+}
+
+#fs_ProductDetails #productComparison table tr:nth-child(n+2) td:nth-child(even) {
+    background: #f7f7f7;
+}
+
+#fs_ProductDetails #productComparison table tr:last-child td {
+    background: none !important;
+}
+
+#fs_ProductDetails #productComparison table tr.comparisonName td {
+    vertical-align: top;
+    padding: 0 16px;
+}
+
+#fs_ProductDetails #productComparison table tr.comparisonReview td .fs-c-reviewStars {
+    justify-content: flex-start;
+}
+
+#fs_ProductDetails #productComparison .priceBox .price {
+    display: block;
+}
+
+#fs_ProductDetails #productComparison .priceBox .price .tax {
+    font-size: 1rem;
+    display: inline-block;
+    margin-left: 0.5rem;
+}
+
+#fs_ProductDetails #productComparison .salePriceBox .price {
+    text-decoration: line-through;
+}
+
+#fs_ProductDetails #productComparison .priceBox .memberPrice {
+    display: block;
+    color: #f21515;
+}
+
+#fs_ProductDetails #productComparison .priceBox .memberPrice .sale {
+    font-size: 1.2rem;
+}
+
+#fs_ProductDetails #productComparison .priceBox .memberPrice .tax {
+    font-size: 1rem;
+    display: inline-block;
+    margin-left: 0.5rem;
+}
+
+#fs_ProductDetails #productComparison .comparisonReview td a {
+    color: #05a;
+}
+
+#fs_ProductDetails #productComparison .comparisonButton td {
+    text-align: center;
+}
+
+#fs_ProductDetails #productComparison .comparisonButton td a {
+    background: #E87908;
+    display: block;
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: #fffd;
 }
 
 .fs-p-productDescription {
@@ -3446,6 +3602,7 @@ h2.productDescriptionTitle {
     margin-top: 4px;
     display: block;
 }
+
 
 .productDescriptionItem {
     width: 46%;
@@ -3546,23 +3703,35 @@ h2.productDescriptionTitle {
 
 .fs-c-productPointDisplay {
     display: inline-block;
+    position: relative;
 }
 
-/*
-.fs-c-productPointDisplay__quantity {
+/* ポイントキャンペーンここから */
+/*.fs-c-productPointDisplay__quantity {
     color: #f21515;
+    font-size: 2rem;
 }
 
 .fs-c-productPointDisplay__unit::after {
-    content: "今だけポイント10倍！";
-    font-size: 1.2rem;
-    background: #cce394;
+    content: "ポイント5倍！";
+    font-size: 1.4rem;
+    background: #aedde3;
     padding: 2px 6px;
-    border-radius: 2px;
-    color: #50b1d8;
+    border-radius: 6px;
+    color: #fef98d;
     font-weight: bold;
+    position: absolute;
+    left: -4px;
+    top: -25px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+#productPriceBox {
+    margin-top: 16px;
 }
 */
+/* ポイントキャンペーンここまで */
 
 .fs-c-productPostage {
     font-size: 1.8rem;
@@ -4033,6 +4202,12 @@ h2.productDescriptionTitle {
 @media screen and (max-width: 1024px) {
     #product-banner {
         margin-top: 36px;
+    }
+}
+
+@media screen and (min-width:460px) and (max-width:1024px) {
+    #product-banner img {
+        max-width: 460px;
     }
 }
 
@@ -14663,42 +14838,400 @@ div.poplink.sphs>div.poplink_suggest>div.word.highlighted:after {
 /* 新生活コンテンツ
    ========================================================================== */
 
+#newLife2022 #mainVisual {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+}
+
+#newLife2022 #mainVisual img {
+    width: 100%;
+}
+
 #newLife2022 .newLife2022_inner {
     text-align: center;
 }
 
-#newLife2022 .newLife2022_nav ul{
+#newLife2022 .newLife2022_inner .productTop10Slider:last-child {
+    margin-bottom: 64px;
+}
+
+#newLife2022 .newLife2022_nav h2::before {
+    content: "-";
+    margin-right: 8px;
+}
+
+#newLife2022 .newLife2022_nav h2::after {
+    content: "-";
+    margin-left: 8px;
+}
+
+#newLife2022 .newLife2022_nav ul {
     display: flex;
 }
 
-#newLife2022 .newLife2022_products{
-    display: flex;
-}
-
-#newLife2022 .newLife2022_2items{
-    display: flex;
-}
-
-#newLife2022 .productActionButton input[type="submit"] {
-    background: #e87909;
-    border-radius: 8px;
-    font-size: 1.4rem;
-    padding: 4px 0px;
-    color: #fff;
-    border: none;
-    width: 72%;
- }
-
- #newLife2022 .product-detail-button a {
-    background-color: rgb(255, 255, 255);
-    display: inline-block;
+#newLife2022 .newLife2022_nav ul li {
+    width: 20%;
     text-align: center;
-    border-radius: 24px;
-    padding: 8px 0px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: rgb(210, 210, 210);
-    border-image: initial;
+    background: #d1ecaf;
+}
+
+#newLife2022 .newLife2022_nav ul li a {
+    display: block;
+    padding: 8px 12px 64px;
+}
+
+#newLife2022 .newLife2022_nav ul li a:hover {
+    opacity: 0.7;
+}
+
+#newLife2022 .newLife2022_nav ul li:nth-child(2n) {
+    background: #fff9d7;
+}
+
+#newLife2022 .newLife2022_nav.place {
+    margin-bottom: 0;
+}
+
+#newLife2022 .newLife2022_nav.place img {
+    margin-bottom: 24px;
+}
+
+#newLife2022 .newLife2022_nav.place a {
+    font-size: 1.6rem;
+    position: relative;
+}
+
+#newLife2022 .newLife2022_nav.place .subTitle {
+    font-size: 1.4rem;
+    display: block;
+}
+
+#newLife2022 .newLife2022_nav.place .downArrow {
+    font-size: 2.4rem;
+    color: #8bb14c;
+    transform: rotate(90deg) scale(0.8, 2);
+    overflow: hidden;
+    height: auto;
+    position: absolute;
+    bottom: 8px;
+    left: 0;
+    right: 0;
+}
+
+#newLife2022 .newLife2022_nav.style {
+    margin-bottom: 64px;
+}
+
+#newLife2022 .newLife2022_nav.style ul {
+    flex-wrap: wrap;
+}
+
+#newLife2022 .newLife2022_nav.style ul li {
+    width: 25%;
+}
+
+#newLife2022 .newLife2022_nav.style ul li a {
+    padding: 16px 0 24px;
+}
+
+#newLife2022 .newLife2022_nav.style ul li:nth-child(2n) {
+    background: #e3f7c9;
+}
+
+#newLife2022 .newLife2022_nav.style ul li:nth-child(2n+5) {
+    background: #e3f7c9;
+}
+
+#newLife2022 .newLife2022_nav.style ul li:nth-child(2n+6) {
+    background: #d1ecaf;
+}
+
+#newLife2022 .newLife2022_nav.style ul li a img {
     width: 100%;
- }
- 
+    margin-bottom: 24px;
+    padding: 0 36px;
+}
+
+#newLife2022 .newLife2022_nav.style ul li a .downArrow {
+    margin-left: 8px;
+}
+
+#newLife2022 .content {
+    background: #fffcf4;
+    border-radius: 16px;
+    padding: 0 0 48px;
+    margin-top: 64px;
+}
+
+#newLife2022 .content h2 {
+    background: #e3f7c9;
+    border-radius: 16px 16px 0 0;
+    font-size: 2rem;
+    border-bottom: 2px solid #8bb14c;
+    padding: 16px 0 12px;
+    position: relative;
+}
+
+#newLife2022 .yellow h2 {
+    background: #fff9d7 !important;
+    border-bottom: 2px solid #f88325 !important;
+}
+
+#newLife2022 .yellow h3 {
+    background: #fff9d7 !important;
+}
+
+#newLife2022 .content p {
+    font-size: 1.6rem;
+}
+
+#newLife2022 .pickUpProducts {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0 24px;
+}
+
+#newLife2022 .item3 {
+    margin-bottom: 64px;
+}
+
+#newLife2022 .item3 .pickUpProducts {
+    justify-content: flex-start;
+}
+
+#newLife2022 .pickUpProducts .layout1 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 20%;
+}
+
+#newLife2022 .pickUpProducts .layout2 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 40%;
+}
+
+#newLife2022 .pickUpProducts h3 {
+    width: calc(100% - 24px);
+    background: #e3f7c9;
+    margin: 0 auto 8px;
+    font-size: 1.6rem;
+    padding: 12px 0;
+    position: relative;
+}
+
+#newLife2022 .pickUpProducts .product {}
+
+#newLife2022 .pickUpProducts .layout1 .product {
+    width: 96%;
+}
+
+#newLife2022 .pickUpProducts .layout2 .product {
+    width: 50%;
+}
+
+#newLife2022 .product img {
+    margin-bottom: 8px;
+}
+
+#newLife2022 .product .price {
+    font-size: 1.6rem;
+}
+
+#newLife2022 .product .price span {
+    font-size: 1.2rem;
+}
+
+#newLife2022 .pickUpProducts .product .product-detail-button {
+    width: calc(100% - 24px);
+    margin: auto;
+}
+
+#newLife2022 .pickUpProducts .product .product-detail-button a, #newLife2022 .productTop10Slider .product .product-detail-button a {
+    background: #fff;
+    color: #f88325;
+    border-radius: 8px;
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #f88325;
+    margin: 0 auto 8px;
+    display: block;
+}
+
+#newLife2022 .pickUpProducts .product .product-detail-button a:hover, #newLife2022 .productTop10Slider .product .product-detail-button a:hover {
+    opacity: 0.7;
+}
+
+#newLife2022 .pickUpProducts .product .productActionButton input, #newLife2022 .productTop10Slider .product .productActionButton input {
+    background: #f88325;
+    color: #fff;
+    border-radius: 8px;
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #f88325;
+    width: calc(100% - 24px);
+    margin: auto;
+}
+
+#newLife2022 .productTop10Slider .product .productActionButton input {
+    width: 100%;
+}
+
+#newLife2022 .pickUpProducts .product .productActionButton input:hover, #newLife2022 .productTop10Slider .bx-wrapper .product .productActionButton input:hover {
+    opacity: 0.7;
+}
+
+#newLife2022 .productTop10Slider h2 {
+    border-bottom: 1px solid;
+    line-height: 0;
+    margin-bottom: 56px;
+    margin-top: 64px;
+}
+
+#newLife2022 .productTop10Slider h2 span {
+    background: #fff;
+    height: 16px;
+    display: inline;
+    width: 100%;
+    padding: 0 45px;
+    font-size: 2rem;
+}
+
+#newLife2022 .pickUp {
+    position: absolute;
+    top: -11px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 116px;
+}
+
+#newLife2022 .house {
+    position: absolute;
+    left: 10%;
+    bottom: -2px;
+    width: 40px;
+}
+
+
+/*
+.newLife2022_displayNone {
+    display: none !important;
+}
+*/
+
+@media screen and (max-width: 1024px) {
+    #newLife2022 .productTop10Slider h2 {
+        margin-left: 8px;
+        margin-right: 8px;
+    }
+
+    #newLife2022 .pickUpProducts .layout2 {
+        width: 36%;
+    }
+
+    #newLife2022 .content .product p {
+        font-size: 1.4rem;
+        white-space: nowrap;
+    }
+
+    #newLife2022 .pickUpProducts h3 {
+        width: 100%;
+    }
+
+    #newLife2022 .pickUpProducts .layout1 .product {
+        width: 84%;
+    }
+
+    #newLife2022 .pickUpProducts .layout2 .product {
+        width: 46%;
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+    #newLife2022 .pickUpProducts {
+        flex-wrap: wrap;
+    }
+
+    #newLife2022 .pickUpProducts .layout1, #newLife2022 .pickUpProducts .layout2 {
+        width: 100%;
+        margin-top: 36px;
+    }
+
+    #newLife2022 .pickUpProducts .layout1 .product, #newLife2022 .pickUpProducts .layout2 .product {
+        width: 48%;
+    }
+
+    #newLife2022 .newLife2022_nav.style ul li a .downArrow {
+        display: none;
+    }
+
+    #newLife2022 .newLife2022_nav.style ul li a img {
+        padding: 0 16px;
+    }
+
+    #newLife2022 .newLife2022_nav.place ul {
+        display: block;
+    }
+
+    #newLife2022 .newLife2022_nav.place ul li {
+        width: 100%;
+    }
+
+    #newLife2022 .newLife2022_nav.place ul li a {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        padding: 8px 12px;
+        font-size: 2rem;
+    }
+
+    #newLife2022 .newLife2022_nav.place ul li a img {
+        margin: 0 24px 0 0;
+        width: 128px;
+    }
+
+    #newLife2022 .newLife2022_nav.place ul li a .subTitle {
+        margin-right: 24px;
+    }
+
+    #newLife2022 .newLife2022_nav.place ul li a .downArrow {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #newLife2022 .newLife2022_nav.place ul li a {
+        overflow: hidden;
+        display: block;
+    }
+
+    #newLife2022 .newLife2022_nav.place ul li a img {
+        float: left;
+        width: 96px;
+    }
+
+    #newLife2022 .newLife2022_nav.place ul li a .subTitle {
+        margin-top: 24px;
+    }
+
+    #newLife2022 .newLife2022_nav.place ul li a span {
+        text-align: left;
+        display: block;
+    }
+
+    #newLife2022 .pickUpProducts .layout1, #newLife2022 .pickUpProducts {
+        flex-wrap: wrap;
+        padding: 0 8px;
+    }
+
+    #newLife2022 .pickUpProducts .layout1, #newLife2022 .pickUpProducts .layout2 {
+        flex-wrap: wrap;
+        width: 100%;
+        margin-bottom: 24px;
+    }
+}
