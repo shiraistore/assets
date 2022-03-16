@@ -1914,7 +1914,7 @@ function productDetailAddData() {
                     if (i == 0) {
                         comparisonImage += '<td><div class="displayProduct">表示中</div><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.design/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '-m.jpg" alt="" >' + comparisonIconHtml + productName + '</td>';
                     } else {
-                        comparisonImage += '<td><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.design/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '-m.jpg" alt="" >' + comparisonIconHtml + productName + '</div>' + productName + '</td>';
+                        comparisonImage += '<td><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.design/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '-m.jpg" alt="" >' + comparisonIconHtml + '</div>' + productName + '</td>';
                     }
 
                     // += '<td><div>' + iconHtml + '</div><a href="/c/series/' + seriesCode + '/' + productUrl + '">' + productName + '</a></td>'
