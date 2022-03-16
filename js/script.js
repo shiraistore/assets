@@ -1,4 +1,5 @@
 $(function () {
+    console.log('AA');
     previewModeDecision();//OK
     rewriteDOM();//OK
     globalNavi();//javaScriptParts
