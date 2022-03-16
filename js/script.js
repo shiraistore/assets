@@ -1911,6 +1911,9 @@ function productDetailAddData() {
                         seriesCode = 'tl';
                     }
 
+
+                    console.log(productName);
+
                     if (i == 0) {
                         comparisonImage += '<td><div class="displayProduct">表示中</div><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.design/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '-m.jpg" alt="" >' + comparisonIconHtml + productName + '</td>';
                     } else {
