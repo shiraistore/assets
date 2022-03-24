@@ -320,11 +320,11 @@ function searchTagTitle(name, url) {
         results = regex.exec(url);
     if (!results) return null;
     if (!results[2]) return '';
-    if (results[2] == 'sale20211227-20211231') {
+    if (results[2] == 'sale20220324-20220421') {
         if (results != "") {
-            $('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20211227-20211231_1184x240.jpg" alt="歳末SALE 対象商品"><br>歳末SALE 対象商品');
-            $('.fs-c-breadcrumb__listItem:last-child').text('歳末SALE 対象商品');
-            $('title').text('歳末SALE 対象商品');
+            $('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20220324-20220421_1184x240.jpg" alt="新生活応援セール 第2弾 対象商品"><br>新生活応援セール 第2弾 対象商品');
+            $('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール 第2弾 対象商品');
+            $('title').text('新生活応援セール 第2弾 対象商品');
         }
     } else if (results[2] == 'feature20220224') {
         if (results != "") {
