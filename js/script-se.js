@@ -1,7 +1,20 @@
 $(window).on('load', function () {
     optionJudgment();//order
     expectedArrival();//order
+    AddDeliveryMethodTitle();
 });
+
+/* checkout AddDeliveryMethodTitle
+========================================================================== */
+function AddDeliveryMethodTitle() {
+    if ($('#fs_Checkout,#fs_CheckoutWithAmazon').length) {
+        setInterval(function () {
+            if (!$('.addDeliveryDateTimeTitle').length) {
+                $('.fs-c-checkout-delivery__method__deliveryDateTime').before('<h4 class="fs-c-checkout-delivery__method__title addDeliveryDateTimeTitle mt-48">お届け希望日時</h4>');
+            }
+        }, 500);
+    }
+}
 
 /* checkout sizeOrderDisplayThum
 ========================================================================== */

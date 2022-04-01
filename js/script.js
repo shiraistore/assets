@@ -9,6 +9,7 @@ $(function () {
     topMainVisualSlider_imageChange();//javaScriptParts
     imageChange();//javaScriptParts
     cartRegistBranch();//javaScriptParts
+    cartADISCaution();
     ADIS_discriptionOpenClose();//OK
     magazineImageChange();//OK
     faqAnswerOpen();//OK
@@ -4555,6 +4556,19 @@ function windowWidthprocessingChange() {
         $(this).toggleClass('open');
     });
 }
+
+/* cartRegistBranch
+========================================================================== */
+function cartADISCaution() {
+    if ($('#fs_ShoppingCart').length) {
+        $('.fs-c-listedOptionPrice__option__value').each(function(){
+            var value = $(this).text();
+            if(value == '組立宅配' || value == '組立設置' ){
+                $(this).after('<span class="cartADISCauton">搬入路に十分な広さがあることをご確認ください</span>');
+            }
+        });
+    }
+};
 
 /* cartRegistBranch
 ========================================================================== */
