@@ -121,7 +121,33 @@ $(window).on('load scroll', function () {
 ========================================================================== */
 function previewModeDecision() {
     if ($('#fs_preview_header').length) {
-        $('body').addClass('previewMode');
+        var value = $('[name=case]').val();
+        //console.log(value);
+        if(value ==  0){
+            $('#orderChange').css('display','block');
+            $('#orderCancel').css('display','none');
+        } else {
+            $('#orderChange').css('display','none');
+            $('#orderCancel').css('display','block');
+        }
+        $('#selectCase').change(function() {
+            value = $(this).val();
+            if(value ==  0){
+                $('#orderChange').css('display','block');
+                $('#orderCancel').css('display','none');
+            } else {
+                $('#orderChange').css('display','none');
+                $('#orderCancel').css('display','block');
+            }
+        });
+    }
+}
+
+/* orderChangeCancelForm
+========================================================================== */
+function orderChangeCancelForm() {
+    if ($('#orderChangeCancel').length) {
+
     }
 }
 
