@@ -38,6 +38,7 @@ $(function () {
     featureMamihapiByage_cart();//OK
     productListAddData();//OK
     productDetailAddData();//OK
+    orderChangeCancelForm();
     multipleReviewList();//OK
     recommendTop10();//OK
     searchFilterTnl();//OK
@@ -121,6 +122,14 @@ $(window).on('load scroll', function () {
 ========================================================================== */
 function previewModeDecision() {
     if ($('#fs_preview_header').length) {
+        $('body').addClass('previewMode');
+    }
+}
+
+/* orderChangeCancelForm
+========================================================================== */
+function orderChangeCancelForm() {
+    if ($('#orderChangeCancel').length) {
         var value = $('[name=case]').val();
         //console.log(value);
         if(value ==  0){
@@ -140,14 +149,6 @@ function previewModeDecision() {
                 $('#orderCancel').css('display','block');
             }
         });
-    }
-}
-
-/* orderChangeCancelForm
-========================================================================== */
-function orderChangeCancelForm() {
-    if ($('#orderChangeCancel').length) {
-
     }
 }
 
