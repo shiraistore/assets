@@ -1734,8 +1734,9 @@ function productDetailAddData() {
             } else if ($('.fs-body-product-log-3512gh-na').length) {
                 srcPath = '7b198c17-5371-4fc2-81d2-7d3b7eb6518f';
             }
+
             if (srcPath != '') {
-                $('#productImageBoxSlider').after('<div id="showRoom"><div class="modal-open">360°ビュー</div><div class="modal-container"><div class="modal-body"><div class="modal-close">×</div><div class="modal-content"><iframe loading="lazy" src="https://1tap-showroom.dendoh.co.jp/embed/?key=' + srcPath + '" title="ワンタップショールーム" frameborder="0" width="100%" height="600px"></iframe></div></div></div></div>');
+                $('#productImageBoxSlider').after('<div id="showRoom"><div class="modal-open text-link-color">360°ビュー</div><a href="https://1tap-showroom.dendoh.co.jp/ar/?key='+ srcPath +'&placement=0" class="displayInlineBlock ml-8 text-link-color">ARでサイズ感を試す</a><div class="modal-container"><div class="modal-body"><div class="modal-close">×</div><div class="modal-content"><iframe loading="lazy" src="https://1tap-showroom.dendoh.co.jp/embed/?key=' + srcPath + '" title="ワンタップショールーム" frameborder="0" width="100%" height="600px"></iframe></div></div></div></div>');
             }
 
 
