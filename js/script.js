@@ -149,6 +149,12 @@ function orderChangeCancelForm() {
                 $('#orderCancel').css('display','block');
             }
         });
+
+        var orderCode = getParam('orderCode');
+        console.log(orderCode);
+        if(orderCode !== ''){
+            $('#orderCode').val(orderCode);
+        }
     }
 }
 
