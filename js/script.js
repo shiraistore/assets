@@ -153,7 +153,9 @@ function orderChangeCancelForm() {
         var orderCode = getParam('orderCode');
         console.log(orderCode);
         if(orderCode !== ''){
-            $('#orderCode').val(orderCode);
+            $('.orderCode').each(function(){
+                $(this).val(orderCode);
+            });
         }
     }
 }
