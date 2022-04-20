@@ -9,6 +9,7 @@ $(function () {
     topMainVisualSlider_imageChange();//javaScriptParts
     imageChange();//javaScriptParts
     cartRegistBranch();//javaScriptParts
+    cartADISCaution();
     ADIS_discriptionOpenClose();//OK
     magazineImageChange();//OK
     faqAnswerOpen();//OK
@@ -37,6 +38,7 @@ $(function () {
     featureMamihapiByage_cart();//OK
     productListAddData();//OK
     productDetailAddData();//OK
+    orderChangeCancelForm();
     multipleReviewList();//OK
     recommendTop10();//OK
     searchFilterTnl();//OK
@@ -121,6 +123,40 @@ $(window).on('load scroll', function () {
 function previewModeDecision() {
     if ($('#fs_preview_header').length) {
         $('body').addClass('previewMode');
+    }
+}
+
+/* orderChangeCancelForm
+========================================================================== */
+function orderChangeCancelForm() {
+    if ($('#orderChangeCancel').length) {
+        var value = $('[name=case]').val();
+        //console.log(value);
+        if(value ==  0){
+            $('#orderChange').css('display','block');
+            $('#orderCancel').css('display','none');
+        } else {
+            $('#orderChange').css('display','none');
+            $('#orderCancel').css('display','block');
+        }
+        $('#selectCase').change(function() {
+            value = $(this).val();
+            if(value ==  0){
+                $('#orderChange').css('display','block');
+                $('#orderCancel').css('display','none');
+            } else {
+                $('#orderChange').css('display','none');
+                $('#orderCancel').css('display','block');
+            }
+        });
+
+        var orderCode = getParam('orderCode');
+        console.log(orderCode);
+        if(orderCode !== ''){
+            $('.orderCode').each(function(){
+                $(this).val(orderCode);
+            });
+        }
     }
 }
 
@@ -332,11 +368,11 @@ function searchTagTitle(name, url) {
             $('.fs-c-breadcrumb__listItem:last-child').text('入園入学の準備');
             $('title').text('入園入学の準備');
         }
-    } else if (results[2] == 'sale20220224-20220324') {
+    } else if (results[2] == 'sale20220421-20220509') {
         if (results != "") {
-            $('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20220224-20220324_1184x240.jpg" alt="新生活応援セール 第1弾 対象商品"><br>新生活応援セール 第1弾 対象商品');
-            $('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール 第1弾 対象商品');
-            $('title').text('新生活応援セール 第1弾 対象商品');
+            $('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20220421-20220509_1184x240.jpg" alt="2nd Anniversary Sale 対象商品"><br>2nd Anniversary Sale 対象商品');
+            $('.fs-c-breadcrumb__listItem:last-child').text('2nd Anniversary Sale 対象商品');
+            $('title').text('2nd Anniversary Sale 対象商品');
 
             /*
             console.log('XXXX');
@@ -1691,6 +1727,59 @@ function productDetailAddData() {
             }
         });
 
+        $(window).on('load', function () {
+            var srcPath = '';
+            if ($('.fs-body-product-log-3518gh-br').length) {
+                srcPath = '83d65eca-f3fc-47f1-900c-262e5b54bf7c';
+            } else if ($('.fs-body-product-log-3518gh-na').length) {
+                srcPath = '3e0e9ccf-6d54-441f-b175-b9a71fb4aa31';
+            } else if ($('.fs-body-product-log-3515gh-br').length) {
+                srcPath = 'c597604c-65a3-4bea-af06-bf6fdc839309';
+            } else if ($('.fs-body-product-log-3515gh-na').length) {
+                srcPath = 'efc87ddb-72ef-4483-acea-d1d71e07d7d8';
+            } else if ($('.fs-body-product-log-3512gh-br').length) {
+                srcPath = '56675797-ed1f-4f50-914e-8361cc05853e';
+            } else if ($('.fs-body-product-log-3512gh-na').length) {
+                srcPath = '7b198c17-5371-4fc2-81d2-7d3b7eb6518f';
+            }
+
+            if (srcPath != '') {
+                $('#productImageBoxSlider').after('<div id="showRoom"><div class="modal-open text-link-color">360°ビュー</div><a href="https://1tap-showroom.dendoh.co.jp/ar/?key='+ srcPath +'&placement=0" class="displayInlineBlock ml-8 text-link-color">ARでサイズ感を試す</a><div class="modal-container"><div class="modal-body"><div class="modal-close">×</div><div class="modal-content"><iframe loading="lazy" src="https://1tap-showroom.dendoh.co.jp/embed/?key=' + srcPath + '" title="ワンタップショールーム" frameborder="0" width="100%" height="600px"></iframe></div></div></div></div>');
+            }
+
+
+            // 変数に要素を入れる
+            var open = $('.modal-open'),
+                close = $('.modal-close'),
+                container = $('.modal-container');
+
+            //開くボタンをクリックしたらモーダルを表示する
+            open.on('click', function () {
+                container.addClass('active');
+                $('body').css('overflow', 'hidden');
+                return false;
+            });
+
+            //閉じるボタンをクリックしたらモーダルを閉じる
+            close.on('click', function () {
+                container.removeClass('active');
+
+                $('body').css('overflow', 'inherit');
+            });
+
+            //モーダルの外側をクリックしたらモーダルを閉じる
+            $(document).on('click', function (e) {
+                if (!$(e.target).closest('.modal-body').length) {
+                    container.removeClass('active');
+                    $('body').css('overflow', 'inherit');
+                }
+            });
+        });
+
+
+
+
+
         //console.log('modelCode:',modelCode);
 
         var dataForProductDetailUrl = 'https://cdn.shirai-store.net/assets/json/productDetail/dataForProductDetail_' + modelCode + '_v2_1.json';
@@ -1816,9 +1905,9 @@ function productDetailAddData() {
                 }
 
                 $('#product-review').before(`<div id="productDetail-faq"><h2 class="productDescriptionTitle">この商品に関するよくある質問</h2><dl>${faqHtml}</dl></div>`);
-                
-                
-                
+
+
+
             }
 
 
@@ -1935,7 +2024,7 @@ function productDetailAddData() {
                 comparisonHTML = `<div id="productDetail-comparison"><h2 class="productDescriptionTitle">類似商品との比較</h2><div id="productComparison"><table><tbody><tr class="comparisonImage">${comparisonImage}</tr><tr class="comparisonReview">${comparisonReview}</tr><tr class="comparisonPrice">${comparisonPrice}</tr><tr class="comparisonColor">${comparisonColor}</tr><tr class="comparisonSize">${comparisonSize}</tr><tr class="comparisonButton">${comparisonButton}</tr></tbody></table></div>`;
 
                 $('.fs-p-productDescription--full').after(comparisonHTML);
-                
+
             }
 
             if (data.nextArrivalDate[0] != undefined) {
@@ -1946,7 +2035,7 @@ function productDetailAddData() {
                 $('.fs-c-productNotice--outOfStock span').html('次回の入荷日は<strong class="newArrivalDate">「' + nextArrivalDate + '」</strong>頃の予定です。');
             }
 
-            //console.log(data.ranking[0]);
+            console.log(data.ranking[0]);
             if (data.ranking[0] != undefined) {
                 var iconHtml = '<li class="fs-c-productMark__item"><a class="mark-categoryRank fs-c-productMark__mark--0 fs-c-productMark__mark" href="/f/ranking_' + data.ranking[0].categoryUrl + '"><span class="fs-c-productMark__label">' + data.ranking[0].categoryName + ' ' + data.ranking[0].categoryRanking + '位' + '</span></a></li>';
                 if ($('.fs-c-productMarks').length) {
@@ -1956,10 +2045,11 @@ function productDetailAddData() {
                 }
             }
 
-            
 
+            console.log(data.price[0]);
             if (data.price[0] != undefined) {
                 var salePrice = $('.fs-c-productPrice--selling .fs-c-price__value').text().replace(',', '');
+                console.log(salePrice);
                 //console.log('salePrice:' + salePrice);
                 if (data.price[0].normalPrice != salePrice) {
                     $('body').addClass('time-sale');
@@ -4502,6 +4592,19 @@ function windowWidthprocessingChange() {
         $(this).toggleClass('open');
     });
 }
+
+/* cartRegistBranch
+========================================================================== */
+function cartADISCaution() {
+    if ($('#fs_ShoppingCart').length) {
+        $('.fs-c-listedOptionPrice__option__value').each(function(){
+            var value = $(this).text();
+            if(value == '組立宅配' || value == '組立設置' ){
+                $(this).after('<span class="cartADISCauton">搬入路に十分な広さがあることをご確認ください</span>');
+            }
+        });
+    }
+};
 
 /* cartRegistBranch
 ========================================================================== */
