@@ -1744,7 +1744,7 @@ function productDetailAddData() {
             }
 
             if (srcPath != '') {
-                $('#productImageBoxSlider').after('<div id="showRoom"><div class="modal-open text-link-color">360°ビュー</div><a href="https://1tap-showroom.dendoh.co.jp/ar/?key='+ srcPath +'&placement=0" class="displayInlineBlock ml-8 text-link-color">ARでサイズ感を試す</a><div class="modal-container"><div class="modal-body"><div class="modal-close">×</div><div class="modal-content"><iframe loading="lazy" src="https://1tap-showroom.dendoh.co.jp/embed/?key=' + srcPath + '" title="ワンタップショールーム" frameborder="0" width="100%" height="600px"></iframe></div></div></div></div>');
+                $('#productImageBoxSlider').after('<div id="showRoom"><div class="modal-open text-link-color">360°ビュー</div><a href="https://1tap-showroom.dendoh.co.jp/ar/?key='+ srcPath +'&placement=0" class="displayInlineBlock ml-8 text-link-color" target="_blank">ARでサイズ感を試す</a><div class="modal-container"><div class="modal-body"><div class="modal-close">×</div><div class="modal-content"><iframe loading="lazy" src="https://1tap-showroom.dendoh.co.jp/embed/?key=' + srcPath + '" title="ワンタップショールーム" frameborder="0" width="100%" height="600px"></iframe></div></div></div></div>');
             }
 
 
@@ -2035,7 +2035,7 @@ function productDetailAddData() {
                 $('.fs-c-productNotice--outOfStock span').html('次回の入荷日は<strong class="newArrivalDate">「' + nextArrivalDate + '」</strong>頃の予定です。');
             }
 
-            console.log(data.ranking[0]);
+            //console.log(data.ranking[0]);
             if (data.ranking[0] != undefined) {
                 var iconHtml = '<li class="fs-c-productMark__item"><a class="mark-categoryRank fs-c-productMark__mark--0 fs-c-productMark__mark" href="/f/ranking_' + data.ranking[0].categoryUrl + '"><span class="fs-c-productMark__label">' + data.ranking[0].categoryName + ' ' + data.ranking[0].categoryRanking + '位' + '</span></a></li>';
                 if ($('.fs-c-productMarks').length) {
@@ -2046,10 +2046,10 @@ function productDetailAddData() {
             }
 
 
-            console.log(data.price[0]);
+            //console.log(data.price[0]);
             if (data.price[0] != undefined) {
                 var salePrice = $('.fs-c-productPrice--selling .fs-c-price__value').text().replace(',', '');
-                console.log(salePrice);
+                //console.log(salePrice);
                 //console.log('salePrice:' + salePrice);
                 if (data.price[0].normalPrice != salePrice) {
                     $('body').addClass('time-sale');
