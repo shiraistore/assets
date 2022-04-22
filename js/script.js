@@ -1,5 +1,6 @@
 $(function () {
     previewModeDecision();//OK
+    getUrlRedirect_20220422();
     rewriteDOM();//OK
     globalNavi();//javaScriptParts
     smoothScroll();//javaScriptParts
@@ -126,34 +127,48 @@ function previewModeDecision() {
     }
 }
 
+/* getUrlRedirect_20220422
+========================================================================== */
+
+function getUrlRedirect_20220422() {
+    var url = location.href;
+    if (url == 'https://shirai-store.net/p/search?tag=%E3%83%AD%E3%82%B0%E3%83%BC%E3%83%8E&keyword=%E5%B9%85150?utm_source=line&utm_medium=social&utm_campaign=stid-00041&utm_content=20220421') {
+
+        window.location.href = "https://shirai-store.net/p/search?tag=%E3%83%AD%E3%82%B0%E3%83%BC%E3%83%8E&keyword=%E5%B9%85150&utm_source=line&utm_medium=social&utm_campaign=stid-00041&utm_content=20220421";
+
+    } else if(url == 'https://shirai-store.net/p/search?keyword=%E3%83%88%E3%83%AB%E3%83%95%E3%83%A9%E3%83%83%E3%83%88%E3%80%80%E3%82%A2%E3%82%A4%E3%83%9C%E3%83%AA%E3%83%BC?utm_source=line&utm_medium=social&utm_campaign=stid-00041&utm_content=20220421'){
+        window.location.href = "https://shirai-store.net/p/search?keyword=%E3%83%88%E3%83%AB%E3%83%95%E3%83%A9%E3%83%83%E3%83%88%E3%80%80%E3%82%A2%E3%82%A4%E3%83%9C%E3%83%AA%E3%83%BC&utm_source=line&utm_medium=social&utm_campaign=stid-00041&utm_content=20220421";
+    }
+}
+
 /* orderChangeCancelForm
 ========================================================================== */
 function orderChangeCancelForm() {
     if ($('#orderChangeCancel').length) {
         var value = $('[name=case]').val();
         //console.log(value);
-        if(value ==  0){
-            $('#orderChange').css('display','block');
-            $('#orderCancel').css('display','none');
+        if (value == 0) {
+            $('#orderChange').css('display', 'block');
+            $('#orderCancel').css('display', 'none');
         } else {
-            $('#orderChange').css('display','none');
-            $('#orderCancel').css('display','block');
+            $('#orderChange').css('display', 'none');
+            $('#orderCancel').css('display', 'block');
         }
-        $('#selectCase').change(function() {
+        $('#selectCase').change(function () {
             value = $(this).val();
-            if(value ==  0){
-                $('#orderChange').css('display','block');
-                $('#orderCancel').css('display','none');
+            if (value == 0) {
+                $('#orderChange').css('display', 'block');
+                $('#orderCancel').css('display', 'none');
             } else {
-                $('#orderChange').css('display','none');
-                $('#orderCancel').css('display','block');
+                $('#orderChange').css('display', 'none');
+                $('#orderCancel').css('display', 'block');
             }
         });
 
         var orderCode = getParam('orderCode');
         console.log(orderCode);
-        if(orderCode !== ''){
-            $('.orderCode').each(function(){
+        if (orderCode !== '') {
+            $('.orderCode').each(function () {
                 $(this).val(orderCode);
             });
         }
@@ -1744,7 +1759,7 @@ function productDetailAddData() {
             }
 
             if (srcPath != '') {
-                $('#productImageBoxSlider').after('<div id="showRoom"><div class="modal-open text-link-color">360°ビュー</div><a href="https://1tap-showroom.dendoh.co.jp/ar/?key='+ srcPath +'&placement=0" class="displayInlineBlock ml-8 text-link-color" target="_blank">ARでサイズ感を試す</a><div class="modal-container"><div class="modal-body"><div class="modal-close">×</div><div class="modal-content"><iframe loading="lazy" src="https://1tap-showroom.dendoh.co.jp/embed/?key=' + srcPath + '" title="ワンタップショールーム" frameborder="0" width="100%" height="600px"></iframe></div></div></div></div>');
+                $('#productImageBoxSlider').after('<div id="showRoom"><div class="modal-open text-link-color">360°ビュー</div><a href="https://1tap-showroom.dendoh.co.jp/ar/?key=' + srcPath + '&placement=0" class="displayInlineBlock ml-8 text-link-color" target="_blank">ARでサイズ感を試す</a><div class="modal-container"><div class="modal-body"><div class="modal-close">×</div><div class="modal-content"><iframe loading="lazy" src="https://1tap-showroom.dendoh.co.jp/embed/?key=' + srcPath + '" title="ワンタップショールーム" frameborder="0" width="100%" height="600px"></iframe></div></div></div></div>');
             }
 
 
@@ -4597,9 +4612,9 @@ function windowWidthprocessingChange() {
 ========================================================================== */
 function cartADISCaution() {
     if ($('#fs_ShoppingCart').length) {
-        $('.fs-c-listedOptionPrice__option__value').each(function(){
+        $('.fs-c-listedOptionPrice__option__value').each(function () {
             var value = $(this).text();
-            if(value == '組立宅配' || value == '組立設置' ){
+            if (value == '組立宅配' || value == '組立設置') {
                 $(this).after('<span class="cartADISCauton">搬入路に十分な広さがあることをご確認ください</span>');
             }
         });
