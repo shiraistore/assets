@@ -1733,9 +1733,9 @@ function productDetailAddData() {
         // 商品詳細ページにテキストを表示
         $('.fs-c-productPlainImage img').each(function () {
             var text = $(this).attr('alt');
-            if (text[0] == '「') {
+            if (text[0] == '[') {
                 text = text.slice(1)
-                var text_ary = text.split('」');
+                var text_ary = text.split(']');
 
                 $(this).after(`<p>${text_ary[1]}</p>`);
                 $(this).after(`<h3>${text_ary[0]}</h3>`);
