@@ -136,7 +136,7 @@ function getUrlRedirect_20220422() {
 
         window.location.href = "https://shirai-store.net/p/search?tag=%E3%83%AD%E3%82%B0%E3%83%BC%E3%83%8E&keyword=%E5%B9%85150&utm_source=line&utm_medium=social&utm_campaign=stid-00041&utm_content=20220421";
 
-    } else if(url == 'https://shirai-store.net/p/search?keyword=%E3%83%88%E3%83%AB%E3%83%95%E3%83%A9%E3%83%83%E3%83%88%E3%80%80%E3%82%A2%E3%82%A4%E3%83%9C%E3%83%AA%E3%83%BC?utm_source=line&utm_medium=social&utm_campaign=stid-00041&utm_content=20220421'){
+    } else if (url == 'https://shirai-store.net/p/search?keyword=%E3%83%88%E3%83%AB%E3%83%95%E3%83%A9%E3%83%83%E3%83%88%E3%80%80%E3%82%A2%E3%82%A4%E3%83%9C%E3%83%AA%E3%83%BC?utm_source=line&utm_medium=social&utm_campaign=stid-00041&utm_content=20220421') {
         window.location.href = "https://shirai-store.net/p/search?keyword=%E3%83%88%E3%83%AB%E3%83%95%E3%83%A9%E3%83%83%E3%83%88%E3%80%80%E3%82%A2%E3%82%A4%E3%83%9C%E3%83%AA%E3%83%BC&utm_source=line&utm_medium=social&utm_campaign=stid-00041&utm_content=20220421";
     }
 }
@@ -1791,9 +1791,18 @@ function productDetailAddData() {
             });
         });
 
-
-
-
+        //商品の特長の開くボタン
+        $('.productDetailGradient span').click(function () {
+            //現在のheight取得
+            curHeight = $('.fs-p-productDescription--full').height();
+            //autoにした場合のheightを取得
+            autoHeight = $('.fs-p-productDescription--full').css('height', 'auto').height();
+            //autoにした場合のheightへ向かってanimate
+            //数値なのでanimateが有効
+            $('.fs-p-productDescription--full').height(curHeight).animate({ height: autoHeight }, 500,'linear', function () {
+                $('.productDetailGradient').remove();
+            });
+        });
 
         //console.log('modelCode:',modelCode);
 
