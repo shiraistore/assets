@@ -1,5 +1,6 @@
 $(function () {
     previewModeDecision();//OK
+    getUrlRedirect_20220422();
     rewriteDOM();//OK
     globalNavi();//javaScriptParts
     smoothScroll();//javaScriptParts
@@ -126,34 +127,48 @@ function previewModeDecision() {
     }
 }
 
+/* getUrlRedirect_20220422
+========================================================================== */
+
+function getUrlRedirect_20220422() {
+    var url = location.href;
+    if (url == 'https://shirai-store.net/p/search?tag=%E3%83%AD%E3%82%B0%E3%83%BC%E3%83%8E&keyword=%E5%B9%85150?utm_source=line&utm_medium=social&utm_campaign=stid-00041&utm_content=20220421') {
+
+        window.location.href = "https://shirai-store.net/p/search?tag=%E3%83%AD%E3%82%B0%E3%83%BC%E3%83%8E&keyword=%E5%B9%85150&utm_source=line&utm_medium=social&utm_campaign=stid-00041&utm_content=20220421";
+
+    } else if (url == 'https://shirai-store.net/p/search?keyword=%E3%83%88%E3%83%AB%E3%83%95%E3%83%A9%E3%83%83%E3%83%88%E3%80%80%E3%82%A2%E3%82%A4%E3%83%9C%E3%83%AA%E3%83%BC?utm_source=line&utm_medium=social&utm_campaign=stid-00041&utm_content=20220421') {
+        window.location.href = "https://shirai-store.net/p/search?keyword=%E3%83%88%E3%83%AB%E3%83%95%E3%83%A9%E3%83%83%E3%83%88%E3%80%80%E3%82%A2%E3%82%A4%E3%83%9C%E3%83%AA%E3%83%BC&utm_source=line&utm_medium=social&utm_campaign=stid-00041&utm_content=20220421";
+    }
+}
+
 /* orderChangeCancelForm
 ========================================================================== */
 function orderChangeCancelForm() {
     if ($('#orderChangeCancel').length) {
         var value = $('[name=case]').val();
         //console.log(value);
-        if(value ==  0){
-            $('#orderChange').css('display','block');
-            $('#orderCancel').css('display','none');
+        if (value == 0) {
+            $('#orderChange').css('display', 'block');
+            $('#orderCancel').css('display', 'none');
         } else {
-            $('#orderChange').css('display','none');
-            $('#orderCancel').css('display','block');
+            $('#orderChange').css('display', 'none');
+            $('#orderCancel').css('display', 'block');
         }
-        $('#selectCase').change(function() {
+        $('#selectCase').change(function () {
             value = $(this).val();
-            if(value ==  0){
-                $('#orderChange').css('display','block');
-                $('#orderCancel').css('display','none');
+            if (value == 0) {
+                $('#orderChange').css('display', 'block');
+                $('#orderCancel').css('display', 'none');
             } else {
-                $('#orderChange').css('display','none');
-                $('#orderCancel').css('display','block');
+                $('#orderChange').css('display', 'none');
+                $('#orderCancel').css('display', 'block');
             }
         });
 
         var orderCode = getParam('orderCode');
         console.log(orderCode);
-        if(orderCode !== ''){
-            $('.orderCode').each(function(){
+        if (orderCode !== '') {
+            $('.orderCode').each(function () {
                 $(this).val(orderCode);
             });
         }
@@ -356,11 +371,11 @@ function searchTagTitle(name, url) {
         results = regex.exec(url);
     if (!results) return null;
     if (!results[2]) return '';
-    if (results[2] == 'sale20220324-20220421') {
+    if (results[2] == 'sale20220623-20220707') {
         if (results != "") {
-            $('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20220324-20220421_1184x240.jpg" alt="新生活応援セール 第2弾 対象商品"><br>新生活応援セール 第2弾 対象商品');
-            $('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール 第2弾 対象商品');
-            $('title').text('新生活応援セール 第2弾 対象商品');
+            $('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20220623-20220707_1184x240.jpg" alt="テレビ台セール 対象商品"><br>テレビ台セール 対象商品');
+            $('.fs-c-breadcrumb__listItem:last-child').text('テレビ台セール 対象商品');
+            $('title').text('テレビ台セール 対象商品');
         }
     } else if (results[2] == 'feature20220224') {
         if (results != "") {
@@ -1718,9 +1733,9 @@ function productDetailAddData() {
         // 商品詳細ページにテキストを表示
         $('.fs-c-productPlainImage img').each(function () {
             var text = $(this).attr('alt');
-            if (text[0] == '「') {
+            if (text[0] == '[') {
                 text = text.slice(1)
-                var text_ary = text.split('」');
+                var text_ary = text.split(']');
 
                 $(this).after(`<p>${text_ary[1]}</p>`);
                 $(this).after(`<h3>${text_ary[0]}</h3>`);
@@ -1744,7 +1759,7 @@ function productDetailAddData() {
             }
 
             if (srcPath != '') {
-                $('#productImageBoxSlider').after('<div id="showRoom"><div class="modal-open text-link-color">360°ビュー</div><a href="https://1tap-showroom.dendoh.co.jp/ar/?key='+ srcPath +'&placement=0" class="displayInlineBlock ml-8 text-link-color">ARでサイズ感を試す</a><div class="modal-container"><div class="modal-body"><div class="modal-close">×</div><div class="modal-content"><iframe loading="lazy" src="https://1tap-showroom.dendoh.co.jp/embed/?key=' + srcPath + '" title="ワンタップショールーム" frameborder="0" width="100%" height="600px"></iframe></div></div></div></div>');
+                $('#productImageBoxSlider').after('<div id="showRoom"><div class="modal-open text-link-color">360°ビュー</div><a href="https://1tap-showroom.dendoh.co.jp/ar/?key=' + srcPath + '&placement=0" class="displayInlineBlock ml-8 text-link-color" target="_blank">ARでサイズ感を試す</a><div class="modal-container"><div class="modal-body"><div class="modal-close">×</div><div class="modal-content"><iframe loading="lazy" src="https://1tap-showroom.dendoh.co.jp/embed/?key=' + srcPath + '" title="ワンタップショールーム" frameborder="0" width="100%" height="600px"></iframe></div></div></div></div>');
             }
 
 
@@ -1776,9 +1791,18 @@ function productDetailAddData() {
             });
         });
 
-
-
-
+        //商品の特長の開くボタン
+        $('.productDetailGradient span').click(function () {
+            //現在のheight取得
+            curHeight = $('.fs-p-productDescription--full').height();
+            //autoにした場合のheightを取得
+            autoHeight = $('.fs-p-productDescription--full').css('height', 'auto').height();
+            //autoにした場合のheightへ向かってanimate
+            //数値なのでanimateが有効
+            $('.fs-p-productDescription--full').height(curHeight).animate({ height: autoHeight }, 500,'linear', function () {
+                $('.productDetailGradient').remove();
+            });
+        });
 
         //console.log('modelCode:',modelCode);
 
@@ -2035,7 +2059,7 @@ function productDetailAddData() {
                 $('.fs-c-productNotice--outOfStock span').html('次回の入荷日は<strong class="newArrivalDate">「' + nextArrivalDate + '」</strong>頃の予定です。');
             }
 
-            console.log(data.ranking[0]);
+            //console.log(data.ranking[0]);
             if (data.ranking[0] != undefined) {
                 var iconHtml = '<li class="fs-c-productMark__item"><a class="mark-categoryRank fs-c-productMark__mark--0 fs-c-productMark__mark" href="/f/ranking_' + data.ranking[0].categoryUrl + '"><span class="fs-c-productMark__label">' + data.ranking[0].categoryName + ' ' + data.ranking[0].categoryRanking + '位' + '</span></a></li>';
                 if ($('.fs-c-productMarks').length) {
@@ -2046,10 +2070,10 @@ function productDetailAddData() {
             }
 
 
-            console.log(data.price[0]);
+            //console.log(data.price[0]);
             if (data.price[0] != undefined) {
                 var salePrice = $('.fs-c-productPrice--selling .fs-c-price__value').text().replace(',', '');
-                console.log(salePrice);
+                //console.log(salePrice);
                 //console.log('salePrice:' + salePrice);
                 if (data.price[0].normalPrice != salePrice) {
                     $('body').addClass('time-sale');
@@ -4597,9 +4621,9 @@ function windowWidthprocessingChange() {
 ========================================================================== */
 function cartADISCaution() {
     if ($('#fs_ShoppingCart').length) {
-        $('.fs-c-listedOptionPrice__option__value').each(function(){
+        $('.fs-c-listedOptionPrice__option__value').each(function () {
             var value = $(this).text();
-            if(value == '組立宅配' || value == '組立設置' ){
+            if (value == '組立宅配' || value == '組立設置') {
                 $(this).after('<span class="cartADISCauton">搬入路に十分な広さがあることをご確認ください</span>');
             }
         });
