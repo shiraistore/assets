@@ -625,6 +625,7 @@ function productSizeVariation() {
             //var colorName = variation_ary[0][1];
             //htmlSource = '<li data-productcode="' + productCode + '"><span class="variationItem"><span>' + colorName + '</span></span><ul>';
             var url_split = url.split('/');
+            url = url.replace(url_split[url_split.length - 1], '');
 
             for (i = 0; variation_ary.length > i; i++) {
                 var productCode = variation_ary[i][0];
@@ -633,7 +634,7 @@ function productSizeVariation() {
                 if (url_split.slice(-1)[0] == productCode) {
                     activeFlag = 'active';
                 }
-                htmlSource = htmlSource + '<li data-productcode="' + productCode + '" class="' + activeFlag + '"><a  href="' + url + '" class="variationItem"><span>' + colorName + '</span></a></li>';
+                htmlSource = htmlSource + '<li data-productcode="' + productCode + '" class="' + activeFlag + '"><a  href="' + url + productCode + '" class="variationItem"><span>' + colorName + '</span></a></li>';
             }
             $('#product-comment_9').html('<h4>サイズ</h4><ul>' + htmlSource + '</ul>');
             $('#product-comment_9').css('display', 'block')
