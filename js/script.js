@@ -633,7 +633,7 @@ function productSizeVariation() {
                 if (url_split.slice(-1)[0] == productCode) {
                     activeFlag = 'active';
                 }
-                htmlSource = htmlSource + '<li data-productcode="' + productCode + '" class="' + activeFlag + '"><a  href="' + url + productCode + '" class="variationItem"><span>' + colorName + '</span></a></li>';
+                htmlSource = htmlSource + '<li data-productcode="' + productCode + '" class="' + activeFlag + '"><a  href="' + url + '" class="variationItem"><span>' + colorName + '</span></a></li>';
             }
             $('#product-comment_9').html('<h4>サイズ</h4><ul>' + htmlSource + '</ul>');
             $('#product-comment_9').css('display', 'block')
