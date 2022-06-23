@@ -33,6 +33,7 @@ $(function () {
     tnl_em_select();
     tnl_emu_select();
     tnl_emts_select();
+    em_transfer();
     featureMamihapiSeries_slider();//OK
     featureMamihapiSeries_cart();//OK
     featureMamihapibyage_slider();//OK
@@ -126,6 +127,25 @@ function previewModeDecision() {
         $('body').addClass('previewMode');
     }
 }
+
+/* em_transfer
+========================================================================== */
+function em_transfer() {
+    if ($('#fs_ProductAuth').length) {
+        var productPathName = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
+
+        if(productPathName.indexOf('tnl-emts') === 0){
+            window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-emts';
+        } else if(productPathName.indexOf('tnl-emu') === 0){
+            window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-emu';
+        } else if(productPathName.indexOf('tnl-em') === 0){
+            window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-em';
+        }
+    }
+}
+
+
+
 
 /* getUrlRedirect_20220422
 ========================================================================== */
