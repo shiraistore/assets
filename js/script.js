@@ -580,11 +580,14 @@ function productVariation() {
             //htmlSource = '';
             var url_split = url.split('/');
             url = url.replace(url_split[url_split.length - 1], '');
-
             for (i = 0; variation_ary.length > i; i++) {
                 var productCode = variation_ary[i][0];
                 var colorName = variation_ary[i][1];
-                htmlSource = htmlSource + '<li data-productcode="' + productCode + '"><a href="' + url + productCode + '"><img src="https://shiraistore.itembox.design/item/src/product_variation/' + productCode + '.jpg" alt=""><span>' + colorName + '</span></a></li>';
+                var activeFlag = '';
+                if (url_split.slice(-1)[0] == productCode) {
+                    activeFlag = 'active';
+                }
+                htmlSource = htmlSource + '<li data-productcode="' + productCode + '" class="' + activeFlag + '"><a href="' + url + productCode + '"><img src="https://shiraistore.itembox.design/item/src/product_variation/' + productCode + '.jpg" alt=""><span>' + colorName + '</span></a></li>';
             }
             //$('#product-comment_5').html('<h4>カラー：' + variation_ary[0][1] + '</h4><ul>' + htmlSource + '</ul>');
             $('#product-comment_5').html('<h4>カラー</h4><ul>' + htmlSource + '</ul>');
@@ -630,18 +633,18 @@ function productSizeVariation() {
                 if (url_split.slice(-1)[0] == productCode) {
                     activeFlag = 'active';
                 }
-                htmlSource = htmlSource + '<li data-productcode="' + productCode + '" class="' + activeFlag + '"><span class="variationItem"><span>' + colorName + '</span></span></li>';
+                htmlSource = htmlSource + '<li data-productcode="' + productCode + '" class="' + activeFlag + '"><a  href="' + url + productCode + '" class="variationItem"><span>' + colorName + '</span></a></li>';
             }
             $('#product-comment_9').html('<h4>サイズ</h4><ul>' + htmlSource + '</ul>');
             $('#product-comment_9').css('display', 'block')
             var url_split = url.split('/');
             //console.log(url_split.slice(-1)[0]);
-            url = url.replace(url_split[url_split.length - 1], '');
-            $('#product-comment_9 > ul > li').on('click', function () {
-                if (url_split.slice(-1)[0] != $(this).data('productcode')) {
-                    window.location.href = url + $(this).data('productcode');
-                }
-            });
+            // url = url.replace(url_split[url_split.length - 1], '');
+            // $('#product-comment_9 > ul > li').on('click', function () {
+            //     if (url_split.slice(-1)[0] != $(this).data('productcode')) {
+            //         window.location.href = url + $(this).data('productcode');
+            //     }
+            // });
         }
     }
     //}
