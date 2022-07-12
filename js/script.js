@@ -256,6 +256,21 @@ function productDetail_mhpContentsBanner() {
     }
 }
 
+/* productDetail_ptsContentsBanner
+========================================================================== */
+function productDetail_mhpContentsBanner() {
+    if ($('#fs_ProductDetails').length) {
+        var url = window.location.pathname.substring(1);
+        url = url.split('/');
+        var series = url[url.length - 1].split('-');
+        if (series[0] == 'pts') {
+            var html = '<ul id="contents-banner"><li><a href="/f/feature/pitashie-featureAndCombination"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-pitashie-featureAndCombination.jpg"></a></li></ul>';
+
+            $('#productActionBox').after(html);
+        }
+    }
+}
+
 
 /* productCategory Ranking page+2 DisplayNone
 ========================================================================== */
