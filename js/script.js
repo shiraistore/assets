@@ -26,6 +26,7 @@ $(function () {
     productDetailSeriesLink();//OK
     productDetail_tnlListTableLink();
     productDetail_mhpContentsBanner();
+    productDetail_ptsContentsBanner();
     reviewSlideDown('#fs_ProductDetails', '240');//OK
     instagramPostList();//OK
     soldout();//OK
@@ -258,7 +259,7 @@ function productDetail_mhpContentsBanner() {
 
 /* productDetail_ptsContentsBanner
 ========================================================================== */
-function productDetail_mhpContentsBanner() {
+function productDetail_ptsContentsBanner() {
     if ($('#fs_ProductDetails').length) {
         var url = window.location.pathname.substring(1);
         url = url.split('/');
