@@ -419,11 +419,11 @@ function searchTagTitle(name, url) {
             $('.fs-c-breadcrumb__listItem:last-child').text('入園入学の準備');
             $('title').text('入園入学の準備');
         }
-    } else if (results[2] == 'sale20220421-20220509') {
+    } else if (results[2] == 'sale20220721-20220804') {
         if (results != "") {
-            $('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20220421-20220509_1184x240.jpg" alt="2nd Anniversary Sale 対象商品"><br>2nd Anniversary Sale 対象商品');
-            $('.fs-c-breadcrumb__listItem:last-child').text('2nd Anniversary Sale 対象商品');
-            $('title').text('2nd Anniversary Sale 対象商品');
+            $('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20220721-20220804_1184x240.jpg" alt="summer SALE 第1弾 対象商品"><br>summer SALE 第1弾 対象商品');
+            $('.fs-c-breadcrumb__listItem:last-child').text('summer SALE 第1弾 対象商品');
+            $('title').text('summer SALE 第1弾 対象商品');
 
             /*
             console.log('XXXX');
