@@ -407,11 +407,11 @@ function searchTagTitle(name, url) {
         results = regex.exec(url);
     if (!results) return null;
     if (!results[2]) return '';
-    if (results[2] == 'sale20220623-20220707') {
+    if (results[2] == 'sale20220804-20220818') {
         if (results != "") {
-            $('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20220623-20220707_1184x240.jpg" alt="テレビ台セール 対象商品"><br>テレビ台セール 対象商品');
-            $('.fs-c-breadcrumb__listItem:last-child').text('テレビ台セール 対象商品');
-            $('title').text('テレビ台セール 対象商品');
+            $('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20220804-20220818_1184x240.jpg" alt="summer SALE 第2弾 対象商品"><br>summer SALE 第2弾 対象商品');
+            $('.fs-c-breadcrumb__listItem:last-child').text('summer SALE 第2弾 対象商品');
+            $('title').text('summer SALE 第2弾 対象商品');
         }
     } else if (results[2] == 'feature20220224') {
         if (results != "") {
