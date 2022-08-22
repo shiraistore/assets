@@ -35,92 +35,157 @@ function sizeOrderDisplayThum() {
                         //console.log('B')
                         orderDetails = $(this).find('.fs-c-listedOptionPrice__option__value').html();
                         //console.log(orderDetails);
-                        if (orderDetails.indexOf('本体') >= 0) {
-                            orderType = 'TNL-EM';
-                            orderHeight = orderDetails.replace(/.*高さ([0-9]+)cm.*/g, '$1');
-                            if (orderHeight < 100) {
-                                orderType = 'TNL-EM0';
+                        var href = $(this).find('.fs-c-listedProductName__name').attr('href');
+                        //console.log(href);
+                        if (href.indexOf('tnl-em') >= 0) {
+                            if (orderDetails.indexOf('本体') >= 0) {
+                                orderType = 'TNL-EM';
+                                orderHeight = orderDetails.replace(/.*高さ([0-9]+)cm.*/g, '$1');
+                                if (orderHeight < 100) {
+                                    orderType = 'TNL-EM0';
+                                }
+                            } else if (orderDetails.indexOf('上置き') >= 0) {
+                                orderType = 'TNL-EMU';
+                                orderHeight = "";
+                            } else if (orderDetails.indexOf('追加移動棚') >= 0) {
+                                orderType = 'TNL-EMTS';
+
                             }
-                        } else if (orderDetails.indexOf('上置き') >= 0) {
-                            orderType = 'TNL-EMU';
-                            orderHeight = "";
-                        } else if (orderDetails.indexOf('追加移動棚') >= 0) {
-                            orderType = 'TNL-EMTS';
+                            orderWidth = orderDetails.replace(/.*横幅([0-9]+)cm.*/g, '$1');
+
+                            if (orderWidth >= 15 && orderWidth <= 34) {
+                                orderWidth = '015_034';
+                            } else if (orderWidth >= 35 && orderWidth <= 44) {
+                                orderWidth = '035_044';
+                            } else if (orderWidth >= 45 && orderWidth <= 60) {
+                                orderWidth = '045_060';
+                            } else if (orderWidth >= 61 && orderWidth <= 70) {
+                                orderWidth = '061_070';
+                            } else if (orderWidth >= 71 && orderWidth <= 80) {
+                                orderWidth = '071_080';
+                            } else if (orderWidth >= 81 && orderWidth <= 90) {
+                                orderWidth = '081_090';
+                            }
+
+                            orderDepth = orderDetails.replace(/.*奥行([0-9]+)cm.*/g, '$1');
+                            if (orderDepth == 19) {
+                                orderDepth = 'A';
+                            } else if (orderDepth == 29) {
+                                orderDepth = 'M';
+                            } else if (orderDepth == 44) {
+                                orderDepth = 'F';
+                            }
+
+                            orderColor = $(this).find('.fs-c-listedOptionPrice__option:nth-child(3) .fs-c-listedOptionPrice__option__value').text();
+
+                            switch (orderColor) {
+                                case 'ブラックウォールナット':
+                                    orderColor = 'KW';
+                                    break;
+                                case 'ダークオーク':
+                                    orderColor = 'DK';
+                                    break;
+                                case 'ブラウンウォールナット':
+                                    orderColor = 'BW';
+                                    break;
+                                case 'ブラウンオーク':
+                                    orderColor = 'BO';
+                                    break;
+                                case 'ナチュラルチーク':
+                                    orderColor = 'NT';
+                                    break;
+                                case 'ナチュラルオーク3':
+                                    orderColor = 'NC';
+                                    break;
+                                case 'ナチュラルオーク1':
+                                    orderColor = 'NA';
+                                    break;
+                                case 'ナチュラルビーチ':
+                                    orderColor = 'NB';
+                                    break;
+                                case 'ホワイトオーク':
+                                    orderColor = 'WH';
+                                    break;
+                                case 'ホワイト単色':
+                                    orderColor = 'WT';
+                                    break;
+                            }
+
+                            // console.log(orderType);
+
+                            if (orderType == 'TNL-EMTS') {
+                                var thumbnail = orderType + orderWidth + orderDepth + '-' + orderColor + '_thum.jpg';
+                            } else {
+                                var thumbnail = orderType + orderHeight + orderWidth + orderDepth + '-' + orderColor + '_thum.jpg';
+                            }
+
+                            console.log(thumbnail)
+
+
+
+                            $(this).find('img').attr('src', '/assets/img/product/sizeOrder/tnl-em/thum/' + thumbnail);
+                        } else if (href.indexOf('sep-emdesk') >= 0) {
+                            //console.log('emdesk');
+                            orderWidth = orderDetails.replace(/.*横幅([0-9]+)cm.*/g, '$1');
+                            if (orderDetails.indexOf('深型')) {
+                                orderDepth = 'f';
+                            } else if (orderDetails.indexOf('浅型')) {
+                                orderDepth = 'a';
+                            }
+
+                            // console.log('orderWidth:', orderWidth);
+                            // console.log('orderDepth:', orderDepth);
+
+                            orderColor = $(this).find('.fs-c-listedOptionPrice__option:nth-child(3) .fs-c-listedOptionPrice__option__value').text();
+
+                            switch (orderColor) {
+                                case 'ダークブラウン':
+                                    orderColor = 'dk';
+                                    break;
+                                case 'ナチュラルブラウン':
+                                    orderColor = 'na';
+                                    break;
+                                case 'アイボリー':
+                                    orderColor = 'iv';
+                                    break;
+                            }
+
+                            orderWidth = orderWidth.slice(0, -1) + '0';
+
+                            var thumbnail = orderWidth + orderDepth + '-' + orderColor + '_thum.jpg';
+
+                            console.log(thumbnail);
+
+                            $(this).find('img').attr('src', '/assets/img/product/sizeOrder/sep-em/desk/thum/' + thumbnail);
+                        } else if (href.indexOf('sep-em') >= 0) {
+                            //console.log('emrack');
+                            orderWidth = orderDetails.replace(/.*横([0-9]+)マス.*/g, '$1');
+                            orderHeight = orderDetails.replace(/.*縦([0-9]+)マス.*/g, '$1');
+
+                            // console.log('orderWidth:', orderWidth);
+                            // console.log('orderHeight:', orderHeight);
+
+                            orderColor = $(this).find('.fs-c-listedOptionPrice__option:nth-child(3) .fs-c-listedOptionPrice__option__value').text();
+
+                            switch (orderColor) {
+                                case 'ダークブラウン':
+                                    orderColor = 'dk';
+                                    break;
+                                case 'ナチュラルブラウン':
+                                    orderColor = 'na';
+                                    break;
+                                case 'アイボリー':
+                                    orderColor = 'iv';
+                                    break;
+                            }
+
+                            var thumbnail = orderWidth + '-' + orderHeight + '-' + orderColor + '_thum.jpg';
+
+                            console.log(thumbnail);
+
+                            $(this).find('img').attr('src', '/assets/img/product/sizeOrder/sep-em/rack/thum/' + thumbnail);
 
                         }
-                        orderWidth = orderDetails.replace(/.*横幅([0-9]+)cm.*/g, '$1');
-
-                        if (orderWidth >= 15 && orderWidth <= 34) {
-                            orderWidth = '015_034';
-                        } else if (orderWidth >= 35 && orderWidth <= 44) {
-                            orderWidth = '035_044';
-                        } else if (orderWidth >= 45 && orderWidth <= 60) {
-                            orderWidth = '045_060';
-                        } else if (orderWidth >= 61 && orderWidth <= 70) {
-                            orderWidth = '061_070';
-                        } else if (orderWidth >= 71 && orderWidth <= 80) {
-                            orderWidth = '071_080';
-                        } else if (orderWidth >= 81 && orderWidth <= 90) {
-                            orderWidth = '081_090';
-                        }
-
-                        orderDepth = orderDetails.replace(/.*奥行([0-9]+)cm.*/g, '$1');
-                        if (orderDepth == 19) {
-                            orderDepth = 'A';
-                        } else if (orderDepth == 29) {
-                            orderDepth = 'M';
-                        } else if (orderDepth == 44) {
-                            orderDepth = 'F';
-                        }
-
-                        orderColor = $(this).find('.fs-c-listedOptionPrice__option:nth-child(3) .fs-c-listedOptionPrice__option__value').text();
-
-                        switch (orderColor) {
-                            case 'ブラックウォールナット':
-                                orderColor = 'KW';
-                                break;
-                            case 'ダークオーク':
-                                orderColor = 'DK';
-                                break;
-                            case 'ブラウンウォールナット':
-                                orderColor = 'BW';
-                                break;
-                            case 'ブラウンオーク':
-                                orderColor = 'BO';
-                                break;
-                            case 'ナチュラルチーク':
-                                orderColor = 'NT';
-                                break;
-                            case 'ナチュラルオーク3':
-                                orderColor = 'NC';
-                                break;
-                            case 'ナチュラルオーク1':
-                                orderColor = 'NA';
-                                break;
-                            case 'ナチュラルビーチ':
-                                orderColor = 'NB';
-                                break;
-                            case 'ホワイトオーク':
-                                orderColor = 'WH';
-                                break;
-                            case 'ホワイト単色':
-                                orderColor = 'WT';
-                                break;
-                        }
-
-                        // console.log(orderType);
-
-                        if (orderType == 'TNL-EMTS') {
-                            var thumbnail = orderType + orderWidth + orderDepth + '-' + orderColor + '_thum.jpg';
-                        } else {
-                            var thumbnail = orderType + orderHeight + orderWidth + orderDepth + '-' + orderColor + '_thum.jpg';
-                        }
-
-                        // console.log(thumbnail)
-
-
-
-                        $(this).find('img').attr('src', '/assets/img/product/sizeOrder/tnl-em/thum/' + thumbnail);
                     });
                 }
             }
