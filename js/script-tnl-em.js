@@ -455,15 +455,15 @@ function tnl_em_select() {
 				readyMadeFlag_check = readyMadeFlag_width + readyMadeFlag_depth + readyMadeFlag_strength + readyMadeFlag_material + readyMadeFlag_color;
 
 				//console.log('readyMadeFlag_check:', readyMadeFlag_check)
-
+				var modelOptionHeight;
 				if (readyMadeFlag_check == 5) {
 					$('#readyMadeMessage').text('お選びのサイズ・カラーは既製品です。');
 					if (Number(optionHeight) > 100 && Number(optionHeight) < 198) {
-						optionHeight = optionHeight / 10;
+						modelOptionHeight = optionHeight / 10;
 					}
-					$('#tnl_em_selectedProduct').text('TNL-' + Number(optionHeight) + Number(optionWidth) + '-' + optionColor);
+					$('#tnl_em_selectedProduct').text('TNL-' + Number(modelOptionHeight) + Number(optionWidth) + '-' + optionColor);
 
-					var productURL = 'TNL-' + Number(optionHeight) + Number(optionWidth) + '-' + optionColor;
+					var productURL = 'TNL-' + Number(modelOptionHeight) + Number(optionWidth) + '-' + optionColor;
 					var optionCode = productURL;
 
 					//console.log('productURL:', productURL);
