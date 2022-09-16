@@ -303,9 +303,16 @@ function sep_emrack_select() {
                 if (readyMade == 1) {
                     productNumber = 'SEP-' + optionSize + '-' + optionColor;
                     $('#readyMadeMessage').text('お選びのサイズは既製品です。');
+					$('#sep_selectedProductButton').html('<a href="/c/series/sep/'+ productNumber.toLowerCase() +'">既製品のご注文はこちら</a>');
+					$('#sep_selectedProductButton').css('display','block');
+					$('#sep-em_selectedProductButton').css('display','none');
+					$('.fs-c-productOption.unusable').css('display','none');
                 } else {
                     productNumber = 'SEP-EM' + optionSize
                     $('#readyMadeMessage').text('');
+					$('#sep_selectedProductButton').css('display','none');
+					$('#sep-em_selectedProductButton').css('display','block');
+					$('.fs-c-productOption.unusable').css('display','block');
                 }
 
                 //console.log(productNumber);
@@ -467,9 +474,16 @@ function sep_emdesk_select() {
                 if (optionWidthSize == '1200') {
                     productNumber = 'SEP-7512DESK' + optionDepth + '-' + optionColor;
                     $('#readyMadeMessage').text('お選びのサイズは既製品です。');
+					$('#sep_selectedProductButton').html('<a href="/c/series/sep/'+ productNumber.toLowerCase() +'">既製品のご注文はこちら</a>');
+					$('#sep_selectedProductButton').css('display','block');
+					$('#sep-em_selectedProductButton').css('display','none');
+					$('.fs-c-productOption.unusable').css('display','none');
                 } else {
                     productNumber = 'SEP-EM' + optionWidthSize + 'DESK' + optionDepth;
                     $('#readyMadeMessage').text('');
+					$('#sep_selectedProductButton').css('display','none');
+					$('#sep-em_selectedProductButton').css('display','block');
+					$('.fs-c-productOption.unusable').css('display','block');
                 }
 
                 //console.log(productNumber);
@@ -497,7 +511,7 @@ function sep_emdesk_select() {
                 var productId;
                 if (optionWidthSize == '1200') {
                     var productId = 'SEP-7512DESK' + optionDepth + '-' + optionColor;
-                    html = '<form action="/p/cart/add" method="post"><input type="hidden" name="products[' + productId + '].productNo" value="' + productId + '" ><input type="hidden" name="products[' + productId + '].productOptionsWithPrice[1].id" value="1"/><select name="products[' + productId + '].productOptionsWithPrice[1].value"><option value="ADIS-00"></option></select><input name="products[' + productId + '].quantity" type="text" value="1" size="5"><button type="submit">カートへ</button></form>';
+                    html = '<form action="/p/cart/add" method="post"><input type="hidden" name="products[' + productId + '].productNo" value="' + productId + '" ><input type="hidden" name="products[' + productId + '].productOptionsWithPrice[1].id" value="1"/><select name="products[' + productId + '].productOptionsWithPrice[1].value"><option value="ADIS-00"></option></select><input name="products[' + productId + '].quantity" type="text" value="1" size="5"><button type="submit">カートに入れる</button></form>';
                 } else {
                     var productId = 'SEP-EMDESK' + productIdNum + optionDepth;
                     orderName = 'SEP-EM' + optionWidthSize + 'DESK' + optionDepth;

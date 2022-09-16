@@ -455,7 +455,7 @@ function tnl_em_select() {
 				readyMadeFlag_check = readyMadeFlag_width + readyMadeFlag_depth + readyMadeFlag_strength + readyMadeFlag_material + readyMadeFlag_color;
 
 				//console.log('readyMadeFlag_check:', readyMadeFlag_check)
-				var modelOptionHeight;
+				var modelOptionHeight = optionHeight;
 				if (readyMadeFlag_check == 5) {
 					$('#readyMadeMessage').text('お選びのサイズ・カラーは既製品です。');
 					if (Number(optionHeight) > 100 && Number(optionHeight) < 198) {
@@ -465,6 +465,12 @@ function tnl_em_select() {
 
 					var productURL = 'TNL-' + Number(modelOptionHeight) + Number(optionWidth) + '-' + optionColor;
 					var optionCode = productURL;
+
+
+					$('#tnl_selectedProductButton').html('<a href="/c/series/tnl/'+ productURL.toLowerCase() +'">既製品のご注文はこちら</a>');
+					$('#tnl_selectedProductButton').css('display','block');
+					$('#tnl_em_selectedProductButton').css('display','none');
+					$('.fs-c-productOption.unusable').css('display','none');
 
 					//console.log('productURL:', productURL);
 					//console.log('optionCode:', optionCode);
@@ -485,6 +491,10 @@ function tnl_em_select() {
 
 				} else {
 					$('#readyMadeMessage').text('');
+					$('#tnl_selectedProductButton').css('display','none');
+					$('#tnl_em_selectedProductButton').css('display','block');
+					$('.fs-c-productOption.unusable').css('display','block');
+					
 					var productURL = 'TNL-EM' + optionHeight + optionWidth + optionDepth;
 					var optionCode = 'TNL-EM' + optionHeight + optionWidth + optionDepth + optionStrength + optionMaterial;
 
