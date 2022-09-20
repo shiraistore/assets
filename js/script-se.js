@@ -1000,7 +1000,7 @@ function expectedArrival() {
                                 operation_holyDay,
                                 "事務処理"
                             );
-                            manufactureLeadTime += 9;
+                            manufactureLeadTime += 10;
                             arrivalDate_ary = checkHolyDay(
                                 arrivalDate_ary,
                                 manufactureLeadTime,
