@@ -28,13 +28,13 @@ function checkTimeCanNotSpecifiedZipCodes(zipCode) {
         scriptCharset: "utf-8",
         success: function (data) {
             // Success
-            console.log("success");
-            //console.log(JSON.stringify(data));
+            // console.log("success");
+            // console.log(JSON.stringify(data));
             // $("#response").html(JSON.stringify(data));
         },
         error: function (data) {
             // Error
-            console.log("error");
+            // console.log("error");
             //console.log(JSON.stringify(data));
             //$("#response").html(JSON.stringify(data));
         },
@@ -470,7 +470,7 @@ function optionJudgment() {
                         }
                     }
 
-                    console.log(timeCanNotSpecifiedZipCodes_result);
+                    //console.log(timeCanNotSpecifiedZipCodes_result);
 
                     if (deliveryTime != "指定なし") {
                         //組立設置サービスは日時指定が必須
@@ -478,7 +478,7 @@ function optionJudgment() {
                             timeCanNotSpecifiedZipCodes_result =
                                 checkTimeCanNotSpecifiedZipCodes(zipCode);
 
-                            console.log(timeCanNotSpecifiedZipCodes_result);
+                            //(timeCanNotSpecifiedZipCodes_result);
 
                             if (timeCanNotSpecifiedZipCodes_result == "true") {
                                 $(
