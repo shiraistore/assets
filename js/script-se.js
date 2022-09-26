@@ -1,8 +1,47 @@
+var timeCanNotSpecifiedZipCodes_result = undefined;
+
 $(window).on("load", function () {
     optionJudgment(); //order
     expectedArrival(); //order
     AddDeliveryMethodTitle();
 });
+
+/* api-test
+========================================================================== */
+
+function checkTimeCanNotSpecifiedZipCodes(zipCode) {
+    var url =
+        "https://7yby6dyjdb.execute-api.ap-northeast-1.amazonaws.com/prod/";
+    var JSONdata = {
+        zip_code: zipCode,
+    };
+
+    //console.log(JSON.stringify(JSONdata));
+
+    var result = $.ajax({
+        type: "post",
+        url: url,
+        async: false,
+        data: JSON.stringify(JSONdata),
+        contentType: "application/json",
+        dataType: "json",
+        scriptCharset: "utf-8",
+        success: function (data) {
+            // Success
+            console.log("success");
+            //console.log(JSON.stringify(data));
+            // $("#response").html(JSON.stringify(data));
+        },
+        error: function (data) {
+            // Error
+            console.log("error");
+            //console.log(JSON.stringify(data));
+            //$("#response").html(JSON.stringify(data));
+        },
+    }).responseText;
+
+    return result;
+}
 
 /* checkout couponUseCheck
 ========================================================================== */
@@ -44,12 +83,10 @@ function sizeOrderDisplayThumb() {
         ) {
             $(this).find(".fs-c-cartTable__product").addClass("sizeOrder");
         } else {
-			$(this).find(".fs-c-cartTable__product").addClass("readyMade");
-		}
-		//console.log("AAAA");
+            $(this).find(".fs-c-cartTable__product").addClass("readyMade");
+        }
+        //console.log("AAAA");
     });
-
-    
 
     var orderDetails = "",
         orderType = "",
@@ -233,7 +270,7 @@ function sizeOrderDisplayThumb() {
                         orderColor +
                         "_thum.jpg";
 
-                    console.log(thumbnail);
+                    //console.log(thumbnail);
 
                     $(this)
                         .find("img")
@@ -296,14 +333,17 @@ function sizeOrderDisplayThumb() {
         }
     }
 
-	if ($('.readyMade').length) {
-		$('.readyMade img').each(function () {
-			var readyMadeImage = $(this).attr('src');
-			readyMadeImage = readyMadeImage.replace(/[0-9]{2}-xs.jpg/,'02-xs.jpg');
-			//console.log(readyMadeImage);
-			$(this).attr('src',readyMadeImage);
-		});
-	}
+    if ($(".readyMade").length) {
+        $(".readyMade img").each(function () {
+            var readyMadeImage = $(this).attr("src");
+            readyMadeImage = readyMadeImage.replace(
+                /[0-9]{2}-xs.jpg/,
+                "02-xs.jpg"
+            );
+            //console.log(readyMadeImage);
+            $(this).attr("src", readyMadeImage);
+        });
+    }
     //}, 1000);
     //}
 }
@@ -344,12 +384,15 @@ function optionJudgment() {
             });
         };
 
+        //console.log('A:',timeCanNotSpecifiedZipCodes_result)
         setInterval(function () {
+            //console.log('B:',timeCanNotSpecifiedZipCodes_result)
             var zipCode = $(
                 ".fs-c-checkout-destination__address .fs-c-checkout-destination__address__zipCode"
             )
                 .text()
                 .replace("-", "");
+
             if (zipCode != undefined) {
                 var result = $.inArray(zipCode, zipCodeArray);
 
@@ -423,6 +466,45 @@ function optionJudgment() {
                             orderEnabled();
                             if ($(".deliveryMethodAlert").length) {
                                 $(".deliveryMethodAlert").remove();
+                            }
+                        }
+                    }
+
+                    console.log(timeCanNotSpecifiedZipCodes_result);
+
+                    if (deliveryTime != "指定なし") {
+                        //組立設置サービスは日時指定が必須
+                        if (timeCanNotSpecifiedZipCodes_result == undefined) {
+                            timeCanNotSpecifiedZipCodes_result =
+                                checkTimeCanNotSpecifiedZipCodes(zipCode);
+
+                            console.log(timeCanNotSpecifiedZipCodes_result);
+
+                            if (timeCanNotSpecifiedZipCodes_result == "true") {
+                                $(
+                                    "#fs_button_changeDeliveryMethod button.fs-c-button--change--small"
+                                ).trigger("click");
+                                setTimeout(function () {
+                                    $("#fs_input_expectedArrival_time").val(
+                                        "none"
+                                    );
+                                    setTimeout(function () {
+                                        $(
+                                            "#__fs_modal_delivery button.fs-c-button--settings"
+                                        ).trigger("click");
+                                    }, 100);
+                                }, 100);
+                                $(".fs-l-page").before(
+                                    '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>このお届け先は時間指定ができません</h4><p>配送業者がお届け時間指定に対応していないため「指定なし」に変更されました。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
+                                );
+                                $(".confirmOrderAlert-button").on(
+                                    "click",
+                                    function () {
+                                        $("#confirmOrderAlert").remove();
+                                        timeCanNotSpecifiedZipCodes_result =
+                                            undefined;
+                                    }
+                                );
                             }
                         }
                     }
@@ -503,7 +585,7 @@ function optionJudgment() {
                             )
                         ) {
                             $(".fs-l-page").before(
-                                '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>【お知らせ】</h4><p>申し訳ございませんが、組立サービスをお申し込みの場合は代金引換をご利用いただけません</p><p>該当する商品をカートから削除し、組立サービスを選択せずに再度カートに入れてからご注文ください。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
+                                '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>代金引換をご利用いただけません</h4><p>申し訳ございませんが、組立サービスをお申し込みの場合は代金引換をご利用いただけません。</p><p>該当する商品をカートから削除し、組立サービスを選択せずに再度カートに入れてからご注文ください。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
                             );
                             $(
                                 ".fs-c-checkout-paymentMethodList li:nth-child(2) label"
@@ -550,7 +632,7 @@ function optionJudgment() {
                             )
                         ) {
                             $(".fs-l-page").before(
-                                '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>【お知らせ】</h4><p>申し訳ございませんが、サイズオーダーをお申し込みの場合は代金引換をご利用いただけません</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
+                                '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>代金引換をご利用いただけません</h4><p>申し訳ございませんが、サイズオーダーをお申し込みの場合は代金引換をご利用いただけません。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
                             );
                             $(
                                 ".fs-c-checkout-paymentMethodList li:nth-child(2) label"
@@ -586,7 +668,7 @@ function optionJudgment() {
                             )
                         ) {
                             $(".fs-l-page").before(
-                                '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>【お知らせ】</h4><p>申し訳ございませんが、お届け先が沖縄・離島の場合は代金引換をご利用いただけません</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
+                                '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>代金引換をご利用いただけません</h4><p>申し訳ございませんが、お届け先が沖縄・離島の場合は代金引換をご利用いただけません。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
                             );
                             $(
                                 ".fs-c-checkout-paymentMethodList li:first-child label"
@@ -639,7 +721,6 @@ function optionJudgment() {
             sizeOrderDisplayThumb();
             couponUseCheck();
         }, 1000);
-
     }
 }
 
@@ -682,7 +763,7 @@ function expectedArrival() {
                         }, 100);
                     }, 100);
                     $(".fs-l-page").before(
-                        '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>【お知らせ】</h4><p>お届け指定日時が「指定なし」に変更されました。お届け指定日時を再設定してください。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
+                        '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>お届け指定日時が「指定なし」に変更されました</h4><p>再読み込みがされたため、お届け指定日時が「指定なし」に変更されました。お届け指定日時を再設定してください。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
                     );
                     $(".confirmOrderAlert-button").on("click", function () {
                         $("#confirmOrderAlert").remove();
@@ -1296,12 +1377,13 @@ function expectedArrival() {
                             }, 100);
 
                             $(".fs-l-page").before(
-                                '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>【お知らせ】</h4><p>お支払い方法が銀行振込に変更されたため、<span class="red">お届け希望日時を再度指定</span>してください。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
+                                '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>お届け希望日時が「指定なし」に変更されました</h4><p>届け先住所が変更されたため、<span class="red">お届け希望日時を再度指定</span>してください。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
                             );
                             $(".confirmOrderAlert-button").on(
                                 "click",
                                 function () {
                                     $("#confirmOrderAlert").remove();
+									timeCanNotSpecifiedZipCodes_result = undefined;
                                 }
                             );
                         }
@@ -1342,12 +1424,14 @@ function expectedArrival() {
                                 }, 100);
 
                                 $(".fs-l-page").before(
-                                    '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>【お知らせ】</h4><p>お支払い方法が銀行振込に変更されたため、<span class="red">お届け希望日時を再度指定</span>してください。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
+                                    '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>お届け希望日時が「指定なし」に変更されました</h4><p>お支払い方法が銀行振込に変更されたため、<span class="red">お届け希望日時を再度指定</span>してください。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
                                 );
                                 $(".confirmOrderAlert-button").on(
                                     "click",
                                     function () {
                                         $("#confirmOrderAlert").remove();
+										timeCanNotSpecifiedZipCodes_result =
+                                            undefined;
                                     }
                                 );
                             }
