@@ -474,37 +474,50 @@ function optionJudgment() {
 
                     if (deliveryTime != "指定なし") {
                         //組立設置サービスは日時指定が必須
-                        if (timeCanNotSpecifiedZipCodes_result == undefined) {
-                            timeCanNotSpecifiedZipCodes_result =
-                                checkTimeCanNotSpecifiedZipCodes(zipCode);
+                        //(timeCanNotSpecifiedZipCodes_result);
+                        var optionArray = [];
+                        $(".fs-c-listedOptionPrice__option__value").each(
+                            function () {
+                                optionArray.push($(this).text());
+                            }
+                        );
+                        var optionResult = $.inArray("組立設置", optionArray);
+						//console.log(optionResult);
+                        if (optionResult < 0) {
+                            if (
+                                timeCanNotSpecifiedZipCodes_result == undefined
+                            ) {
+                                timeCanNotSpecifiedZipCodes_result =
+                                    checkTimeCanNotSpecifiedZipCodes(zipCode);
 
-                            //(timeCanNotSpecifiedZipCodes_result);
-
-                            if (timeCanNotSpecifiedZipCodes_result == "true") {
-                                $(
-                                    "#fs_button_changeDeliveryMethod button.fs-c-button--change--small"
-                                ).trigger("click");
-                                setTimeout(function () {
-                                    $("#fs_input_expectedArrival_time").val(
-                                        "none"
-                                    );
+                                if (
+                                    timeCanNotSpecifiedZipCodes_result == "true"
+                                ) {
+                                    $(
+                                        "#fs_button_changeDeliveryMethod button.fs-c-button--change--small"
+                                    ).trigger("click");
                                     setTimeout(function () {
-                                        $(
-                                            "#__fs_modal_delivery button.fs-c-button--settings"
-                                        ).trigger("click");
+                                        $("#fs_input_expectedArrival_time").val(
+                                            "none"
+                                        );
+                                        setTimeout(function () {
+                                            $(
+                                                "#__fs_modal_delivery button.fs-c-button--settings"
+                                            ).trigger("click");
+                                        }, 100);
                                     }, 100);
-                                }, 100);
-                                $(".fs-l-page").before(
-                                    '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>このお届け先は時間指定ができません</h4><p>配送業者がお届け時間指定に対応していないため「指定なし」に変更されました。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
-                                );
-                                $(".confirmOrderAlert-button").on(
-                                    "click",
-                                    function () {
-                                        $("#confirmOrderAlert").remove();
-                                        timeCanNotSpecifiedZipCodes_result =
-                                            undefined;
-                                    }
-                                );
+                                    $(".fs-l-page").before(
+                                        '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>このお届け先は時間指定ができません</h4><p>配送業者がお届け時間指定に対応していないため「指定なし」に変更されました。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
+                                    );
+                                    $(".confirmOrderAlert-button").on(
+                                        "click",
+                                        function () {
+                                            $("#confirmOrderAlert").remove();
+                                            timeCanNotSpecifiedZipCodes_result =
+                                                undefined;
+                                        }
+                                    );
+                                }
                             }
                         }
                     }
@@ -1383,7 +1396,8 @@ function expectedArrival() {
                                 "click",
                                 function () {
                                     $("#confirmOrderAlert").remove();
-									timeCanNotSpecifiedZipCodes_result = undefined;
+                                    timeCanNotSpecifiedZipCodes_result =
+                                        undefined;
                                 }
                             );
                         }
@@ -1430,7 +1444,7 @@ function expectedArrival() {
                                     "click",
                                     function () {
                                         $("#confirmOrderAlert").remove();
-										timeCanNotSpecifiedZipCodes_result =
+                                        timeCanNotSpecifiedZipCodes_result =
                                             undefined;
                                     }
                                 );
