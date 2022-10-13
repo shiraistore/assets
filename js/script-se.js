@@ -6,7 +6,79 @@ $(window).on("load", function () {
     AddDeliveryMethodTitle();
 });
 
-/* api-test
+function optionNameChange() {
+    if ($("#fs_Checkout,#fs_CheckoutWithAmazon").length) {
+        if (!$(".optionNameChanged").length) {
+            // 組立オプション指定があった場合のカート内表示変更
+            var productUrl = "";
+            var productUrl_ary = "";
+            var modelNumber = "";
+
+            // 該当するmodelNumberを配列に格納する
+            var optionHasProducts = [
+                "por-1830d-na",
+                "por-1830d-wh",
+                "por-1830d-dk",
+                "por-5530du-na",
+                "por-5530du-wh",
+                "por-5530du-dk",
+                "hnb-4540d",
+                "adl-4013dh-na",
+                "adl-4013dh-wh",
+                "adl-4013dh-dk",
+            ];
+
+			//CAUTION:カートのスクリプトと指定しているClassが異なる fs-c-cartTable__productName__name -> fs-c-listedProductName__name
+            $(".fs-c-listedProductName__name").each(function () {
+                // 商品のリンクを取得する
+                productUrl = $(this).attr("href");
+
+                // 配列にする
+                productUrl_ary = productUrl.split("/");
+
+                // リンクの最後の部分(型番)を取得
+                modelNumber = productUrl_ary[productUrl_ary.length - 1];
+                //console.log(modelNumber);
+                //optionHasProductsにmodelNumberがあるか判定する
+                var optionValue = "";
+                if (optionHasProducts.indexOf(modelNumber) != -1) {
+                    //modelNumberが該当商品であるか判定し処理を分岐
+                    if (modelNumber.match(/por-5530du|hnb-4540d|por-1830d/)) {
+                        //あるのであれば.fs-c-listedProductName__selection__choiceの値を取得する
+
+                        optionValue = $(this)
+                            .next(".fs-c-listedProductName__selection")
+                            .find(".fs-c-listedProductName__selection__choice")
+                            .text();
+                        optionValue = `（扉の開き方：${optionValue})`;
+                        //console.log(optionValue);
+
+                        //textとして挿入
+                        $(this)
+                            .next(".fs-c-listedProductName__selection")
+                            .find(".fs-c-listedProductName__selection__choice")
+                            .text(optionValue);
+                    } else if (modelNumber.match(/adl-4013dh/)) {
+                        optionValue = $(this)
+                            .next(".fs-c-listedProductName__selection")
+                            .find(".fs-c-listedProductName__selection__choice")
+                            .text();
+                        optionValue = `（組立の向き：${optionValue})`;
+                        //console.log(optionValue);
+
+                        $(this)
+                            .next(".fs-c-listedProductName__selection")
+                            .find(".fs-c-listedProductName__selection__choice")
+                            .text(optionValue);
+                    }
+                    $(this).addClass("optionNameChanged");
+                }
+            });
+        }
+    }
+}
+
+/* checkout checkTimeCanNotSpecifiedZipCodes
 ========================================================================== */
 
 function checkTimeCanNotSpecifiedZipCodes(zipCode) {
@@ -482,7 +554,7 @@ function optionJudgment() {
                             }
                         );
                         var optionResult = $.inArray("組立設置", optionArray);
-						//console.log(optionResult);
+                        //console.log(optionResult);
                         if (optionResult < 0) {
                             if (
                                 timeCanNotSpecifiedZipCodes_result == undefined
@@ -733,6 +805,7 @@ function optionJudgment() {
             );
             sizeOrderDisplayThumb();
             couponUseCheck();
+            optionNameChange();
         }, 1000);
     }
 }

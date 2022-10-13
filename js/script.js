@@ -17,7 +17,6 @@ $(function () {
     timeSale(); //OK
     product_tagsLink(); //OK
     searchWordSave("keyword"); //OK
-    developModeScript();
     searchTagTitle("tag"); //OK
     productSortSelect(); //OK
     productCategoryRankingDisplayNone(); //OK
@@ -42,6 +41,7 @@ $(function () {
     multipleReviewList(); //OK
     recommendTop10(); //OK
     searchFilterTnl(); //OK
+    check_time_can_not_specified_zip_codes();
     var grobal_rakingTop10Type = $(".productTop10Slider.ranking").data(
         "ranking"
     );
@@ -122,6 +122,46 @@ $(window).on("load scroll", function () {
 });
 
 /* ========== OK end ========== */
+
+/* api-test
+========================================================================== */
+
+function check_time_can_not_specified_zip_codes() {
+    if ($("#api-test").length) {
+        $("#response").html("Response Values");
+
+        $("#button").click(function () {
+            var url =
+                "https://7yby6dyjdb.execute-api.ap-northeast-1.amazonaws.com/prod";
+            var JSONdata = {
+                zip_code: $("#zip_code").val(),
+            };
+
+            alert(JSON.stringify(JSONdata));
+
+            $.ajax({
+                type: "post",
+                url: url,
+                data: JSON.stringify(JSONdata),
+                contentType: "application/json",
+                dataType: "json",
+                scriptCharset: "utf-8",
+                success: function (data) {
+                    // Success
+                    alert("success");
+                    alert(JSON.stringify(data));
+                    $("#response").html(JSON.stringify(data));
+                },
+                error: function (data) {
+                    // Error
+                    alert("error");
+                    alert(JSON.stringify(data));
+                    $("#response").html(JSON.stringify(data));
+                },
+            });
+        });
+    }
+}
 
 /* previewMode
 ========================================================================== */
@@ -437,37 +477,6 @@ function productSortSelect() {
         });
     });
 }
-
-/* developModeScript
-========================================================================== */
-//検索フォームテスト用(実装後削除)
-function developModeScript() {
-    if ($(".previewMode").length) {
-        $(".fs-p-productSearch").css("display", "block");
-    }
-}
-
-/* hideInput_develop
-========================================================================== */
-//検索フォーム価格(実装後削除)
-//価格がラジオボタンで選択されたときに
-$('[name="productSearchPrice"]:radio').change(function () {
-    if ($("[id=productSearchPrice1]").prop("checked")) {
-        //値が隠したinputに入力されるようにする
-        $("input[name='maxprice']").val(1500);
-    } else if ($("[id=productSearchPrice2]").prop("checked")) {
-        $("input[name='minprice']").val(1500);
-        $("input[name='maxprice']").val(5000);
-    } else if ($("[id=productSearchPrice3]").prop("checked")) {
-        $("input[name='minprice']").val(5000);
-        $("input[name='maxprice']").val(10000);
-    } else if ($("[id=productSearchPrice4]").prop("checked")) {
-        $("input[name='minprice']").val(10000);
-        $("input[name='maxprice']").val(30000);
-    } else if ($("[id=productSearchPrice5]").prop("checked")) {
-        $("input[name='minprice']").val(30000);
-    }
-});
 
 /* Search tag title
 ========================================================================== */
@@ -1297,12 +1306,22 @@ function rewriteDOM() {
         //最初の状態
         var optionName = $("#optionWithPrice_1").val();
         $("#option_1").val("組立サービスのみ指定可");
+        $("#option_2").val("組立サービスのみ指定可");
         if (optionName == "ADIS-00") {
             $(".fs-c-productSelection").slideUp();
         }
-        $(".fs-c-productSelection .fs-c-productSelection__field").append(
-            '<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-doorOpeningDirection.png">'
-        );
+
+        //URLで分岐
+        if (location.href.match("por-5530du|hnb-4540d|por-1830d")) {
+            $(".fs-c-productSelection .fs-c-productSelection__field").append(
+                '<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-doorOpeningDirection.png">'
+            );
+        } else if (location.href.match("adl")) {
+            $(".fs-c-productSelection .fs-c-productSelection__field").append(
+                '<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-adlOpeningDirection.png">'
+            );
+        }
+
         //組立サービス変更
         $("#optionWithPrice_1").change(function () {
             optionName = $("#optionWithPrice_1").val();
@@ -1375,12 +1394,76 @@ function rewriteDOM() {
         }
 
         console.log("match:", seriseCode.match(/.*sep-[0-9]{4}?-.*/));
-
-        //
-        // if (seriseCode == 'tnl') {
-        //     $('.fs-c-productPostage').after('<div class="tnlSizeOrder_bannar"><a href="/f/tnl-em"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><span>横幅1cm単位でご注文はこちら</a></span></div>');
-        // }
     }
+
+    if ($("#fs_ShoppingCart").length) {
+        // 組立オプション指定があった場合のカート内表示変更
+        var productUrl = "";
+        var productUrl_ary = "";
+        var modelNumber = "";
+
+        // 該当するmodelNumberを配列に格納する
+        var optionHasProducts = [
+            "por-1830d-na",
+            "por-1830d-wh",
+            "por-1830d-dk",
+            "por-5530du-na",
+            "por-5530du-wh",
+            "por-5530du-dk",
+            "hnb-4540d",
+            "adl-4013dh-na",
+            "adl-4013dh-wh",
+            "adl-4013dh-dk",
+        ];
+
+        $(".fs-c-cartTable__productName__name").each(function () {
+            // 商品のリンクを取得する
+            productUrl = $(this)
+                .find(".fs-c-listedProductName__name")
+                .attr("href");
+
+            // 配列にする
+            productUrl_ary = productUrl.split("/");
+
+            // リンクの最後の部分(型番)を取得
+            modelNumber = productUrl_ary[productUrl_ary.length - 1];
+
+            //optionHasProductsにmodelNumberがあるか判定する
+            if (optionHasProducts.indexOf(modelNumber) != -1) {
+                //modelNumberが該当商品であるか判定し処理を分岐
+                if (modelNumber.match(/por-5530du|hnb-4540d|por-1830d/)) {
+                    //あるのであれば.fs-c-listedProductName__selection__choiceの値を取得する
+                    var optionValue = "";
+                    var optionValue = $(this)
+                        .next(".fs-c-listedProductName__selection")
+                        .find(".fs-c-listedProductName__selection__choice")
+                        .text();
+                    optionValue = `（扉の開き方：${optionValue})`;
+                    //console.log(optionValue);
+
+                    //textとして挿入
+                    $(this)
+                        .next(".fs-c-listedProductName__selection")
+                        .find(".fs-c-listedProductName__selection__choice")
+                        .text(optionValue);
+                } else if (modelNumber.match(/adl-4013dh/)) {
+                    var optionValue = "";
+                    var optionValue = $(this)
+                        .next(".fs-c-listedProductName__selection")
+                        .find(".fs-c-listedProductName__selection__choice")
+                        .text();
+                    optionValue = `（組立の向き：${optionValue})`;
+                    //console.log(optionValue);
+
+                    $(this)
+                        .next(".fs-c-listedProductName__selection")
+                        .find(".fs-c-listedProductName__selection__choice")
+                        .text(optionValue);
+                }
+            }
+        });
+    }
+
     //カテゴリページ制御
     if ($('body[class*="fs-body-category-"]').length) {
         //シリーズ商品一覧メイン画像
@@ -1694,12 +1777,6 @@ function timeSale() {
         $(".fs-c-productPrice--member .fs-c-productPrice__addon__label").before(
             '<span class="priceOffValue">' + priceOffValue + "% OFF</span>"
         );
-
-        //ビッグセール用在庫表示
-        /*
-        $('.fs-c-productStock__label').text('限定数');
-        $('.fs-c-productStock').css('display', 'inline-block');
-        */
 
         //スモールセール用在庫表示
         if (stockValue <= 3) {
@@ -4861,6 +4938,7 @@ function globalNavi() {
         function () {
             $(this).children("div").hide().stop().fadeIn(200);
             $("#globalNavi-overlay").hide().stop().fadeIn(200);
+            $("#searchForm").hide();
         },
         function () {
             $(this).children("div").stop().fadeOut(200);
@@ -4873,9 +4951,9 @@ function globalNavi() {
         $('[class^="data-catgory-area"]').not(target).slideUp(200);
         $(target).slideDown(200);
     });
-    $("#header-keywordSearch form").after(
+    /*$("#header-keywordSearch form").after(
         $(".slideNavi-list-category-item").prop("outerHTML")
-    );
+    );*/
 }
 
 /* imageChange
