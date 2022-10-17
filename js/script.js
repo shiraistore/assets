@@ -30,7 +30,7 @@ $(function () {
     reviewSlideDown("#fs_ProductDetails", "240"); //OK
     instagramPostList(); //OK
     soldout(); //OK
-    em_transfer();
+    //em_transfer();
     featureMamihapiSeries_slider(); //OK
     featureMamihapiSeries_cart(); //OK
     featureMamihapibyage_slider(); //OK
@@ -90,6 +90,36 @@ $(function () {
     sp_searchOpen(); //javaScriptParts
     windowWidthprocessingChange(); //javaScriptParts
     windowWidthDOMChange(); //javaScriptParts
+
+    if ($("#fs_ShoppingCart").length) {
+        //オプション
+        const options = {
+            childList: true, //直接の子の変更を監視
+            characterData: true, //文字の変化を監視
+            characterDataOldValue: true, //属性の変化前を記録
+            attributes: true, //属性の変化を監視
+            subtree: true, //全ての子要素を監視
+        };
+        //コールバック関数
+        function callback(mutationsList, observer) {
+            for (const mutation of mutationsList) {
+                // 処理
+                mutation.target; //ターゲット要素
+                mutation.addedNodes; //追加されたDOM
+                mutation.removedNodes; //削除されたDOM
+            }
+			console.log('変化あり');
+            //ターゲット要素の監視を停止
+            // obs.disconnect();
+        }
+
+        //ターゲット要素をDOMで取得
+        const target = document.querySelector('#fs-cartContent-container');
+        //インスタンス化
+        const obs = new MutationObserver(callback);
+        //ターゲット要素の監視を開始
+        obs.observe(target, options);
+    }
 });
 
 $(window).on("load", function () {
@@ -1469,7 +1499,7 @@ function rewriteDOM() {
         //シリーズ商品一覧メイン画像
         var seriesUrl = location.pathname.replace("/c/series/", "");
         //console.log(seriesUrl);
-        if (seriesUrl != "wlk" && seriesUrl != "mdl") {
+        if (seriesUrl != "wlk" && seriesUrl != "mdl" && seriesUrl != "mhp") {
             $("#category-series-visual").html(
                 '<img src="https://shiraistore.itembox.design/item/src/series/main-' +
                     seriesUrl +
