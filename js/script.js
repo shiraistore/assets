@@ -377,11 +377,13 @@ function productCategorySubCategoryMenu() {
 			}
 		}
 		//console.log(categoryNum);
-
+		var html = '';
 		var className = '.data-category-area' + categoryNum + ' ul';
 		//console.log(className);
-
-		var html = $(className).prop('outerHTML');
+		$(className).each(function(){
+			html += $(this).prop('outerHTML');
+		});
+		
 		//console.log(html);
 
 		$('.category-subCategory-menu').each(function () {
