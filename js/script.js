@@ -378,7 +378,7 @@ function productCategorySubCategoryMenu() {
 		}
 		//console.log(categoryNum);
 
-		var className = '.data-catgory-area' + categoryNum + ' ul';
+		var className = '.data-category-area' + categoryNum + ' ul';
 		//console.log(className);
 
 		var html = $(className).prop('outerHTML');
@@ -3987,8 +3987,8 @@ function globalNavi() {
 	);
 	$('.globalNavi-productLevel1 span').on('click', function () {
 		var i = $(this).data('category-tab'),
-			target = '.data-catgory-area' + i;
-		$('[class^="data-catgory-area"]').not(target).slideUp(200);
+			target = '.data-category-area' + i;
+		$('[class^="data-category-area"]').not(target).slideUp(200);
 		$(target).slideDown(200);
 	});
 }
