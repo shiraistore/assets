@@ -386,8 +386,8 @@ function productCategorySubCategoryMenu() {
 		
 		//console.log(html);
 
-		$('.category-subCategory-menu').each(function () {
-			$(this).find('.category-subCategory-menuTitle').after(html);
+		$('.category-subCategory-menu-inner').each(function () {
+			$(this).html(html);
 		});
 
 		$('.category-subCategory-menu').css('display', 'block');
