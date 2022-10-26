@@ -467,19 +467,11 @@ function searchTagTitle(name, url) {
 		results = regex.exec(url);
 	if (!results) return null;
 	if (!results[2]) return '';
-<<<<<<< HEAD
 	if (results[2] == 'sale20221027-20221110') {
 		if (results != '') {
 			$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20221027-20221110_1184x240.jpg" alt="Tanalio SALE 対象商品"><br>Tanalio SALE 対象商品');
 			$('.fs-c-breadcrumb__listItem:last-child').text('Tanalio SALE 対象商品');
 			$('title').text('Tanalio SALE 対象商品');
-=======
-	if (results[2] == 'sale20220804-20220818') {
-		if (results != '') {
-			$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20220804-20220818_1184x240.jpg" alt="summer SALE 第2弾 対象商品"><br>summer SALE 第2弾 対象商品');
-			$('.fs-c-breadcrumb__listItem:last-child').text('summer SALE 第2弾 対象商品');
-			$('title').text('summer SALE 第2弾 対象商品');
->>>>>>> 7ac759fa011c6d4f84b0c6d16c3e9cee7e769803
 		}
 	} else if (results[2] == 'feature20220224') {
 		if (results != '') {
