@@ -1,8 +1,119 @@
+var timeCanNotSpecifiedZipCodes_result = undefined;
+
 $(window).on("load", function () {
     optionJudgment(); //order
     expectedArrival(); //order
     AddDeliveryMethodTitle();
 });
+
+function optionNameChange() {
+    if ($("#fs_Checkout,#fs_CheckoutWithAmazon").length) {
+        if (!$(".optionNameChanged").length) {
+            // 組立オプション指定があった場合のカート内表示変更
+            var productUrl = "";
+            var productUrl_ary = "";
+            var modelNumber = "";
+
+            // 該当するmodelNumberを配列に格納する
+            var optionHasProducts = [
+                "por-1830d-na",
+                "por-1830d-wh",
+                "por-1830d-dk",
+                "por-5530du-na",
+                "por-5530du-wh",
+                "por-5530du-dk",
+                "hnb-4540d",
+                "adl-4013dh-na",
+                "adl-4013dh-wh",
+                "adl-4013dh-dk",
+            ];
+
+			//CAUTION:カートのスクリプトと指定しているClassが異なる fs-c-cartTable__productName__name -> fs-c-listedProductName__name
+            $(".fs-c-listedProductName__name").each(function () {
+                // 商品のリンクを取得する
+                productUrl = $(this).attr("href");
+
+                // 配列にする
+                productUrl_ary = productUrl.split("/");
+
+                // リンクの最後の部分(型番)を取得
+                modelNumber = productUrl_ary[productUrl_ary.length - 1];
+                //console.log(modelNumber);
+                //optionHasProductsにmodelNumberがあるか判定する
+                var optionValue = "";
+                if (optionHasProducts.indexOf(modelNumber) != -1) {
+                    //modelNumberが該当商品であるか判定し処理を分岐
+                    if (modelNumber.match(/por-5530du|hnb-4540d|por-1830d/)) {
+                        //あるのであれば.fs-c-listedProductName__selection__choiceの値を取得する
+
+                        optionValue = $(this)
+                            .next(".fs-c-listedProductName__selection")
+                            .find(".fs-c-listedProductName__selection__choice")
+                            .text();
+                        optionValue = `（扉の開き方：${optionValue})`;
+                        //console.log(optionValue);
+
+                        //textとして挿入
+                        $(this)
+                            .next(".fs-c-listedProductName__selection")
+                            .find(".fs-c-listedProductName__selection__choice")
+                            .text(optionValue);
+                    } else if (modelNumber.match(/adl-4013dh/)) {
+                        optionValue = $(this)
+                            .next(".fs-c-listedProductName__selection")
+                            .find(".fs-c-listedProductName__selection__choice")
+                            .text();
+                        optionValue = `（組立の向き：${optionValue})`;
+                        //console.log(optionValue);
+
+                        $(this)
+                            .next(".fs-c-listedProductName__selection")
+                            .find(".fs-c-listedProductName__selection__choice")
+                            .text(optionValue);
+                    }
+                    $(this).addClass("optionNameChanged");
+                }
+            });
+        }
+    }
+}
+
+/* checkout checkTimeCanNotSpecifiedZipCodes
+========================================================================== */
+
+function checkTimeCanNotSpecifiedZipCodes(zipCode) {
+    var url =
+        "https://7yby6dyjdb.execute-api.ap-northeast-1.amazonaws.com/prod/";
+    var JSONdata = {
+        zip_code: zipCode,
+    };
+
+    //console.log(JSON.stringify(JSONdata));
+
+    var result = $.ajax({
+        type: "post",
+        url: url,
+        async: false,
+        data: JSON.stringify(JSONdata),
+        contentType: "application/json",
+        dataType: "json",
+        scriptCharset: "utf-8",
+        success: function (data) {
+            // Success
+            // console.log("success");
+            // console.log(JSON.stringify(data));
+            // $("#response").html(JSON.stringify(data));
+        },
+        error: function (data) {
+            // Error
+            // console.log("error");
+            //console.log(JSON.stringify(data));
+            //$("#response").html(JSON.stringify(data));
+        },
+    }).responseText;
+
+    return result;
+}
 
 /* checkout couponUseCheck
 ========================================================================== */
@@ -44,12 +155,10 @@ function sizeOrderDisplayThumb() {
         ) {
             $(this).find(".fs-c-cartTable__product").addClass("sizeOrder");
         } else {
-			$(this).find(".fs-c-cartTable__product").addClass("readyMade");
-		}
-		//console.log("AAAA");
+            $(this).find(".fs-c-cartTable__product").addClass("readyMade");
+        }
+        //console.log("AAAA");
     });
-
-    
 
     var orderDetails = "",
         orderType = "",
@@ -233,7 +342,7 @@ function sizeOrderDisplayThumb() {
                         orderColor +
                         "_thum.jpg";
 
-                    console.log(thumbnail);
+                    //console.log(thumbnail);
 
                     $(this)
                         .find("img")
@@ -296,14 +405,17 @@ function sizeOrderDisplayThumb() {
         }
     }
 
-	if ($('.readyMade').length) {
-		$('.readyMade img').each(function () {
-			var readyMadeImage = $(this).attr('src');
-			readyMadeImage = readyMadeImage.replace(/[0-9]{2}-xs.jpg/,'02-xs.jpg');
-			//console.log(readyMadeImage);
-			$(this).attr('src',readyMadeImage);
-		});
-	}
+    if ($(".readyMade").length) {
+        $(".readyMade img").each(function () {
+            var readyMadeImage = $(this).attr("src");
+            readyMadeImage = readyMadeImage.replace(
+                /[0-9]{2}-xs.jpg/,
+                "02-xs.jpg"
+            );
+            //console.log(readyMadeImage);
+            $(this).attr("src", readyMadeImage);
+        });
+    }
     //}, 1000);
     //}
 }
@@ -344,12 +456,15 @@ function optionJudgment() {
             });
         };
 
+        //console.log('A:',timeCanNotSpecifiedZipCodes_result)
         setInterval(function () {
+            //console.log('B:',timeCanNotSpecifiedZipCodes_result)
             var zipCode = $(
                 ".fs-c-checkout-destination__address .fs-c-checkout-destination__address__zipCode"
             )
                 .text()
                 .replace("-", "");
+
             if (zipCode != undefined) {
                 var result = $.inArray(zipCode, zipCodeArray);
 
@@ -423,6 +538,58 @@ function optionJudgment() {
                             orderEnabled();
                             if ($(".deliveryMethodAlert").length) {
                                 $(".deliveryMethodAlert").remove();
+                            }
+                        }
+                    }
+
+                    //console.log(timeCanNotSpecifiedZipCodes_result);
+
+                    if (deliveryTime != "指定なし") {
+                        //組立設置サービスは日時指定が必須
+                        //(timeCanNotSpecifiedZipCodes_result);
+                        var optionArray = [];
+                        $(".fs-c-listedOptionPrice__option__value").each(
+                            function () {
+                                optionArray.push($(this).text());
+                            }
+                        );
+                        var optionResult = $.inArray("組立設置", optionArray);
+                        //console.log(optionResult);
+                        if (optionResult < 0) {
+                            if (
+                                timeCanNotSpecifiedZipCodes_result == undefined
+                            ) {
+                                timeCanNotSpecifiedZipCodes_result =
+                                    checkTimeCanNotSpecifiedZipCodes(zipCode);
+
+                                if (
+                                    timeCanNotSpecifiedZipCodes_result == "true"
+                                ) {
+                                    $(
+                                        "#fs_button_changeDeliveryMethod button.fs-c-button--change--small"
+                                    ).trigger("click");
+                                    setTimeout(function () {
+                                        $("#fs_input_expectedArrival_time").val(
+                                            "none"
+                                        );
+                                        setTimeout(function () {
+                                            $(
+                                                "#__fs_modal_delivery button.fs-c-button--settings"
+                                            ).trigger("click");
+                                        }, 100);
+                                    }, 100);
+                                    $(".fs-l-page").before(
+                                        '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>このお届け先は時間指定ができません</h4><p>配送業者がお届け時間指定に対応していないため「指定なし」に変更されました。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
+                                    );
+                                    $(".confirmOrderAlert-button").on(
+                                        "click",
+                                        function () {
+                                            $("#confirmOrderAlert").remove();
+                                            timeCanNotSpecifiedZipCodes_result =
+                                                undefined;
+                                        }
+                                    );
+                                }
                             }
                         }
                     }
@@ -503,7 +670,7 @@ function optionJudgment() {
                             )
                         ) {
                             $(".fs-l-page").before(
-                                '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>【お知らせ】</h4><p>申し訳ございませんが、組立サービスをお申し込みの場合は代金引換をご利用いただけません</p><p>該当する商品をカートから削除し、組立サービスを選択せずに再度カートに入れてからご注文ください。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
+                                '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>代金引換をご利用いただけません</h4><p>申し訳ございませんが、組立サービスをお申し込みの場合は代金引換をご利用いただけません。</p><p>該当する商品をカートから削除し、組立サービスを選択せずに再度カートに入れてからご注文ください。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
                             );
                             $(
                                 ".fs-c-checkout-paymentMethodList li:nth-child(2) label"
@@ -550,7 +717,7 @@ function optionJudgment() {
                             )
                         ) {
                             $(".fs-l-page").before(
-                                '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>【お知らせ】</h4><p>申し訳ございませんが、サイズオーダーをお申し込みの場合は代金引換をご利用いただけません</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
+                                '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>代金引換をご利用いただけません</h4><p>申し訳ございませんが、サイズオーダーをお申し込みの場合は代金引換をご利用いただけません。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
                             );
                             $(
                                 ".fs-c-checkout-paymentMethodList li:nth-child(2) label"
@@ -586,7 +753,7 @@ function optionJudgment() {
                             )
                         ) {
                             $(".fs-l-page").before(
-                                '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>【お知らせ】</h4><p>申し訳ございませんが、お届け先が沖縄・離島の場合は代金引換をご利用いただけません</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
+                                '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>代金引換をご利用いただけません</h4><p>申し訳ございませんが、お届け先が沖縄・離島の場合は代金引換をご利用いただけません。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
                             );
                             $(
                                 ".fs-c-checkout-paymentMethodList li:first-child label"
@@ -638,8 +805,8 @@ function optionJudgment() {
             );
             sizeOrderDisplayThumb();
             couponUseCheck();
+            optionNameChange();
         }, 1000);
-
     }
 }
 
@@ -682,7 +849,7 @@ function expectedArrival() {
                         }, 100);
                     }, 100);
                     $(".fs-l-page").before(
-                        '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>【お知らせ】</h4><p>お届け指定日時が「指定なし」に変更されました。お届け指定日時を再設定してください。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
+                        '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>お届け指定日時が「指定なし」に変更されました</h4><p>再読み込みがされたため、お届け指定日時が「指定なし」に変更されました。お届け指定日時を再設定してください。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
                     );
                     $(".confirmOrderAlert-button").on("click", function () {
                         $("#confirmOrderAlert").remove();
@@ -1296,12 +1463,14 @@ function expectedArrival() {
                             }, 100);
 
                             $(".fs-l-page").before(
-                                '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>【お知らせ】</h4><p>お支払い方法が銀行振込に変更されたため、<span class="red">お届け希望日時を再度指定</span>してください。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
+                                '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>お届け希望日時が「指定なし」に変更されました</h4><p>届け先住所が変更されたため、<span class="red">お届け希望日時を再度指定</span>してください。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
                             );
                             $(".confirmOrderAlert-button").on(
                                 "click",
                                 function () {
                                     $("#confirmOrderAlert").remove();
+                                    timeCanNotSpecifiedZipCodes_result =
+                                        undefined;
                                 }
                             );
                         }
@@ -1342,12 +1511,14 @@ function expectedArrival() {
                                 }, 100);
 
                                 $(".fs-l-page").before(
-                                    '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>【お知らせ】</h4><p>お支払い方法が銀行振込に変更されたため、<span class="red">お届け希望日時を再度指定</span>してください。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
+                                    '<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>お届け希望日時が「指定なし」に変更されました</h4><p>お支払い方法が銀行振込に変更されたため、<span class="red">お届け希望日時を再度指定</span>してください。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
                                 );
                                 $(".confirmOrderAlert-button").on(
                                     "click",
                                     function () {
                                         $("#confirmOrderAlert").remove();
+                                        timeCanNotSpecifiedZipCodes_result =
+                                            undefined;
                                     }
                                 );
                             }
