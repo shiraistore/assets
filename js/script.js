@@ -1,4 +1,7 @@
 $(function () {
+	// $('.fs-c-productList__list a').each(function(){
+	// 	console.log($(this).attr('href'));
+	// })
 	previewModeDecision(); //OK
 	getUrlRedirect_20220422();
 	rewriteDOM(); //OK
@@ -1022,11 +1025,14 @@ function searchFilterTnl() {
 	if ($('#fs_ProductSearch').length || $('.fs-body-category-tnl').length) {
 		var param = decodeURIComponent(location.search).replace('?', '');
 		params = param.split(/\+|=|&/);
-		//console.log(params);
+		console.log(params);
 
-		if ($.inArray('search-tnl', params) > 0 || $('.fs-body-category-tnl').length) {
-			$('#fs_ProductSearch h1').text('タナリオ サイズ絞り込み検索');
-			$('.fs-c-breadcrumb__listItem:last-child').text('タナリオ サイズ絞り込み検索');
+		if ($.inArray('search-tnl', params) > 0 || $.inArray('sale20221027-20221110', params) > 0 || $('.fs-body-category-tnl').length) {
+			if(!$.inArray('sale20221027-20221110', params) > 0){
+				$('#fs_ProductSearch h1').text('タナリオ サイズ絞り込み検索');
+				$('.fs-c-breadcrumb__listItem:last-child').text('タナリオ サイズ絞り込み検索');
+			}
+			
 			$('.fs-c-productList__list').before(
 				'<div id="productSearchBox" class="tnl"><h4>サイズで絞り込む</h4><select id="tnl-width"><option value="">横幅</option><option value="幅31cm">幅31cm</option><option value="幅44cm">幅44cm</option><option value="幅59cm">幅59cm</option><option value="幅87cm">幅87cm</option><option value="幅117cm">幅117cm</option></select><select id="tnl-height"><option value="">高さ</option><option value="高さ60cm">高さ60cm</option><option value="高さ90cm">高さ90cm</option><option value="高さ120cm">高さ120cm</option><option value="高さ150cm">高さ150cm</option><option value="高さ180cm">高さ180cm</option><option value="高さ198cm">高さ198cm</option></select><button>絞り込む</button></div>'
 			);
