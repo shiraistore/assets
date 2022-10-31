@@ -325,7 +325,7 @@ function tnl_em_select() {
 						optionMaterial = $('#tnl_em [name=tnl_em_optionMaterial]:checked').val(),
 						optionMaterialName = $('#tnl_em [name=tnl_em_optionMaterial]:checked').data('typename'),
 						optionColor = $('#tnl_em [name=tnl_em_optionColor]:checked').val(),
-						optionColorName = $('#tnl_em [name=tnl_em_optionColor]:checked').data('colorName'),
+						optionColorName = $('#tnl_em [name=tnl_em_optionColor]:checked').data('colorname'),
 						optionColor_length = $('#tnl_em input[name=tnl_em_optionColor]').length,
 						optionADIS = $('#tnl_em [name=tnl_em_optionADIS]').val(),
 						optionADISName = $('#tnl_em [name=tnl_em_optionADIS] option:selected').data('typename'),
@@ -417,7 +417,7 @@ function tnl_em_select() {
 						});
 
 						optionColor = $('#tnl_em [name=tnl_em_optionColor]:checked').val();
-						optionColorName = $('#tnl_em [name=tnl_em_optionColor]:checked').data('colorName');
+						optionColorName = $('#tnl_em [name=tnl_em_optionColor]:checked').data('colorname');
 					}
 
 					if (optionColor == 'NA' || optionColor == 'DK' || optionColor == 'WH') {
@@ -460,6 +460,7 @@ function tnl_em_select() {
 					} else {
 						var optionTextInversion = '';
 					}
+					console.log(optionColorName);
 					$('#tnl_em_selectedColor').html('<img src="/assets/img/product/sizeOrder/tnl-em/thum/tnl-em_color_' + optionColor.toLowerCase() + '_thum.jpg"><span class="colorName ' + optionTextInversion + '">' + optionColorName + '</span>');
 
 					readyMadeFlag_check = readyMadeFlag_width + readyMadeFlag_depth + readyMadeFlag_strength + readyMadeFlag_material + readyMadeFlag_color;
@@ -496,7 +497,7 @@ function tnl_em_select() {
 							$('#productPriceBox .fs-c-price__value').text(price.sellingPrice.toLocaleString());
 						}
 						$('#productPriceBox .fs-c-productPointDisplay__quantity').text(Math.round(price.sellingPrice / 100));
-						$('.fs-c-productPostage .fs-c-price__value').text(price.postage.toLocaleString());
+						//$('.fs-c-productPostage .fs-c-price__value').text(price.postage.toLocaleString());
 
 						if (Number(optionHeight) < 198) {
 							var html =
@@ -628,7 +629,7 @@ function tnl_emu_select() {
 						optionMaterial = $('#tnl_emu [name=tnl_emu_optionMaterial]:checked').val(),
 						optionMaterialName = $('#tnl_emu [name=tnl_emu_optionMaterial]:checked').data('typename'),
 						optionColor = $('#tnl_emu [name=tnl_emu_optionColor]:checked').val(),
-						optionColorName = $('#tnl_emu [name=tnl_emu_optionColor]:checked').data('colorName'),
+						optionColorName = $('#tnl_emu [name=tnl_emu_optionColor]:checked').data('colorname'),
 						optionColor_length = $('#tnl_emu input[name=tnl_emu_optionColor]').length,
 						optionADIS = $('#tnl_emu [name=tnl_emu_optionADIS]').val(),
 						optionADISName = $('#tnl_emu [name=tnl_emu_optionADIS] option:selected').data('typename'),
@@ -637,7 +638,7 @@ function tnl_emu_select() {
 						productSizeImage = 0;
 
 					optionColor = $('#tnl_emu [name=tnl_emu_optionColor]:checked').val();
-					optionColorName = $('#tnl_emu [name=tnl_emu_optionColor]:checked').data('colorName');
+					optionColorName = $('#tnl_emu [name=tnl_emu_optionColor]:checked').data('colorname');
 
 					if (optionDepth == 'M') {
 						$('#tnl_emu input[name=tnl_emu_optionColor]').parent('label').css('display', 'block');
@@ -662,7 +663,7 @@ function tnl_emu_select() {
 						});
 
 						optionColor = $('#tnl_emu [name=tnl_emu_optionColor]:checked').val();
-						optionColorName = $('#tnl_emu [name=tnl_emu_optionColor]:checked').data('colorName');
+						optionColorName = $('#tnl_emu [name=tnl_emu_optionColor]:checked').data('colorname');
 					}
 
 					switch (arraySizeRangeValue) {
@@ -806,7 +807,7 @@ function tnl_emts_select() {
 						optionMaterial = $('#tnl_emts [name=tnl_emts_optionMaterial]:checked').val(),
 						optionMaterialName = $('#tnl_emts [name=tnl_emts_optionMaterial]:checked').data('typename'),
 						optionColor = $('#tnl_emts [name=tnl_emts_optionColor]:checked').val(),
-						optionColorName = $('#tnl_emts [name=tnl_emts_optionColor]:checked').data('colorName'),
+						optionColorName = $('#tnl_emts [name=tnl_emts_optionColor]:checked').data('colorname'),
 						optionColor_length = $('#tnl_emts input[name=tnl_emts_optionColor]').length,
 						arraySizeRange = ['015_034', '035_044', '045_060', '061_070', '071_080', '081_090'],
 						arraySizeRangeValue = arraySizeRange[$('#tnl_emts [name=tnl_emts_optionWidth] option:selected').data('digit2') - 1],
@@ -851,7 +852,7 @@ function tnl_emts_select() {
 						});
 
 						optionColor = $('#tnl_emts [name=tnl_emts_optionColor]:checked').val();
-						optionColorName = $('#tnl_emts [name=tnl_emts_optionColor]:checked').data('colorName');
+						optionColorName = $('#tnl_emts [name=tnl_emts_optionColor]:checked').data('colorname');
 					}
 
 					if (optionColor == 'NA' || optionColor == 'DK' || optionColor == 'WH') {
