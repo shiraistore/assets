@@ -1025,20 +1025,22 @@ function searchFilterTnl() {
 	if ($('#fs_ProductSearch').length || $('.fs-body-category-tnl').length) {
 		var param = decodeURIComponent(location.search).replace('?', '');
 		params = param.split(/\+|=|&/);
-		console.log(params);
+		console.log(param);
+		console.log(param.indexOf('search-tnl'));
 
-		if ($.inArray('search-tnl', params) > 0 || $.inArray('sale20221027-20221110', params) > 0 || $('.fs-body-category-tnl').length) {
-			if(!$.inArray('sale20221027-20221110', params) > 0){
+		if ( param.indexOf('search-tnl') > -1 || param.indexOf('sale20221027-20221110') > -1 || $('.fs-body-category-tnl').length) {
+			if(!param.indexOf('sale20221027-20221110') > -1){
 				$('#fs_ProductSearch h1').text('タナリオ サイズ絞り込み検索');
 				$('.fs-c-breadcrumb__listItem:last-child').text('タナリオ サイズ絞り込み検索');
 			}
 			
 			$('.fs-c-productList__list').before(
-				'<div id="productSearchBox" class="tnl"><h4>サイズで絞り込む</h4><select id="tnl-width"><option value="">横幅</option><option value="幅31cm">幅31cm</option><option value="幅44cm">幅44cm</option><option value="幅59cm">幅59cm</option><option value="幅87cm">幅87cm</option><option value="幅117cm">幅117cm</option></select><select id="tnl-height"><option value="">高さ</option><option value="高さ60cm">高さ60cm</option><option value="高さ90cm">高さ90cm</option><option value="高さ120cm">高さ120cm</option><option value="高さ150cm">高さ150cm</option><option value="高さ180cm">高さ180cm</option><option value="高さ198cm">高さ198cm</option></select><button>絞り込む</button></div>'
+				'<div id="productSearchBox" class="tnl"><h4>サイズで絞り込む</h4><select id="tnl-width"><option value="">横幅</option><option value="幅31cm">幅31cm</option><option value="幅44cm">幅44cm</option><option value="幅59cm">幅59cm</option><option value="幅87cm">幅87cm</option><option value="幅117cm">幅117cm</option></select><select id="tnl-height"><option value="">高さ</option><option value="高さ60cm">高さ60cm</option><option value="高さ90cm">高さ90cm</option><option value="高さ120cm">高さ120cm</option><option value="高さ150cm">高さ150cm</option><option value="高さ180cm">高さ180cm</option><option value="高さ198cm">高さ198cm</option></select><select id="tnl-color"><option value="">カラー</option><option value="ナチュラルブラウン">ナチュラルブラウン</option><option value="ダークブラウン">ダークブラウン</option><option value="ホワイト">ホワイト（白木目）</option></select><button>絞り込む</button></div>'
 			);
 
 			var selectedWidth = '',
-				selectedHeight = '';
+				selectedHeight = '',
+				selectedColor = '';
 
 			if (params.indexOf('幅31cm') > 0) {
 				selectedWidth = '幅31cm';
@@ -1067,8 +1069,17 @@ function searchFilterTnl() {
 				selectedHeight = '高さ198cm';
 			}
 
+			if (param.indexOf('ナチュラルブラウン') > 0) {
+				selectedColor = 'ナチュラルブラウン';
+			} else if (param.indexOf('ダークブラウン') > 0) {
+				selectedColor = 'ダークブラウン';
+			} else if (param.indexOf('ホワイト') > 0) {
+				selectedColor = 'ホワイト';
+			}
+
 			$('#productSearchBox.tnl #tnl-width').val(selectedWidth);
 			$('#productSearchBox.tnl #tnl-height').val(selectedHeight);
+			$('#productSearchBox.tnl #tnl-color').val(selectedColor);
 
 			var flag = 0;
 			$(document).on('change', '#productSearchBox.tnl #tnl-width', function () {
@@ -1088,6 +1099,7 @@ function searchFilterTnl() {
 			$('#productSearchBox.tnl button').on('click', function () {
 				var width = $('#productSearchBox.tnl #tnl-width').val(),
 					height = $('#productSearchBox.tnl #tnl-height').val(),
+					color = $('#productSearchBox.tnl #tnl-color').val(),
 					type = '';
 				if (width) {
 					type = '+' + width;
@@ -1095,7 +1107,10 @@ function searchFilterTnl() {
 				if (height) {
 					type = type + '+' + height;
 				}
-				window.location.href = 'https://shirai-store.net/p/search?tag=search-tnl&keyword=%E3%82%BF%E3%83%8A%E3%83%AA%E3%82%AA' + type + '&sort=price_low';
+				if (color) {
+					color = ',' + color;
+				}
+				window.location.href = 'https://shirai-store.net/p/search?tag=search-tnl'+color+'&keyword=%E3%82%BF%E3%83%8A%E3%83%AA%E3%82%AA' + type + '&sort=price_low';
 			});
 		}
 	}
