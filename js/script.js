@@ -90,35 +90,35 @@ $(function () {
 	windowWidthprocessingChange(); //javaScriptParts
 	windowWidthDOMChange(); //javaScriptParts
 
-	if ($('#fs_ShoppingCart').length) {
-		//オプション
-		const options = {
-			childList: true, //直接の子の変更を監視
-			characterData: true, //文字の変化を監視
-			characterDataOldValue: true, //属性の変化前を記録
-			attributes: true, //属性の変化を監視
-			subtree: true, //全ての子要素を監視
-		};
-		//コールバック関数
-		function callback(mutationsList, observer) {
-			for (const mutation of mutationsList) {
-				// 処理
-				mutation.target; //ターゲット要素
-				mutation.addedNodes; //追加されたDOM
-				mutation.removedNodes; //削除されたDOM
-			}
-			console.log('変化あり');
-			//ターゲット要素の監視を停止
-			// obs.disconnect();
-		}
+	// if ($('#fs_ShoppingCart').length) {
+	// 	//オプション
+	// 	const options = {
+	// 		childList: true, //直接の子の変更を監視
+	// 		characterData: true, //文字の変化を監視
+	// 		characterDataOldValue: true, //属性の変化前を記録
+	// 		attributes: true, //属性の変化を監視
+	// 		subtree: true, //全ての子要素を監視
+	// 	};
+	// 	//コールバック関数
+	// 	function callback(mutationsList, observer) {
+	// 		for (const mutation of mutationsList) {
+	// 			// 処理
+	// 			mutation.target; //ターゲット要素
+	// 			mutation.addedNodes; //追加されたDOM
+	// 			mutation.removedNodes; //削除されたDOM
+	// 		}
+	// 		//console.log('変化あり');
+	// 		//ターゲット要素の監視を停止
+	// 		// obs.disconnect();
+	// 	}
 
-		//ターゲット要素をDOMで取得
-		const target = document.querySelector('#fs-cartContent-container');
-		//インスタンス化
-		const obs = new MutationObserver(callback);
-		//ターゲット要素の監視を開始
-		obs.observe(target, options);
-	}
+	// 	//ターゲット要素をDOMで取得
+	// 	const target = document.querySelector('#fs-cartContent-container');
+	// 	//インスタンス化
+	// 	const obs = new MutationObserver(callback);
+	// 	//ターゲット要素の監視を開始
+	// 	obs.observe(target, options);
+	// }
 });
 
 $(window).on('load', function () {
@@ -256,7 +256,7 @@ function orderChangeCancelForm() {
 		});
 
 		var orderCode = getParam('orderCode');
-		console.log(orderCode);
+		// console.log(orderCode);
 		if (orderCode !== '') {
 			$('.orderCode').each(function () {
 				$(this).val(orderCode);
@@ -624,7 +624,6 @@ function magazineImageChange() {
 ========================================================================== */
 function faqAnswerOpen() {
 	$('#faq dt span').click(function () {
-		//console.log('A');
 		$(this).parents('dt').next('dd').slideToggle();
 	});
 }
@@ -636,7 +635,8 @@ function product_tagsLink() {
 		var array = $('#product-tagList').text().split(',');
 		$('#product-tagList').text('');
 		$.each(array, function (i, value) {
-			$('#product-tagList').append('<a href="/p/search?tag=' + encodeURIComponent(value) + '">' + value + '</a>');
+			urlTag = value.replace(' ','');
+			$('#product-tagList').append('<a href="/p/search?tag=' + encodeURIComponent(urlTag) + '">' + value + '</a>');
 		});
 	}
 }
@@ -1025,8 +1025,8 @@ function searchFilterTnl() {
 	if ($('#fs_ProductSearch').length || $('.fs-body-category-tnl').length) {
 		var param = decodeURIComponent(location.search).replace('?', '');
 		params = param.split(/\+|=|&/);
-		console.log(param);
-		console.log(param.indexOf('search-tnl'));
+		// console.log(param);
+		// console.log(param.indexOf('search-tnl'));
 
 		if ( param.indexOf('search-tnl') > -1 || param.indexOf('sale20221027-20221110') > -1 || $('.fs-body-category-tnl').length) {
 			if(!param.indexOf('sale20221027-20221110') > -1){
@@ -1185,7 +1185,7 @@ function rewriteDOM() {
 
 		var url = location.pathname;
 		var seriseCode = url.split('/').pop();
-		console.log('seriseCode:', seriseCode);
+		// console.log('seriseCode:', seriseCode);
 
 		if (seriseCode.indexOf('tnl-t') != -1) {
 			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div>【サイズオーダー】ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-emts">横幅1cm単位でご注文はこちら</a></div></div>');
@@ -1207,7 +1207,7 @@ function rewriteDOM() {
 			);
 		}
 
-		console.log('match:', seriseCode.match(/.*sep-[0-9]{4}?-.*/));
+		// console.log('match:', seriseCode.match(/.*sep-[0-9]{4}?-.*/));
 	}
 
 	if ($('#fs_ShoppingCart').length) {
