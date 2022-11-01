@@ -634,8 +634,9 @@ function product_tagsLink() {
 	if ($('#fs_ProductDetails').length) {
 		var array = $('#product-tagList').text().split(',');
 		$('#product-tagList').text('');
+		console.log('A');
 		$.each(array, function (i, value) {
-			urlTag = value.replace(' ','');
+			urlTag = value.replace(/ /g,'');
 			$('#product-tagList').append('<a href="/p/search?tag=' + encodeURIComponent(urlTag) + '">' + value + '</a>');
 		});
 	}
