@@ -1255,14 +1255,14 @@ function rewriteDOM() {
 	}
 
 	//カテゴリページ制御
-	if ($('body[class*="fs-body-category-"]').length) {
-		//シリーズ商品一覧メイン画像
-		var seriesUrl = location.pathname.replace('/c/series/', '');
-		//console.log(seriesUrl);
-		if (seriesUrl != 'wlk' && seriesUrl != 'mdl' && seriesUrl != 'mhp') {
-			$('#category-series-visual').html('<img src="https://shiraistore.itembox.design/item/src/series/main-' + seriesUrl + '.jpg" alt="">');
-		}
-	}
+	// if ($('body[class*="fs-body-category-"]').length) {
+	// 	//シリーズ商品一覧メイン画像
+	// 	var seriesUrl = location.pathname.replace('/c/series/', '');
+	// 	//console.log(seriesUrl);
+	// 	if (seriesUrl != 'wlk' && seriesUrl != 'mdl') {
+	// 		$('#category-series-visual').html('<img src="https://shiraistore.itembox.design/item/src/series/main-' + seriesUrl + '.jpg" alt="">');
+	// 	}
+	// }
 
 	//カートページのサイズオーダー商品サムネイル表示
 	if ($('#fs_ShoppingCart').length) {
