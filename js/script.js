@@ -402,6 +402,7 @@ function productCategorySubCategoryMenu() {
 
 function topMainVisualSlider() {
 	if ($('#fs_Top').length) {
+		$('#mainVisual-slider').css('display','block');
 		$('#mainVisual-slider').slick({
 			autoplay: true,
 			dots: true,
