@@ -882,7 +882,7 @@ function tnl_emts_select() {
 
 					$('#tnl_emts_selectedProductImage').html('<img src="/assets/img/product/sizeOrder/tnl-em/TNL-EMTS' + arraySizeRangeValue + optionDepth + '-' + optionColor + '.jpg">');
 					$('#tnl_emts_selectedProductImageText').html('<p>※画像はタナリオ本体の横幅' + productSizeImage + 'cm用です</p>');
-					$('#tnl_emts_selectedProductWidthImage').html('<img src="/assets/img/product/sizeOrder/tnl-em/' + 'tnl-emts_width' + arraySizeRangeValue + '.png">');
+					$('#tnl_emts_selectedProductWidthImage').html('<img src="/assets/img/product/sizeOrder/tnl-em/' + 'tnl-emts_width' + arraySizeRangeValue + '_rev2.png">');
 					$('#tnl_emts_selectedWidth').text(Number(optionWidth) + 'cm');
 					$('#tnl_emts_selectedDepth').text(optionDepthName);
 					$('#tnl_emts_selectedStrength').text(optionStrengthName);
