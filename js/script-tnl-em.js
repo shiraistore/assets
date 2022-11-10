@@ -299,8 +299,8 @@ function tnl_em_introduction() {
 function tnl_em_select() {
 	if ($('#tnl_em').length) {
 		$.getJSON(
-			//"https://cdn.shirai-store.net/assets/json/common/tnlSizeOrderPrice_v1_1.json",
-			'https://cdn.shirai-store.net/assets/json/common/tnlSizeOrderPrice_sale_v1_1.json',
+			"https://cdn.shirai-store.net/assets/json/common/tnlSizeOrderPrice_v1_1.json",
+			//'https://cdn.shirai-store.net/assets/json/common/tnlSizeOrderPrice_sale_v1_1.json',
 			function (priceArray) {
 				tnl_em_selectWrite(priceArray);
 				$('#tnl_em input[type="radio"],#tnl_em select').change(function () {
