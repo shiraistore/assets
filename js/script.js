@@ -34,8 +34,8 @@ $(function () {
 	instagramPostList(); //OK
 	soldOut(); //OK
 
-	advancedSearchForm();
-	advancedSearchFormSelected();
+	// advancedSearchForm();
+	// advancedSearchFormSelected();
 
 	//em_transfer();
 	featureMamihapiSeries_slider(); //OK
@@ -389,7 +389,7 @@ function advancedSearchFormURL(is_noResultForm) {
 	//var param = `${keyword}${tags}${price}&mode=advanceSearch`;
 	var param = `${tags}${price}&mode=advanceSearch`;
 	param = param.slice(1);
-	console.log(param);
+	//console.log(param);
 	window.location.href = `/p/search?${param}`;
 }
 
@@ -733,7 +733,7 @@ function searchTagTitle() {
 	} else {
 		console.log('params:', params);
 		//if (params.mode == 'advanceSearch') {
-			console.log(params.tag);
+			//console.log(params.tag);
 			var tags_html = '';
 			if (params.tag != undefined) {
 				var tags = params.tag.split(',');
@@ -858,7 +858,6 @@ function product_tagsLink() {
 	if ($('#fs_ProductDetails').length) {
 		var array = $('#product-tagList').text().split(',');
 		$('#product-tagList').text('');
-		console.log('A');
 		$.each(array, function (i, value) {
 			urlTag = value.replace(/ /g, '');
 			$('#product-tagList').append('<a href="/p/search?tag=' + encodeURIComponent(urlTag) + '">' + value + '</a>');
