@@ -20,7 +20,7 @@ $(function () {
 	timeSale(); //OK
 	product_tagsLink(); //OK
 	searchWordSave('keyword'); //OK
-	searchTagTitle('tag'); //OK
+	searchTagTitle(); //OK
 	productSortSelect(); //OK
 	productCategoryRankingDisplayNone(); //OK
 	productCategorySubCategoryMenu(); //OK
@@ -239,7 +239,6 @@ function getUrlRedirect_20220422() {
 ========================================================================== */
 
 function advancedSearchForm() {
-
 	//検索ボタンを押したら詳細検索フォームが開く
 	$('#header-keywordSearch .keywordSearch').on('click', function () {
 		if ($('#header-keywordSearch .advancedSearchForm').css('display') == 'none') {
@@ -286,7 +285,7 @@ function advancedSearchForm() {
 	//インプット要素を取得する
 
 	//インプット要素がクリックされたら
-	$('.fs-c-radio__label,.fs-c-checkbox__label').on('click', function () {
+	$('#advancedSearchForm .fs-c-radio__label, #advancedSearchForm .fs-c-checkbox__label').on('click', function () {
 		var inputElement = $(this).prev('input');
 
 		if (inputElement.prop('checked')) {
@@ -702,110 +701,28 @@ function productSortSelect() {
 /* Search tag title
 ========================================================================== */
 //セール会場用バナー表示
-function searchTagTitle(name, url) {
-	if (!url) url = window.location.href;
-	name = name.replace(/[\[\]]/g, '\\$&');
-	var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-		results = regex.exec(url);
-	if (!results) return null;
-	if (!results[2]) return '';
-	if (results[2] == 'sale20221027-20221110') {
-		if (results != '') {
-			$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20221027-20221110_1184x240.jpg" alt="Tanalio SALE 対象商品"><br>Tanalio SALE 対象商品');
-			$('.fs-c-breadcrumb__listItem:last-child').text('Tanalio SALE 対象商品');
-			$('title').text('Tanalio SALE 対象商品');
-		}
-	} else if (results[2] == 'feature20220224') {
-		if (results != '') {
-			$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/featurePage-banner-feature20220224_1184x240.jpg" alt="入園入学の準備"><br>入園入学の準備');
-			$('.fs-c-breadcrumb__listItem:last-child').text('入園入学の準備');
-			$('title').text('入園入学の準備');
-		}
-	} else if (results[2] == 'sale20220922-20221013') {
-		if (results != '') {
-			$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20220922-20221013_1184x240.jpg" alt="Autumn SALE 対象商品"><br>Autumn SALE 対象商品');
-			$('.fs-c-breadcrumb__listItem:last-child').text('Autumn SALE 対象商品');
-			$('title').text('Autumn SALE 対象商品');
-
-			/*
-            console.log('XXXX');
-
-            var param = decodeURIComponent(location.search).replace('?', '');
-            params = param.split(/\+|=|&/);
-            //console.log(params);
-            $('.fs-c-productList__list').before('<div id="productSearchBox" class="tnl"><h4>サイズで絞り込む</h4><select id="tnl-width"><option value="">横幅</option><option value="幅31cm">幅31cm</option><option value="幅44cm">幅44cm</option><option value="幅59cm">幅59cm</option><option value="幅87cm">幅87cm</option><option value="幅117cm">幅117cm</option></select><select id="tnl-height"><option value="">高さ</option><option value="高さ60cm">高さ60cm</option><option value="高さ90cm">高さ90cm</option><option value="高さ120cm">高さ120cm</option><option value="高さ150cm">高さ150cm</option><option value="高さ180cm">高さ180cm</option><option value="高さ198cm">高さ198cm</option></select><button>絞り込む</button></div>');
-
-            var selectedWidth = '',
-                selectedHeight = '';
-
-            if (params.indexOf('幅31cm') > 0) {
-                selectedWidth = '幅31cm';
-            } else if (params.indexOf('幅44cm') > 0) {
-                selectedWidth = '幅44cm';
-            } else if (params.indexOf('幅59cm') > 0) {
-                selectedWidth = '幅59cm';
-            } else if (params.indexOf('幅87cm') > 0) {
-                selectedWidth = '幅87cm';
-            } else if (params.indexOf('幅117cm') > 0) {
-                selectedWidth = '幅117cm';
-                $('#tnl-height').html('<option value="" selected>高さ</option><option value="高さ60cm">高さ60cm</option><option value="高さ90cm">高さ90cm</option></select>');
-            }
-
-            if (params.indexOf('高さ60cm') > 0) {
-                selectedHeight = '高さ60cm';
-            } else if (params.indexOf('高さ90cm') > 0) {
-                selectedHeight = '高さ90cm';
-            } else if (params.indexOf('高さ120cm') > 0) {
-                selectedHeight = '高さ120cm';
-            } else if (params.indexOf('高さ150cm') > 0) {
-                selectedHeight = '高さ150cm';
-            } else if (params.indexOf('高さ180cm') > 0) {
-                selectedHeight = '高さ180cm';
-            } else if (params.indexOf('高さ198cm') > 0) {
-                selectedHeight = '高さ198cm';
-            }
-
-            $('#productSearchBox.tnl #tnl-width').val(selectedWidth);
-            $('#productSearchBox.tnl #tnl-height').val(selectedHeight);
-
-            var flag = 0;
-            $(document).on('change', '#productSearchBox.tnl #tnl-width', function () {
-                if ($('#productSearchBox.tnl #tnl-width').val() == '幅117cm') {
-                    $('#tnl-height').html('<option value="">高さ</option><option value="高さ60cm">高さ60cm</option><option value="高さ90cm">高さ90cm</option></select>');
-                    flag = 1;
-                } else {
-                    if (flag == 1) {
-                        $('#tnl-height').html('<option value="">高さ</option><option value="高さ60cm">高さ60cm</option><option value="高さ90cm">高さ90cm</option><option value="高さ120cm">高さ120cm</option><option value="高さ150cm">高さ150cm</option><option value="高さ180cm">高さ180cm</option><option value="高さ198cm">高さ198cm</option></select>');
-                        flag = 0;
-                    }
-                }
-            });
-
-            $('#productSearchBox.tnl button').on('click', function () {
-                var width = $('#productSearchBox.tnl #tnl-width').val(),
-                    height = $('#productSearchBox.tnl #tnl-height').val(),
-                    type = '';
-                if (width) {
-                    type = '+' + width;
-                }
-                if (height) {
-                    type = type + '+' + height;
-                }
-                window.location.href = 'https://shirai-store.net/p/search?tag=sale20211028-20211111&keyword=%E3%82%BF%E3%83%8A%E3%83%AA%E3%82%AA' + type + '&sort=price_low';
-
-            });
-            */
-		}
-	} else if (results[2] == 'outlet') {
-		if (results != '') {
-			$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-outlet_1184x240.jpg" alt="アウトレット 対象商品"><br>アウトレット 対象商品');
-			$('.fs-c-breadcrumb__listItem:last-child').text('アウトレット 対象商品');
-			$('title').text('アウトレット 対象商品');
-			$('h1.fs-c-heading').after(
-				'<div id="outlet-description"><h3>アウトレットについて</h3><ul><li>廃番商品をアウトレット品として特別価格でご提供しております。お届けする商品はすべて新品です。</li><li>アウトレット品は在庫限りとなっております。商品の品質には万全を期しておりますが、万が一、返品交換の対象となった場合に交換品がご用意できない場合がございます。その際は返金にて対応させていただきます。</li><li>アウトレット品は組立サービス対象外となっております。</li><li>ストア会員様は通常商品と同様に、商品割引クーポンと送料無料クーポンをお使いいただけます。</li></ul></div>'
-			);
-		}
-	} else if (results[2] == 'bundle20210121-0218') {
+function searchTagTitle() {
+	var params = parameterToArray();
+	if (params.tag == 'sale20221027-20221110') {
+		$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20221027-20221110_1184x240.jpg" alt="Tanalio SALE 対象商品"><br>Tanalio SALE 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('Tanalio SALE 対象商品');
+		$('title').text('Tanalio SALE 対象商品');
+	} else if (params.tag == 'feature20220224') {
+		$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/featurePage-banner-feature20220224_1184x240.jpg" alt="入園入学の準備"><br>入園入学の準備');
+		$('.fs-c-breadcrumb__listItem:last-child').text('入園入学の準備');
+		$('title').text('入園入学の準備');
+	} else if (params.tag == 'sale20220922-20221013') {
+		$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20220922-20221013_1184x240.jpg" alt="Autumn SALE 対象商品"><br>Autumn SALE 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('Autumn SALE 対象商品');
+		$('title').text('Autumn SALE 対象商品');
+	} else if (params.tag == 'outlet') {
+		$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-outlet_1184x240.jpg" alt="アウトレット 対象商品"><br>アウトレット 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('アウトレット 対象商品');
+		$('title').text('アウトレット 対象商品');
+		$('h1.fs-c-heading').after(
+			'<div id="outlet-description"><h3>アウトレットについて</h3><ul><li>廃番商品をアウトレット品として特別価格でご提供しております。お届けする商品はすべて新品です。</li><li>アウトレット品は在庫限りとなっております。商品の品質には万全を期しておりますが、万が一、返品交換の対象となった場合に交換品がご用意できない場合がございます。その際は返金にて対応させていただきます。</li><li>アウトレット品は組立サービス対象外となっております。</li><li>ストア会員様は通常商品と同様に、商品割引クーポンと送料無料クーポンをお使いいただけます。</li></ul></div>'
+		);
+	} else if (params.tag == 'bundle20210121-0218') {
 		var newWindowWidth = $(window).width();
 		if (newWindowWidth > 480) {
 			if (results != '') $('#fs_ProductSearch h1').html('トルフラット まとめ割<span class="subTitle">2点以上お買い上げで15%OFF</span>');
@@ -814,39 +731,33 @@ function searchTagTitle(name, url) {
 		}
 		$('.fs-c-breadcrumb__listItem:last-child').text('トルフラット まとめ割 15%OFF');
 	} else {
-		if (results != '') {
-			var params = parameterToArray();
-
-			//console.log('params:', params);
-			if (params.mode == 'advanceSearch') {
+		console.log('params:', params);
+		//if (params.mode == 'advanceSearch') {
+			console.log(params.tag);
+			var tags_html = '';
+			if (params.tag != undefined) {
 				var tags = params.tag.split(',');
-				var tags_html = '';
 				for (const tag of tags) {
-					$('#fs_ProductSearch h1').text('#' + decodeURIComponent(results[2].replace(/\+/g, ' ')) + ' 検索結果');
+					$('#fs_ProductSearch h1').text('#' + decodeURIComponent(tag.replace(/\+/g, ' ')) + ' 検索結果');
 					tags_html += '<span class="advanceSearchTag">#' + decodeURIComponent(tag) + '</span>';
 				}
-				//console.log(params.minprice);
-				if (params.minprice || params.maxprice) {
-					if (params.minprice == 30000) {
-						tags_html += '<span class="advanceSearchTag">#' + decodeURIComponent(params.minprice) + '円以上</span>';
-					} else {
-						tags_html += '<span class="advanceSearchTag">#' + decodeURIComponent(params.minprice) + '〜' + decodeURIComponent(params.maxprice) + '円以上</span>';
-					}
-				}
+			}
 
-				if ($('.fs-c-pagination').length) {
-					$('.fs-c-pagination a').each(function () {
-						var href = $(this).attr('href');
-						if (href.indexOf('?') > -1) {
-							href = href + '&mode=advanceSearch';
-						} else {
-							href = href + '?mode=advanceSearch';
-						}
-						$(this).attr('href', href);
-					});
+			//console.log(params.minprice);
+			if (params.minprice || params.maxprice) {
+				if (params.minprice == 30000) {
+					tags_html += '<span class="advanceSearchTag">#' + decodeURIComponent(params.minprice) + '円以上</span>';
+				} else if (params.minprice == 0) {
+					tags_html += '<span class="advanceSearchTag">#' + decodeURIComponent(params.maxprice) + '円未満</span>';
+				} else {
+					tags_html += '<span class="advanceSearchTag">#' + decodeURIComponent(params.minprice) + '〜' + decodeURIComponent(params.maxprice) + '円以上</span>';
 				}
+			}
 
-				$('.fs-c-sortItems__list a').each(function () {
+			$('#fs_ProductSearch h1').html('検索結果<br>' + tags_html);
+
+			if ($('.fs-c-pagination').length) {
+				$('.fs-c-pagination a').each(function () {
 					var href = $(this).attr('href');
 					if (href.indexOf('?') > -1) {
 						href = href + '&mode=advanceSearch';
@@ -855,14 +766,20 @@ function searchTagTitle(name, url) {
 					}
 					$(this).attr('href', href);
 				});
-
-				
-
-				$('#fs_ProductSearch h1').html('検索結果<br>' + tags_html);
-			} else {
-				$('#fs_ProductSearch h1').text('#' + decodeURIComponent(results[2].replace(/\+/g, ' ')) + ' 検索結果');
 			}
-		}
+
+			$('.fs-c-sortItems__list a').each(function () {
+				var href = $(this).attr('href');
+				if (href.indexOf('?') > -1) {
+					href = href + '&mode=advanceSearch';
+				} else {
+					href = href + '?mode=advanceSearch';
+				}
+				$(this).attr('href', href);
+			});
+		// } else {
+		// 	$('#fs_ProductSearch h1').text('#' + decodeURIComponent(params.tag.replace(/\+/g, ' ')) + ' 検索結果');
+		// }
 	}
 }
 
