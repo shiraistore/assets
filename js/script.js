@@ -1,4 +1,7 @@
 $(function () {
+	// $('.fs-c-productList__list a').each(function(){
+	// 	console.log($(this).attr('href'));
+	// })
 	previewModeDecision(); //OK
 	getUrlRedirect_20220422();
 	rewriteDOM(); //OK
@@ -17,7 +20,7 @@ $(function () {
 	timeSale(); //OK
 	product_tagsLink(); //OK
 	searchWordSave('keyword'); //OK
-	searchTagTitle('tag'); //OK
+	searchTagTitle(); //OK
 	productSortSelect(); //OK
 	productCategoryRankingDisplayNone(); //OK
 	productCategorySubCategoryMenu(); //OK
@@ -29,7 +32,11 @@ $(function () {
 	productDetail_ptsContentsBanner();
 	reviewSlideDown('#fs_ProductDetails', '240'); //OK
 	instagramPostList(); //OK
-	soldout(); //OK
+	soldOut(); //OK
+
+	// advancedSearchForm();
+	// advancedSearchFormSelected();
+
 	//em_transfer();
 	featureMamihapiSeries_slider(); //OK
 	featureMamihapiSeries_cart(); //OK
@@ -65,7 +72,7 @@ $(function () {
 		rankingList(grobal_recommendRankingPathName.split('/').pop()); //OK
 	}
 	var grobal_selectRankingHTML =
-		'<select name="ranking"><option value="ranking">総合ランキング</option><option value="ranking_rack">本棚・フリーラック</option><option value="ranking_tv-stand">テレビ台・ローボード</option><option value="ranking_kitchen">キッチン収納</option><option value="ranking_clothing">衣類収納</option><option value="ranking_entrance">玄関収納</option><option value="ranking_cabinet">キャビネット・収納庫</option><option value="ranking_wall-unit-storage">壁面収納・システム収納</option><option value="ranking_table">テーブル</option><option value="ranking_desk">デスク</option><option value="ranking_kids">キッズ収納</option><option value="ranking_office-furniture">オフィス家具</option></select>';
+		'<select name="ranking"><option value="ranking">総合ランキング</option><option value="ranking-rack">本棚・フリーラック</option><option value="ranking-tv-stand">テレビ台・ローボード</option><option value="ranking-kitchen">キッチン収納</option><option value="ranking-clothing">衣類収納</option><option value="ranking-entrance">玄関収納</option><option value="ranking-cabinet">キャビネット・収納庫</option><option value="ranking-wall-unit-storage">壁面収納・システム収納</option><option value="ranking-table">テーブル</option><option value="ranking-desk">デスク</option><option value="ranking-kids">キッズ収納</option><option value="ranking-office-furniture">オフィス家具</option></select>';
 	$('.selectRanking').each(function () {
 		$(this).html(grobal_selectRankingHTML);
 	});
@@ -83,39 +90,39 @@ $(function () {
 	rewriteDOMLoad(); //OK
 	reviewAssistText(); //OK
 	ie11_compulsionScroll(); //javaScriptParts
-	sp_searchOpen(); //javaScriptParts
+	searchOpen(); //javaScriptParts
 	windowWidthprocessingChange(); //javaScriptParts
 	windowWidthDOMChange(); //javaScriptParts
 
-	if ($('#fs_ShoppingCart').length) {
-		//オプション
-		const options = {
-			childList: true, //直接の子の変更を監視
-			characterData: true, //文字の変化を監視
-			characterDataOldValue: true, //属性の変化前を記録
-			attributes: true, //属性の変化を監視
-			subtree: true, //全ての子要素を監視
-		};
-		//コールバック関数
-		function callback(mutationsList, observer) {
-			for (const mutation of mutationsList) {
-				// 処理
-				mutation.target; //ターゲット要素
-				mutation.addedNodes; //追加されたDOM
-				mutation.removedNodes; //削除されたDOM
-			}
-			console.log('変化あり');
-			//ターゲット要素の監視を停止
-			// obs.disconnect();
-		}
+	// if ($('#fs_ShoppingCart').length) {
+	// 	//オプション
+	// 	const options = {
+	// 		childList: true, //直接の子の変更を監視
+	// 		characterData: true, //文字の変化を監視
+	// 		characterDataOldValue: true, //属性の変化前を記録
+	// 		attributes: true, //属性の変化を監視
+	// 		subtree: true, //全ての子要素を監視
+	// 	};
+	// 	//コールバック関数
+	// 	function callback(mutationsList, observer) {
+	// 		for (const mutation of mutationsList) {
+	// 			// 処理
+	// 			mutation.target; //ターゲット要素
+	// 			mutation.addedNodes; //追加されたDOM
+	// 			mutation.removedNodes; //削除されたDOM
+	// 		}
+	// 		//console.log('変化あり');
+	// 		//ターゲット要素の監視を停止
+	// 		// obs.disconnect();
+	// 	}
 
-		//ターゲット要素をDOMで取得
-		const target = document.querySelector('#fs-cartContent-container');
-		//インスタンス化
-		const obs = new MutationObserver(callback);
-		//ターゲット要素の監視を開始
-		obs.observe(target, options);
-	}
+	// 	//ターゲット要素をDOMで取得
+	// 	const target = document.querySelector('#fs-cartContent-container');
+	// 	//インスタンス化
+	// 	const obs = new MutationObserver(callback);
+	// 	//ターゲット要素の監視を開始
+	// 	obs.observe(target, options);
+	// }
 });
 
 $(window).on('load', function () {
@@ -228,6 +235,240 @@ function getUrlRedirect_20220422() {
 	}
 }
 
+/* developModeScript
+========================================================================== */
+
+function advancedSearchForm() {
+	//検索ボタンを押したら詳細検索フォームが開く
+	$('#header-keywordSearch .keywordSearch').on('click', function () {
+		if ($('#header-keywordSearch .advancedSearchForm').css('display') == 'none') {
+			$('#header-keywordSearch .advancedSearchForm').slideDown();
+			$('#globalNavi-overlay').fadeIn(200);
+		}
+	});
+
+	//スマホで検索ボタンを押したら詳細検索フォームが開く
+	$('#searchOpenButton').on('click', function () {
+		if ($('#header-keywordSearch').css('display') == 'none') {
+			$('#header-keywordSearch .advancedSearchForm').css('display', 'flex');
+			$('#header-keywordSearch').slideDown();
+			$('#globalNavi-overlay').fadeIn(200);
+		} else {
+			$('#header-keywordSearch').slideUp();
+			$('#globalNavi-overlay').fadeOut(200);
+		}
+	});
+
+	//詳細検索フォームの外側をクリックしたら閉じる
+	$('#header-keywordSearch .formClose,#globalNavi-overlay, #header-keywordSearch .advancedSearchForm .close').on('click', function () {
+		if ($('#header-keywordSearch').hasClass('max768')) {
+			$('#header-keywordSearch').slideUp();
+		} else {
+			$('#header-keywordSearch .advancedSearchForm').slideUp();
+		}
+		$('#globalNavi-overlay').fadeOut(200);
+	});
+
+	//検索結果なしのメッセージがあったら
+	var is_noResultMessage;
+	if ($('#noResultMessage').length) {
+		var html = $('#header-keywordSearch').html();
+		html = html.replace(/name="(.+)"/g, 'name="noResultMessage_$1"');
+		//その下に検索フォームを表示する
+		$('#noResultMessageAdvancedSearchForm').html(html);
+		is_noResultMessage = true;
+	} else {
+		is_noResultMessage = false;
+	}
+
+	//チェックボタンのチェックを外せるようにする
+	//インプット要素を取得する
+
+	//インプット要素がクリックされたら
+	$('.advancedSearchForm .fs-c-radio__label, .advancedSearchForm .fs-c-checkbox__label').on('click', function () {
+		var inputElement = $(this).prev('input');
+
+		if (inputElement.prop('checked')) {
+			inputElement.prop('checked', false);
+		} else {
+			inputElement.prop('checked', true);
+			if (is_noResultMessage) {
+				//console.log(inputElement.val());
+				$('.searchTags,.priceRange').each(function () {
+					//valueと値が同じであればinputをチェック状態にする
+					if ($(this).val() == inputElement.val()) {
+						//console.log(inputElement.val());
+						$(this).prop('checked', true);
+					}
+				});
+			}
+		}
+		if ($(this).prev('input').hasClass('priceRange')) {
+			var priceRange = $(this).prev('input').val();
+			var priceRange_ary = priceRange.split('-');
+			$(".advancedSearchForm input[name='minprice']").val(priceRange_ary[0]);
+			$(".advancedSearchForm input[name='maxprice']").val(priceRange_ary[1]);
+		}
+	});
+
+	//クリアボタン
+	$('.advancedSearchForm .clearButton_all').on('click', function () {
+		$('.advancedSearchForm input').prop('checked', false);
+	});
+	$('.advancedSearchForm .clearButton').on('click', function () {
+		$(this).parent().next('td').find('input').prop('checked', false);
+	});
+	$('#header-keywordSearch .advancedSearchForm button').on('click', function () {
+		var is_noResultForm = $(this).parents('#noResultMessageAdvancedSearchForm').length;
+		advancedSearchFormURL(is_noResultForm);
+	});
+
+	$('#noResultMessageAdvancedSearchForm .advancedSearchForm button').on('click', function () {
+		var is_noResultForm = $(this).parents('#noResultMessageAdvancedSearchForm').length;
+		advancedSearchFormURL(is_noResultForm);
+	});
+}
+
+//URL生成
+function advancedSearchFormURL(is_noResultForm) {
+	var keyword = '';
+	var advancedSearchValue = $('.fs-p-searchForm__input').val();
+
+	if (advancedSearchValue != undefined) {
+		keyword = '&keyword=' + advancedSearchValue;
+	}
+
+	var tags = '';
+	var formType = '';
+	var price = '';
+	var priceRange = '';
+	var minprice = '';
+	var maxprice = '';
+
+	if (is_noResultForm == 1) {
+		formType = $('#noResultMessageAdvancedSearchForm .searchTags:checked');
+		priceRange = $('#noResultMessageAdvancedSearchForm .priceRange:checked').val();
+	} else {
+		formType = $('#header-keywordSearch .searchTags:checked');
+		priceRange = $('#header-keywordSearch .priceRange:checked').val();
+	}
+	formType.each(function () {
+		tags += ',' + $(this).val();
+	});
+	if (tags != '') {
+		tags = '&tag=' + tags.slice(1);
+	}
+
+	//console.log(priceRange);
+
+	if (priceRange != undefined) {
+		var priceRange_ary = priceRange.split('-');
+		minprice = priceRange_ary[0];
+		maxprice = priceRange_ary[1];
+
+		if (minprice != 30000) {
+			price = `&minprice=${minprice}&maxprice=${maxprice}`;
+		} else {
+			price = `&minprice=${minprice}`;
+		}
+	}
+
+	// $('.priceRange:checked').each(function () {
+	// 	var priceRange = $(this).val();
+	// 	var priceRange_ary = priceRange.split('-');
+	// 	minprice = priceRange_ary[0];
+	// 	maxprice = priceRange_ary[1];
+
+	// 	if (minprice != 30000) {
+	// 		price = `&minprice=${minprice}&maxprice=${maxprice}`;
+	// 	} else {
+	// 		price = `&minprice=${minprice}`;
+	// 	}
+	// });
+
+	//var param = `${keyword}${tags}${price}&mode=advanceSearch`;
+	var param = `${tags}${price}&mode=advanceSearch`;
+	param = param.slice(1);
+	//console.log(param);
+	window.location.href = `/p/search?${param}`;
+}
+
+//遷移後もボタンを選択状態にする
+function advancedSearchFormSelected() {
+	if ($('#fs_ProductSearch').length) {
+		//tagに値がある場合
+		//urlを取得
+		var searchUrl = decodeURIComponent($(location).attr('search'));
+
+		//urlを?を削除
+		searchUrl = searchUrl.replace('?', '');
+		//urlを&で配列に格納
+		var searchUrl_ary = [];
+		if (searchUrl.indexOf('&') > -1) {
+			searchUrl_ary = searchUrl.split('&');
+		}
+
+		var tags = '';
+		var tags_ary = [];
+
+		for (var i = 0; i < searchUrl_ary.length; i++) {
+			if (searchUrl_ary[i].indexOf('keyword=') != -1) {
+				var keyword = searchUrl_ary[i].replace('keyword=', '');
+				$('.fs-p-searchForm__input').each(function () {
+					$(this).val(keyword);
+				});
+			} else if (searchUrl_ary[i].indexOf('tag') != -1) {
+				tags = searchUrl_ary[i].replace('tag=', '');
+			}
+
+			var selectedPropChecked = function () {
+				$('.priceRange').each(function () {
+					// console.log('price:', price);
+					// console.log('input:', $(this).val());
+					if ($(this).val() == price) {
+						$(this).prop('checked', true);
+					}
+				});
+			};
+
+			if (searchUrl_ary[i].indexOf('minprice') > -1) {
+				var minprice = searchUrl_ary[i].replace('minprice=', '');
+
+				var price = `${minprice}`;
+				// console.log(price);
+
+				selectedPropChecked();
+			}
+
+			if (searchUrl_ary[i].indexOf('maxprice') > -1) {
+				var maxprice = searchUrl_ary[i].replace('maxprice=', '');
+
+				var price = `${minprice}-${maxprice}`;
+				// console.log(price);
+
+				selectedPropChecked();
+			}
+		}
+
+		if (tags.indexOf(',') != -1) {
+			tags_ary = tags.split(',');
+		} else {
+			tags_ary = [tags];
+		}
+
+		//判定
+		for (var i = 0; i < tags_ary.length; i++) {
+			$('.searchTags').each(function () {
+				//valueと値が同じであればinputをチェック状態にする
+				if ($(this).val() == tags_ary[i]) {
+					//console.log(tags_ary[i]);
+					$(this).prop('checked', true);
+				}
+			});
+		}
+	}
+}
+
 /* orderChangeCancelForm
 ========================================================================== */
 function orderChangeCancelForm() {
@@ -253,7 +494,7 @@ function orderChangeCancelForm() {
 		});
 
 		var orderCode = getParam('orderCode');
-		console.log(orderCode);
+		// console.log(orderCode);
 		if (orderCode !== '') {
 			$('.orderCode').each(function () {
 				$(this).val(orderCode);
@@ -314,8 +555,7 @@ function productDetail_mhpContentsBanner() {
 		url = url.split('/');
 		var series = url[url.length - 1].split('-');
 		if (series[0] == 'mhp') {
-			var html =
-				'<ul id="contents-banner"><li><a href="/f/feature/mamihapi-byage"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-byage.png"></a></li><li><a href="/f/feature/mamihapi-questionnaire"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-questionnaire.png"></a></li></ul>';
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/mamihapi-byage"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-byage.png"></a></li><li><a href="/f/feature/mamihapi-questionnaire"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-questionnaire.png"></a></li></ul>';
 
 			$('#productActionBox').after(html);
 		}
@@ -380,10 +620,10 @@ function productCategorySubCategoryMenu() {
 		var html = '';
 		var className = '.data-category-area' + categoryNum + ' ul';
 		//console.log(className);
-		$(className).each(function(){
+		$(className).each(function () {
 			html += $(this).prop('outerHTML');
 		});
-		
+
 		//console.log(html);
 
 		$('.category-subCategory-menu-inner').each(function () {
@@ -399,6 +639,7 @@ function productCategorySubCategoryMenu() {
 
 function topMainVisualSlider() {
 	if ($('#fs_Top').length) {
+		$('#mainVisual-slider').css('display', 'block');
 		$('#mainVisual-slider').slick({
 			autoplay: true,
 			dots: true,
@@ -429,7 +670,7 @@ function searchWordSave(name, url) {
 		results = regex.exec(url);
 	if (!results) return null;
 	if (!results[2]) return '';
-	if (results != '') $('header .fs-p-searchForm__input').val(decodeURIComponent(results[2].replace(/\+/g, ' ')));
+	if (results != '') $('header .fs-p-advancedSearchForm__input').val(decodeURIComponent(results[2].replace(/\+/g, ' ')));
 }
 
 /* productSortSelect
@@ -460,110 +701,28 @@ function productSortSelect() {
 /* Search tag title
 ========================================================================== */
 //セール会場用バナー表示
-function searchTagTitle(name, url) {
-	if (!url) url = window.location.href;
-	name = name.replace(/[\[\]]/g, '\\$&');
-	var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-		results = regex.exec(url);
-	if (!results) return null;
-	if (!results[2]) return '';
-	if (results[2] == 'sale20221027-20221110') {
-		if (results != '') {
-			$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20221027-20221110_1184x240.jpg" alt="Tanalio SALE 対象商品"><br>Tanalio SALE 対象商品');
-			$('.fs-c-breadcrumb__listItem:last-child').text('Tanalio SALE 対象商品');
-			$('title').text('Tanalio SALE 対象商品');
-		}
-	} else if (results[2] == 'feature20220224') {
-		if (results != '') {
-			$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/featurePage-banner-feature20220224_1184x240.jpg" alt="入園入学の準備"><br>入園入学の準備');
-			$('.fs-c-breadcrumb__listItem:last-child').text('入園入学の準備');
-			$('title').text('入園入学の準備');
-		}
-	} else if (results[2] == 'sale20220922-20221013') {
-		if (results != '') {
-			$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20220922-20221013_1184x240.jpg" alt="Autumn SALE 対象商品"><br>Autumn SALE 対象商品');
-			$('.fs-c-breadcrumb__listItem:last-child').text('Autumn SALE 対象商品');
-			$('title').text('Autumn SALE 対象商品');
-
-			/*
-            console.log('XXXX');
-
-            var param = decodeURIComponent(location.search).replace('?', '');
-            params = param.split(/\+|=|&/);
-            //console.log(params);
-            $('.fs-c-productList__list').before('<div id="productSearchBox" class="tnl"><h4>サイズで絞り込む</h4><select id="tnl-width"><option value="">横幅</option><option value="幅31cm">幅31cm</option><option value="幅44cm">幅44cm</option><option value="幅59cm">幅59cm</option><option value="幅87cm">幅87cm</option><option value="幅117cm">幅117cm</option></select><select id="tnl-height"><option value="">高さ</option><option value="高さ60cm">高さ60cm</option><option value="高さ90cm">高さ90cm</option><option value="高さ120cm">高さ120cm</option><option value="高さ150cm">高さ150cm</option><option value="高さ180cm">高さ180cm</option><option value="高さ198cm">高さ198cm</option></select><button>絞り込む</button></div>');
-
-            var selectedWidth = '',
-                selectedHeight = '';
-
-            if (params.indexOf('幅31cm') > 0) {
-                selectedWidth = '幅31cm';
-            } else if (params.indexOf('幅44cm') > 0) {
-                selectedWidth = '幅44cm';
-            } else if (params.indexOf('幅59cm') > 0) {
-                selectedWidth = '幅59cm';
-            } else if (params.indexOf('幅87cm') > 0) {
-                selectedWidth = '幅87cm';
-            } else if (params.indexOf('幅117cm') > 0) {
-                selectedWidth = '幅117cm';
-                $('#tnl-height').html('<option value="" selected>高さ</option><option value="高さ60cm">高さ60cm</option><option value="高さ90cm">高さ90cm</option></select>');
-            }
-
-            if (params.indexOf('高さ60cm') > 0) {
-                selectedHeight = '高さ60cm';
-            } else if (params.indexOf('高さ90cm') > 0) {
-                selectedHeight = '高さ90cm';
-            } else if (params.indexOf('高さ120cm') > 0) {
-                selectedHeight = '高さ120cm';
-            } else if (params.indexOf('高さ150cm') > 0) {
-                selectedHeight = '高さ150cm';
-            } else if (params.indexOf('高さ180cm') > 0) {
-                selectedHeight = '高さ180cm';
-            } else if (params.indexOf('高さ198cm') > 0) {
-                selectedHeight = '高さ198cm';
-            }
-
-            $('#productSearchBox.tnl #tnl-width').val(selectedWidth);
-            $('#productSearchBox.tnl #tnl-height').val(selectedHeight);
-
-            var flag = 0;
-            $(document).on('change', '#productSearchBox.tnl #tnl-width', function () {
-                if ($('#productSearchBox.tnl #tnl-width').val() == '幅117cm') {
-                    $('#tnl-height').html('<option value="">高さ</option><option value="高さ60cm">高さ60cm</option><option value="高さ90cm">高さ90cm</option></select>');
-                    flag = 1;
-                } else {
-                    if (flag == 1) {
-                        $('#tnl-height').html('<option value="">高さ</option><option value="高さ60cm">高さ60cm</option><option value="高さ90cm">高さ90cm</option><option value="高さ120cm">高さ120cm</option><option value="高さ150cm">高さ150cm</option><option value="高さ180cm">高さ180cm</option><option value="高さ198cm">高さ198cm</option></select>');
-                        flag = 0;
-                    }
-                }
-            });
-
-            $('#productSearchBox.tnl button').on('click', function () {
-                var width = $('#productSearchBox.tnl #tnl-width').val(),
-                    height = $('#productSearchBox.tnl #tnl-height').val(),
-                    type = '';
-                if (width) {
-                    type = '+' + width;
-                }
-                if (height) {
-                    type = type + '+' + height;
-                }
-                window.location.href = 'https://shirai-store.net/p/search?tag=sale20211028-20211111&keyword=%E3%82%BF%E3%83%8A%E3%83%AA%E3%82%AA' + type + '&sort=price_low';
-
-            });
-            */
-		}
-	} else if (results[2] == 'outlet') {
-		if (results != '') {
-			$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-outlet_1184x240.jpg" alt="アウトレット 対象商品"><br>アウトレット 対象商品');
-			$('.fs-c-breadcrumb__listItem:last-child').text('アウトレット 対象商品');
-			$('title').text('アウトレット 対象商品');
-			$('h1.fs-c-heading').after(
-				'<div id="outlet-description"><h3>アウトレットについて</h3><ul><li>廃番商品をアウトレット品として特別価格でご提供しております。お届けする商品はすべて新品です。</li><li>アウトレット品は在庫限りとなっております。商品の品質には万全を期しておりますが、万が一、返品交換の対象となった場合に交換品がご用意できない場合がございます。その際は返金にて対応させていただきます。</li><li>アウトレット品は組立サービス対象外となっております。</li><li>ストア会員様は通常商品と同様に、商品割引クーポンと送料無料クーポンをお使いいただけます。</li></ul></div>'
-			);
-		}
-	} else if (results[2] == 'bundle20210121-0218') {
+function searchTagTitle() {
+	var params = parameterToArray();
+	if (params.tag == 'sale20221027-20221110') {
+		$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20221027-20221110_1184x240.jpg" alt="Tanalio SALE 対象商品"><br>Tanalio SALE 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('Tanalio SALE 対象商品');
+		$('title').text('Tanalio SALE 対象商品');
+	} else if (params.tag == 'feature20220224') {
+		$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/featurePage-banner-feature20220224_1184x240.jpg" alt="入園入学の準備"><br>入園入学の準備');
+		$('.fs-c-breadcrumb__listItem:last-child').text('入園入学の準備');
+		$('title').text('入園入学の準備');
+	} else if (params.tag == 'sale20221121-20221208') {
+		$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20221121-20221208_1184x240.jpg" alt="Thanksgiving SALE 対象商品"><br>Thanksgiving SALE 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('Thanksgiving SALE 対象商品');
+		$('title').text('Thanksgiving SALE 対象商品');
+	} else if (params.tag == 'outlet') {
+		$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-outlet_1184x240.jpg" alt="アウトレット 対象商品"><br>アウトレット 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('アウトレット 対象商品');
+		$('title').text('アウトレット 対象商品');
+		$('h1.fs-c-heading').after(
+			'<div id="outlet-description"><h3>アウトレットについて</h3><ul><li>廃番商品をアウトレット品として特別価格でご提供しております。お届けする商品はすべて新品です。</li><li>アウトレット品は在庫限りとなっております。商品の品質には万全を期しておりますが、万が一、返品交換の対象となった場合に交換品がご用意できない場合がございます。その際は返金にて対応させていただきます。</li><li>アウトレット品は組立サービス対象外となっております。</li><li>ストア会員様は通常商品と同様に、商品割引クーポンと送料無料クーポンをお使いいただけます。</li></ul></div>'
+		);
+	} else if (params.tag == 'bundle20210121-0218') {
 		var newWindowWidth = $(window).width();
 		if (newWindowWidth > 480) {
 			if (results != '') $('#fs_ProductSearch h1').html('トルフラット まとめ割<span class="subTitle">2点以上お買い上げで15%OFF</span>');
@@ -572,8 +731,76 @@ function searchTagTitle(name, url) {
 		}
 		$('.fs-c-breadcrumb__listItem:last-child').text('トルフラット まとめ割 15%OFF');
 	} else {
-		if (results != '') $('#fs_ProductSearch h1').text('#' + decodeURIComponent(results[2].replace(/\+/g, ' ')) + ' 検索結果');
+		//console.log('params:', params);
+		//if (params.mode == 'advanceSearch') {
+			//console.log(params.tag);
+			var tags_html = '';
+			if (params.tag != undefined) {
+				var tags = params.tag.split(',');
+				for (const tag of tags) {
+					$('#fs_ProductSearch h1').text('#' + decodeURIComponent(tag.replace(/\+/g, ' ')) + ' 検索結果');
+					tags_html += '<span class="advanceSearchTag">#' + decodeURIComponent(tag) + '</span>';
+				}
+			}
+
+			//console.log(params.minprice);
+			if (params.minprice || params.maxprice) {
+				if (params.minprice == 30000) {
+					tags_html += '<span class="advanceSearchTag">#' + decodeURIComponent(params.minprice) + '円以上</span>';
+				} else if (params.minprice == 0) {
+					tags_html += '<span class="advanceSearchTag">#' + decodeURIComponent(params.maxprice) + '円未満</span>';
+				} else {
+					tags_html += '<span class="advanceSearchTag">#' + decodeURIComponent(params.minprice) + '〜' + decodeURIComponent(params.maxprice) + '円以上</span>';
+				}
+			}
+
+			$('#fs_ProductSearch h1').html('検索結果<br>' + tags_html);
+
+			if ($('.fs-c-pagination').length) {
+				$('.fs-c-pagination a').each(function () {
+					var href = $(this).attr('href');
+					if (href.indexOf('?') > -1) {
+						href = href + '&mode=advanceSearch';
+					} else {
+						href = href + '?mode=advanceSearch';
+					}
+					$(this).attr('href', href);
+				});
+			}
+
+			$('.fs-c-sortItems__list a').each(function () {
+				var href = $(this).attr('href');
+				if (href.indexOf('?') > -1) {
+					href = href + '&mode=advanceSearch';
+				} else {
+					href = href + '?mode=advanceSearch';
+				}
+				$(this).attr('href', href);
+			});
+		// } else {
+		// 	$('#fs_ProductSearch h1').text('#' + decodeURIComponent(params.tag.replace(/\+/g, ' ')) + ' 検索結果');
+		// }
 	}
+}
+
+function parameterToArray() {
+	// URLパラメータを"&"で分離する
+	var url_search = location.search.slice(1).split('&');
+	//console.log(url_search);
+	// パラメータ連想配列エリア初期化
+	var param = [];
+	// キーエリア初期化
+	var key = null;
+
+	for (var i = 0; i < url_search.length; i++) {
+		// "&"で分離したパラメータを"="で再分離
+		key = url_search[i].split('=');
+		// パラメータを連想配列でセット
+		param[key[0]] = key[1];
+	}
+
+	// 連想配列パラメータを返す
+	return param;
 }
 
 /* ADIS discription open/close
@@ -621,7 +848,6 @@ function magazineImageChange() {
 ========================================================================== */
 function faqAnswerOpen() {
 	$('#faq dt span').click(function () {
-		//console.log('A');
 		$(this).parents('dt').next('dd').slideToggle();
 	});
 }
@@ -633,7 +859,8 @@ function product_tagsLink() {
 		var array = $('#product-tagList').text().split(',');
 		$('#product-tagList').text('');
 		$.each(array, function (i, value) {
-			$('#product-tagList').append('<a href="/p/search?tag=' + encodeURIComponent(value) + '">' + value + '</a>');
+			urlTag = value.replace(/ /g, '');
+			$('#product-tagList').append('<a href="/p/search?tag=' + encodeURIComponent(urlTag) + '">' + value + '</a>');
 		});
 	}
 }
@@ -1007,10 +1234,10 @@ function modal() {
 	});
 }
 
-/* soldout
+/* soldOut
 ========================================================================== */
 
-function soldout() {
+function soldOut() {
 	if ($('.fs-c-productNotice--outOfStock').length && $('.mark-soldout').length) {
 		$('.fs-c-productNotice--outOfStock').html('完売しました。<span>次回の入荷はございません。</span>');
 	}
@@ -1022,17 +1249,22 @@ function searchFilterTnl() {
 	if ($('#fs_ProductSearch').length || $('.fs-body-category-tnl').length) {
 		var param = decodeURIComponent(location.search).replace('?', '');
 		params = param.split(/\+|=|&/);
-		//console.log(params);
+		// console.log(param);
+		// console.log(param.indexOf('search-tnl'));
 
-		if ($.inArray('search-tnl', params) > 0 || $('.fs-body-category-tnl').length) {
-			$('#fs_ProductSearch h1').text('タナリオ サイズ絞り込み検索');
-			$('.fs-c-breadcrumb__listItem:last-child').text('タナリオ サイズ絞り込み検索');
+		if (param.indexOf('search-tnl') > -1 || param.indexOf('sale20221027-20221110') > -1 || $('.fs-body-category-tnl').length) {
+			if (!param.indexOf('sale20221027-20221110') > -1) {
+				$('#fs_ProductSearch h1').text('タナリオ サイズ絞り込み検索');
+				$('.fs-c-breadcrumb__listItem:last-child').text('タナリオ サイズ絞り込み検索');
+			}
+
 			$('.fs-c-productList__list').before(
-				'<div id="productSearchBox" class="tnl"><h4>サイズで絞り込む</h4><select id="tnl-width"><option value="">横幅</option><option value="幅31cm">幅31cm</option><option value="幅44cm">幅44cm</option><option value="幅59cm">幅59cm</option><option value="幅87cm">幅87cm</option><option value="幅117cm">幅117cm</option></select><select id="tnl-height"><option value="">高さ</option><option value="高さ60cm">高さ60cm</option><option value="高さ90cm">高さ90cm</option><option value="高さ120cm">高さ120cm</option><option value="高さ150cm">高さ150cm</option><option value="高さ180cm">高さ180cm</option><option value="高さ198cm">高さ198cm</option></select><button>絞り込む</button></div>'
+				'<div id="productSearchBox" class="tnl"><h4>サイズで絞り込む</h4><select id="tnl-width"><option value="">横幅</option><option value="幅31cm">幅31cm</option><option value="幅44cm">幅44cm</option><option value="幅59cm">幅59cm</option><option value="幅87cm">幅87cm</option><option value="幅117cm">幅117cm</option></select><select id="tnl-height"><option value="">高さ</option><option value="高さ60cm">高さ60cm</option><option value="高さ90cm">高さ90cm</option><option value="高さ120cm">高さ120cm</option><option value="高さ150cm">高さ150cm</option><option value="高さ180cm">高さ180cm</option><option value="高さ198cm">高さ198cm</option></select><select id="tnl-color"><option value="">カラー</option><option value="ナチュラルブラウン">ナチュラルブラウン</option><option value="ダークブラウン">ダークブラウン</option><option value="ホワイト">ホワイト（白木目）</option></select><button>絞り込む</button></div>'
 			);
 
 			var selectedWidth = '',
-				selectedHeight = '';
+				selectedHeight = '',
+				selectedColor = '';
 
 			if (params.indexOf('幅31cm') > 0) {
 				selectedWidth = '幅31cm';
@@ -1061,8 +1293,17 @@ function searchFilterTnl() {
 				selectedHeight = '高さ198cm';
 			}
 
+			if (param.indexOf('ナチュラルブラウン') > 0) {
+				selectedColor = 'ナチュラルブラウン';
+			} else if (param.indexOf('ダークブラウン') > 0) {
+				selectedColor = 'ダークブラウン';
+			} else if (param.indexOf('ホワイト') > 0) {
+				selectedColor = 'ホワイト';
+			}
+
 			$('#productSearchBox.tnl #tnl-width').val(selectedWidth);
 			$('#productSearchBox.tnl #tnl-height').val(selectedHeight);
+			$('#productSearchBox.tnl #tnl-color').val(selectedColor);
 
 			var flag = 0;
 			$(document).on('change', '#productSearchBox.tnl #tnl-width', function () {
@@ -1071,9 +1312,7 @@ function searchFilterTnl() {
 					flag = 1;
 				} else {
 					if (flag == 1) {
-						$('#tnl-height').html(
-							'<option value="">高さ</option><option value="高さ60cm">高さ60cm</option><option value="高さ90cm">高さ90cm</option><option value="高さ120cm">高さ120cm</option><option value="高さ150cm">高さ150cm</option><option value="高さ180cm">高さ180cm</option><option value="高さ198cm">高さ198cm</option></select>'
-						);
+						$('#tnl-height').html('<option value="">高さ</option><option value="高さ60cm">高さ60cm</option><option value="高さ90cm">高さ90cm</option><option value="高さ120cm">高さ120cm</option><option value="高さ150cm">高さ150cm</option><option value="高さ180cm">高さ180cm</option><option value="高さ198cm">高さ198cm</option></select>');
 						flag = 0;
 					}
 				}
@@ -1082,6 +1321,7 @@ function searchFilterTnl() {
 			$('#productSearchBox.tnl button').on('click', function () {
 				var width = $('#productSearchBox.tnl #tnl-width').val(),
 					height = $('#productSearchBox.tnl #tnl-height').val(),
+					color = $('#productSearchBox.tnl #tnl-color').val(),
 					type = '';
 				if (width) {
 					type = '+' + width;
@@ -1089,7 +1329,10 @@ function searchFilterTnl() {
 				if (height) {
 					type = type + '+' + height;
 				}
-				window.location.href = 'https://shirai-store.net/p/search?tag=search-tnl&keyword=%E3%82%BF%E3%83%8A%E3%83%AA%E3%82%AA' + type + '&sort=price_low';
+				if (color) {
+					color = ',' + color;
+				}
+				window.location.href = 'https://shirai-store.net/p/search?tag=search-tnl' + color + '&keyword=%E3%82%BF%E3%83%8A%E3%83%AA%E3%82%AA' + type + '&sort=price_low';
 			});
 		}
 	}
@@ -1155,16 +1398,14 @@ function rewriteDOM() {
 		}
 
 		if (!$('.fs-c-productOption').length) {
-			$('#productActionBox').before(
-				'<dl class="fs-c-productOption unusable"><dt class="fs-c-productOption__name"><label for="optionWithPrice_1" class="fs-c-productOption__label">組立サービス</label></dt><dd class="fs-c-productOption__option">この商品は組立サービスをご利用いただけません。</dd></dl>'
-			);
+			$('#productActionBox').before('<dl class="fs-c-productOption unusable"><dt class="fs-c-productOption__name"><label for="optionWithPrice_1" class="fs-c-productOption__label">組立サービス</label></dt><dd class="fs-c-productOption__option">この商品は組立サービスをご利用いただけません。</dd></dl>');
 		}
 
 		//タナリオサイズオーダー テキストリンク
 
 		var url = location.pathname;
 		var seriseCode = url.split('/').pop();
-		console.log('seriseCode:', seriseCode);
+		// console.log('seriseCode:', seriseCode);
 
 		if (seriseCode.indexOf('tnl-t') != -1) {
 			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div>【サイズオーダー】ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-emts">横幅1cm単位でご注文はこちら</a></div></div>');
@@ -1173,20 +1414,14 @@ function rewriteDOM() {
 				'<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div></span>【サイズオーダー】ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-em-introduction">横幅1cm単位でご注文はこちら</a><a href="/f/sizeOrder/tnl-emu">上置きのご注文はこちら</a></span></div></div>'
 			);
 		} else if (seriseCode.indexOf('tnl-') != -1) {
-			$('.fs-c-productPostage').after(
-				'<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div>【サイズオーダー】ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-em-introduction">横幅1cm単位でご注文はこちら</a></div></div>'
-			);
+			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div>【サイズオーダー】ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-em-introduction">横幅1cm単位でご注文はこちら</a></div></div>');
 		} else if (seriseCode.match(/.*sep-[0-9]{4}?-.*/) != null) {
-			$('.fs-c-productPostage').after(
-				'<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div>【サイズオーダー】1〜30マスまでご希望のサイズでお作りします。<a href="/f/sizeOrder/sep-emrack">1マス単位でのご注文はこちら</a></div></div>'
-			);
+			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div>【サイズオーダー】1〜30マスまでご希望のサイズでお作りします。<a href="/f/sizeOrder/sep-emrack">1マス単位でのご注文はこちら</a></div></div>');
 		} else if (seriseCode.match(/.*sep-[0-9]{4}?desk.+-.*/) != null) {
-			$('.fs-c-productPostage').after(
-				'<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div>【サイズオーダー】横幅60〜210cmまでご希望のサイズでお作りします。<a href="/f/sizeOrder/sep-emdesk">横幅1cm単位でご注文はこちら</a></div></div>'
-			);
+			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div>【サイズオーダー】横幅60〜210cmまでご希望のサイズでお作りします。<a href="/f/sizeOrder/sep-emdesk">横幅1cm単位でご注文はこちら</a></div></div>');
 		}
 
-		console.log('match:', seriseCode.match(/.*sep-[0-9]{4}?-.*/));
+		// console.log('match:', seriseCode.match(/.*sep-[0-9]{4}?-.*/));
 	}
 
 	if ($('#fs_ShoppingCart').length) {
@@ -1233,14 +1468,14 @@ function rewriteDOM() {
 	}
 
 	//カテゴリページ制御
-	if ($('body[class*="fs-body-category-"]').length) {
-		//シリーズ商品一覧メイン画像
-		var seriesUrl = location.pathname.replace('/c/series/', '');
-		//console.log(seriesUrl);
-		if (seriesUrl != 'wlk' && seriesUrl != 'mdl' && seriesUrl != 'mhp') {
-			$('#category-series-visual').html('<img src="https://shiraistore.itembox.design/item/src/series/main-' + seriesUrl + '.jpg" alt="">');
-		}
-	}
+	// if ($('body[class*="fs-body-category-"]').length) {
+	// 	//シリーズ商品一覧メイン画像
+	// 	var seriesUrl = location.pathname.replace('/c/series/', '');
+	// 	//console.log(seriesUrl);
+	// 	if (seriesUrl != 'wlk' && seriesUrl != 'mdl') {
+	// 		$('#category-series-visual').html('<img src="https://shiraistore.itembox.design/item/src/series/main-' + seriesUrl + '.jpg" alt="">');
+	// 	}
+	// }
 
 	//カートページのサイズオーダー商品サムネイル表示
 	if ($('#fs_ShoppingCart').length) {
@@ -1626,15 +1861,7 @@ function pinterestTagWrite() {
 			.replace('-l.jpg', '-xl.jpg')
 			.replace(/\?t=.*/g, '');
 		var description = $('meta[name="description"]').attr('content');
-		$('#product-sns-share ul li:last-child').after(
-			'<li><a data-pin-do="buttonPin" data-pin-tall="true" data-pin-round="true" target="_blank" href="https://www.pinterest.com/pin/create/button/?url=' +
-				url +
-				'&media=' +
-				imgsrc +
-				'&description=' +
-				description +
-				'"><img src="https://shiraistore.itembox.design/item/src/icon-pinterest-bk.svg" /></a></li>'
-		);
+		$('#product-sns-share ul li:last-child').after('<li><a data-pin-do="buttonPin" data-pin-tall="true" data-pin-round="true" target="_blank" href="https://www.pinterest.com/pin/create/button/?url=' + url + '&media=' + imgsrc + '&description=' + description + '"><img src="https://shiraistore.itembox.design/item/src/icon-pinterest-bk.svg" /></a></li>');
 	}
 }
 
@@ -1713,13 +1940,9 @@ function multipleReviewList() {
 
 				profHTML = '<div class="fs-c-reviewer__profile">' + profHTML + '</div></div>';
 
-				var reviewerHTML =
-					'<div class="fs-c-reviewList__item__info fs-c-reviewInfo"><div class="fs-c-reviewInfo__reviewer fs-c-reviewer"><div class="fs-c-reviewer__name"><span class="fs-c-reviewer__name__nickname">' +
-					nickname +
-					'</span></div><div class="fs-c-reviewer__status"><span class="fs-c-reviewerStatus">購入者</span></div>';
+				var reviewerHTML = '<div class="fs-c-reviewList__item__info fs-c-reviewInfo"><div class="fs-c-reviewInfo__reviewer fs-c-reviewer"><div class="fs-c-reviewer__name"><span class="fs-c-reviewer__name__nickname">' + nickname + '</span></div><div class="fs-c-reviewer__status"><span class="fs-c-reviewerStatus">購入者</span></div>';
 
-				var dateHTML =
-					'<dl class="fs-c-reviewInfo__date"><dt>投稿日</dt><dd><time datetime="' + datetime + '" class="fs-c-time">' + datetime + '</time></dd></dl><div class="fs-c-reviewRating"><div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"></div></div></div>';
+				var dateHTML = '<dl class="fs-c-reviewInfo__date"><dt>投稿日</dt><dd><time datetime="' + datetime + '" class="fs-c-time">' + datetime + '</time></dd></dl><div class="fs-c-reviewRating"><div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"></div></div></div>';
 
 				var colorHTML = '<div class="color">' + color + '</div>';
 
@@ -2149,12 +2372,7 @@ function productDetailAddData() {
 					}
 
 					if (sellingPrice < normalPrice) {
-						sellingPrice =
-							'<p class="priceBox salePriceBox"><span class="price">¥ ' +
-							normalPrice.toLocaleString() +
-							'<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' +
-							sellingPrice.toLocaleString() +
-							'<span class="tax">(税込)</span></span></p>';
+						sellingPrice = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normalPrice.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
 					} else {
 						sellingPrice = '<p class="priceBox"><span class="price">¥ ' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
 					}
@@ -2252,7 +2470,7 @@ function productDetailAddData() {
 					}
 				}
 
-				$('.productTop10Slider.ranking').after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking_' + categoryUrl + '" class="fs-c-button--standard">もっと見る</a></div>');
+				$('.productTop10Slider.ranking').after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking-' + categoryUrl + '" class="fs-c-button--standard">もっと見る</a></div>');
 
 				$('#productDetail-rankingTop10').css('display', 'block');
 			}
@@ -2302,12 +2520,7 @@ function productDetailAddData() {
 					productName = productName.length > 36 ? productName.slice(0, 36) + '…' : productName;
 
 					if (sellingPrice < normalPrice) {
-						sellingPrice =
-							'<p class="priceBox salePriceBox"><span class="price">¥ ' +
-							normalPrice.toLocaleString() +
-							'<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' +
-							sellingPrice.toLocaleString() +
-							'<span class="tax">(税込)</span></span></p>';
+						sellingPrice = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normalPrice.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
 					} else {
 						sellingPrice = '<p class="priceBox"><span class="price">¥ ' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
 					}
@@ -2364,41 +2577,9 @@ function productDetailAddData() {
 
 					if (i == 0) {
 						comparisonImage +=
-							'<td><div class="displayProduct">表示中</div><a href="/c/series/' +
-							seriesCode +
-							'/' +
-							productUrl +
-							'"><img src="https://shiraistore.itembox.design/product/' +
-							zeroPadding(product_image_group, 3) +
-							'/' +
-							productId_12Len +
-							'/' +
-							productId_12Len +
-							'-' +
-							thumbnail +
-							'-m.jpg" alt="" >' +
-							comparisonIconHtml +
-							productName +
-							'</td>';
+							'<td><div class="displayProduct">表示中</div><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.design/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '-m.jpg" alt="" >' + comparisonIconHtml + productName + '</td>';
 					} else {
-						comparisonImage +=
-							'<td><a href="/c/series/' +
-							seriesCode +
-							'/' +
-							productUrl +
-							'"><img src="https://shiraistore.itembox.design/product/' +
-							zeroPadding(product_image_group, 3) +
-							'/' +
-							productId_12Len +
-							'/' +
-							productId_12Len +
-							'-' +
-							thumbnail +
-							'-m.jpg" alt="" >' +
-							comparisonIconHtml +
-							'</div>' +
-							productName +
-							'</td>';
+						comparisonImage += '<td><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.design/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '-m.jpg" alt="" >' + comparisonIconHtml + '</div>' + productName + '</td>';
 					}
 
 					// += '<td><div>' + iconHtml + '</div><a href="/c/series/' + seriesCode + '/' + productUrl + '">' + productName + '</a></td>'
@@ -2429,15 +2610,7 @@ function productDetailAddData() {
 
 			//console.log(data.ranking[0]);
 			if (data.ranking[0] != undefined) {
-				var iconHtml =
-					'<li class="fs-c-productMark__item"><a class="mark-categoryRank fs-c-productMark__mark--0 fs-c-productMark__mark" href="/f/ranking_' +
-					data.ranking[0].categoryUrl +
-					'"><span class="fs-c-productMark__label">' +
-					data.ranking[0].categoryName +
-					' ' +
-					data.ranking[0].categoryRanking +
-					'位' +
-					'</span></a></li>';
+				var iconHtml = '<li class="fs-c-productMark__item"><a class="mark-categoryRank fs-c-productMark__mark--0 fs-c-productMark__mark" href="/f/ranking-' + data.ranking[0].categoryUrl + '"><span class="fs-c-productMark__label">' + data.ranking[0].categoryName + ' ' + data.ranking[0].categoryRanking + '位' + '</span></a></li>';
 				if ($('.fs-c-productMarks').length) {
 					$('.fs-c-productMark').append(iconHtml);
 				} else {
@@ -2495,20 +2668,15 @@ function productDetailAddData() {
 
 				profHTML = '<div class="fs-c-reviewer__profile">' + profHTML + '</div></div>';
 
-				var reviewerHTML =
-					'<div class="fs-c-reviewList__item__info fs-c-reviewInfo"><div class="fs-c-reviewInfo__reviewer fs-c-reviewer"><div class="fs-c-reviewer__name"><span class="fs-c-reviewer__name__nickname">' +
-					nickname +
-					'</span></div><div class="fs-c-reviewer__status"><span class="fs-c-reviewerStatus">購入者</span></div>';
+				var reviewerHTML = '<div class="fs-c-reviewList__item__info fs-c-reviewInfo"><div class="fs-c-reviewInfo__reviewer fs-c-reviewer"><div class="fs-c-reviewer__name"><span class="fs-c-reviewer__name__nickname">' + nickname + '</span></div><div class="fs-c-reviewer__status"><span class="fs-c-reviewerStatus">購入者</span></div>';
 
-				var dateHTML =
-					'<dl class="fs-c-reviewInfo__date"><dt>投稿日</dt><dd><time datetime="' + datetime + '" class="fs-c-time">' + datetime + '</time></dd></dl><div class="fs-c-reviewRating"><div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"></div></div></div>';
+				var dateHTML = '<dl class="fs-c-reviewInfo__date"><dt>投稿日</dt><dd><time datetime="' + datetime + '" class="fs-c-time">' + datetime + '</time></dd></dl><div class="fs-c-reviewRating"><div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"></div></div></div>';
 
 				var colorHTML = '<div class="color">' + color + '</div>';
 
 				var commentHTML = '<div class="fs-c-reviewList__item__body fs-c-reviewBody">' + reviewBody + '</div>';
 
-				var imageHTML =
-					'<div class="reviewImage"><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.design/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '-xs.jpg" alt="" ></a></div>';
+				var imageHTML = '<div class="reviewImage"><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.design/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '-xs.jpg" alt="" ></a></div>';
 
 				var h = '<li class="fs-c-reviewList__item reviewScore-' + reviewScoreToFixed + '">' + imageHTML + '<div class="reviewContent">' + reviewerHTML + profHTML + dateHTML + colorHTML + commentHTML + '</div></li>';
 
@@ -2615,9 +2783,7 @@ function productDetailAddData() {
 				if (reviewCount < 4) {
 					$('.fs-c-productReview__allReviews').remove();
 				} else {
-					$('#multipleReviewList').append(
-						'<div class="fs-c-productReview__allReviews fs-c-buttonContainer fs-c-buttonContainer--viewAllReviews"><a href="' + reviewListURL + '" class="othersReview fs-c-button--viewAllReviews fs-c-button--plain"><span class="fs-c-button__label">その他のレビューを見る</span></a></div>'
-					);
+					$('#multipleReviewList').append('<div class="fs-c-productReview__allReviews fs-c-buttonContainer fs-c-buttonContainer--viewAllReviews"><a href="' + reviewListURL + '" class="othersReview fs-c-button--viewAllReviews fs-c-button--plain"><span class="fs-c-button__label">その他のレビューを見る</span></a></div>');
 				}
 			} else {
 				$('#product-reviewTitle').after('<p class="text-center">この商品のレビューはありません。</p>');
@@ -2649,12 +2815,7 @@ function productDetailAddData() {
 					}
 
 					if (sellingPrice < normalPrice) {
-						sellingPrice =
-							'<p class="priceBox salePriceBox"><span class="price">¥ ' +
-							normalPrice.toLocaleString() +
-							'<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' +
-							sellingPrice.toLocaleString() +
-							'<span class="tax">(税込)</span></span></p>';
+						sellingPrice = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normalPrice.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
 					} else {
 						sellingPrice = '<p class="priceBox"><span class="price">¥ ' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
 					}
@@ -2670,7 +2831,7 @@ function productDetailAddData() {
 
 								if (icon_ary[j][0] == 'mark-categoryRank' && icon_ary[j][1] < 11) {
 									categoryName = categoryNameShorter(categoryName);
-									iconHtml += '<a href="/f/ranking_' + categoryUrl + '" class="mark-catRank">' + categoryName + ' ' + icon_ary[j][1] + '位</a>';
+									iconHtml += '<a href="/f/ranking-' + categoryUrl + '" class="mark-catRank">' + categoryName + ' ' + icon_ary[j][1] + '位</a>';
 								}
 
 								if (icon_ary[j][0] == 'mark-new') {
@@ -2892,22 +3053,7 @@ function checkScreenSize() {
 		}
 	}
 	//newLife2022
-	if (
-		$('#newLife2022').length &&
-		(newLife_top10Slider1 ||
-			newLife_top10Slider2 ||
-			newLife_top10Slider3 ||
-			newLife_top10Slider4 ||
-			newLife_top10Slider5 ||
-			newLife_top10Slider6 ||
-			newLife_top10Slider7 ||
-			newLife_top10Slider8 ||
-			newLife_top10Slider9 ||
-			newLife_top10Slider10 ||
-			newLife_top10Slider11 ||
-			newLife_top10Slider12 ||
-			newLife_top10Slider13)
-	) {
+	if ($('#newLife2022').length && (newLife_top10Slider1 || newLife_top10Slider2 || newLife_top10Slider3 || newLife_top10Slider4 || newLife_top10Slider5 || newLife_top10Slider6 || newLife_top10Slider7 || newLife_top10Slider8 || newLife_top10Slider9 || newLife_top10Slider10 || newLife_top10Slider11 || newLife_top10Slider12 || newLife_top10Slider13)) {
 		var newWindowWidth = $(window).width();
 		if (newWindowWidth <= 1200) {
 			newLife_top10Slider1.destroySlider();
@@ -2992,8 +3138,7 @@ function recommendTop10() {
 			//console.log(thumb);
 
 			if (sellingPrice < normalPrice) {
-				sellingPrice =
-					'<p class="priceBox salePriceBox"><span class="price">¥ ' + normalPrice.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
+				sellingPrice = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normalPrice.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
 			} else {
 				sellingPrice = '<p class="priceBox"><span class="price">¥ ' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
 			}
@@ -3007,7 +3152,7 @@ function recommendTop10() {
 
 					if (icon_ary[j][0] == 'mark-categoryRank' && icon_ary[j][1] < 4) {
 						categoryName = categoryNameShorter(categoryName);
-						iconHtml += '<a href="/f/ranking_' + categoryUrl + '" class="mark-catRank">' + categoryName + ' ' + icon_ary[j][1] + '位</a>';
+						iconHtml += '<a href="/f/ranking-' + categoryUrl + '" class="mark-catRank">' + categoryName + ' ' + icon_ary[j][1] + '位</a>';
 					}
 
 					if (icon_ary[j][0] == 'mark-new') {
@@ -3136,8 +3281,7 @@ function rankingTop10(rakingTop10Type) {
 			}
 
 			if (sellingPrice < normalPrice) {
-				sellingPrice =
-					'<p class="priceBox salePriceBox"><span class="price">¥ ' + normalPrice.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
+				sellingPrice = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normalPrice.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
 			} else {
 				sellingPrice = '<p class="priceBox"><span class="price">¥ ' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
 			}
@@ -3289,8 +3433,7 @@ function recommendList() {
 			//console.log(thumb);
 
 			if (sellingPrice < normalPrice) {
-				sellingPrice =
-					'<p class="priceBox salePriceBox"><span class="price">¥ ' + normalPrice.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
+				sellingPrice = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normalPrice.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
 			} else {
 				sellingPrice = '<p class="priceBox"><span class="price">¥ ' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
 			}
@@ -3304,7 +3447,7 @@ function recommendList() {
 
 					if (icon_ary[j][0] == 'mark-categoryRank' && icon_ary[j][1] < 4) {
 						categoryName = categoryNameShorter(categoryName);
-						iconHtml += '<a href="/f/ranking_' + categoryUrl + '" class="mark-catRank">' + categoryName + ' ' + icon_ary[j][1] + '位</a>';
+						iconHtml += '<a href="/f/ranking-' + categoryUrl + '" class="mark-catRank">' + categoryName + ' ' + icon_ary[j][1] + '位</a>';
 					}
 
 					//console.log('aaaa:',icon_ary[j][1]);
@@ -3425,8 +3568,7 @@ function rankingList(jsonfile) {
 			}
 
 			if (sellingPrice < normalPrice) {
-				sellingPrice =
-					'<p class="priceBox salePriceBox"><span class="price">¥ ' + normalPrice.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
+				sellingPrice = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normalPrice.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
 			} else {
 				sellingPrice = '<p class="priceBox"><span class="price">¥ ' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
 			}
@@ -3980,7 +4122,7 @@ function globalNavi() {
 		function () {
 			$(this).children('div').hide().stop().fadeIn(200);
 			$('#globalNavi-overlay').hide().stop().fadeIn(200);
-			$('#searchForm').hide();
+			$('.advancedSearchForm').hide();
 		},
 		function () {
 			$(this).children('div').stop().fadeOut(200);
@@ -4012,10 +4154,10 @@ function imageChange() {
 	}
 }
 function searchOpen() {
-	if (grobal_lastInnerWidth >= 768) {
-		$('#header-keywordSearch').css('display', 'flex');
+	if (grobal_lastInnerWidth > 768) {
+		$('#header-keywordSearch').removeClass('max768');
 	} else {
-		$('#header-keywordSearch').css('display', 'none');
+		$('#header-keywordSearch').addClass('max768');
 	}
 }
 
@@ -4050,20 +4192,6 @@ function smoothScroll() {
 			}
 		}
 	}
-}
-function sp_searchOpen() {
-	$('#searchOpenButton').on('click', function () {
-		if ($('#header-keywordSearch').css('display') == 'none') {
-			$('#header-keywordSearch').css('display', 'flex');
-			$('#header-keywordSearch .slideNavi-list-category-item').css('display', 'block');
-		} else {
-			$('#header-keywordSearch').css('display', 'none');
-		}
-	});
-
-	$('#header-keywordSearch .close').on('click', function () {
-		$('#header-keywordSearch').css('display', 'none');
-	});
 }
 
 /* topMainVisualSlider imageChange
