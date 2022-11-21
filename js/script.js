@@ -34,8 +34,8 @@ $(function () {
 	instagramPostList(); //OK
 	soldOut(); //OK
 
-	// advancedSearchForm();
-	// advancedSearchFormSelected();
+	advancedSearchForm();
+	advancedSearchFormSelected();
 
 	//em_transfer();
 	featureMamihapiSeries_slider(); //OK
