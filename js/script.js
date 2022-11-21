@@ -34,9 +34,6 @@ $(function () {
 	instagramPostList(); //OK
 	soldOut(); //OK
 
-	advancedSearchForm();
-	advancedSearchFormSelected();
-
 	//em_transfer();
 	featureMamihapiSeries_slider(); //OK
 	featureMamihapiSeries_cart(); //OK
@@ -91,8 +88,12 @@ $(function () {
 	reviewAssistText(); //OK
 	ie11_compulsionScroll(); //javaScriptParts
 	searchOpen(); //javaScriptParts
+
 	windowWidthprocessingChange(); //javaScriptParts
 	windowWidthDOMChange(); //javaScriptParts
+
+	advancedSearchFormSelected();
+	advancedSearchForm();
 
 	// if ($('#fs_ShoppingCart').length) {
 	// 	//オプション
@@ -240,7 +241,7 @@ function getUrlRedirect_20220422() {
 
 function advancedSearchForm() {
 	//検索ボタンを押したら詳細検索フォームが開く
-	$('#header-keywordSearch .keywordSearch').on('click', function () {
+	$(document).on('click', '#header-keywordSearch .keywordSearch', function () {
 		if ($('#header-keywordSearch .advancedSearchForm').css('display') == 'none') {
 			$('#header-keywordSearch .advancedSearchForm').slideDown();
 			$('#globalNavi-overlay').fadeIn(200);
@@ -248,7 +249,7 @@ function advancedSearchForm() {
 	});
 
 	//スマホで検索ボタンを押したら詳細検索フォームが開く
-	$('#searchOpenButton').on('click', function () {
+	$(document).on('click', '#searchOpenButton', function () {
 		if ($('#header-keywordSearch').css('display') == 'none') {
 			$('#header-keywordSearch .advancedSearchForm').css('display', 'flex');
 			$('#header-keywordSearch').slideDown();
@@ -733,42 +734,31 @@ function searchTagTitle() {
 	} else {
 		//console.log('params:', params);
 		//if (params.mode == 'advanceSearch') {
-			//console.log(params.tag);
-			var tags_html = '';
-			if (params.tag != undefined) {
-				var tags = params.tag.split(',');
-				for (const tag of tags) {
-					$('#fs_ProductSearch h1').text('#' + decodeURIComponent(tag.replace(/\+/g, ' ')) + ' 検索結果');
-					tags_html += '<span class="advanceSearchTag">#' + decodeURIComponent(tag) + '</span>';
-				}
+		//console.log(params.tag);
+		var tags_html = '';
+		if (params.tag != undefined) {
+			var tags = params.tag.split(',');
+			for (const tag of tags) {
+				$('#fs_ProductSearch h1').text('#' + decodeURIComponent(tag.replace(/\+/g, ' ')) + ' 検索結果');
+				tags_html += '<span class="advanceSearchTag">#' + decodeURIComponent(tag) + '</span>';
 			}
+		}
 
-			//console.log(params.minprice);
-			if (params.minprice || params.maxprice) {
-				if (params.minprice == 30000) {
-					tags_html += '<span class="advanceSearchTag">#' + decodeURIComponent(params.minprice) + '円以上</span>';
-				} else if (params.minprice == 0) {
-					tags_html += '<span class="advanceSearchTag">#' + decodeURIComponent(params.maxprice) + '円未満</span>';
-				} else {
-					tags_html += '<span class="advanceSearchTag">#' + decodeURIComponent(params.minprice) + '〜' + decodeURIComponent(params.maxprice) + '円以上</span>';
-				}
+		//console.log(params.minprice);
+		if (params.minprice || params.maxprice) {
+			if (params.minprice == 30000) {
+				tags_html += '<span class="advanceSearchTag">#' + decodeURIComponent(params.minprice) + '円以上</span>';
+			} else if (params.minprice == 0) {
+				tags_html += '<span class="advanceSearchTag">#' + decodeURIComponent(params.maxprice) + '円未満</span>';
+			} else {
+				tags_html += '<span class="advanceSearchTag">#' + decodeURIComponent(params.minprice) + '〜' + decodeURIComponent(params.maxprice) + '円以上</span>';
 			}
+		}
 
-			$('#fs_ProductSearch h1').html('検索結果<br>' + tags_html);
+		$('#fs_ProductSearch h1').html('検索結果<br>' + tags_html);
 
-			if ($('.fs-c-pagination').length) {
-				$('.fs-c-pagination a').each(function () {
-					var href = $(this).attr('href');
-					if (href.indexOf('?') > -1) {
-						href = href + '&mode=advanceSearch';
-					} else {
-						href = href + '?mode=advanceSearch';
-					}
-					$(this).attr('href', href);
-				});
-			}
-
-			$('.fs-c-sortItems__list a').each(function () {
+		if ($('.fs-c-pagination').length) {
+			$('.fs-c-pagination a').each(function () {
 				var href = $(this).attr('href');
 				if (href.indexOf('?') > -1) {
 					href = href + '&mode=advanceSearch';
@@ -777,6 +767,17 @@ function searchTagTitle() {
 				}
 				$(this).attr('href', href);
 			});
+		}
+
+		$('.fs-c-sortItems__list a').each(function () {
+			var href = $(this).attr('href');
+			if (href.indexOf('?') > -1) {
+				href = href + '&mode=advanceSearch';
+			} else {
+				href = href + '?mode=advanceSearch';
+			}
+			$(this).attr('href', href);
+		});
 		// } else {
 		// 	$('#fs_ProductSearch h1').text('#' + decodeURIComponent(params.tag.replace(/\+/g, ' ')) + ' 検索結果');
 		// }
