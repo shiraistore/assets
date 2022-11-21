@@ -712,9 +712,9 @@ function searchTagTitle() {
 		$('.fs-c-breadcrumb__listItem:last-child').text('入園入学の準備');
 		$('title').text('入園入学の準備');
 	} else if (params.tag == 'sale20221121-20221208') {
-		$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20221121-20221208_1184x240.jpg" alt="Thanksgiving SALE 対象商品"><br>Thanksgiving SALE 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('Thanksgiving SALE 対象商品');
-		$('title').text('Thanksgiving SALE 対象商品');
+		$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20221121-20221208_1184x240.jpg" alt="サンクスギビング SALE 対象商品"><br>サンクスギビング SALE 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('サンクスギビング SALE 対象商品');
+		$('title').text('サンクスギビング SALE 対象商品');
 	} else if (params.tag == 'outlet') {
 		$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-outlet_1184x240.jpg" alt="アウトレット 対象商品"><br>アウトレット 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('アウトレット 対象商品');
