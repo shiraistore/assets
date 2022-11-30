@@ -3,7 +3,7 @@ $(function () {
 	// 	console.log($(this).attr('href'));
 	// })
 	previewModeDecision(); //OK
-	getUrlRedirect_20220422();
+	getUrlRedirect();
 	rewriteDOM(); //OK
 	globalNavi(); //javaScriptParts
 	smoothScroll(); //javaScriptParts
@@ -157,8 +157,74 @@ $(window).on('load scroll', function () {
 
 /* ========== OK end ========== */
 
-/* api-test
+/* reviewsDisplayForSearchResults
 ========================================================================== */
+
+/* previewMode
+========================================================================== */
+function previewModeDecision() {
+	if ($('#fs_preview_header').length) {
+		$('body').addClass('previewMode');
+	}
+}
+
+/* em_transfer
+========================================================================== */
+function em_transfer() {
+	if ($('#fs_ProductAuth').length) {
+		var productPathName = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
+
+		if (productPathName.indexOf('tnl-emts') === 0) {
+			window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-emts';
+		} else if (productPathName.indexOf('tnl-emu') === 0) {
+			window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-emu';
+		} else if (productPathName.indexOf('tnl-em') === 0) {
+			window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-em';
+		} else if (productPathName.indexOf('sep-emdesk') === 0) {
+			window.location.href = 'https://shirai-store.net/f/sizeOrder/sep-emdesk';
+		} else if (productPathName.indexOf('sep-em') === 0) {
+			window.location.href = 'https://shirai-store.net/f/sizeOrder/sep-emrack';
+		}
+	}
+}
+
+/* getUrlRedirect
+========================================================================== */
+
+function getUrlRedirect() {
+	var url = location.href;
+	if (url == 'https://shirai-store.net/p/search?tag=%E3%83%AD%E3%82%B0%E3%83%BC%E3%83%8E&keyword=%E5%B9%85150?utm_source=line&utm_medium=social&utm_campaign=stid-00041&utm_content=20220421') {
+		window.location.href = 'https://shirai-store.net/p/search?tag=%E3%83%AD%E3%82%B0%E3%83%BC%E3%83%8E&keyword=%E5%B9%85150&utm_source=line&utm_medium=social&utm_campaign=stid-00041&utm_content=20220421';
+	} else if (url == 'https://shirai-store.net/p/search?keyword=%E3%83%88%E3%83%AB%E3%83%95%E3%83%A9%E3%83%83%E3%83%88%E3%80%80%E3%82%A2%E3%82%A4%E3%83%9C%E3%83%AA%E3%83%BC?utm_source=line&utm_medium=social&utm_campaign=stid-00041&utm_content=20220421') {
+		window.location.href = 'https://shirai-store.net/p/search?keyword=%E3%83%88%E3%83%AB%E3%83%95%E3%83%A9%E3%83%83%E3%83%88%E3%80%80%E3%82%A2%E3%82%A4%E3%83%9C%E3%83%AA%E3%83%BC&utm_source=line&utm_medium=social&utm_campaign=stid-00041&utm_content=20220421';
+	} else if (url == 'https://shirai-store.net/f/shirai_fan') {
+		window.location.href = 'https://shirai-store.net/f/shirai-fan';
+	} else if (url == 'https://shirai-store.net/f/terms_use') {
+		window.location.href = 'https://shirai-store.net/f/terms-use';
+	} else if (url == 'https://shirai-store.net/f/ranking_rack') {
+		window.location.href = 'https://shirai-store.net/f/ranking-rack';
+	} else if (url == 'https://shirai-store.net/f/ranking_tv-stand') {
+		window.location.href = 'https://shirai-store.net/f/ranking-tv-stand';
+	} else if (url == 'https://shirai-store.net/f/ranking_kitchen') {
+		window.location.href = 'https://shirai-store.net/f/ranking-kitchen';
+	} else if (url == 'https://shirai-store.net/f/ranking_clothing') {
+		window.location.href = 'https://shirai-store.net/f/ranking-clothing';
+	} else if (url == 'https://shirai-store.net/f/ranking_entrance') {
+		window.location.href = 'https://shirai-store.net/f/ranking-entrance';
+	} else if (url == 'https://shirai-store.net/f/ranking_cabinet') {
+		window.location.href = 'https://shirai-store.net/f/ranking-cabinet';
+	} else if (url == 'https://shirai-store.net/f/ranking_wall-unit-storage') {
+		window.location.href = 'https://shirai-store.net/f/ranking-wall-unit-storage';
+	} else if (url == 'https://shirai-store.net/f/ranking_table') {
+		window.location.href = 'https://shirai-store.net/f/ranking-table';
+	} else if (url == 'https://shirai-store.net/f/ranking_desk') {
+		window.location.href = 'https://shirai-store.net/f/ranking-desk';
+	} else if (url == 'https://shirai-store.net/f/ranking_kids') {
+		window.location.href = 'https://shirai-store.net/f/ranking-kids';
+	} else if (url == 'https://shirai-store.net/f/ranking_office-furniture') {
+		window.location.href = 'https://shirai-store.net/f/ranking-office-furniture';
+	}
+}
 
 function reviewsDisplayForSearchResults() {
 	if ($('#fs_ProductSearch').length || $('#fs_ProductCategory').length) {
@@ -226,56 +292,29 @@ function reviewsDisplayForSearchResults() {
 		}
 
 		if ($('.advanceSearchTag').length) {
+			searchTagsCanonicalChange();
 			const tagName = $('.advanceSearchTag').html().replace('#', '');
 			$('.fs-c-productList').after(`<div id="multipleReviewList" class="productList"><h2>${tagName}のレビュー</h2><ul>${reviewsHtml}</ul></div>`);
 		} else {
 			const titleName = $('h1').html();
 			$('.fs-c-productList').after(`<div id="multipleReviewList" class="productList"><h2>${titleName}のレビュー</h2><ul>${reviewsHtml}</ul></div>`);
 		}
+
 	}
 }
 
-/* previewMode
-========================================================================== */
-function previewModeDecision() {
-	if ($('#fs_preview_header').length) {
-		$('body').addClass('previewMode');
-	}
-}
-
-/* em_transfer
-========================================================================== */
-function em_transfer() {
-	if ($('#fs_ProductAuth').length) {
-		var productPathName = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
-
-		if (productPathName.indexOf('tnl-emts') === 0) {
-			window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-emts';
-		} else if (productPathName.indexOf('tnl-emu') === 0) {
-			window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-emu';
-		} else if (productPathName.indexOf('tnl-em') === 0) {
-			window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-em';
-		} else if (productPathName.indexOf('sep-emdesk') === 0) {
-			window.location.href = 'https://shirai-store.net/f/sizeOrder/sep-emdesk';
-		} else if (productPathName.indexOf('sep-em') === 0) {
-			window.location.href = 'https://shirai-store.net/f/sizeOrder/sep-emrack';
-		}
-	}
-}
-
-/* getUrlRedirect_20220422
+/* searchTagsCanonicalChange
 ========================================================================== */
 
-function getUrlRedirect_20220422() {
-	var url = location.href;
-	if (url == 'https://shirai-store.net/p/search?tag=%E3%83%AD%E3%82%B0%E3%83%BC%E3%83%8E&keyword=%E5%B9%85150?utm_source=line&utm_medium=social&utm_campaign=stid-00041&utm_content=20220421') {
-		window.location.href = 'https://shirai-store.net/p/search?tag=%E3%83%AD%E3%82%B0%E3%83%BC%E3%83%8E&keyword=%E5%B9%85150&utm_source=line&utm_medium=social&utm_campaign=stid-00041&utm_content=20220421';
-	} else if (url == 'https://shirai-store.net/p/search?keyword=%E3%83%88%E3%83%AB%E3%83%95%E3%83%A9%E3%83%83%E3%83%88%E3%80%80%E3%82%A2%E3%82%A4%E3%83%9C%E3%83%AA%E3%83%BC?utm_source=line&utm_medium=social&utm_campaign=stid-00041&utm_content=20220421') {
-		window.location.href = 'https://shirai-store.net/p/search?keyword=%E3%83%88%E3%83%AB%E3%83%95%E3%83%A9%E3%83%83%E3%83%88%E3%80%80%E3%82%A2%E3%82%A4%E3%83%9C%E3%83%AA%E3%83%BC&utm_source=line&utm_medium=social&utm_campaign=stid-00041&utm_content=20220421';
+function searchTagsCanonicalChange(){
+	if ($('#fs_ProductSearch').length && $('.advanceSearchTag').length) {
+		var url = location.href;
+		console.log(url);
+		$('link[rel="canonical"]').attr('href', url);
 	}
 }
 
-/* developModeScript
+/* advancedSearchForm
 ========================================================================== */
 
 function advancedSearchForm() {
