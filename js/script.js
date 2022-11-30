@@ -45,7 +45,7 @@ $(function () {
 	multipleReviewList(); //OK
 	recommendTop10(); //OK
 	searchFilterTnl(); //OK
-	check_time_can_not_specified_zip_codes();
+	reviewsDisplayForSearchResults();
 	var grobal_rakingTop10Type = $('.productTop10Slider.ranking').data('ranking');
 	//console.log('grobal_rakingTop10Type:',grobal_rakingTop10Type);
 	if (grobal_rakingTop10Type) {
@@ -160,39 +160,78 @@ $(window).on('load scroll', function () {
 /* api-test
 ========================================================================== */
 
-function check_time_can_not_specified_zip_codes() {
-	if ($('#api-test').length) {
-		$('#response').html('Response Values');
-
-		$('#button').click(function () {
-			var url = 'https://7yby6dyjdb.execute-api.ap-northeast-1.amazonaws.com/prod';
-			var JSONdata = {
-				zip_code: $('#zip_code').val(),
-			};
-
-			alert(JSON.stringify(JSONdata));
-
-			$.ajax({
-				type: 'post',
-				url: url,
-				data: JSON.stringify(JSONdata),
-				contentType: 'application/json',
-				dataType: 'json',
-				scriptCharset: 'utf-8',
-				success: function (data) {
-					// Success
-					alert('success');
-					alert(JSON.stringify(data));
-					$('#response').html(JSON.stringify(data));
-				},
-				error: function (data) {
-					// Error
-					alert('error');
-					alert(JSON.stringify(data));
-					$('#response').html(JSON.stringify(data));
-				},
-			});
+function reviewsDisplayForSearchResults() {
+	if ($('#fs_ProductSearch').length || $('#fs_ProductCategory').length) {
+		var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/getReviewsForProductsList';
+		var request = [];
+		var productUrls = [];
+		$('.fs-c-productListItem').each(function () {
+			var productHref = $(this).find('a').attr('href');
+			var productNumbers = productHref.split('/');
+			var productNumber = productNumbers.slice(-1)[0];
+			request.push({ product_number: productNumber });
+			productUrls.push(productHref);
 		});
+
+		var resutls = $.ajax({
+			type: 'post',
+			url: url,
+			async: false,
+			data: JSON.stringify(request),
+			contentType: 'application/json',
+			dataType: 'json',
+			scriptCharset: 'utf-8',
+			success: function (resutls) {
+				// Success
+				//console.log(JSON.stringify(response));
+			},
+			error: function (resutls) {
+				// Error
+				//console.log(JSON.stringify(response));
+			},
+		}).responseText;
+
+		resutls = resutls.replace(/\r?\n/g, '<br>');
+
+		resutls = JSON.parse(resutls);
+
+		var reviewsHtml = '';
+		for (const review of resutls) {
+			const productId12Length = zeroPadding(review.product_id, 12);
+			const productGroup = Math.floor(review.product_id / 100);
+			const productGroup3Length = zeroPadding(productGroup, 3);
+			const productThumbnailNumber2Length = zeroPadding(review.product_thumbnail_number, 2);
+
+			//console.log(review.product_number);
+			const productNumber = review.product_number;
+			let productUrl;
+
+			for (let i = 0; i < productUrls.length; i++) {
+				if (productUrls[i].indexOf(productNumber) != -1) {
+					//console.log(productUrl.indexOf(productNumber));
+					//console.log(productUrls[i]);
+					productUrl = productUrls[i];
+				}
+			}
+
+			let upDate = review.created_at.split('T');
+			upDate = upDate[0].replace(/-/g, '/');
+
+			// console.log('productThumbnailNumber2Length:',productThumbnailNumber2Length);
+			// console.log('productId12Length:',productId12Length);
+			// console.log('productGroup3Length:',productGroup3Length);
+			// console.log('productUrl:',productUrl);
+
+			reviewsHtml += `<li class="fs-c-reviewList__item reviewScore-${review.rating}"><div class="reviewImage"><a href="${productUrl}"><img src="https://shiraistore.itembox.design/product/${productGroup3Length}/${productId12Length}/${productId12Length}-${productThumbnailNumber2Length}-xs.jpg" alt=""></a></div><h3 class="productName">${review.product_name}</h3><div class="reviewContent"><div class="fs-c-reviewList__item__info fs-c-reviewInfo"><div class="fs-c-reviewInfo__reviewer fs-c-reviewer"><div class="fs-c-reviewer__name"><span class="fs-c-reviewer__name__nickname">${review.nickname}</span></div><div class="fs-c-reviewer__status"><span class="fs-c-reviewerStatus">購入者</span></div><div class="fs-c-reviewer__profile"></div></div><dl class="fs-c-reviewInfo__date"><dt>投稿日</dt><dd><time datetime="${review.created_at}" class="fs-c-time">${upDate}</time></dd></dl><div class="fs-c-reviewRating"><div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="${review.rating}.0"></div></div></div><div class="color">${review.product_color}</div><div class="fs-c-reviewList__item__body fs-c-reviewBody">${review.body}</div><div class="text-right"><a href="${productUrl}" class="text-link-color">商品詳細を見る</a></div></div></li>`;
+		}
+
+		if ($('.advanceSearchTag').length) {
+			const tagName = $('.advanceSearchTag').html().replace('#', '');
+			$('.fs-c-productList').after(`<div id="multipleReviewList" class="productList"><h2>${tagName}のレビュー</h2><ul>${reviewsHtml}</ul></div>`);
+		} else {
+			const titleName = $('h1').html();
+			$('.fs-c-productList').after(`<div id="multipleReviewList" class="productList"><h2>${titleName}のレビュー</h2><ul>${reviewsHtml}</ul></div>`);
+		}
 	}
 }
 
@@ -731,7 +770,7 @@ function searchTagTitle() {
 			if (results != '') $('#fs_ProductSearch h1').html('トルフラット まとめ割<span class="subTitle">2点以上お買い上げで15%OFF</span>');
 		}
 		$('.fs-c-breadcrumb__listItem:last-child').text('トルフラット まとめ割 15%OFF');
-	} else {
+	} else if (params.tag != undefined) {
 		//console.log('params:', params);
 		//if (params.mode == 'advanceSearch') {
 		//console.log(params.tag);
@@ -778,9 +817,8 @@ function searchTagTitle() {
 			}
 			$(this).attr('href', href);
 		});
-		// } else {
-		// 	$('#fs_ProductSearch h1').text('#' + decodeURIComponent(params.tag.replace(/\+/g, ' ')) + ' 検索結果');
-		// }
+	} else {
+		//$('#fs_ProductSearch h1').text('#' + decodeURIComponent(params.tag.replace(/\+/g, ' ')) + ' 検索結果');
 	}
 }
 
