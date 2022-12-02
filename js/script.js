@@ -3818,6 +3818,7 @@ function calendar() {
 	calObj[0].daysClass['2023/5/5'] = 'Holyday';
 	calObj[0].daysClass['2023/7/17'] = 'Holyday';
 	calObj[0].daysClass['2023/8/11'] = 'Holyday';
+	calObj[0].daysClass['2023/8/16'] = 'Holyday';
 	calObj[0].daysClass['2023/9/18'] = 'Holyday';
 	calObj[0].daysClass['2023/9/23'] = 'Holyday';
 	calObj[0].daysClass['2023/10/9'] = 'Holyday';
