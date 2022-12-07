@@ -793,13 +793,14 @@ function searchTagTitle() {
 	} else if (params.tag == 'sale20221121-20221208') {
 		$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20221121-20221208_1184x240.jpg" alt="サンクスギビング SALE 対象商品"><br>サンクスギビング SALE 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('サンクスギビング SALE 対象商品');
-		$('title').text('サンクスギビング SALE 対象商品');
+		$('title').text('サンクスギビング SALE 対象商品 | 家具インテリア通販のSHIRAI STORE(白井産業)');
 	} else if (params.tag == 'outlet') {
-		$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-outlet_1184x240.jpg" alt="アウトレット 対象商品"><br>アウトレット 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('アウトレット 対象商品');
-		$('title').text('アウトレット 対象商品');
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-outlet_1184x240.jpg" alt="アウトレット家具 対象商品">');
+		$('#fs_ProductSearch h1').html('アウトレット家具 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('アウトレット家具 対象商品');
+		$('title').text('アウトレット収納家具対象商品 | 家具インテリア通販のSHIRAI STORE(白井産業)');
 		$('h1.fs-c-heading').after(
-			'<div id="outlet-description"><h3>アウトレットについて</h3><ul><li>廃番商品をアウトレット品として特別価格でご提供しております。お届けする商品はすべて新品です。</li><li>アウトレット品は在庫限りとなっております。商品の品質には万全を期しておりますが、万が一、返品交換の対象となった場合に交換品がご用意できない場合がございます。その際は返金にて対応させていただきます。</li><li>アウトレット品は組立サービス対象外となっております。</li><li>ストア会員様は通常商品と同様に、商品割引クーポンと送料無料クーポンをお使いいただけます。</li></ul></div>'
+			'<div id="outlet-description"><h3>アウトレット家具について</h3><ul><li>廃番商品をアウトレット家具として特別価格でご提供しております。お届けする商品はすべて新品です。</li><li>アウトレット家具は在庫限りとなっております。商品の品質には万全を期しておりますが、万が一、返品交換の対象となった場合に交換品がご用意できない場合がございます。その際は返金にて対応させていただきます。</li><li>アウトレット家具は組立サービス対象外となっております。</li><li>ストア会員様は通常商品と同様に、商品割引クーポンと送料無料クーポンをお使いいただけます。</li></ul></div>'
 		);
 	} else if (params.tag == 'bundle20210121-0218') {
 		var newWindowWidth = $(window).width();
