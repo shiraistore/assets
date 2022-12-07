@@ -45,7 +45,7 @@ $(function () {
 	multipleReviewList(); //OK
 	recommendTop10(); //OK
 	searchFilterTnl(); //OK
-	//reviewsDisplayForSearchResults();
+	reviewsDisplayForSearchResults();
 	var grobal_rakingTop10Type = $('.productTop10Slider.ranking').data('ranking');
 	//console.log('grobal_rakingTop10Type:',grobal_rakingTop10Type);
 	if (grobal_rakingTop10Type) {
@@ -235,7 +235,10 @@ function reviewsDisplayForSearchResults() {
 			var productHref = $(this).find('a').attr('href');
 			var productNumbers = productHref.split('/');
 			var productNumber = productNumbers.slice(-1)[0];
-			request.push({ product_number: productNumber });
+			for(let i = 1; i < 4; i++){
+				request.push({ product_number: productNumber,review_number: i});
+				console.log(request);
+			}
 			productUrls.push(productHref);
 		});
 
