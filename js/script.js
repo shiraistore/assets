@@ -45,7 +45,7 @@ $(function () {
 	multipleReviewList(); //OK
 	recommendTop10(); //OK
 	searchFilterTnl(); //OK
-	reviewsDisplayForSearchResults();
+	//reviewsDisplayForSearchResults();
 	var grobal_rakingTop10Type = $('.productTop10Slider.ranking').data('ranking');
 	//console.log('grobal_rakingTop10Type:',grobal_rakingTop10Type);
 	if (grobal_rakingTop10Type) {
