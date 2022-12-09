@@ -35,6 +35,7 @@ $(function () {
 	soldOut(); //OK
 
 	//em_transfer();
+	preSale_displayPassWordForm();
 	featureMamihapiSeries_slider(); //OK
 	featureMamihapiSeries_cart(); //OK
 	featureMamihapibyage_slider(); //OK
@@ -168,6 +169,18 @@ function previewModeDecision() {
 	}
 }
 
+/* preSale_displayPassWordForm
+========================================================================== */
+function preSale_displayPassWordForm() {
+	if ($('#fs_ProductAuth').length) {
+		var productPathName = location.pathname;
+		console.log(productPathName);
+		if (productPathName.indexOf('/p/auth/preSale') === 0) {
+			$('#fs_ProductAuth .fs-l-pageMain').css('display', 'block');
+		}
+	}
+}
+
 /* em_transfer
 ========================================================================== */
 function em_transfer() {
@@ -228,91 +241,98 @@ function getUrlRedirect() {
 
 function reviewsDisplayForSearchResults() {
 	if ($('#fs_ProductSearch').length || $('#fs_ProductCategory').length) {
-		var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/getReviewsForProductsList';
-		var request = [];
-		var productUrls = [];
-		$('.fs-c-productListItem').each(function () {
-			var productHref = $(this).find('a').attr('href');
-			var productNumbers = productHref.split('/');
-			var productNumber = productNumbers.slice(-1)[0];
-			for(let i = 1; i < 4; i++){
-				request.push({ product_number: productNumber,review_number: i});
-				console.log(request);
-			}
-			productUrls.push(productHref);
-		});
+		if (!$('.fs-body-category-preSale').length) {
+			var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/getReviewsForProductsList';
+			var request = [];
+			var productUrls = [];
+			$('.fs-c-productListItem').each(function () {
+				var productHref = $(this).find('a').attr('href');
+				var productNumbers = productHref.split('/');
+				var productNumber = productNumbers.slice(-1)[0];
+				for (let i = 1; i < 4; i++) {
+					request.push({ product_number: productNumber, review_number: i });
+				}
+				productUrls.push(productHref);
+			});
 
-		var resutls = $.ajax({
-			type: 'post',
-			url: url,
-			async: false,
-			data: JSON.stringify(request),
-			contentType: 'application/json',
-			dataType: 'json',
-			scriptCharset: 'utf-8',
-			success: function (resutls) {
-				// Success
-				//console.log(JSON.stringify(response));
-			},
-			error: function (resutls) {
-				// Error
-				//console.log(JSON.stringify(response));
-			},
-		}).responseText;
+			var resutls = $.ajax({
+				type: 'post',
+				url: url,
+				async: false,
+				data: JSON.stringify(request),
+				contentType: 'application/json',
+				dataType: 'json',
+				scriptCharset: 'utf-8',
+				success: function (resutls) {
+					// Success
+					//console.log(JSON.stringify(response));
+				},
+				error: function (resutls) {
+					// Error
+					//console.log(JSON.stringify(response));
+				},
+			}).responseText;
 
-		resutls = resutls.replace(/\r?\n/g, '<br>');
+			if(resutls != '[]'){
+				resutls = resutls.replace(/\r?\n/g, '<br>');
 
-		resutls = JSON.parse(resutls);
-
-		var reviewsHtml = '';
-		for (const review of resutls) {
-			const productId12Length = zeroPadding(review.product_id, 12);
-			const productGroup = Math.floor(review.product_id / 100);
-			const productGroup3Length = zeroPadding(productGroup, 3);
-			const productThumbnailNumber2Length = zeroPadding(review.product_thumbnail_number, 2);
-
-			//console.log(review.product_number);
-			const productNumber = review.product_number;
-			let productUrl;
-
-			for (let i = 0; i < productUrls.length; i++) {
-				if (productUrls[i].indexOf(productNumber) != -1) {
-					//console.log(productUrl.indexOf(productNumber));
-					//console.log(productUrls[i]);
-					productUrl = productUrls[i];
+				resutls = JSON.parse(resutls);
+	
+				var reviewsHtml = '';
+				for (const review of resutls) {
+					const productId12Length = zeroPadding(review.product_id, 12);
+					const productGroup = Math.floor(review.product_id / 100);
+					const productGroup3Length = zeroPadding(productGroup, 3);
+					const productThumbnailNumber2Length = zeroPadding(review.product_thumbnail_number, 2);
+	
+					//console.log(review.product_number);
+					const productNumber = review.product_number;
+					let productUrl;
+	
+					for (let i = 0; i < productUrls.length; i++) {
+						if (productUrls[i].indexOf(productNumber) != -1) {
+							//console.log(productUrl.indexOf(productNumber));
+							//console.log(productUrls[i]);
+							productUrl = productUrls[i];
+						}
+					}
+	
+					let upDate = review.created_at.split('T');
+					upDate = upDate[0].replace(/-/g, '/');
+	
+					// console.log('productThumbnailNumber2Length:',productThumbnailNumber2Length);
+					// console.log('productId12Length:',productId12Length);
+					// console.log('productGroup3Length:',productGroup3Length);
+					// console.log('productUrl:',productUrl);
+	
+					reviewsHtml += `<li class="fs-c-reviewList__item reviewScore-${review.rating}"><div class="reviewImage"><a href="${productUrl}"><img src="https://shiraistore.itembox.design/product/${productGroup3Length}/${productId12Length}/${productId12Length}-${productThumbnailNumber2Length}-xs.jpg" alt=""></a></div><h3 class="productName">${review.product_name}</h3><div class="reviewContent"><div class="fs-c-reviewList__item__info fs-c-reviewInfo"><div class="fs-c-reviewInfo__reviewer fs-c-reviewer"><div class="fs-c-reviewer__name"><span class="fs-c-reviewer__name__nickname">${review.nickname}</span></div><div class="fs-c-reviewer__status"><span class="fs-c-reviewerStatus">購入者</span></div><div class="fs-c-reviewer__profile"></div></div><dl class="fs-c-reviewInfo__date"><dt>投稿日</dt><dd><time datetime="${review.created_at}" class="fs-c-time">${upDate}</time></dd></dl><div class="fs-c-reviewRating"><div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="${review.rating}.0"></div></div></div><div class="color">${review.product_color}</div><div class="fs-c-reviewList__item__body fs-c-reviewBody">${review.body}</div><div class="text-right"><a href="${productUrl}" class="text-link-color">商品詳細を見る</a></div></div></li>`;
+				}
+	
+				if ($('.advanceSearchTag').length) {
+					searchTagsCanonicalChange();
+					const tagName = $('.advanceSearchTag').html().replace('#', '');
+					$('.fs-c-productList').after(`<div id="multipleReviewList" class="productList"><h2>${tagName}のレビュー</h2><ul>${reviewsHtml}</ul></div>`);
+				} else {
+					const titleName = $('h1').html();
+					$('.fs-c-productList').after(`<div id="multipleReviewList" class="productList"><h2>${titleName}のレビュー</h2><ul>${reviewsHtml}</ul></div>`);
 				}
 			}
 
-			let upDate = review.created_at.split('T');
-			upDate = upDate[0].replace(/-/g, '/');
-
-			// console.log('productThumbnailNumber2Length:',productThumbnailNumber2Length);
-			// console.log('productId12Length:',productId12Length);
-			// console.log('productGroup3Length:',productGroup3Length);
-			// console.log('productUrl:',productUrl);
-
-			reviewsHtml += `<li class="fs-c-reviewList__item reviewScore-${review.rating}"><div class="reviewImage"><a href="${productUrl}"><img src="https://shiraistore.itembox.design/product/${productGroup3Length}/${productId12Length}/${productId12Length}-${productThumbnailNumber2Length}-xs.jpg" alt=""></a></div><h3 class="productName">${review.product_name}</h3><div class="reviewContent"><div class="fs-c-reviewList__item__info fs-c-reviewInfo"><div class="fs-c-reviewInfo__reviewer fs-c-reviewer"><div class="fs-c-reviewer__name"><span class="fs-c-reviewer__name__nickname">${review.nickname}</span></div><div class="fs-c-reviewer__status"><span class="fs-c-reviewerStatus">購入者</span></div><div class="fs-c-reviewer__profile"></div></div><dl class="fs-c-reviewInfo__date"><dt>投稿日</dt><dd><time datetime="${review.created_at}" class="fs-c-time">${upDate}</time></dd></dl><div class="fs-c-reviewRating"><div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="${review.rating}.0"></div></div></div><div class="color">${review.product_color}</div><div class="fs-c-reviewList__item__body fs-c-reviewBody">${review.body}</div><div class="text-right"><a href="${productUrl}" class="text-link-color">商品詳細を見る</a></div></div></li>`;
-		}
-
-		if ($('.advanceSearchTag').length) {
-			searchTagsCanonicalChange();
-			const tagName = $('.advanceSearchTag').html().replace('#', '');
-			$('.fs-c-productList').after(`<div id="multipleReviewList" class="productList"><h2>${tagName}のレビュー</h2><ul>${reviewsHtml}</ul></div>`);
+			
 		} else {
-			const titleName = $('h1').html();
-			$('.fs-c-productList').after(`<div id="multipleReviewList" class="productList"><h2>${titleName}のレビュー</h2><ul>${reviewsHtml}</ul></div>`);
-		}
 
+			$('h1').after('<p class="red text-center">*このページからのみ先行販売商品をご覧いただけます。<br>再度ご覧いただくにはメルマガ、もしくはLINEのURLからアクセスしてください。</p>');
+			$('.category-subCategory-menu').remove();
+		}
 	}
 }
 
 /* searchTagsCanonicalChange
 ========================================================================== */
 
-function searchTagsCanonicalChange(){
+function searchTagsCanonicalChange() {
 	if ($('#fs_ProductSearch').length && $('.advanceSearchTag').length) {
 		var url = location.href;
-		console.log(url);
 		$('link[rel="canonical"]').attr('href', url);
 	}
 }
@@ -801,7 +821,9 @@ function searchTagTitle() {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-outlet_1184x240.jpg" alt="アウトレット家具 対象商品">');
 		$('#fs_ProductSearch h1').html('アウトレット家具 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('アウトレット家具 対象商品');
-		$('title').text('アウトレット収納家具対象商品 | 家具インテリア通販のSHIRAI STORE(白井産業)');
+		$('title').text('アウトレット家具対象商品 | 家具インテリア通販のSHIRAI STORE(白井産業)');
+		$('meta[name ="description"]').attr('content', '廃番商品をアウトレット家具として21%Off以上の特別価格でご提供 | SHIRAI STOREならいつでもお買い得。会員なら通常送料が無料！（離島・沖縄を除く）');
+		$('discrption').text('アウトレット家具対象商品 | 家具インテリア通販のSHIRAI STORE(白井産業)');
 		$('h1.fs-c-heading').after(
 			'<div id="outlet-description"><h3>アウトレット家具について</h3><ul><li>廃番商品をアウトレット家具として特別価格でご提供しております。お届けする商品はすべて新品です。</li><li>アウトレット家具は在庫限りとなっております。商品の品質には万全を期しておりますが、万が一、返品交換の対象となった場合に交換品がご用意できない場合がございます。その際は返金にて対応させていただきます。</li><li>アウトレット家具は組立サービス対象外となっております。</li><li>ストア会員様は通常商品と同様に、商品割引クーポンと送料無料クーポンをお使いいただけます。</li></ul></div>'
 		);
