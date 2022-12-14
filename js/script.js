@@ -805,10 +805,10 @@ function productSortSelect() {
 //セール会場用バナー表示
 function searchTagTitle() {
 	var params = parameterToArray();
-	if (params.tag == 'sale20221027-20221110') {
-		$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20221027-20221110_1184x240.jpg" alt="Tanalio SALE 対象商品"><br>Tanalio SALE 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('Tanalio SALE 対象商品');
-		$('title').text('Tanalio SALE 対象商品');
+	if (params.tag == 'sale20221215-20221227') {
+		$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20221215-20221227_1184x240.jpg" alt="ウィンターバザール 対象商品"><br>ウィンターバザール 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('ウィンターバザール 対象商品');
+		$('title').text('ウィンターバザール 対象商品');
 	} else if (params.tag == 'feature20220224') {
 		$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/featurePage-banner-feature20220224_1184x240.jpg" alt="入園入学の準備"><br>入園入学の準備');
 		$('.fs-c-breadcrumb__listItem:last-child').text('入園入学の準備');
