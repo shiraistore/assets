@@ -806,7 +806,8 @@ function productSortSelect() {
 function searchTagTitle() {
 	var params = parameterToArray();
 	if (params.tag == 'sale20221215-20221227') {
-		$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20221215-20221227_1184x240.jpg" alt="ウィンターバザール 対象商品"><br>ウィンターバザール 対象商品');
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20221215-20221227_1184x240.jpg" alt="ウィンターバザール 対象商品">');
+		$('#fs_ProductSearch h1').html('ウィンターバザール 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('ウィンターバザール 対象商品');
 		$('title').text('ウィンターバザール 対象商品');
 	} else if (params.tag == 'feature20220224') {
