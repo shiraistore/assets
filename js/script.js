@@ -2514,6 +2514,10 @@ function productDetailAddData() {
 							if (icon_ary[j][0] == 'mark-sale') {
 								iconHtml += '<span class="mark-sale">SALE</span>';
 							}
+
+							if (icon_ary[j][0] == 'mark-outlet') {
+								iconHtml += '<span class="mark-outlet">OUTLET</span>';
+							}
 						}
 					}
 
