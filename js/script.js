@@ -321,7 +321,7 @@ function reviewsDisplayForSearchResults() {
 			
 		} else {
 
-			$('h1').after('<p class="red text-center">*このページからのみ先行販売商品をご覧いただけます。<br>再度ご覧いただくにはメルマガ、もしくはLINEのURLからアクセスしてください。</p>');
+			$('h1').after('<p class="red text-center">*このページからのみ先行販売商品をご覧いただけます。<br>再度ご覧いただくにはメルマガ、もしくはLINEのリンクからアクセスしてください。</p>');
 			$('.category-subCategory-menu').remove();
 		}
 	}
