@@ -672,7 +672,7 @@ function productDetail_ptsContentsBanner() {
 		url = url.split('/');
 		var series = url[url.length - 1].split('-');
 		if (series[0] == 'pts') {
-			var html = '<ul id="contents-banner"><li><a href="/f/feature/pitashie-featureAndCombination"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-pitashie-featureAndCombination.jpg"></a></li></ul>';
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/pitashie-featureAndCombination"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-pitashie-featureAndCombination.jpg"></a></li><li><a href="/f/feature/pitashie-review"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-pitashie-review.jpg"></a></li></ul>';
 
 			$('#productActionBox').after(html);
 		}
