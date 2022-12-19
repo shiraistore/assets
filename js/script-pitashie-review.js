@@ -20,7 +20,7 @@ jQuery(function ($) {
 
 function addCart() {
     $.getJSON('https://cdn.shirai-store.net/assets/json/feature/pitashie-review_v1_0.json', function (data) {
-        console.log(data);
+        //console.log(data);
         $('.addToCart').each(function () {
             var product = $(this).data('products');
             var specifiedName = $(this).data('specifiedname');
@@ -49,7 +49,7 @@ function addCart() {
                 // console.log('productUrl:', productUrl);
                 // console.log('productNumber:', productNumber);
                 // console.log('productId:', productId);
-                console.log('productName:', productName);
+                //console.log('productName:', productName);
                 // console.log('sellingPrice:', sellingPrice);
                 // console.log('normalPrice:', normalPrice);
                 // console.log('adis_ary:', adis_ary);
