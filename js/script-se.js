@@ -876,11 +876,11 @@ function expectedArrival() {
 						function checkHolyDay(arrivalDate_ary, leadTime, holyDay, status) {
 							for (let i = 0; i < leadTime; i++) {
 								if ($.inArray(arrivalDate_ary[i], holyDay) > -1) {
-									console.log(arrivalDate_ary[i] + 'は休業日');
+									//console.log(arrivalDate_ary[i] + 'は休業日');
 									arrivalDate_ary[i] = '';
 									leadTime++;
 								} else {
-									console.log(arrivalDate_ary[i] + 'を削除（' + status + 'リードタイム）');
+									//console.log(arrivalDate_ary[i] + 'を削除（' + status + 'リードタイム）');
 									arrivalDate_ary[i] = '';
 								}
 							}
