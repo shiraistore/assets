@@ -329,7 +329,7 @@ function instagramPostDisplayForSearchResults() {
 	if ($('#fs_ProductSearch').length || $('#fs_ProductCategory').length) {
 		if (!$('.fs-body-category-preSale').length) {
 			$.getJSON('https://cdn.shirai-store.net/assets/json/common/instagramDisplayPhoto_v1_0.json', function (instagramPostData) {
-				console.log(instagramPostData);
+				//console.log(instagramPostData);
 				var productNumbers;
 				var listHtml = '';
 				$('.fs-c-productListItem').each(function () {
@@ -339,15 +339,16 @@ function instagramPostDisplayForSearchResults() {
 					productNumbers += productNumber;
 				});
 
-				console.log(productNumbers);
+				//console.log(productNumbers);
 
 				var count = 0;
+				instagramPostData = instagramPostData.reverse();
 
 				for (var i in instagramPostData) {
 					for (var j in instagramPostData[i].relatedProduct) {
 						var checkProductNumber = instagramPostData[i].relatedProduct[j].productUrl;
 						//console.log('checkProductNumber:' + productNumber);
-						console.log('checkProductNumber:' + checkProductNumber);
+						//console.log('checkProductNumber:' + checkProductNumber);
 						if (count >= 10) {
 							break;
 						}
@@ -375,13 +376,13 @@ function instagramPostDisplayForSearchResults() {
 				}
 
 				$('.modal-open').on('click', function () {
-					modal_addContent(instagramPostData, thumbnail_url, $(this));
+					modal_addContent_instagram(instagramPostData, thumbnail_url, $(this));
 				});
 
 				$('.modal-ctr-open').on('click', function () {
 					if (!$(this).hasClass('disable')) {
 						$('.modal-content_inner').fadeOut(0);
-						modal_addContent(instagramPostData, thumbnail_url, $(this));
+						modal_addContent_instagram(instagramPostData, thumbnail_url, $(this));
 						$('.modal-content_inner').fadeIn(300);
 					}
 				});
@@ -1194,13 +1195,13 @@ function instagramPostList() {
 			}
 
 			$('.modal-open').on('click', function () {
-				modal_addContent(instagramPostData, thumbnail_url, $(this));
+				modal_addContent_instagram(instagramPostData, thumbnail_url, $(this));
 			});
 
 			$('.modal-ctr-open').on('click', function () {
 				if (!$(this).hasClass('disable')) {
 					$('.modal-content_inner').fadeOut(0);
-					modal_addContent(instagramPostData, thumbnail_url, $(this));
+					modal_addContent_instagram(instagramPostData, thumbnail_url, $(this));
 					$('.modal-content_inner').fadeIn(300);
 				}
 			});
@@ -1209,7 +1210,7 @@ function instagramPostList() {
 	}
 }
 
-function modal_addContent(instagramPostData, thumbnail_url, element) {
+function modal_addContent_instagram(instagramPostData, thumbnail_url, element) {
 	var id = element.data('postid');
 
 	var target = instagramPostData
@@ -1383,7 +1384,7 @@ function modal_addContent(instagramPostData, thumbnail_url, element) {
 
 function modal() {
 	// ウィンドウを開く
-	$('.modal-open').on('click', function () {
+	$('.modal-open, .modal-open-instagram').on('click', function () {
 		$('body').css('overflow', 'hidden');
 		var target = $(this).data('target');
 		var modal = document.getElementById(target);
@@ -3088,15 +3089,18 @@ function productDetailAddData() {
 
 		$.getJSON('https://cdn.shirai-store.net/assets/json/common/instagramDisplayPhoto_v1_0.json', function (instagramPostData) {
 			//console.log(instagramPostData);
-			var productNumbers = '';
+			var productNumbers = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
+			//console.log(productNumbers);
 			var listHtml = '';
-			$('#product-comment_5 li').each(function(){
+			$('#product-comment_5 li,#product-comment_9 li').each(function(){
 				productNumbers += $(this).data('productcode');
 			});
 
 			//console.log(productNumbers);
 
 			var count = 0;
+
+			instagramPostData = instagramPostData.reverse();
 
 			for (var i in instagramPostData) {
 				for (var j in instagramPostData[i].relatedProduct) {
@@ -3112,7 +3116,7 @@ function productDetailAddData() {
 							thumbnail_url = instagramPostData[i].thumbnail_url,
 							sizeAdjustment = instagramPostData[i].sizeAdjustment;
 
-						listHtml += '<li class="modal-open" data-target="instagramPost-modal" data-postid="' + postId + '"><img src="' + thumbnail_url + '" style="width:' + sizeAdjustment + '%;height:' + sizeAdjustment + '%;" alt="instagramPost_' + postId + '"></li>';
+						listHtml += '<li class="modal-open-instagram" data-target="instagramPost-modal" data-postid="' + postId + '"><img src="' + thumbnail_url + '" style="width:' + sizeAdjustment + '%;height:' + sizeAdjustment + '%;" alt="instagramPost_' + postId + '"></li>';
 						// $('#postedList').append(listHtml);
 						//console.log(listHtml);
 						count++;
@@ -3129,14 +3133,14 @@ function productDetailAddData() {
 				);
 			}
 
-			$('.modal-open').on('click', function () {
-				modal_addContent(instagramPostData, thumbnail_url, $(this));
+			$('.modal-open-instagram').on('click', function () {
+				modal_addContent_instagram(instagramPostData, thumbnail_url, $(this));
 			});
 
 			$('.modal-ctr-open').on('click', function () {
 				if (!$(this).hasClass('disable')) {
 					$('.modal-content_inner').fadeOut(0);
-					modal_addContent(instagramPostData, thumbnail_url, $(this));
+					modal_addContent_instagram(instagramPostData, thumbnail_url, $(this));
 					$('.modal-content_inner').fadeIn(300);
 				}
 			});
