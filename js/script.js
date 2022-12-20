@@ -2888,8 +2888,8 @@ function productDetailAddData() {
 
 				$('#reviwRatingBox').css('display', 'block');
 
-				//レビュー件数が3件以下ならレビュー詳細ボタンを削除
-				if (reviewCount < 4) {
+				//レビュー件数が10件以下ならレビュー詳細ボタンを削除
+				if (reviewCount < 11) {
 					$('.fs-c-productReview__allReviews').remove();
 				} else {
 					$('#multipleReviewList').append('<div class="fs-c-productReview__allReviews fs-c-buttonContainer fs-c-buttonContainer--viewAllReviews"><a href="' + reviewListURL + '" class="othersReview fs-c-button--viewAllReviews fs-c-button--plain"><span class="fs-c-button__label">その他のレビューを見る</span></a></div>');
