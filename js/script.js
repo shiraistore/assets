@@ -47,6 +47,7 @@ $(function () {
 	recommendTop10(); //OK
 	searchFilterTnl(); //OK
 	reviewsDisplayForSearchResults();
+	instagramPostDisplayForSearchResults();
 	var grobal_rakingTop10Type = $('.productTop10Slider.ranking').data('ranking');
 	//console.log('grobal_rakingTop10Type:',grobal_rakingTop10Type);
 	if (grobal_rakingTop10Type) {
@@ -273,22 +274,22 @@ function reviewsDisplayForSearchResults() {
 				},
 			}).responseText;
 
-			if(resutls != '[]'){
+			if (resutls != '[]') {
 				resutls = resutls.replace(/\r?\n/g, '<br>');
 
 				resutls = JSON.parse(resutls);
-	
+
 				var reviewsHtml = '';
 				for (const review of resutls) {
 					const productId12Length = zeroPadding(review.product_id, 12);
 					const productGroup = Math.floor(review.product_id / 100);
 					const productGroup3Length = zeroPadding(productGroup, 3);
 					const productThumbnailNumber2Length = zeroPadding(review.product_thumbnail_number, 2);
-	
+
 					//console.log(review.product_number);
 					const productNumber = review.product_number;
 					let productUrl;
-	
+
 					for (let i = 0; i < productUrls.length; i++) {
 						if (productUrls[i].indexOf(productNumber) != -1) {
 							//console.log(productUrl.indexOf(productNumber));
@@ -296,18 +297,18 @@ function reviewsDisplayForSearchResults() {
 							productUrl = productUrls[i];
 						}
 					}
-	
+
 					let upDate = review.created_at.split('T');
 					upDate = upDate[0].replace(/-/g, '/');
-	
+
 					// console.log('productThumbnailNumber2Length:',productThumbnailNumber2Length);
 					// console.log('productId12Length:',productId12Length);
 					// console.log('productGroup3Length:',productGroup3Length);
 					// console.log('productUrl:',productUrl);
-	
+
 					reviewsHtml += `<li class="fs-c-reviewList__item reviewScore-${review.rating}"><div class="reviewImage"><a href="${productUrl}"><img src="https://shiraistore.itembox.design/product/${productGroup3Length}/${productId12Length}/${productId12Length}-${productThumbnailNumber2Length}-xs.jpg" alt=""></a></div><h3 class="productName">${review.product_name}</h3><div class="reviewContent"><div class="fs-c-reviewList__item__info fs-c-reviewInfo"><div class="fs-c-reviewInfo__reviewer fs-c-reviewer"><div class="fs-c-reviewer__name"><span class="fs-c-reviewer__name__nickname">${review.nickname}</span></div><div class="fs-c-reviewer__status"><span class="fs-c-reviewerStatus">購入者</span></div><div class="fs-c-reviewer__profile"></div></div><dl class="fs-c-reviewInfo__date"><dt>投稿日</dt><dd><time datetime="${review.created_at}" class="fs-c-time">${upDate}</time></dd></dl><div class="fs-c-reviewRating"><div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="${review.rating}.0"></div></div></div><div class="color">${review.product_color}</div><div class="fs-c-reviewList__item__body fs-c-reviewBody">${review.body}</div><div class="text-right"><a href="${productUrl}" class="text-link-color">商品詳細を見る</a></div></div></li>`;
 				}
-	
+
 				if ($('.advanceSearchTag').length) {
 					searchTagsCanonicalChange();
 					const tagName = $('.advanceSearchTag').html().replace('#', '');
@@ -317,12 +318,75 @@ function reviewsDisplayForSearchResults() {
 					$('.fs-c-productList').after(`<div id="multipleReviewList" class="productList"><h2>${titleName}のレビュー</h2><ul>${reviewsHtml}</ul></div>`);
 				}
 			}
-
-			
 		} else {
-
 			$('h1').after('<p class="red text-center">*このページからのみ先行販売商品をご覧いただけます。<br>再度ご覧いただくにはメルマガ、もしくはLINEのリンクからアクセスしてください。</p>');
 			$('.category-subCategory-menu').remove();
+		}
+	}
+}
+
+function instagramPostDisplayForSearchResults() {
+	if ($('#fs_ProductSearch').length || $('#fs_ProductCategory').length) {
+		if (!$('.fs-body-category-preSale').length) {
+			$.getJSON('https://cdn.shirai-store.net/assets/json/common/instagramDisplayPhoto_v1_0.json', function (instagramPostData) {
+				console.log(instagramPostData);
+				var productNumbers;
+				var listHtml = '';
+				$('.fs-c-productListItem').each(function () {
+					var productHref = $(this).find('a').attr('href');
+					var productNumber = productHref.split('/');
+					var productNumber = productNumber.slice(-1)[0];
+					productNumbers += productNumber;
+				});
+
+				console.log(productNumbers);
+
+				var count = 0;
+
+				for (var i in instagramPostData) {
+					for (var j in instagramPostData[i].relatedProduct) {
+						var checkProductNumber = instagramPostData[i].relatedProduct[j].productUrl;
+						//console.log('checkProductNumber:' + productNumber);
+						console.log('checkProductNumber:' + checkProductNumber);
+						if (count >= 10) {
+							break;
+						}
+
+						if (productNumbers.indexOf(checkProductNumber) > -1) {
+							var postId = instagramPostData[i].postId,
+								thumbnail_url = instagramPostData[i].thumbnail_url,
+								sizeAdjustment = instagramPostData[i].sizeAdjustment;
+
+							listHtml += '<li class="modal-open" data-target="instagramPost-modal" data-postid="' + postId + '"><img src="' + thumbnail_url + '" style="width:' + sizeAdjustment + '%;height:' + sizeAdjustment + '%;" alt="instagramPost_' + postId + '"></li>';
+							// $('#postedList').append(listHtml);
+							//console.log(listHtml);
+							count++;
+							break;
+						}
+					}
+				}
+
+				if (listHtml != '') {
+					$('.fs-c-productList').after(
+						'<div id="shirai_fan"><h2>#shirai_fan<span>みんなのInstagram投稿写真集</span></h2><p class="text-center">Instagramで投稿していただいた写真をご紹介しています。<br>紹介時にはSHIRAI STOREスタッフからご連絡後、みなさんの写真を掲載します。#shirai_fanをつけてお気に入りのアイテムをぜひ投稿してください！</p><ul id="postedList">' +
+							listHtml +
+							'</ul><div class="fs-c-buttonContainer more-button"><a href="/f/shirai-fan" class="fs-c-button--standard">その他の投稿を見る</a></div><div id="instagramPost-modal" class="modal"><div class="modal-bg modal-close"></div><div id="instagramPost-modal_outer" class="modal-close"><div class="modal-content"><div class="modal-content_inner"></div><a class="modal-close_btn modal-close" href=""><img src="https://shiraistore.itembox.design/item/src/icon-close.svg" alt="閉じる" title="閉じる"></a><ul id="modal-control"><li class="modal-ctr-open prev" data-target="instagramPost-modal" data-postid=""></li><li class="modal-ctr-open next" data-target="instagramPost-modal" data-postid=""></li></ul></div></div></div></div></div>'
+					);
+				}
+
+				$('.modal-open').on('click', function () {
+					modal_addContent(instagramPostData, thumbnail_url, $(this));
+				});
+
+				$('.modal-ctr-open').on('click', function () {
+					if (!$(this).hasClass('disable')) {
+						$('.modal-content_inner').fadeOut(0);
+						modal_addContent(instagramPostData, thumbnail_url, $(this));
+						$('.modal-content_inner').fadeIn(300);
+					}
+				});
+				modal();
+			});
 		}
 	}
 }
@@ -1143,174 +1207,174 @@ function instagramPostList() {
 			modal();
 		});
 	}
+}
 
-	function modal_addContent(instagramPostData, thumbnail_url, element) {
-		var id = element.data('postid');
+function modal_addContent(instagramPostData, thumbnail_url, element) {
+	var id = element.data('postid');
 
-		var target = instagramPostData
-			.filter(function (object) {
-				return object.postId == id;
-			})
-			.shift();
+	var target = instagramPostData
+		.filter(function (object) {
+			return object.postId == id;
+		})
+		.shift();
 
-		var thumbnail_url = target.thumbnail_url;
-		var author_name = target.author_name;
-		var modalHtml =
-			'<div id="imageBox"><a href="https://www.instagram.com/p/' +
-			id +
-			'/" target="_blank"><img width="320" data-src="' +
-			thumbnail_url +
-			'" src="https://shiraistore.itembox.design/item/src/loading.svg" id="thumbnail" class="lazyload" alt="instagramPost_' +
-			id +
-			'"></a><span id="author"><img src="https://shiraistore.itembox.design/item/src/icon-instagram-gr.svg" width="16"><span>Photo by</span><a href=https://www.instagram.com/' +
-			author_name +
-			' target="_blank">' +
-			author_name +
-			'</a></span></div>';
+	var thumbnail_url = target.thumbnail_url;
+	var author_name = target.author_name;
+	var modalHtml =
+		'<div id="imageBox"><a href="https://www.instagram.com/p/' +
+		id +
+		'/" target="_blank"><img width="320" data-src="' +
+		thumbnail_url +
+		'" src="https://shiraistore.itembox.design/item/src/loading.svg" id="thumbnail" class="lazyload" alt="instagramPost_' +
+		id +
+		'"></a><span id="author"><img src="https://shiraistore.itembox.design/item/src/icon-instagram-gr.svg" width="16"><span>Photo by</span><a href=https://www.instagram.com/' +
+		author_name +
+		' target="_blank">' +
+		author_name +
+		'</a></span></div>';
 
-		var modalProductHtml = '';
-		for (var i = 0; target.relatedProduct.length > i; i++) {
-			//console.log('i:',i)
-			var productUrl = target.relatedProduct[i].productUrl;
-			var productId = target.relatedProduct[i].productId;
-			var productId_12Len = zeroPadding(target.relatedProduct[i].productId, 12);
-			var item_image_group = Math.floor(productId / 100);
-			var productName = target.relatedProduct[i].productName;
-			var categoryName = target.relatedProduct[i].categoryLv1;
-			var averageRating = parseFloat(target.relatedProduct[i].averageRating);
-			var reviewCount = target.relatedProduct[i].reviewCount;
-			var sellingPrice = target.relatedProduct[i].sellingPrice;
-			var normalPrice = target.relatedProduct[i].normalPrice;
-			var thumbNumber = ('00' + target.relatedProduct[i].thumbNumber).slice(-2);
-			var icon = target.relatedProduct[i].icon;
-			var seriesCode = target.relatedProduct[i].seriesCode.toLowerCase();
+	var modalProductHtml = '';
+	for (var i = 0; target.relatedProduct.length > i; i++) {
+		//console.log('i:',i)
+		var productUrl = target.relatedProduct[i].productUrl;
+		var productId = target.relatedProduct[i].productId;
+		var productId_12Len = zeroPadding(target.relatedProduct[i].productId, 12);
+		var item_image_group = Math.floor(productId / 100);
+		var productName = target.relatedProduct[i].productName;
+		var categoryName = target.relatedProduct[i].categoryLv1;
+		var averageRating = parseFloat(target.relatedProduct[i].averageRating);
+		var reviewCount = target.relatedProduct[i].reviewCount;
+		var sellingPrice = target.relatedProduct[i].sellingPrice;
+		var normalPrice = target.relatedProduct[i].normalPrice;
+		var thumbNumber = ('00' + target.relatedProduct[i].thumbNumber).slice(-2);
+		var icon = target.relatedProduct[i].icon;
+		var seriesCode = target.relatedProduct[i].seriesCode.toLowerCase();
 
-			//('icon:', icon)
+		//('icon:', icon)
 
-			if (icon != null) var icon_ary = icon.split(',');
-			var icon_html = '';
-			if (icon_ary != '') {
-				for (var j = 0; icon_ary.length > j; j++) {
-					icon_splitAry = icon_ary[j].split(':');
-					if (icon_splitAry[0] == 'mark-sale' && sellingPrice < normalPrice) {
-						icon_html += '<span class="mark-sale">SALE</span>';
-					}
-					if (icon_splitAry[0] == 'mark-limitedProduct') {
-						icon_html += '<span class="mark-limitedProduct">当店限定商品</span>';
-					}
-					if (icon_splitAry[0] == 'mark-categoryRank' && icon_splitAry[1] <= 3) {
-						icon_html += '<span class="mark-catRank">' + categoryName + ' ' + icon_splitAry[1] + '位</span>';
-					}
+		if (icon != null) var icon_ary = icon.split(',');
+		var icon_html = '';
+		if (icon_ary != '') {
+			for (var j = 0; icon_ary.length > j; j++) {
+				icon_splitAry = icon_ary[j].split(':');
+				if (icon_splitAry[0] == 'mark-sale' && sellingPrice < normalPrice) {
+					icon_html += '<span class="mark-sale">SALE</span>';
+				}
+				if (icon_splitAry[0] == 'mark-limitedProduct') {
+					icon_html += '<span class="mark-limitedProduct">当店限定商品</span>';
+				}
+				if (icon_splitAry[0] == 'mark-categoryRank' && icon_splitAry[1] <= 3) {
+					icon_html += '<span class="mark-catRank">' + categoryName + ' ' + icon_splitAry[1] + '位</span>';
 				}
 			}
-			icon_html = '<span class="itemIcon">' + icon_html + '</span>';
+		}
+		icon_html = '<span class="itemIcon">' + icon_html + '</span>';
 
-			//レビュースコアの閾値を設定
-			if (averageRating < 0.5) {
-				averageRating = '0';
-				//console.log(averageRating)
-			} else if (averageRating < 1.0) {
-				averageRating = '0.5';
-			} else if (averageRating < 1.5) {
-				averageRating = '1.0';
-			} else if (averageRating < 2.0) {
-				averageRating = '1.5';
-			} else if (averageRating < 2.5) {
-				averageRating = '2.0';
-			} else if (averageRating < 3.0) {
-				averageRating = '2.5';
-			} else if (averageRating < 3.5) {
-				averageRating = '3.0';
-			} else if (averageRating < 4.0) {
-				averageRating = '3.5';
-			} else if (averageRating < 4.5) {
-				averageRating = '4.0';
-			} else if (averageRating < 5) {
-				averageRating = '4.5';
-			} else if (averageRating == 5) {
-				averageRating = '5.0';
-			}
-
-			var averageRating_html = '';
-			if (reviewCount != 0) {
-				averageRating_html = '<span class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + averageRating + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + productUrl + '" class="itemReviewCount">（' + reviewCount + '）</a></span>';
-			}
-
-			sellingPrice = String(sellingPrice).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
-			normalPrice = String(normalPrice).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
-
-			if (sellingPrice < normalPrice) {
-				var price_html = '<span class="itemNormalPrice itemPrice">¥ ' + normalPrice + '<span class="tax">(税込)</span></span><span class="itemSalePrice itemPrice"><span class="sale">特別価格</span> ¥ ' + sellingPrice + '<span class="tax">(税込)</span></span>';
-			} else {
-				var price_html = '<span class="itemPrice">¥ ' + sellingPrice + '<span class="tax">(税込)</span></span>';
-			}
-
-			modalProductHtml =
-				modalProductHtml +
-				'<li class="relatedProductItem"><a href="https://shirai-store.net/c/series/' +
-				seriesCode +
-				'/' +
-				productUrl +
-				'"><img data-src="' +
-				'https://shiraistore.itembox.design/product/' +
-				zeroPadding(item_image_group, 3) +
-				'/' +
-				productId_12Len +
-				'/' +
-				productId_12Len +
-				'-' +
-				thumbNumber +
-				'-s.jpg" alt="instagramPost_' +
-				id +
-				' ' +
-				productName +
-				'" src="https://shiraistore.itembox.design/item/src/loading.svg" class="lazyload"></a><p><a href="https://shirai-store.net/c/series/' +
-				seriesCode +
-				'/' +
-				productUrl +
-				'" class="itemName">' +
-				productName +
-				'</a>' +
-				icon_html +
-				averageRating_html +
-				price_html +
-				'</li>';
+		//レビュースコアの閾値を設定
+		if (averageRating < 0.5) {
+			averageRating = '0';
+			//console.log(averageRating)
+		} else if (averageRating < 1.0) {
+			averageRating = '0.5';
+		} else if (averageRating < 1.5) {
+			averageRating = '1.0';
+		} else if (averageRating < 2.0) {
+			averageRating = '1.5';
+		} else if (averageRating < 2.5) {
+			averageRating = '2.0';
+		} else if (averageRating < 3.0) {
+			averageRating = '2.5';
+		} else if (averageRating < 3.5) {
+			averageRating = '3.0';
+		} else if (averageRating < 4.0) {
+			averageRating = '3.5';
+		} else if (averageRating < 4.5) {
+			averageRating = '4.0';
+		} else if (averageRating < 5) {
+			averageRating = '4.5';
+		} else if (averageRating == 5) {
+			averageRating = '5.0';
 		}
 
-		modalHtml = modalHtml + '<ul id="relatedProductList">' + modalProductHtml + '</ul>';
+		var averageRating_html = '';
+		if (reviewCount != 0) {
+			averageRating_html = '<span class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + averageRating + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + productUrl + '" class="itemReviewCount">（' + reviewCount + '）</a></span>';
+		}
 
-		$('.modal-content_inner').html(modalHtml);
-		$('.modal-content_inner').fadeIn(300);
+		sellingPrice = String(sellingPrice).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
+		normalPrice = String(normalPrice).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
 
-		var prevPost = $('#postedList')
-			.children('[data-postid=' + id + ']')
-			.prev('li')
-			.data('postid');
-		var nextPost = $('#postedList')
-			.children('[data-postid=' + id + ']')
-			.next('li')
-			.data('postid');
-
-		// console.log('prevPost:', prevPost);
-		// console.log('nextPost:', nextPost);
-
-		if (prevPost != undefined) {
-			$('#modal-control').find('.prev').data('postid', prevPost);
-			$('#modal-control').find('.prev').removeClass('disable');
-			$('#modal-control').find('.prev').addClass('modal-ctr-open');
+		if (sellingPrice < normalPrice) {
+			var price_html = '<span class="itemNormalPrice itemPrice">¥ ' + normalPrice + '<span class="tax">(税込)</span></span><span class="itemSalePrice itemPrice"><span class="sale">特別価格</span> ¥ ' + sellingPrice + '<span class="tax">(税込)</span></span>';
 		} else {
-			$('#modal-control').find('.prev').addClass('disable');
-			$('#modal-control').find('.prev').removeClass('modal-ctr-open');
+			var price_html = '<span class="itemPrice">¥ ' + sellingPrice + '<span class="tax">(税込)</span></span>';
 		}
 
-		if (nextPost != undefined) {
-			$('#modal-control').find('.next').data('postid', nextPost);
-			$('#modal-control').find('.next').removeClass('disable');
-			$('#modal-control').find('.next').addClass('modal-ctr-open');
-		} else {
-			$('#modal-control').find('.next').addClass('disable');
-			$('#modal-control').find('.next').removeClass('modal-ctr-open');
-		}
+		modalProductHtml =
+			modalProductHtml +
+			'<li class="relatedProductItem"><a href="https://shirai-store.net/c/series/' +
+			seriesCode +
+			'/' +
+			productUrl +
+			'"><img data-src="' +
+			'https://shiraistore.itembox.design/product/' +
+			zeroPadding(item_image_group, 3) +
+			'/' +
+			productId_12Len +
+			'/' +
+			productId_12Len +
+			'-' +
+			thumbNumber +
+			'-s.jpg" alt="instagramPost_' +
+			id +
+			' ' +
+			productName +
+			'" src="https://shiraistore.itembox.design/item/src/loading.svg" class="lazyload"></a><p><a href="https://shirai-store.net/c/series/' +
+			seriesCode +
+			'/' +
+			productUrl +
+			'" class="itemName">' +
+			productName +
+			'</a>' +
+			icon_html +
+			averageRating_html +
+			price_html +
+			'</li>';
+	}
+
+	modalHtml = modalHtml + '<ul id="relatedProductList">' + modalProductHtml + '</ul>';
+
+	$('.modal-content_inner').html(modalHtml);
+	$('.modal-content_inner').fadeIn(300);
+
+	var prevPost = $('#postedList')
+		.children('[data-postid=' + id + ']')
+		.prev('li')
+		.data('postid');
+	var nextPost = $('#postedList')
+		.children('[data-postid=' + id + ']')
+		.next('li')
+		.data('postid');
+
+	// console.log('prevPost:', prevPost);
+	// console.log('nextPost:', nextPost);
+
+	if (prevPost != undefined) {
+		$('#modal-control').find('.prev').data('postid', prevPost);
+		$('#modal-control').find('.prev').removeClass('disable');
+		$('#modal-control').find('.prev').addClass('modal-ctr-open');
+	} else {
+		$('#modal-control').find('.prev').addClass('disable');
+		$('#modal-control').find('.prev').removeClass('modal-ctr-open');
+	}
+
+	if (nextPost != undefined) {
+		$('#modal-control').find('.next').data('postid', nextPost);
+		$('#modal-control').find('.next').removeClass('disable');
+		$('#modal-control').find('.next').addClass('modal-ctr-open');
+	} else {
+		$('#modal-control').find('.next').addClass('disable');
+		$('#modal-control').find('.next').removeClass('modal-ctr-open');
 	}
 }
 
@@ -3020,6 +3084,63 @@ function productDetailAddData() {
 				checkScreenSize();
 				$('#productDetail-seriesItems').css('display', 'block');
 			}
+		});
+
+		$.getJSON('https://cdn.shirai-store.net/assets/json/common/instagramDisplayPhoto_v1_0.json', function (instagramPostData) {
+			//console.log(instagramPostData);
+			var productNumbers = '';
+			var listHtml = '';
+			$('#product-comment_5 li').each(function(){
+				productNumbers += $(this).data('productcode');
+			});
+
+			//console.log(productNumbers);
+
+			var count = 0;
+
+			for (var i in instagramPostData) {
+				for (var j in instagramPostData[i].relatedProduct) {
+					var checkProductNumber = instagramPostData[i].relatedProduct[j].productUrl;
+					//console.log('checkProductNumber:' + productNumber);
+					//console.log('checkProductNumber:' + checkProductNumber);
+					if (count >= 10) {
+						break;
+					}
+
+					if (productNumbers.indexOf(checkProductNumber) > -1) {
+						var postId = instagramPostData[i].postId,
+							thumbnail_url = instagramPostData[i].thumbnail_url,
+							sizeAdjustment = instagramPostData[i].sizeAdjustment;
+
+						listHtml += '<li class="modal-open" data-target="instagramPost-modal" data-postid="' + postId + '"><img src="' + thumbnail_url + '" style="width:' + sizeAdjustment + '%;height:' + sizeAdjustment + '%;" alt="instagramPost_' + postId + '"></li>';
+						// $('#postedList').append(listHtml);
+						//console.log(listHtml);
+						count++;
+						break;
+					}
+				}
+			}
+
+			if (listHtml != '') {
+				$('#feature').before(
+					'<div id="shirai_fan"><h2 class="productDescriptionTitle">みんなの投稿写真<span>#shirai_fan</span></h2><p class="text-center">Instagramでみなさんに投稿していただいた写真をご紹介しています。</p><ul id="postedList">' +
+						listHtml +
+						'</ul><div class="fs-c-buttonContainer more-button"><a href="/f/shirai-fan" class="fs-c-button--standard">その他の投稿を見る</a></div><div id="instagramPost-modal" class="modal"><div class="modal-bg modal-close"></div><div id="instagramPost-modal_outer" class="modal-close"><div class="modal-content"><div class="modal-content_inner"></div><a class="modal-close_btn modal-close" href=""><img src="https://shiraistore.itembox.design/item/src/icon-close.svg" alt="閉じる" title="閉じる"></a><ul id="modal-control"><li class="modal-ctr-open prev" data-target="instagramPost-modal" data-postid=""></li><li class="modal-ctr-open next" data-target="instagramPost-modal" data-postid=""></li></ul></div></div></div></div></div>'
+				);
+			}
+
+			$('.modal-open').on('click', function () {
+				modal_addContent(instagramPostData, thumbnail_url, $(this));
+			});
+
+			$('.modal-ctr-open').on('click', function () {
+				if (!$(this).hasClass('disable')) {
+					$('.modal-content_inner').fadeOut(0);
+					modal_addContent(instagramPostData, thumbnail_url, $(this));
+					$('.modal-content_inner').fadeIn(300);
+				}
+			});
+			modal();
 		});
 	}
 }
