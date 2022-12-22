@@ -1932,28 +1932,71 @@ function featureMamihapiSeries_cart() {
 		var nowProductcode_Lower = nowProductcode_Upper.toLowerCase();
 		var productcode_Lower = $(this).val();
 		var productcode_Upper = productcode_Lower.toUpperCase();
-		var htmlSource;
 
-		$(this)
-			.parents('.product-right *')
-			.each(function () {
-				if ($(this).is('.variationItemSelect select option') == false) {
-					htmlSource = $(this).html();
-					$(this).html(htmlSource.replace(new RegExp(nowProductcode_Upper, 'g'), productcode_Upper));
-				}
-			});
+		// console.log(nowProductcode_Upper);
+		// console.log(nowProductcode_Lower);
+		// console.log(productcode_Upper);
+		// console.log(productcode_Lower);
+		var htmlSource = '';
 
-		$(this)
-			.parents('.product-right *')
-			.each(function () {
-				if ($(this).is('.variationItemSelect select option') == false) {
-					htmlSource = $(this).html();
-					$(this).html(htmlSource.replace(new RegExp(nowProductcode_Lower, 'g'), productcode_Lower));
-				}
-			});
+		$(this).parents('.product-right').find('form > input').attr('name','products['+productcode_Upper+'].productNo');
+		$(this).parents('.product-right').find('form > input').attr('value',productcode_Upper);
+		$(this).parents('.product-right').find('.productOption input').attr('name','products['+productcode_Upper+'].productOptionsWithPrice[1].id');
+		$(this).parents('.product-right').find('.productOption select').attr('name','products['+productcode_Upper+'].productOptionsWithPrice[1].value');
+		$(this).parents('.product-right').find('.productActionBox select').attr('name','products['+productcode_Upper+'].quantity');
 
-		$('.variationItemSelect select').val(productcode_Lower);
+		// htmlSource = $(this).parents('.product-right').html()
+		// 	//console.log($(this).html());
+		// htmlSource = htmlSource.replace(new RegExp(nowProductcode_Upper, 'g'), productcode_Upper);
+		// console.log(htmlSource);
+		// //htmlSource = htmlSource.replace(new RegExp(nowProductcode_Lower, 'g'), productcode_Lower);
+		// 		// if ($(this).is('.variationItemSelect select option') == false) {
+		// 		// 	htmlSource = $(this).html();
+		// 		// 	//console.log(htmlSource);
+					
+		// 		// 	
+		// 		// }
+		// $(this).parents('.product-right').html(htmlSource)
+		// //$(this).html(htmlSource);
+		// console.log(productcode_Lower);
+		// console.log($(this).html());
+		// $(this).val(productcode_Lower);
 	});
+		// console.log($(this).html())
+		// console.log($(this).val());
+		
+
+		// $(this)
+		// 	.parents('.product-right *')
+		// 	.each(function () {
+		// 		if ($(this).is('.variationItemSelect select option') == false) {
+		// 			htmlSource = $(this).html();
+		// 			console.log(htmlSource);
+		// 			$(this).html(htmlSource.replace(new RegExp(nowProductcode_Lower, 'g'), productcode_Lower));
+		// 		}
+		// 	});
+	//});
+
+	// $(document).on('change', '.blanketQuantitySelect', function () {
+	// 	var blanketQuantitySelectVal = $(this).val();
+	// 	$(this)
+	// 		.parents('.productActionButton')
+	// 		.find('.blanketQuantity')
+	// 		.each(function () {
+	// 			var basequantity = $(this).data('basequantity');
+	// 			$(this).val(blanketQuantitySelectVal * basequantity);
+	// 		});
+	// });
+
+	// $(document).on('change', '.blanketADISSelect', function () {
+	// 	var blanketADISSelectVal = $(this).val();
+	// 	$(this)
+	// 		.parents('.productActionButton')
+	// 		.find('.blanketADIS')
+	// 		.each(function () {
+	// 			$(this).val(blanketADISSelectVal);
+	// 		});
+	// });
 }
 
 /* featureMamihapibyages_slider
