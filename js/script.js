@@ -879,10 +879,11 @@ function searchTagTitle() {
 		$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/featurePage-banner-feature20220224_1184x240.jpg" alt="入園入学の準備"><br>入園入学の準備');
 		$('.fs-c-breadcrumb__listItem:last-child').text('入園入学の準備');
 		$('title').text('入園入学の準備');
-	} else if (params.tag == 'sale20221121-20221208') {
-		$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20221121-20221208_1184x240.jpg" alt="サンクスギビング SALE 対象商品"><br>サンクスギビング SALE 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('サンクスギビング SALE 対象商品');
-		$('title').text('サンクスギビング SALE 対象商品 | 家具インテリア通販のSHIRAI STORE(白井産業)');
+	} else if (params.tag == 'sale20221227-20230110') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20221227-20230110_1184x240.jpg" alt="歳末&新春SALE 対象商品">');
+		$('#fs_ProductSearch h1').html('歳末&新春SALE 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('歳末&新春SALE 対象商品');
+		$('title').text('歳末&新春SALE 対象商品 | 家具インテリア通販のSHIRAI STORE(白井産業)');
 	} else if (params.tag == 'outlet') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-outlet_1184x240.jpg" alt="アウトレット家具 対象商品">');
 		$('#fs_ProductSearch h1').html('アウトレット家具 対象商品');
