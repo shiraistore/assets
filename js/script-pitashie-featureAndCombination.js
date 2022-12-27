@@ -87,9 +87,11 @@ function featurePts() {
 
         $('.addToCart-multiple').each(function () {
             var products = $(this).data('products');
+            var quantity = $(this).data('quantity');
             var productImage = $(this).data('image');
             var productImageSize = $(this).data('imagesize');
             products_ary = products.split(',');
+            quantity_ary = quantity.split(',');
             //console.log(products_ary);
 
             var html = '',
@@ -98,6 +100,7 @@ function featurePts() {
                 adis01_totalPrice = 0,
                 adis02_totalPrice = 0;
 
+			var index = 0;
             for (product of products_ary) {
                 //console.log(product);
 
@@ -146,8 +149,9 @@ function featurePts() {
 
                     imgSrc = 'https://shiraistore.itembox.design/product/' + productId_Len3 + '/' + productId_Len12 + '/' + productId_Len12 + '-' + productImageNumber + '-' + productImageSize + '.jpg'
 
-                    html += '<input type="hidden" name="products[' + productNumber + '].productNo" value="' + productNumber + '"><input type="hidden" name="products[' + productNumber + '].productOptionsWithPrice[1].id" value="1"/><input class="adisInput" type="hidden" name="products[' + productNumber + '].productOptionsWithPrice[1].value" value=' + adis_ary[0][0] + '><input class="quantityInput" type="hidden" name="products[' + productNumber + '].quantity" value="1" size="5"></select>';
+                    html += '<input type="hidden" name="products[' + productNumber + '].productNo" value="' + productNumber + '"><input type="hidden" name="products[' + productNumber + '].productOptionsWithPrice[1].id" value="1"/><input class="adisInput" type="hidden" name="products[' + productNumber + '].productOptionsWithPrice[1].value" value=' + adis_ary[0][0] + '><input class="quantityInput" type="hidden" name="products[' + productNumber + '].quantity" value="'+quantity_ary[index]+'" size="5"></select>';
 
+					index++;
                 } else {
                     // データが存在しなかった時の処理
                 }
@@ -175,10 +179,16 @@ function featurePts() {
         $('.quantitySelect').change(function () {
             var val = $(this).val();
             //console.log(val);
-            $(this).parents().find('.quantityInput').each(function () {
-                $(this).val(val);
+			var index = 0;
+			var quantity = $(this).parents('.addToCart-multiple').data('quantity');
+			quantity_ary = quantity.split(',');
+			//console.log(quantity_ary);
+            $(this).parents('.addToCart-multiple').find('.quantityInput').each(function () {
+				//console.log(quantity_ary[index]);
+				quantityValue = quantity_ary[index];
+                $(this).val(val * quantityValue);
+				index++;
             });
         });
     });
 }
-
