@@ -1,0 +1,485 @@
+#pitashie-featureAndCombination {
+    text-align: center;
+    margin: auto;
+    max-width: 1200px;
+}
+
+#pitashie-featureAndCombination #mainVisual{
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    text-align: center;
+}
+
+#pitashie-featureAndCombination h1 {
+    margin: 32px auto;
+}
+
+#pitashie-featureAndCombination h2 {
+    border-bottom: solid 1px #dbdbdb;
+    width: 96%;
+    margin: 64px auto;
+    padding:  8px;
+}
+
+#pitashie-featureAndCombination h3 {
+    margin: 40px auto;
+    margin-top: 2em;
+    font-size: 2.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#pitashie-featureAndCombination h4 {
+    margin: 64px auto 0px;
+    font-size: 2rem;
+}
+
+#pitashie-featureAndCombination .contentsContainer h5 {
+    margin-top: 0;
+}
+
+#pitashie-featureAndCombination .circle{
+    background: #d4fc10;
+    border-radius: 40px;
+    display: flex;
+    width: 80px;
+    height: 80px;
+    text-align: center;
+    margin-right: 16px;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+    max-width: 80px;
+    min-height: 80px;
+    max-height: 80px;
+}
+
+#pitashie-featureAndCombination .subtitle{
+    font-size: 2rem;
+}
+
+#pitashie-featureAndCombination .subMenu {
+	display: flex;
+	justify-content: center;
+}
+
+#pitashie-featureAndCombination .internalLink{
+    border-bottom: solid 4px #dbdbdb;
+    font-size: 2rem;
+    margin: 8px;
+    padding: 8px;
+	width: 32%;
+}
+
+#pitashie-featureAndCombination .internalLink2{
+    border-bottom: solid 4px #dbdbdb;
+    font-size: 2rem;
+    margin: 4px;
+    padding: 8px;
+	width: 24%;
+}
+
+#pitashie-featureAndCombination .caption{
+    max-width: 740px;
+    margin: 32px auto;
+}
+
+#pitashie-featureAndCombination .linkButton{
+    display: block;
+    text-align: center;
+    border-radius: 24px;
+    padding: 8px;
+    width: 16%;
+    min-width: 240px;
+    margin: 24px auto;
+    border: 1px solid #d2d2d2;
+}
+
+#pitashie-featureAndCombination .linkButton:hover{
+    background-color: #bebcb4;
+}
+
+#pitashie-featureAndCombination .contentsContainer {
+    display: flex;
+    margin: 0 auto 64px;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+#pitashie-featureAndCombination .contentsContainer img {
+    width: 52%;
+}
+
+#pitashie-featureAndCombination .contentsContainer .point {
+    width: 40%;
+    text-align: left;
+}
+
+#pitashie-featureAndCombination .contentsContainer .point p{
+    margin: 32px auto;
+}
+
+#pitashie-featureAndCombination .contentsContainer a {
+    display: block;
+    text-align: center;
+    border-radius: 24px;
+    padding: 8px;
+    width: 64%;
+    min-width: 240px;
+    margin: 32px auto;
+    border: 1px solid #d2d2d2;
+}
+
+#pitashie-featureAndCombination .contentsContainer a:hover {
+    background-color: #bebcb4;
+}
+
+#pitashie-featureAndCombination .internalLink_counterSize{
+    width: 80% !important;
+    min-width: 272px !important;
+}
+
+#pitashie-featureAndCombination #width255{
+    border-bottom: solid 1px #dbdbdb;
+    margin-top: 88px;
+    width: 80%;
+    padding:  8px;
+}
+
+#pitashie-featureAndCombination #width165{
+    border-bottom: solid 1px #dbdbdb;
+    margin-top: 88px;
+    width: 80%;
+    padding:  8px;
+}
+
+#pitashie-featureAndCombination #otherSize{
+    border-bottom: solid 1px #dbdbdb;
+    margin-top: 88px;
+    width: 80%;
+    padding:  8px;
+}
+
+#pitashie-featureAndCombination .combination{
+    display: inline-block;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* 繧ｫ繝ｼ繝� */
+
+#pitashie-featureAndCombination .addToCart-multiple{
+    display: flex;
+    justify-content: center;
+    margin: 32px 0;
+}
+
+#pitashie-featureAndCombination .addToCart-multiple img{
+    padding-right: 40px;
+}
+
+#pitashie-featureAndCombination .addToCart-product{
+    text-align: left;
+}
+
+#pitashie-featureAndCombination .addToCart{
+    width: 24%;
+    text-align: left;
+    min-width: 168px;
+    margin-right: 2%;
+}
+
+#pitashie-featureAndCombination .set-item{
+    background-color: #f4f2eb;
+    border-radius: 16px;
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+    flex-wrap: wrap;
+}
+
+#pitashie-featureAndCombination button{
+    background: #e87909;
+    border-radius: 8px;
+    padding: 4px 0;
+    color: #fff;
+    border: none;
+    width: 100%;
+    margin: 4px;
+    display: block;
+}
+
+#pitashie-featureAndCombination .addToCart-bottom{
+    display: flex;
+    margin-bottom: 64px;
+}
+
+/*
+#pitashie-featureAndCombination .addToCart-bottom:after {
+    content: "";
+    display: block;
+    width: 25%;  /* .box縺ｫ謖�ｮ壹＠縺毆idth縺ｨ蜷後§蟷�ｒ謖�ｮ壹☆繧�
+    height: 0;
+}
+*/
+
+#pitashie-featureAndCombination .addToCartInner a{
+    background-color: rgb(255, 255, 255);
+    display: inline-block;
+    text-align: center;
+    border-radius: 24px;
+    padding: 8px 0px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(210, 210, 210);
+    border-image: initial;
+    width: 100%;
+    margin: 8px 0;
+}
+
+#pitashie-featureAndCombination .addToCartInner a:hover {
+    background-color: #bebcb4;
+}
+
+#pitashie-featureAndCombination .addToCartInner p{
+    background-color: #f4f2eb;
+    border-radius: 16px;
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    flex-wrap: wrap;
+}
+
+#pitashie-featureAndCombination .addToCartInner h6{
+    margin-bottom: 4px;
+    font-size: 1.4rem;
+}
+
+#pitashie-featureAndCombination .cartBlock{
+    display: flex;
+    /* justify-content: space-between; */
+    /* flex-wrap: wrap; */
+    align-items: center;
+}
+
+#pitashie-featureAndCombination .cartBlock select{
+    width: 32%;
+    background-position: 90%;
+}
+
+#pitashie-featureAndCombination .quantitySelect{
+    width: 24%;
+    background-position: 90%;
+}
+    
+#pitashie-featureAndCombination form{
+    width: 72%;
+}
+
+#pitashie-featureAndCombination .addToCart-product{
+    width: 40%;
+}
+
+#pitashie-featureAndCombination .addToCart-product h5{
+    margin: 0px 0 24px;
+}
+
+#pitashie-featureAndCombination form {
+    width: 100%;
+}
+
+#pitashie-featureAndCombination .addToCart-multiple .addToCartImage{
+    margin: 0 32px 8px 0;
+}
+
+#pitashie-featureAndCombination .tax{
+    font-size: 1.2rem;
+}
+
+
+/* 繧ｿ繝� */
+
+#pitashie-featureAndCombination .tab-group{
+    display: flex;
+    justify-content: center;
+}
+
+  #pitashie-featureAndCombination .tab{
+    background:#daf0db;
+    color:#29412b;
+    transition: all 0.2s ease-out;
+    flex-grow: 1;
+    padding: 8px;
+    margin: 0 8px;
+    list-style: none;
+    border: none;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+}
+
+#pitashie-featureAndCombination .tab::before{
+  content: "";
+  position: absolute;
+  top: 96%;
+  left: 50%;
+  margin-left: -15px;
+  border: 16px solid transparent;
+  border-top: 16px solid #daf0db;
+}
+
+
+
+#pitashie-featureAndCombination .panel-group{
+    border: none;
+    border-top: none;
+    background: none;
+    width: 56%;
+    margin: auto;
+}
+
+#pitashie-featureAndCombination .panel{
+    display:none;
+}
+
+#pitashie-featureAndCombination .panel h4{
+    margin-top: 64px;
+}
+
+#pitashie-featureAndCombination .tab.is-active{
+    background:#bdeabe;
+    color:#29412b;
+    transition: all 0.2s ease-out;
+}
+
+#pitashie-featureAndCombination .tab.is-active::before{
+    content: "";
+    position: absolute;
+    top: 96%;
+    left: 50%;
+    margin-left: -15px;
+    border: 16px solid transparent;
+    border-top: 16px solid #bdeabe;
+    transition: all 0.2s ease-out;
+  }
+
+#pitashie-featureAndCombination .panel.is-show{
+    display:block;
+}
+
+
+@media all and (min-width: 768px) and (max-width: 1024px) {
+    #pitashie-featureAndCombination .sizeTable {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #pitashie-featureAndCombination .caption {
+        width: 96%;
+        margin: 24px auto;
+    }    
+
+    #pitashie-featureAndCombination .contentsContainer {
+        width: 96%;
+        display: block;
+        text-align: center;
+        margin: 64px auto;
+    }
+
+    #pitashie-featureAndCombination .contentsContainer h5 {
+        margin-top: 16px;
+    }
+
+    #pitashie-featureAndCombination .addToCart-product h5 {
+        margin: 24px 0;
+    }
+
+    #pitashie-featureAndCombination .contentsContainer .point {
+        width: 100%;
+        text-align: center;
+        max-width: 100%;
+    }
+
+    #pitashie-featureAndCombination .combination{
+        width: 96%;
+    }
+
+    #pitashie-featureAndCombination .addToCart{
+        width: 30%;
+        padding: 8px 0;
+        min-width: 154px;
+    }
+
+    #pitashie-featureAndCombination .addToCart-multiple{
+        display: block;
+        text-align: center;
+    }
+
+    #pitashie-featureAndCombination .addToCart-multiple img {
+        width: 100%;
+        padding-right: 0;
+    }
+
+    #pitashie-featureAndCombination .addToCart-multiple .addToCartImage {
+        margin: 0;
+    }
+
+    #pitashie-featureAndCombination .addToCart-product {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    #pitashie-featureAndCombination .addToCart-bottom {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+
+    #pitashie-featureAndCombination .contentsContainer img {
+        width: 96%;
+        margin-right: 0px;
+    }
+
+    #pitashie-featureAndCombination .linkButton{
+        width: 56%;
+    }
+
+	#pitashie-featureAndCombination .subMenu a {
+		font-size: 1.6rem;
+	}
+
+    #pitashie-featureAndCombination #width255{
+        width: 96%;
+    }
+    
+    #pitashie-featureAndCombination #width165{
+        width: 96%;
+    }
+    
+    #pitashie-featureAndCombination #otherSize{
+        width: 96%;
+    }
+
+    #pitashie-featureAndCombination h4 {
+        margin: 0;
+    }
+}
+
+@media all and (min-width: 480px) and (max-width: 768px) {
+    #pitashie-featureAndCombination .panel-group{
+        width: 96%;
+    }    
+}
+
+@media all and (max-width: 480px) {
+    #pitashie-featureAndCombination .addToCart {
+        width: 46%;
+    }
+
+    #pitashie-featureAndCombination .panel-group{
+        width: 100%;
+    }
+}
