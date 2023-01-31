@@ -19,7 +19,7 @@ jQuery(function ($) {
 });
 
 function addCart() {
-    $.getJSON('https://shirai-store.net/assets/assets/json/feature/pitashie-review_v1_0.json', function (data) {
+    $.getJSON('https://cdn.shirai-store.net/assets/json/feature/pitashie-review_v1_0.json', function (data) {
         //console.log(data);
         $('.addToCart').each(function () {
             var product = $(this).data('products');
@@ -160,11 +160,12 @@ function addCart() {
             } else {
                 priceText = '<p class="productPrice"><span>price</span><span class="sellingPrice">¥' + totalSellingPrice.toLocaleString() + '（税込）</span></p>';
             }
+			
 
 
 
             $(this).find('.addToCartImage').prepend('<img src="' + imgSrc + '">');
-            $(this).find('.addToCartInner').prepend(priceText + '<h6>組立サービス</h6><select class="adisSelect"><option value="ADIS-00">なし(+0円 税込)</option><option value="ADIS-01">組立宅配(+' + adis01_totalPrice.toLocaleString() + '円 税込)</option><option value="ADIS-02">組立宅配(+' + adis02_totalPrice.toLocaleString() + '円 税込)</select><h6>数量</h6><div class="cartBlock"><select class="quantitySelect"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select > <form action="https://shirai-store.net/p/cart/add" method="post">' + html + '<button type="submit">カートへ</button></div></form>');
+            $(this).find('.addToCartInner').prepend(priceText + '<h6>組立サービス</h6><select class="adisSelect"><option value="ADIS-00">なし(+0円 税込)</option><option value="ADIS-01">組立済+玄関渡し(+' + adis01_totalPrice.toLocaleString() + '円 税込)</option><option value="ADIS-02">組立済+搬入(+' + adis02_totalPrice.toLocaleString() + '円 税込)</select><h6>数量</h6><div class="cartBlock"><select class="quantitySelect"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select > <form action="https://shirai-store.net/p/cart/add" method="post">' + html + '<button type="submit">カートへ</button></div></form>');
 
         });
         $('.adisSelect').change(function () {
