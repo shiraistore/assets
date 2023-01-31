@@ -372,14 +372,14 @@ function optionJudgment() {
 					//console.log('deliveryTime:' + deliveryTime);
 
 					if (deliveryDate == '指定なし' || deliveryTime == '指定なし') {
-						//組立設置サービスは日時指定が必須
+						//組立済+搬入サービスは日時指定が必須
 						var optionArray = [];
 						$('.fs-c-listedOptionPrice__option__value').each(function () {
 							optionArray.push($(this).text());
 						});
 
-						var optionResult1 = $.inArray('組立宅配', optionArray);
-						var optionResult2 = $.inArray('組立設置', optionArray);
+						var optionResult1 = $.inArray('組立済+玄関渡し', optionArray);
+						var optionResult2 = $.inArray('組立済+搬入', optionArray);
 						if (optionResult2 >= 0) {
 							orderDisabled();
 							if (!$('.deliveryMethodAlert').length) {
@@ -394,12 +394,12 @@ function optionJudgment() {
 					}
 
 					if (deliveryTime != '指定なし') {
-						//組立設置サービスは日時指定が必須
+						//組立済+搬入サービスは日時指定が必須
 						var optionArray = [];
 						$('.fs-c-listedOptionPrice__option__value').each(function () {
 							optionArray.push($(this).text());
 						});
-						var optionResult = $.inArray('組立設置', optionArray);
+						var optionResult = $.inArray('組立済+搬入', optionArray);
 						//console.log(optionResult);
 						if (optionResult < 0) {
 							if (noTimeSpecifiedZipCodes_result == undefined) {
@@ -441,8 +441,8 @@ function optionJudgment() {
 						$('.fs-c-listedOptionPrice__option__value').each(function () {
 							optionArray.push($(this).text());
 						});
-						var optionResult1 = $.inArray('組立宅配', optionArray);
-						var optionResult2 = $.inArray('組立設置', optionArray);
+						var optionResult1 = $.inArray('組立済+玄関渡し', optionArray);
+						var optionResult2 = $.inArray('組立済+搬入', optionArray);
 						//console.log('optionResult1:' + optionResult1);
 						//console.log('optionResult2:' + optionResult2);
 						if (optionResult1 >= 0 || optionResult2 >= 0) {
@@ -463,8 +463,8 @@ function optionJudgment() {
 					$('.fs-c-listedOptionPrice__option__value').each(function () {
 						optionArray.push($(this).text());
 					});
-					var optionResult1 = $.inArray('組立宅配', optionArray);
-					var optionResult2 = $.inArray('組立設置', optionArray);
+					var optionResult1 = $.inArray('組立済+玄関渡し', optionArray);
+					var optionResult2 = $.inArray('組立済+搬入', optionArray);
 					if (optionResult1 >= 0 || optionResult2 >= 0) {
 						$('#fs_input_payment_cashOnDelivery').prop('disabled', true);
 						$('.fs-c-checkout-paymentMethod--cashOnDelivery').css('opacity', '0.5');
@@ -907,8 +907,8 @@ function expectedArrival() {
 							$('.fs-c-listedOptionPrice__option__value').each(function () {
 								optionArray.push($(this).text());
 							});
-							var optionResult_AIDS01 = $.inArray('組立宅配', optionArray);
-							var optionResult_AIDS02 = $.inArray('組立設置', optionArray);
+							var optionResult_AIDS01 = $.inArray('組立済+玄関渡し', optionArray);
+							var optionResult_AIDS02 = $.inArray('組立済+搬入', optionArray);
 
 							if (optionResult_AIDS01 >= 0 || optionResult_AIDS02 >= 0) {
 								//console.log('組立サービス')
@@ -1042,11 +1042,11 @@ function expectedArrival() {
 						var destinationAddress = $('.fs-c-checkout-destination__address__address').text().split(/\s+/);
 						var expectedArrival_time_selected = $('#fs_input_expectedArrival_time').val();
 						if (optionResult_AIDS02 >= 0) {
-							//console.log('組立設置');
+							//console.log('組立済+搬入');
 							var prefArray = prefArray_YHC;
 							expectedArrivalTime_YHC(expectedArrival_time_selected);
 						} else if (optionResult_AIDS01 >= 0) {
-							//console.log('組立宅配');
+							//console.log('組立済+玄関渡し');
 							expectedArrivalTime_SGW(expectedArrival_time_selected);
 							var prefArray = prefArray_SGW;
 						} else {
