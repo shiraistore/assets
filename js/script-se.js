@@ -446,7 +446,7 @@ function optionJudgment() {
 							optionArray.push($(this).text());
 						});
 						var optionResult1 = $.inArray('組立済+玄関渡し', optionArray);
-						// var optionResult2 = $.inArray('組立済+搬入', optionArray);
+						var optionResult2 = $.inArray('組立済+搬入', optionArray);
 						// console.log('optionResult1:' + optionResult1);
 						// console.log('optionResult2:' + optionResult2);
 						if (optionResult1 >= 0 || optionResult2 >= 0) {
