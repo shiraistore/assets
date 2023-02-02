@@ -73,11 +73,11 @@ function checkZipCodes(checkType, zipCode) {
 		scriptCharset: 'utf-8',
 		success: function (response) {
 			// Success
-			//console.log(JSON.stringify(response));
+			// console.log(JSON.stringify(response));
 		},
 		error: function (response) {
 			// Error
-			//console.log(JSON.stringify(response));
+			// console.log(JSON.stringify(response));
 		},
 	}).responseText;
 
@@ -336,15 +336,18 @@ function optionJudgment() {
 			});
 		};
 
+		var result;
 		setInterval(function () {
 			var zipCode = $('.fs-c-checkout-destination__address .fs-c-checkout-destination__address__zipCode').text().replace('-', '');
-
+			// console.log(zipCode);
 			if (zipCode != undefined) {
 				//離島で組立サービスを利用している場合
 				if (zipCode != zipCodeChangeCheck) {
 					//郵便番号が変更された場合
 					zipCodeChangeCheck = zipCode;
-					var result = checkZipCodes('checkRemoteIslandZipCodes', zipCode);
+					// console.log(zipCode);
+					result = checkZipCodes('checkRemoteIslandZipCodes', zipCode);
+					// console.log('result1:',result);
 					$('body').addClass('modal_displayNone');
 					setTimeout(function () {
 						$('#fs_button_changeDeliveryMethod button.fs-c-button--change--small').trigger('click');
@@ -361,6 +364,8 @@ function optionJudgment() {
 						checkFlag = 1;
 					}, 500);
 				}
+
+				// console.log('result2:',result);
 
 				if (checkFlag == 1) {
 					//時間指定がない場合
@@ -432,8 +437,7 @@ function optionJudgment() {
 							$('#fs_button_placeOrder').before('<p class="deliveryMethodAlert2 mt-16">ご注文確定後にサイズオーダーや組立サービスのキャンセル・変更を承ることができません。ご注文内容に誤りがないかご確認ください。</p>');
 						}
 					}
-
-					if (result >= 0) {
+					if (result == true) {
 						//離島の場合
 
 						//組立サービス利用は沖縄・離島不可
@@ -442,9 +446,9 @@ function optionJudgment() {
 							optionArray.push($(this).text());
 						});
 						var optionResult1 = $.inArray('組立済+玄関渡し', optionArray);
-						var optionResult2 = $.inArray('組立済+搬入', optionArray);
-						//console.log('optionResult1:' + optionResult1);
-						//console.log('optionResult2:' + optionResult2);
+						// var optionResult2 = $.inArray('組立済+搬入', optionArray);
+						// console.log('optionResult1:' + optionResult1);
+						// console.log('optionResult2:' + optionResult2);
 						if (optionResult1 >= 0 || optionResult2 >= 0) {
 							orderDisabled();
 							if (!$('.deliveryAlert').length) {
@@ -503,7 +507,7 @@ function optionJudgment() {
 					}
 
 					//離島の場合
-					if (result >= 0) {
+					if (result == true) {
 						//沖縄離島の場合は代引利用が不可
 						$('#fs_input_payment_cashOnDelivery').prop('disabled', true);
 						$('.fs-c-checkout-paymentMethod--cashOnDelivery').css('opacity', '0.5');
