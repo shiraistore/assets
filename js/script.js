@@ -26,6 +26,7 @@ $(function () {
 	productCategorySubCategoryMenu(); //OK
 	productVariation(); //OK
 	productSizeVariation(); //OK
+	productCompatibleList();
 	productDetailSeriesLink(); //OK
 	productDetail_tnlListTableLink();
 	productDetail_mhpContentsBanner();
@@ -688,9 +689,9 @@ function productDetailSeriesLink() {
 
 		//console.log(series[0]);
 		//var html = '<div id="seriesLink"><a href="' + categoryURL + '" class="mb-16">「' + categoryName + '」一覧を見る</a><br><a href="/c/series/' + series[0] + '">この商品のシリーズ一覧を見る</a></div>';
-		var html = '<div id="seriesLink"><a href="' + categoryURL + '" class="mb-16">「' + categoryName + '」一覧を見る</a></div>';
+		var html = '<div id="seriesLink"><a href="' + categoryURL + '" class="mb-16">この商品と同じカテゴリの商品を見る</a></div>';
 
-		$('#productActionBox').after(html);
+		$('#product-sns-share').before(html);
 	}
 }
 
@@ -1050,6 +1051,7 @@ function productVariation() {
 				variation_ary.push(variation_text[i].split('/'));
 			}
 			var productCode = variation_ary[0][0];
+			var seriesCode = productCode.slice(0, 3);
 			var colorName = variation_ary[0][1];
 			//htmlSource = '';
 			var url_split = url.split('/');
@@ -1061,7 +1063,7 @@ function productVariation() {
 				if (url_split.slice(-1)[0] == productCode) {
 					activeFlag = 'active';
 				}
-				htmlSource = htmlSource + '<li data-productcode="' + productCode + '" class="' + activeFlag + '"><a href="' + url + productCode + '"><img src="https://shiraistore.itembox.design/item/src/product_variation/' + productCode + '.jpg" alt=""><span>' + colorName + '</span></a></li>';
+				htmlSource = htmlSource + '<li data-productcode="' + productCode + '" class="' + activeFlag + '"><a href="/c/series/' + seriesCode + '/' + productCode + '"><img src="https://shiraistore.itembox.design/item/src/product_variation/' + productCode + '.jpg" alt=""><span>' + colorName + '</span></a></li>';
 			}
 			//$('#product-comment_5').html('<h4>カラー：' + variation_ary[0][1] + '</h4><ul>' + htmlSource + '</ul>');
 			$('#product-comment_5').html('<h4>カラー</h4><ul>' + htmlSource + '</ul>');
@@ -1103,12 +1105,13 @@ function productSizeVariation() {
 
 			for (i = 0; variation_ary.length > i; i++) {
 				var productCode = variation_ary[i][0];
+				var seriesCode = productCode.slice(0, 3);
 				var colorName = variation_ary[i][1];
 				var activeFlag = '';
 				if (url_split.slice(-1)[0] == productCode) {
 					activeFlag = 'active';
 				}
-				htmlSource = htmlSource + '<li data-productcode="' + productCode + '" class="' + activeFlag + '"><a  href="' + url + productCode + '" class="variationItem"><span>' + colorName + '</span></a></li>';
+				htmlSource = htmlSource + '<li data-productcode="' + productCode + '" class="' + activeFlag + '"><a href="/c/series/' + seriesCode + '/' + productCode + '" class="variationItem"><span>' + colorName + '</span></a></li>';
 			}
 			$('#product-comment_9').html('<h4>サイズ</h4><ul>' + htmlSource + '</ul>');
 			$('#product-comment_9').css('display', 'block');
@@ -1120,6 +1123,69 @@ function productSizeVariation() {
 			//         window.location.href = url + $(this).data('productcode');
 			//     }
 			// });
+		}
+	}
+	//}
+}
+
+/* productCompatibleList
+========================================================================== */
+
+function productCompatibleList() {
+	//if ($('#fs_preview_header').length) {
+	$('#product-comment_13').css('display', 'block');
+
+	if ($('#fs_ProductDetails').length) {
+		if ($('#product-comment_13').html() != '') {
+			var compatible_text = $('#product-comment_13').text().split(',');
+			console.log(compatible_text);
+			var compatible_ary = [];
+			var htmlSource = '';
+			for (i = 0; compatible_text.length > i; i++) {
+				compatible_ary.push(compatible_text[i].split('/'));
+			}
+			for (i = 0; compatible_ary.length > i; i++) {
+				var productCode = compatible_ary[i][0];
+				var productName = compatible_ary[i][1];
+
+				var seriesCode = productCode.substr(0, 3);
+
+				if (productCode.indexOf('tnl-em') == -1) {
+					htmlSource = htmlSource + '<li><a  href="/c/series/' + seriesCode + '/' + productCode + '" class="compatibleItem"><img src="https://shiraistore.itembox.design/item/src/product_variation/' + productCode + '.jpg"><span>' + productName + '<br>' + productCode.toUpperCase() + '</span></a></li>';
+				} else {
+					var url = $('link[rel="canonical"]').attr('href');
+					// console.log('url:',url);
+					var url_split = url.split('/');
+					// console.log('url_split:',url_split);
+					var activeProductCode = url_split[url_split.length - 1];
+					// console.log('activeProductCode:',activeProductCode);
+					activeProductColor = activeProductCode.replace(/...-.+-/, '');
+					activeProductCode = activeProductCode.replace(/(-[a-z][a-z]$)/, '');
+					// console.log('activeProductCode:',activeProductCode);
+					var activeProductCode_width = activeProductCode.substr(-2, 2);
+					// console.log('activeProductCode_width:',activeProductCode_width);
+					var imageName;
+					switch (activeProductCode_width) {
+						case '31':
+							imageName = 'TNL-EMU015_034M-' + activeProductColor.toUpperCase();
+							break;
+						case '44':
+							imageName = 'TNL-EMU035_044M-' + activeProductColor.toUpperCase();
+							break;
+						case '59':
+							imageName = 'TNL-EMU045_060M-' + activeProductColor.toUpperCase();
+							break;
+						case '87':
+							imageName = 'TNL-EMU081_090M-' + activeProductColor.toUpperCase();
+							break;
+					}
+					productCode = productCode.replace(/(-[a-z][a-z]$)/, '');
+					imageName;
+					htmlSource = htmlSource + '<li><a  href="/f/sizeOrder/' + productCode + '?w=' + activeProductCode_width + '&d=m&c=' + activeProductColor + '" class="compatibleItem"><img src="/assets/img/product/sizeOrder/tnl-em/thum/' + imageName + '_thum.jpg"><span>' + productName + '<br>オーダーメイド</span></a></li>';
+				}
+			}
+			$('#product-comment_13').html('<h4>対応商品</h4><ul>' + htmlSource + '</ul>');
+			$('#product-comment_13').css('display', 'block');
 		}
 	}
 	//}
@@ -1940,11 +2006,23 @@ function featureMamihapiSeries_cart() {
 		// console.log(productcode_Lower);
 		var htmlSource = '';
 
-		$(this).parents('.product-right').find('form > input').attr('name','products['+productcode_Upper+'].productNo');
-		$(this).parents('.product-right').find('form > input').attr('value',productcode_Upper);
-		$(this).parents('.product-right').find('.productOption input').attr('name','products['+productcode_Upper+'].productOptionsWithPrice[1].id');
-		$(this).parents('.product-right').find('.productOption select').attr('name','products['+productcode_Upper+'].productOptionsWithPrice[1].value');
-		$(this).parents('.product-right').find('.productActionBox select').attr('name','products['+productcode_Upper+'].quantity');
+		$(this)
+			.parents('.product-right')
+			.find('form > input')
+			.attr('name', 'products[' + productcode_Upper + '].productNo');
+		$(this).parents('.product-right').find('form > input').attr('value', productcode_Upper);
+		$(this)
+			.parents('.product-right')
+			.find('.productOption input')
+			.attr('name', 'products[' + productcode_Upper + '].productOptionsWithPrice[1].id');
+		$(this)
+			.parents('.product-right')
+			.find('.productOption select')
+			.attr('name', 'products[' + productcode_Upper + '].productOptionsWithPrice[1].value');
+		$(this)
+			.parents('.product-right')
+			.find('.productActionBox select')
+			.attr('name', 'products[' + productcode_Upper + '].quantity');
 
 		// htmlSource = $(this).parents('.product-right').html()
 		// 	//console.log($(this).html());
@@ -1954,8 +2032,8 @@ function featureMamihapiSeries_cart() {
 		// 		// if ($(this).is('.variationItemSelect select option') == false) {
 		// 		// 	htmlSource = $(this).html();
 		// 		// 	//console.log(htmlSource);
-					
-		// 		// 	
+
+		// 		//
 		// 		// }
 		// $(this).parents('.product-right').html(htmlSource)
 		// //$(this).html(htmlSource);
@@ -1963,19 +2041,18 @@ function featureMamihapiSeries_cart() {
 		// console.log($(this).html());
 		// $(this).val(productcode_Lower);
 	});
-		// console.log($(this).html())
-		// console.log($(this).val());
-		
+	// console.log($(this).html())
+	// console.log($(this).val());
 
-		// $(this)
-		// 	.parents('.product-right *')
-		// 	.each(function () {
-		// 		if ($(this).is('.variationItemSelect select option') == false) {
-		// 			htmlSource = $(this).html();
-		// 			console.log(htmlSource);
-		// 			$(this).html(htmlSource.replace(new RegExp(nowProductcode_Lower, 'g'), productcode_Lower));
-		// 		}
-		// 	});
+	// $(this)
+	// 	.parents('.product-right *')
+	// 	.each(function () {
+	// 		if ($(this).is('.variationItemSelect select option') == false) {
+	// 			htmlSource = $(this).html();
+	// 			console.log(htmlSource);
+	// 			$(this).html(htmlSource.replace(new RegExp(nowProductcode_Lower, 'g'), productcode_Lower));
+	// 		}
+	// 	});
 	//});
 
 	// $(document).on('change', '.blanketQuantitySelect', function () {
@@ -3136,7 +3213,7 @@ function productDetailAddData() {
 			var productNumbers = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
 			//console.log(productNumbers);
 			var listHtml = '';
-			$('#product-comment_5 li,#product-comment_9 li').each(function(){
+			$('#product-comment_5 li,#product-comment_9 li').each(function () {
 				productNumbers += $(this).data('productcode');
 			});
 

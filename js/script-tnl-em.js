@@ -7,7 +7,7 @@ $(function () {
 
 function tnl_em_introduction() {
 	if ($('#tnl-em-introduction').length) {
-		$.getJSON('https://shirai-store.net/assets/assets/json/reviewList/reviewList_tnl_v2_0.json', function (multipleReviewList) {
+		$.getJSON('https://cdn.shirai-store.net/assets/json/reviewList/reviewList_tnl_v2_0.json', function (multipleReviewList) {
 			var reviewScore_ary = [];
 			for (var i in multipleReviewList) {
 				reviewScore_ary.push(multipleReviewList[i].rating);
@@ -299,8 +299,8 @@ function tnl_em_introduction() {
 function tnl_em_select() {
 	if ($('#tnl_em').length) {
 		$.getJSON(
-			"https://shirai-store.net/assets/assets/json/common/tnlSizeOrderPrice_v1_1.json",
-			//'https://shirai-store.net/assets/assets/json/common/tnlSizeOrderPrice_sale_v1_1.json',
+			"https://cdn.shirai-store.net/assets/json/common/tnlSizeOrderPrice_v1_1.json",
+			//'https://cdn.shirai-store.net/assets/json/common/tnlSizeOrderPrice_sale_v1_1.json',
 			function (priceArray) {
 				tnl_em_selectWrite(priceArray);
 				$('#tnl_em input[type="radio"],#tnl_em select').change(function () {
@@ -614,9 +614,16 @@ function tnl_em_select() {
 function tnl_emu_select() {
 	if ($('#tnl_emu').length) {
 		$.getJSON(
-			"https://shirai-store.net/assets/assets/json/common/tnlSizeOrderPrice_v1_1.json",
-			//'https://shirai-store.net/assets/assets/json/common/tnlSizeOrderPrice_sale_v1_1.json',
+			"https://cdn.shirai-store.net/assets/json/common/tnlSizeOrderPrice_v1_1.json",
+			//'https://cdn.shirai-store.net/assets/json/common/tnlSizeOrderPrice_sale_v1_1.json',
 			function (priceArray) {
+				var paramWedth = ( '000' + getParam('w') ).slice( -3 );
+				var paramDepth = getParam('d');
+				var paramColor = getParam('c');
+				$('select[name=tnl_emu_optionWidth]').val(paramWedth);
+				$('input[name=tnl_emu_optionDepth][value=' + paramDepth.toUpperCase() + ']').prop('checked',true);
+				$('input[name=tnl_emu_optionColor][value=' + paramColor.toUpperCase() + ']').prop('checked',true);
+
 				tnl_emu_selectWrite(priceArray);
 				$('#tnl_emu input[type="radio"],#tnl_emu select').change(function () {
 					tnl_emu_selectWrite(priceArray);
@@ -784,8 +791,8 @@ function tnl_emu_select() {
 function tnl_emts_select() {
 	if ($('#tnl_emts').length) {
 		$.getJSON(
-			"https://shirai-store.net/assets/assets/json/common/tnlSizeOrderPrice_v1_1.json",
-			//'https://shirai-store.net/assets/assets/json/common/tnlSizeOrderPrice_sale_v1_1.json',
+			"https://cdn.shirai-store.net/assets/json/common/tnlSizeOrderPrice_v1_1.json",
+			//'https://cdn.shirai-store.net/assets/json/common/tnlSizeOrderPrice_sale_v1_1.json',
 			function (priceArray) {
 				tnl_emts_selectWrite(priceArray);
 				$('#tnl_emts input[type="radio"],#tnl_emts select').change(function () {
