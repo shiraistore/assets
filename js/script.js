@@ -31,6 +31,8 @@ $(function () {
 	productDetail_tnlListTableLink();
 	productDetail_mhpContentsBanner();
 	productDetail_ptsContentsBanner();
+	searchTagsTitleDescriptionChange();
+
 	reviewSlideDown('#fs_ProductDetails', '240'); //OK
 	instagramPostList(); //OK
 	soldOut(); //OK
@@ -403,6 +405,30 @@ function searchTagsCanonicalChange() {
 	}
 }
 
+/* searchTagsTitleDescriptionChange
+========================================================================== */
+
+function searchTagsTitleDescriptionChange() {
+	if ($('#fs_ProductSearch').length) {
+		var param = getParam('tag');
+		console.log(param);
+		switch (param) {
+			case 'おもちゃ収納ずっと使える':
+				$('title').html('大きくなってもずっと使えるおもちゃ収納の商品一覧 | 収納家具専門 SHIRAI STORE');
+				$('meta[name ="description"]').attr('content','SHIRAI STOREなら子どもが大きくなってもずっと使えるおもちゃ収納が見つかります。会員登録で送料無料＆割引クーポン進呈中 | 収納家具専門メーカー直営 SHIRAI STORE');
+				break;
+			case '本棚白（ホワイト系）':
+				$('title').html('高品質な白い本棚が50種類以上3,000円以下から | 収納家具専門 SHIRAI STORE');
+				$('meta[name ="description"]').attr('content','SHIRAI STOREなら高品質な白い本棚を50種類以上を取り揃えています。会員登録で送料無料＆割引クーポン進呈中 | 収納家具専門メーカー直営 SHIRAI STORE');
+				break;
+			case '本棚おしゃれ':
+				$('title').html('高評価で人気のおしゃれな本棚が40種類以上 | 収納家具専門 SHIRAI STORE');
+				$('meta[name ="description"]').attr('content','SHIRAI STOREなら高評価で人気のおしゃれな本棚を40種類以上取り揃えています。会員登録で送料無料＆割引クーポン進呈中 | 収納家具専門メーカー直営 SHIRAI STORE');
+				break;
+		}
+	}
+}
+
 /* advancedSearchForm
 ========================================================================== */
 
@@ -723,7 +749,12 @@ function productDetail_mhpContentsBanner() {
 		url = url.split('/');
 		var series = url[url.length - 1].split('-');
 		if (series[0] == 'mhp') {
-			var html = '<ul id="contents-banner"><li><a href="/f/feature/mamihapi-byage"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-byage.png"></a></li><li><a href="/f/feature/mamihapi-questionnaire"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-questionnaire.png"></a></li></ul>';
+<<<<<<< HEAD
+			var html =
+				'<ul id="contents-banner"><li><a href="/f/feature/mamihapi-byage"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-byage.png"></a></li><li><a href="/f/feature/mamihapi-questionnaire"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-questionnaire.png"></a></li><li><a href="/f/feature/mamihapi-tidyingUpReview"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-tidyingUpReview.jpg"></a></li></ul>';
+=======
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/mamihapi-byage"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-byage.png"></a></li><li><a href="/f/feature/mamihapi-questionnaire"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-questionnaire.png"></a></li><li><a href="/f/feature/mamihapi-tidyingUpReview"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-tidyingUpReview.jpg"></a></li></ul>';
+>>>>>>> refs/remotes/origin/master
 
 			$('#productActionBox').after(html);
 		}
