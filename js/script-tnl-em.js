@@ -617,12 +617,12 @@ function tnl_emu_select() {
 			"https://cdn.shirai-store.net/assets/json/common/tnlSizeOrderPrice_v1_1.json",
 			//'https://cdn.shirai-store.net/assets/json/common/tnlSizeOrderPrice_sale_v1_1.json',
 			function (priceArray) {
-				var paramWedth = ( '000' + getParam('w') ).slice( -3 );
-				var paramDepth = getParam('d');
-				var paramColor = getParam('c');
-				$('select[name=tnl_emu_optionWidth]').val(paramWedth);
-				$('input[name=tnl_emu_optionDepth][value=' + paramDepth.toUpperCase() + ']').prop('checked',true);
-				$('input[name=tnl_emu_optionColor][value=' + paramColor.toUpperCase() + ']').prop('checked',true);
+				// var paramWedth = ( '000' + getParam('w') ).slice( -3 );
+				// var paramDepth = getParam('d');
+				// var paramColor = getParam('c');
+				// $('select[name=tnl_emu_optionWidth]').val(paramWedth);
+				// $('input[name=tnl_emu_optionDepth][value=' + paramDepth.toUpperCase() + ']').prop('checked',true);
+				// $('input[name=tnl_emu_optionColor][value=' + paramColor.toUpperCase() + ']').prop('checked',true);
 
 				tnl_emu_selectWrite(priceArray);
 				$('#tnl_emu input[type="radio"],#tnl_emu select').change(function () {
