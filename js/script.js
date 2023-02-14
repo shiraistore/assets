@@ -36,7 +36,6 @@ $(function () {
 	reviewSlideDown('#fs_ProductDetails', '240'); //OK
 	instagramPostList(); //OK
 	soldOut(); //OK
-
 	//em_transfer();
 	preSale_displayPassWordForm();
 	featureMamihapiSeries_slider(); //OK
@@ -162,8 +161,6 @@ $(window).on('load scroll', function () {
 
 /* ========== OK end ========== */
 
-/* reviewsDisplayForSearchResults
-========================================================================== */
 
 /* previewMode
 ========================================================================== */
@@ -1090,6 +1087,9 @@ function productVariation() {
 				if (url_split.slice(-1)[0] == productCode) {
 					activeFlag = 'active';
 				}
+				if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
+					seriesCode = 'tl';
+				}
 				htmlSource = htmlSource + '<li data-productcode="' + productCode + '" class="' + activeFlag + '"><a href="/c/series/' + seriesCode + '/' + productCode + '"><img src="https://shiraistore.itembox.design/item/src/product_variation/' + productCode + '.jpg" alt=""><span>' + colorName + '</span></a></li>';
 			}
 			//$('#product-comment_5').html('<h4>カラー：' + variation_ary[0][1] + '</h4><ul>' + htmlSource + '</ul>');
@@ -1137,6 +1137,9 @@ function productSizeVariation() {
 				var activeFlag = '';
 				if (url_split.slice(-1)[0] == productCode) {
 					activeFlag = 'active';
+				}
+				if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
+					seriesCode = 'tl';
 				}
 				htmlSource = htmlSource + '<li data-productcode="' + productCode + '" class="' + activeFlag + '"><a href="/c/series/' + seriesCode + '/' + productCode + '" class="variationItem"><span>' + colorName + '</span></a></li>';
 			}
@@ -3301,7 +3304,7 @@ function productDetailAddData() {
 var recommend_top10Slider;
 var ranking_top10Slider;
 var productDetail_top10Slider;
-var newLife_top10Slider1, newLife_top10Slider2, newLife_top10Slider3, newLife_top10Slider4, newLife_top10Slider5, newLife_top10Slider6, newLife_top10Slider7, newLife_top10Slider8, newLife_top10Slider9, newLife_top10Slider10, newLife_top10Slider11, newLife_top10Slider12, newLife_top10Slider13;
+var newLife_top10Slider1, newLife_top10Slider2, newLife_top10Slider3, newLife_top10Slider4, newLife_top10Slider5, newLife_top10Slider6, newLife_top10Slider7, newLife_top10Slider8, newLife_top10Slider9, newLife_top10Slider10, newLife_top10Slider11, newLife_top10Slider12, newLife_top10Slider13, bookShelfCapacity_top10Slider1, bookShelfCapacity_top10Slider2, bookShelfCapacity_top10Slider3, bookShelfCapacity_top10Slider4;
 
 var top10Slider_option1 = {
 	infiniteLoop: false,
@@ -3372,6 +3375,18 @@ if (newLife_top10Slider12 == null) {
 }
 if (newLife_top10Slider13 == null) {
 	newLife_top10Slider13 = $('#newLife2022 .bxslider13').bxSlider(top10Slider_option1);
+}
+if (bookShelfCapacity_top10Slider1 == null) {
+	bookShelfCapacity_top10Slider1 = $('#book-shelf-capacity .bxslider1').bxSlider(top10Slider_option1);
+}
+if (bookShelfCapacity_top10Slider2 == null) {
+	bookShelfCapacity_top10Slider2 = $('#book-shelf-capacity .bxslider2').bxSlider(top10Slider_option1);
+}
+if (bookShelfCapacity_top10Slider3 == null) {
+	bookShelfCapacity_top10Slider3 = $('#book-shelf-capacity .bxslider3').bxSlider(top10Slider_option1);
+}
+if (bookShelfCapacity_top10Slider4 == null) {
+	bookShelfCapacity_top10Slider4 = $('#book-shelf-capacity .bxslider4').bxSlider(top10Slider_option1);
 }
 
 function reviewScoreThreshold(reviewScore) {
@@ -3468,6 +3483,27 @@ function checkScreenSize() {
 			newLife_top10Slider11.reloadSlider(top10Slider_option2);
 			newLife_top10Slider12.reloadSlider(top10Slider_option2);
 			newLife_top10Slider13.reloadSlider(top10Slider_option2);
+			$('.productTop10Slider').each(function () {
+				$(this).removeClass('destroy');
+			});
+		}
+	}
+
+	if ($('#book-shelf-capacity').length && (bookShelfCapacity_top10Slider1 || bookShelfCapacity_top10Slider2 || bookShelfCapacity_top10Slider3 || bookShelfCapacity_top10Slider4)) {
+		var newWindowWidth = $(window).width();
+		if (newWindowWidth <= 1200) {
+			bookShelfCapacity_top10Slider1.destroySlider();
+			bookShelfCapacity_top10Slider2.destroySlider();
+			bookShelfCapacity_top10Slider3.destroySlider();
+			bookShelfCapacity_top10Slider4.destroySlider();
+			$('.productTop10Slider').each(function () {
+				$(this).addClass('destroy');
+			});
+		} else {
+			bookShelfCapacity_top10Slider1.reloadSlider(top10Slider_option2);
+			bookShelfCapacity_top10Slider2.reloadSlider(top10Slider_option2);
+			bookShelfCapacity_top10Slider3.reloadSlider(top10Slider_option2);
+			bookShelfCapacity_top10Slider4.reloadSlider(top10Slider_option2);
 			$('.productTop10Slider').each(function () {
 				$(this).removeClass('destroy');
 			});
