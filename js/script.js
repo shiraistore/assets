@@ -1081,6 +1081,7 @@ function productVariation() {
 			var url_split = url.split('/');
 			url = url.replace(url_split[url_split.length - 1], '');
 			for (i = 0; variation_ary.length > i; i++) {
+				var seriesCode = variation_ary[i][0].slice(0, 3);
 				var productCode = variation_ary[i][0];
 				var colorName = variation_ary[i][1];
 				var activeFlag = '';
@@ -1168,7 +1169,7 @@ function productCompatibleList() {
 	if ($('#fs_ProductDetails').length) {
 		if ($('#product-comment_13').html() != '') {
 			var compatible_text = $('#product-comment_13').text().split(',');
-			console.log(compatible_text);
+			//(compatible_text);
 			var compatible_ary = [];
 			var htmlSource = '';
 			for (i = 0; compatible_text.length > i; i++) {
@@ -2896,7 +2897,7 @@ function productDetailAddData() {
 						reviewHTML = '評価がありません';
 					}
 
-					if (!seriesCode.indexOf('tl')) {
+					if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 						seriesCode = 'tl';
 					}
 
@@ -2933,8 +2934,8 @@ function productDetailAddData() {
 				$('.fs-c-productNotice--outOfStock span').html('次回の入荷日は<strong class="newArrivalDate">「' + nextArrivalDate + '」</strong>頃の予定です。');
 			}
 
-			//console.log(data.ranking[0]);
-			if (data.ranking[0] != undefined) {
+			// console.log(data.ranking[0].categoryUrl);
+			if (data.ranking[0] != undefined && data.ranking[0].categoryUrl != 'altar' && data.ranking[0].categoryUrl != 'outdoor' && data.ranking[0].categoryUrl != 'parts') {
 				var iconHtml = '<li class="fs-c-productMark__item"><a class="mark-categoryRank fs-c-productMark__mark--0 fs-c-productMark__mark" href="/f/ranking-' + data.ranking[0].categoryUrl + '"><span class="fs-c-productMark__label">' + data.ranking[0].categoryName + ' ' + data.ranking[0].categoryRanking + '位' + '</span></a></li>';
 				if ($('.fs-c-productMarks').length) {
 					$('.fs-c-productMark').append(iconHtml);
