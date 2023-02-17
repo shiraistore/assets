@@ -1089,6 +1089,8 @@ function productVariation() {
 				}
 				if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 					seriesCode = 'tl';
+				} else if (seriesCode == 'ona') {
+					seriesCode = 'of2';
 				}
 				htmlSource = htmlSource + '<li data-productcode="' + productCode + '" class="' + activeFlag + '"><a href="/c/series/' + seriesCode + '/' + productCode + '"><img src="https://shiraistore.itembox.design/item/src/product_variation/' + productCode + '.jpg" alt=""><span>' + colorName + '</span></a></li>';
 			}
@@ -1140,6 +1142,8 @@ function productSizeVariation() {
 				}
 				if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 					seriesCode = 'tl';
+				} else if (seriesCode == 'ona') {
+					seriesCode = 'of2';
 				}
 				htmlSource = htmlSource + '<li data-productcode="' + productCode + '" class="' + activeFlag + '"><a href="/c/series/' + seriesCode + '/' + productCode + '" class="variationItem"><span>' + colorName + '</span></a></li>';
 			}
@@ -1505,6 +1509,8 @@ function rankingTop10_forFanplayr(category) {
 
 			if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 				seriesCode = 'tl';
+			} else if (seriesCode == 'ona') {
+				seriesCode = 'of2';
 			}
 
 			if (sellingPrice < normalPrice) {
@@ -2378,6 +2384,12 @@ function multipleReviewList() {
 					thumbnail = ('00' + multipleReviewList[i].thumbNumber).slice(-2),
 					color = multipleReviewList[i].color;
 
+				if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
+					seriesCode = 'tl';
+				} else if (seriesCode == 'ona') {
+					seriesCode = 'of2';
+				}
+
 				var reviewScoreToFixed = multipleReviewList[i].rating;
 
 				//レビュースコアの閾値を設定
@@ -2852,6 +2864,8 @@ function productDetailAddData() {
 
 					if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 						seriesCode = 'tl';
+					} else if (seriesCode == 'ona') {
+						seriesCode = 'of2';
 					}
 
 					if (sellingPrice < normalPrice) {
@@ -3060,6 +3074,8 @@ function productDetailAddData() {
 
 					if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 						seriesCode = 'tl';
+					} else if (seriesCode == 'ona') {
+						seriesCode = 'of2';
 					}
 
 					if (i == 0) {
@@ -3145,6 +3161,12 @@ function productDetailAddData() {
 					product_image_group = Math.floor(productId / 100),
 					thumbnail = ('00' + data.reviewDetail[i].thumbNumber).slice(-2),
 					color = data.reviewDetail[i].color;
+
+				if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
+					seriesCode = 'tl';
+				} else if (seriesCode == 'ona') {
+					seriesCode = 'of2';
+				}
 
 				var reviewScoreToFixed = data.reviewDetail[i].rating;
 
@@ -3299,6 +3321,8 @@ function productDetailAddData() {
 
 					if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 						seriesCode = 'tl';
+					} else if (seriesCode == 'ona') {
+						seriesCode = 'of2';
 					}
 
 					if (sellingPrice < normalPrice) {
@@ -3680,6 +3704,8 @@ function recommendTop10() {
 
 			if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 				seriesCode = 'tl';
+			} else if (seriesCode == 'ona') {
+				seriesCode = 'of2';
 			}
 
 			//console.log(thumb);
@@ -3825,6 +3851,8 @@ function rankingTop10(rakingTop10Type) {
 
 			if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 				seriesCode = 'tl';
+			} else if (seriesCode == 'ona') {
+				seriesCode = 'of2';
 			}
 
 			if (sellingPrice < normalPrice) {
@@ -3975,6 +4003,8 @@ function recommendList() {
 
 			if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 				seriesCode = 'tl';
+			} else if (seriesCode == 'ona') {
+				seriesCode = 'of2';
 			}
 
 			//console.log(thumb);
@@ -4112,6 +4142,8 @@ function rankingList(jsonfile) {
 
 			if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 				seriesCode = 'tl';
+			} else if (seriesCode == 'ona') {
+				seriesCode = 'of2';
 			}
 
 			if (sellingPrice < normalPrice) {
