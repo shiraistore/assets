@@ -1185,7 +1185,7 @@ function productCompatibleList() {
 				var seriesCode = productCode.substr(0, 3);
 
 				if (productCode.indexOf('tnl-em') == -1) {
-					htmlSource = htmlSource + '<li><a  href="/c/series/' + seriesCode + '/' + productCode + '" class="compatibleItem"><img src="https://shiraistore.itembox.design/item/src/product_variation/' + productCode + '.jpg"><span>' + productName + '<br>' + productCode.toUpperCase() + '</span></a></li>';
+					htmlSource = htmlSource + '<li><a  href="/c/series/' + seriesCode + '/' + productCode + '" class="compatibleItem"><img src="https://shiraistore.itembox.design/item/src/product_variation/' + productCode + '.jpg"><span>' + productName + '</span></a></li>';
 				} else {
 					var url = $('link[rel="canonical"]').attr('href');
 					// console.log('url:',url);
