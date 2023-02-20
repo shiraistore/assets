@@ -1181,7 +1181,6 @@ function productCompatibleList() {
 			for (i = 0; compatible_ary.length > i; i++) {
 				var productCode = compatible_ary[i][0];
 				var productName = compatible_ary[i][1];
-
 				var seriesCode = productCode.substr(0, 3);
 
 				if (productCode.indexOf('tnl-em') == -1) {
@@ -1215,7 +1214,7 @@ function productCompatibleList() {
 					}
 					productCode = productCode.replace(/(-[a-z][a-z]$)/, '');
 					imageName;
-					htmlSource = htmlSource + '<li><a  href="/f/sizeOrder/' + productCode + '?w=' + activeProductCode_width + '&d=m&c=' + activeProductColor + '" class="compatibleItem"><img src="/assets/img/product/sizeOrder/tnl-em/thum/' + imageName + '_thum.jpg"><span>' + productName + '<br>オーダーメイド</span></a></li>';
+					htmlSource = htmlSource + '<li><a  href="/f/sizeOrder/' + productCode + '?w=' + activeProductCode_width + '&d=m&c=' + activeProductColor + '" class="compatibleItem"><img src="/assets/img/product/sizeOrder/tnl-em/thum/' + imageName + '_thum.jpg"><span>' + productName + ' オーダーメイド</span></a></li>';
 				}
 			}
 			$('#product-comment_13').html('<h4>対応商品</h4><ul>' + htmlSource + '</ul>');
