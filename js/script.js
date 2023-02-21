@@ -206,10 +206,8 @@ function em_transfer() {
 
 function getUrlRedirect() {
 	var url = location.href;
-	if (url == 'https://shirai-store.net/p/search?tag=%E3%83%AD%E3%82%B0%E3%83%BC%E3%83%8E&keyword=%E5%B9%85150?utm_source=line&utm_medium=social&utm_campaign=stid-00041&utm_content=20220421') {
-		window.location.href = 'https://shirai-store.net/p/search?tag=%E3%83%AD%E3%82%B0%E3%83%BC%E3%83%8E&keyword=%E5%B9%85150&utm_source=line&utm_medium=social&utm_campaign=stid-00041&utm_content=20220421';
-	} else if (url == 'https://shirai-store.net/p/search?keyword=%E3%83%88%E3%83%AB%E3%83%95%E3%83%A9%E3%83%83%E3%83%88%E3%80%80%E3%82%A2%E3%82%A4%E3%83%9C%E3%83%AA%E3%83%BC?utm_source=line&utm_medium=social&utm_campaign=stid-00041&utm_content=20220421') {
-		window.location.href = 'https://shirai-store.net/p/search?keyword=%E3%83%88%E3%83%AB%E3%83%95%E3%83%A9%E3%83%83%E3%83%88%E3%80%80%E3%82%A2%E3%82%A4%E3%83%9C%E3%83%AA%E3%83%BC&utm_source=line&utm_medium=social&utm_campaign=stid-00041&utm_content=20220421';
+	if (url.indexOf('https://shirai-store.net/f/feature/magazine/newLife2022') > -1) {
+		window.location.href = 'https://shirai-store.net/f/feature/magazine/newLife';
 	} else if (url == 'https://shirai-store.net/f/shirai_fan') {
 		window.location.href = 'https://shirai-store.net/f/shirai-fan';
 	} else if (url == 'https://shirai-store.net/f/terms_use') {
