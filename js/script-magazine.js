@@ -10,10 +10,12 @@ $(function () {
 		changePrice('compact-tvboard');
 	} else if (url.indexOf('/magazine/kitchen-strage-stylish') > -1) {
 		changePrice('kitchen-strage-stylish');
+	} else if (url.indexOf('/magazine/newLife') > -1) {
+		changePrice('magazine-newLife');
 	}
 });
 
-/* addCart
+/* changePrice
 ========================================================================== */
 
 function changePrice(contentsName) {
