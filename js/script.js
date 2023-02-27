@@ -766,6 +766,21 @@ function productDetail_ptsContentsBanner() {
 	}
 }
 
+/* productDetail_ptsContentsBanner
+========================================================================== */
+function productDetail_ptsContentsBanner() {
+	if ($('#fs_ProductDetails').length) {
+		var url = window.location.pathname.substring(1);
+		url = url.split('/');
+		console.log(url);
+		// var series = url[url.length - 1].split('-');
+		if (url[3] == 'book-shelf') {
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/book-shelf-capacity"><img src="https://shiraistore.itembox.design/item/src/book-shelf-capacity_460x96.jpg"></a></li></ul>';
+			$('#productActionBox').after(html);
+		}
+	}
+}
+
 /* productCategory Ranking page+2 DisplayNone
 ========================================================================== */
 function productCategoryRankingDisplayNone() {
