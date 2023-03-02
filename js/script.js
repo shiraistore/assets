@@ -919,8 +919,9 @@ function searchTagTitle() {
 		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li><a href="/p/search?tag=sale20230223-20230323-1">一人暮らし</a></li><li class="active">ファミリー</li></ul>');
 		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール 第1弾 対象商品');
 		$('title').text('新生活応援セール 第1弾 対象商品 | 家具インテリア通販のSHIRAI STORE(白井産業)');
-	} else if (params.tag == 'feature20220224') {
-		$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/featurePage-banner-feature20220224_1184x240.jpg" alt="入園入学の準備"><br>入園入学の準備');
+	} else if (params.tag == 'feature20230303') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-feature20230303_1184x240.jpg" alt="入園入学の準備">');
+		$('#fs_ProductSearch h1').html('入園入学の準備');
 		$('.fs-c-breadcrumb__listItem:last-child').text('入園入学の準備');
 		$('title').text('入園入学の準備');
 	} else if (params.tag == 'outlet') {
