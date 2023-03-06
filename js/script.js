@@ -766,6 +766,21 @@ function productDetail_ptsContentsBanner() {
 	}
 }
 
+/* productDetail_ptsContentsBanner
+========================================================================== */
+function productDetail_ptsContentsBanner() {
+	if ($('#fs_ProductDetails').length) {
+		var url = window.location.pathname.substring(1);
+		url = url.split('/');
+		console.log(url);
+		// var series = url[url.length - 1].split('-');
+		if (url[3] == 'book-shelf') {
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/book-shelf-capacity"><img src="https://shiraistore.itembox.design/item/src/book-shelf-capacity_460x96.jpg"></a></li></ul>';
+			$('#productActionBox').after(html);
+		}
+	}
+}
+
 /* productCategory Ranking page+2 DisplayNone
 ========================================================================== */
 function productCategoryRankingDisplayNone() {
@@ -892,20 +907,23 @@ function productSortSelect() {
 //セール会場用バナー表示
 function searchTagTitle() {
 	var params = parameterToArray();
-	if (params.tag == 'sale20221215-20221227') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20221215-20221227_1184x240.jpg" alt="ウィンターバザール 対象商品">');
-		$('#fs_ProductSearch h1').html('ウィンターバザール 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('ウィンターバザール 対象商品');
-		$('title').text('ウィンターバザール 対象商品');
-	} else if (params.tag == 'feature20220224') {
-		$('#fs_ProductSearch h1').html('<img src="https://shiraistore.itembox.design/item/src/featurePage-banner-feature20220224_1184x240.jpg" alt="入園入学の準備"><br>入園入学の準備');
+	if (params.tag == 'sale20230223-20230323-1') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230223-20230323_1184x240.jpg" alt="新生活応援セール 第1弾 対象商品">');
+		$('#fs_ProductSearch h1').html('新生活応援セール 第1弾 対象商品');
+		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li class="active">一人暮らし</li><li><a href="/p/search?tag=sale20230223-20230323-2">ファミリー</a></li></ul>');
+		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール 第1弾 対象商品');
+		$('title').text('新生活応援セール 第1弾 対象商品');
+	}  else if (params.tag == 'sale20230223-20230323-2') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230223-20230323_1184x240.jpg" alt="新生活応援セール 第1弾 対象商品">');
+		$('#fs_ProductSearch h1').html('新生活応援セール 第1弾 対象商品');
+		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li><a href="/p/search?tag=sale20230223-20230323-1">一人暮らし</a></li><li class="active">ファミリー</li></ul>');
+		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール 第1弾 対象商品');
+		$('title').text('新生活応援セール 第1弾 対象商品 | 家具インテリア通販のSHIRAI STORE(白井産業)');
+	} else if (params.tag == 'feature20230303') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-feature20230303_1184x240.jpg" alt="入園入学の準備">');
+		$('#fs_ProductSearch h1').html('入園入学の準備');
 		$('.fs-c-breadcrumb__listItem:last-child').text('入園入学の準備');
 		$('title').text('入園入学の準備');
-	} else if (params.tag == 'sale20221227-20230110') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20221227-20230110_1184x240.jpg" alt="歳末&新春SALE 対象商品">');
-		$('#fs_ProductSearch h1').html('歳末&新春SALE 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('歳末&新春SALE 対象商品');
-		$('title').text('歳末&新春SALE 対象商品 | 家具インテリア通販のSHIRAI STORE(白井産業)');
 	} else if (params.tag == 'outlet') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-outlet_1184x240.jpg" alt="アウトレット家具 対象商品">');
 		$('#fs_ProductSearch h1').html('アウトレット家具 対象商品');
@@ -1573,7 +1591,7 @@ function rankingTop10_forFanplayr(category) {
 			var reviewHTML = '';
 
 			if (reviewScore != 0) {
-				reviewHTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + productUrl + '">（' + reviewCount + '）</a></div>';
+				reviewHTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + productUrl + '&fp=rackranking">（' + reviewCount + '）</a></div>';
 			} else {
 				reviewHTML = '';
 			}
@@ -1583,7 +1601,7 @@ function rankingTop10_forFanplayr(category) {
 				seriesCode +
 				'/' +
 				productUrl +
-				'"><img src="https://shiraistore.itembox.design/product/' +
+				'?fp=rackranking"><img src="https://shiraistore.itembox.design/product/' +
 				zeroPadding(product_image_group, 3) +
 				'/' +
 				productId_12Len +
@@ -1638,7 +1656,7 @@ function rankingTop10_forFanplayr(category) {
 	}
 
 	$('#rankingTop10_forFanplayr ul').before('<h4>' + categoryName + ' ランキング</h4>');
-	$('#rankingTop10_forFanplayr ul').after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking-' + category + '" class="fs-c-button--standard">もっと見る</a></div>');
+	$('#rankingTop10_forFanplayr ul').after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking-' + category + '?fp=rackranking" class="fs-c-button--standard">もっと見る</a></div>');
 }
 
 /* modal
