@@ -1625,7 +1625,7 @@ function rankingTop10_forFanplayr(category) {
 				seriesCode +
 				'/' +
 				productUrl +
-				'">' +
+				'?fp=rackranking">' +
 				sellingPrice +
 				'</a></li>';
 
