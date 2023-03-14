@@ -31,6 +31,10 @@ $(function () {
 	productDetail_tnlListTableLink();
 	productDetail_mhpContentsBanner();
 	productDetail_ptsContentsBanner();
+	productDetail_bookShelfContentsBanner();
+	productDetail_tlfContentsBanner();
+	productDetail_logContentsBanner();
+	productDetail_porContentsBanner();
 	searchTagsTitleDescriptionChange();
 
 	reviewSlideDown('#fs_ProductDetails', '240'); //OK
@@ -766,16 +770,57 @@ function productDetail_ptsContentsBanner() {
 	}
 }
 
-/* productDetail_ptsContentsBanner
+/* productDetail_bookShelfContentsBanner
 ========================================================================== */
-function productDetail_ptsContentsBanner() {
+function productDetail_bookShelfContentsBanner() {
 	if ($('#fs_ProductDetails').length) {
 		var url = window.location.pathname.substring(1);
 		url = url.split('/');
-		console.log(url);
 		// var series = url[url.length - 1].split('-');
 		if (url[3] == 'book-shelf') {
 			var html = '<ul id="contents-banner"><li><a href="/f/feature/book-shelf-capacity"><img src="https://shiraistore.itembox.design/item/src/book-shelf-capacity_460x96.jpg"></a></li></ul>';
+			$('#productActionBox').after(html);
+		}
+	}
+}
+
+/* productDetail_tlfContentsBanner
+========================================================================== */
+function productDetail_tlfContentsBanner() {
+	if ($('#fs_ProductDetails').length) {
+		var url = window.location.pathname.substring(1);
+		url = url.split('/');
+		var series = url[url.length - 1].split('-');
+		if (series[0] == 'tlf') {
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/tallflat-review"><img src="https://shiraistore.itembox.design/item/src/banner_tallflat-review_460x96.jpg"></a></li></ul>';
+			$('#productActionBox').after(html);
+		}
+	}
+}
+
+/* productDetail_logContentsBanner
+========================================================================== */
+function productDetail_logContentsBanner() {
+	if ($('#fs_ProductDetails').length) {
+		var url = window.location.pathname.substring(1);
+		url = url.split('/');
+		var series = url[url.length - 1].split('-');
+		if (series[0] == 'log') {
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/loguno-review"><img src="https://shiraistore.itembox.design/item/src/banner_loguno-review_460x96.jpg"></a></li></ul>';
+			$('#productActionBox').after(html);
+		}
+	}
+}
+
+/* productDetail_porContentsBanner
+========================================================================== */
+function productDetail_porContentsBanner() {
+	if ($('#fs_ProductDetails').length) {
+		var url = window.location.pathname.substring(1);
+		url = url.split('/');
+		var series = url[url.length - 1].split('-');
+		if (series[0] == 'por') {
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/portale-review"><img src="https://shiraistore.itembox.design/item/src/banner_portale-review_460x96.jpg"></a></li></ul>';
 			$('#productActionBox').after(html);
 		}
 	}
