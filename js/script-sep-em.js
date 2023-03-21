@@ -203,7 +203,7 @@ $(window).on('load scroll', function () {
 function sep_emrack_select() {
     if ($('#sep-emrack').length) {
 
-        $.getJSON('https://shirai-store.net/assets/assets/json/common/sepSizeOrderPrice_v1_1.json', function (priceArray) {
+        $.getJSON('https://cdn.shirai-store.net/assets/json/common/sepSizeOrderPrice_v1_1.json', function (priceArray) {
             sep_emrack_selectWrite(priceArray);
             $('#sep-emrack input[type="radio"],#sep-emrack select').change(function () {
                 sep_emrack_selectWrite(priceArray);
@@ -282,17 +282,20 @@ function sep_emrack_select() {
                 }
 
                 optionSize = optionHeightSize + optionWidthSize;
-
                 switch (optionSize) {
                     case '1175':
-                        readyMade = 1;
+						if(optionColor == 'DK' || optionColor == 'IV'){
+							readyMade = 1;
+						} else {
+							readyMade = 0;
+						}
                         break;
                     case '1111':
                         readyMade = 1;
                         break;
-                    case '1975':
-                        readyMade = 1;
-                        break;
+                    // case '1975':
+                    //     readyMade = 1;
+                    //     break;
                     case '1911':
                         readyMade = 1;
                         break;
@@ -351,7 +354,7 @@ function sep_emrack_select() {
 
 function sep_emdesk_select() {
     if ($('#sep-emdesk').length) {
-        $.getJSON('https://shirai-store.net/assets/assets/json/common/sepSizeOrderPrice_v1_1.json', function (priceArray) {
+        $.getJSON('https://cdn.shirai-store.net/assets/json/common/sepSizeOrderPrice_v1_1.json', function (priceArray) {
             sep_emrack_selectWrite(priceArray);
             $('#sep-emdesk input[type="radio"],#sep-emdesk select').change(function () {
                 sep_emrack_selectWrite(priceArray);
