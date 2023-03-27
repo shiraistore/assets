@@ -1059,11 +1059,7 @@ function preSale_displayPassWordForm() {
 ========================================================================== */
 
 function cartInPopUp() {
-<<<<<<< HEAD
-	if (!$('#fs_ShoppingCart').length) {
-=======
 	if ($('#fs_ProductDetails').length) {
->>>>>>> sub
 		var cartIn = $('#header-utility .fs-p-cartItemNumber').text();
 		setInterval(function () {
 			var cartItemNumber = $('#header-utility .fs-p-cartItemNumber').text();
@@ -1074,11 +1070,7 @@ function cartInPopUp() {
 				cartIn = cartItemNumber;
 				$('#header-utility').after('<div class="goToCart"><a href="/p/cart">ご注文はこちら</a></div>');
 				$('.goToCart').fadeIn();
-<<<<<<< HEAD
-				$('.goToCart').delay(3000).fadeOut();
-=======
 				$('.goToCart').delay(5000).fadeOut();
->>>>>>> sub
 			}
 		}, 1000);
 	}
