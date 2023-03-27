@@ -82,7 +82,7 @@ function checkZipCodes(checkType, zipCode) {
 		},
 	}).responseText;
 
-	console.log(response);
+	// console.log(response);
 
 	response = JSON.parse(response);
 
@@ -329,8 +329,8 @@ function optionJudgment() {
 
 						//YHC時間指定
 						yhcTimeSpecifiedZipCodes_result = checkZipCodes('checkYhcTimeSpecifiedZipCodes', zipCode);
-						console.log('yhcTimeSpecifiedZipCodes_result.serviceType4_is:', yhcTimeSpecifiedZipCodes_result.serviceType4_is);
-						console.log('yhcTimeSpecifiedZipCodes_result.serviceType3_is:', yhcTimeSpecifiedZipCodes_result.serviceType3_is);
+						// console.log('yhcTimeSpecifiedZipCodes_result.serviceType4_is:', yhcTimeSpecifiedZipCodes_result.serviceType4_is);
+						// console.log('yhcTimeSpecifiedZipCodes_result.serviceType3_is:', yhcTimeSpecifiedZipCodes_result.serviceType3_is);
 
 						// console.log(zipCode);
 						checkRemoteIslandZipCodes_result = checkZipCodes('checkRemoteIslandZipCodes', zipCode);
