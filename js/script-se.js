@@ -388,7 +388,7 @@ function optionJudgment() {
 						}
 
 						if (deliveryTime != '指定なし') {
-							console.log('optionResult.result2:', optionResult.result2);
+							// console.log('optionResult.result2:', optionResult.result2);
 							//通常配送と組立済+玄関渡しサービスの時間指定対応判定
 							if (optionResult.result2 == undefined || optionResult.result2 == -1) {
 								if (noTimeSpecifiedZipCodes_result == undefined) {
