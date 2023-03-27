@@ -31,6 +31,10 @@ $(function () {
 	productDetail_tnlListTableLink();
 	productDetail_mhpContentsBanner();
 	productDetail_ptsContentsBanner();
+	productDetail_bookShelfContentsBanner();
+	productDetail_tlfContentsBanner();
+	productDetail_logContentsBanner();
+	productDetail_porContentsBanner();
 	searchTagsTitleDescriptionChange();
 
 	reviewSlideDown('#fs_ProductDetails', '240'); //OK
@@ -98,7 +102,7 @@ $(function () {
 
 	advancedSearchFormSelected();
 	advancedSearchForm();
-
+	cartInPopUp();
 	// if ($('#fs_ShoppingCart').length) {
 	// 	//オプション
 	// 	const options = {
@@ -128,6 +132,876 @@ $(function () {
 	// 	//ターゲット要素の監視を開始
 	// 	obs.observe(target, options);
 	// }
+
+	// const postalCodeInput = document.getElementById('postal-code-input'); // 郵便番号を入力するinput要素
+	// const addressOutput = document.getElementById('address-output'); // 住所を表示する要素
+
+	// postalCodeInput.addEventListener('change', () => {
+	// 	const postalCode = postalCodeInput.value.replace(/[^\d]/g, ''); // 郵便番号を取得して数字以外の文字列を除去する
+	// 	const xhr = new XMLHttpRequest(); // XMLHttpリクエストを生成する
+	// 	xhr.open('GET', `https://api.zipaddress.net/?zipcode=${postalCode}`, true); // APIエンドポイントのURLを指定する
+	// 	xhr.onreadystatechange = function () {
+	// 		if (xhr.readyState === 4 && xhr.status === 200) {
+	// 			// リクエストが成功した場合
+	// 			const response = JSON.parse(xhr.responseText); // レスポンスをJSONオブジェクトに変換する
+	// 			const address = response.data.fullAddress; // 住所を取得する
+	// 			const pref = response.data.pref;
+	// 			console.log(pref);
+	// 			addressOutput.textContent = address; // 住所を表示する
+
+	// 			let arrivalDate_ary = [];
+
+	// 			// const sgw_date = pref_sgw.pref;
+	// 			let date = new Date();
+	// 			// date.setDate(date.getDate());
+	// 			console.log(date);
+
+	// 			function formatDate(dt) {
+	// 				var y = dt.getFullYear();
+	// 				var m = ('00' + (dt.getMonth() + 1)).slice(-2);
+	// 				var d = ('00' + dt.getDate()).slice(-2);
+	// 				return y + '-' + m + '-' + d;
+	// 			}
+
+	// 			function getAfterNdays(n) {
+	// 				var dt = new Date();
+	// 				dt.setDate(dt.getDate() + n);
+	// 				return formatDate(dt);
+	// 			}
+
+	// 			for (let i = 0; i <= 44; i++) {
+	// 				arrivalDate_ary.push(getAfterNdays(i));
+	// 			}
+
+	// 			console.log(arrivalDate_ary);
+
+	// 			var orderLeadTime = 0, //受注処理までのリードタイム
+	// 				manufactureLeadTime = 0, //サイズオーダー時のリードタイム
+	// 				assemblyLeadTime = 0, //組立サービス時のリードタイム
+	// 				sizeOrderArray = [];
+
+	// 			var operation_holyDay = [
+	// 				'2022-11-05',
+	// 				'2022-11-06',
+	// 				'2022-11-12',
+	// 				'2022-11-13',
+	// 				'2022-11-19',
+	// 				'2022-11-20',
+	// 				'2022-11-26',
+	// 				'2022-11-27',
+	// 				'2022-12-03',
+	// 				'2022-12-04',
+	// 				'2022-12-10',
+	// 				'2022-12-11',
+	// 				'2022-12-17',
+	// 				'2022-12-18',
+	// 				'2022-12-24',
+	// 				'2022-12-25',
+	// 				'2022-12-29',
+	// 				'2022-12-30',
+	// 				'2022-12-31',
+	// 				'2023-01-01',
+	// 				'2023-01-02',
+	// 				'2023-01-03',
+	// 				'2023-01-07',
+	// 				'2023-01-08',
+	// 				'2023-01-14',
+	// 				'2023-01-15',
+	// 				'2023-01-21',
+	// 				'2023-01-22',
+	// 				'2023-01-28',
+	// 				'2023-01-29',
+	// 				'2023-02-04',
+	// 				'2023-02-05',
+	// 				'2023-02-11',
+	// 				'2023-02-12',
+	// 				'2023-02-18',
+	// 				'2023-02-19',
+	// 				'2023-02-25',
+	// 				'2023-02-26',
+	// 				'2023-03-04',
+	// 				'2023-03-05',
+	// 				'2023-03-11',
+	// 				'2023-03-12',
+	// 				'2023-03-18',
+	// 				'2023-03-19',
+	// 				'2023-03-25',
+	// 				'2023-03-26',
+	// 				'2023-04-01',
+	// 				'2023-04-02',
+	// 				'2023-04-08',
+	// 				'2023-04-09',
+	// 				'2023-04-15',
+	// 				'2023-04-16',
+	// 				'2023-04-22',
+	// 				'2023-04-23',
+	// 				'2023-04-29',
+	// 				'2023-04-30',
+	// 				'2023-05-03',
+	// 				'2023-05-04',
+	// 				'2023-05-05',
+	// 				'2023-05-06',
+	// 				'2023-05-07',
+	// 				'2023-05-13',
+	// 				'2023-05-14',
+	// 				'2023-05-20',
+	// 				'2023-05-21',
+	// 				'2023-05-27',
+	// 				'2023-05-28',
+	// 				'2023-06-03',
+	// 				'2023-06-04',
+	// 				'2023-06-10',
+	// 				'2023-06-11',
+	// 				'2023-06-17',
+	// 				'2023-06-18',
+	// 				'2023-06-24',
+	// 				'2023-06-25',
+	// 				'2023-07-01',
+	// 				'2023-07-02',
+	// 				'2023-07-08',
+	// 				'2023-07-09',
+	// 				'2023-07-15',
+	// 				'2023-07-16',
+	// 				'2023-07-17',
+	// 				'2023-07-22',
+	// 				'2023-07-23',
+	// 				'2023-07-29',
+	// 				'2023-07-30',
+	// 				'2023-08-05',
+	// 				'2023-08-06',
+	// 				'2023-08-11',
+	// 				'2023-08-12',
+	// 				'2023-08-13',
+	// 				'2023-08-14',
+	// 				'2023-08-15',
+	// 				'2023-08-19',
+	// 				'2023-08-20',
+	// 				'2023-08-26',
+	// 				'2023-08-27',
+	// 				'2023-09-02',
+	// 				'2023-09-03',
+	// 				'2023-09-09',
+	// 				'2023-09-10',
+	// 				'2023-09-16',
+	// 				'2023-09-17',
+	// 				'2023-09-23',
+	// 				'2023-09-24',
+	// 				'2023-09-30',
+	// 				'2023-10-01',
+	// 				'2023-10-07',
+	// 				'2023-10-08',
+	// 				'2023-10-09',
+	// 				'2023-10-14',
+	// 				'2023-10-15',
+	// 				'2023-10-21',
+	// 				'2023-10-22',
+	// 				'2023-10-28',
+	// 				'2023-10-29',
+	// 				'2023-11-04',
+	// 				'2023-11-05',
+	// 				'2023-11-11',
+	// 				'2023-11-12',
+	// 				'2023-11-18',
+	// 				'2023-11-19',
+	// 				'2023-11-25',
+	// 				'2023-11-26',
+	// 				'2023-12-02',
+	// 				'2023-12-03',
+	// 				'2023-12-09',
+	// 				'2023-12-10',
+	// 				'2023-12-16',
+	// 				'2023-12-17',
+	// 				'2023-12-23',
+	// 				'2023-12-24',
+	// 				'2023-12-28',
+	// 				'2023-12-29',
+	// 				'2023-12-30',
+	// 				'2023-12-31',
+	// 			];
+
+	// 			var factory_holyDay = [
+	// 				'2022-11-05',
+	// 				'2022-11-06',
+	// 				'2022-11-12',
+	// 				'2022-11-13',
+	// 				'2022-11-19',
+	// 				'2022-11-20',
+	// 				'2022-11-26',
+	// 				'2022-11-27',
+	// 				'2022-12-03',
+	// 				'2022-12-04',
+	// 				'2022-12-10',
+	// 				'2022-12-11',
+	// 				'2022-12-17',
+	// 				'2022-12-18',
+	// 				'2022-12-24',
+	// 				'2022-12-25',
+	// 				'2022-12-28',
+	// 				'2022-12-29',
+	// 				'2022-12-30',
+	// 				'2022-12-31',
+	// 				'2023-01-01',
+	// 				'2023-01-02',
+	// 				'2023-01-03',
+	// 				'2023-01-04',
+	// 				'2023-01-07',
+	// 				'2023-01-08',
+	// 				'2023-01-14',
+	// 				'2023-01-15',
+	// 				'2023-01-21',
+	// 				'2023-01-22',
+	// 				'2023-01-28',
+	// 				'2023-01-29',
+	// 				'2023-02-04',
+	// 				'2023-02-05',
+	// 				'2023-02-11',
+	// 				'2023-02-12',
+	// 				'2023-02-18',
+	// 				'2023-02-19',
+	// 				'2023-02-23',
+	// 				'2023-02-25',
+	// 				'2023-02-26',
+	// 				'2023-03-04',
+	// 				'2023-03-05',
+	// 				'2023-03-11',
+	// 				'2023-03-12',
+	// 				'2023-03-18',
+	// 				'2023-03-19',
+	// 				'2023-03-25',
+	// 				'2023-03-26',
+	// 				'2023-04-01',
+	// 				'2023-04-02',
+	// 				'2023-04-08',
+	// 				'2023-04-09',
+	// 				'2023-04-15',
+	// 				'2023-04-16',
+	// 				'2023-04-22',
+	// 				'2023-04-23',
+	// 				'2023-04-29',
+	// 				'2023-04-30',
+	// 				'2023-05-03',
+	// 				'2023-05-04',
+	// 				'2023-05-05',
+	// 				'2023-05-06',
+	// 				'2023-05-07',
+	// 				'2023-05-13',
+	// 				'2023-05-14',
+	// 				'2023-05-20',
+	// 				'2023-05-21',
+	// 				'2023-05-27',
+	// 				'2023-05-28',
+	// 				'2023-06-03',
+	// 				'2023-06-04',
+	// 				'2023-06-10',
+	// 				'2023-06-11',
+	// 				'2023-06-17',
+	// 				'2023-06-18',
+	// 				'2023-06-24',
+	// 				'2023-06-25',
+	// 				'2023-07-01',
+	// 				'2023-07-02',
+	// 				'2023-07-08',
+	// 				'2023-07-09',
+	// 				'2023-07-15',
+	// 				'2023-07-16',
+	// 				'2023-07-22',
+	// 				'2023-07-23',
+	// 				'2023-07-24',
+	// 				'2023-07-25',
+	// 				'2023-07-26',
+	// 				'2023-07-29',
+	// 				'2023-07-30',
+	// 				'2023-08-05',
+	// 				'2023-08-06',
+	// 				'2023-08-11',
+	// 				'2023-08-12',
+	// 				'2023-08-13',
+	// 				'2023-08-14',
+	// 				'2023-08-15',
+	// 				'2023-08-16',
+	// 				'2023-08-19',
+	// 				'2023-08-20',
+	// 				'2023-08-26',
+	// 				'2023-08-27',
+	// 				'2023-09-02',
+	// 				'2023-09-03',
+	// 				'2023-09-09',
+	// 				'2023-09-10',
+	// 				'2023-09-16',
+	// 				'2023-09-17',
+	// 				'2023-09-18',
+	// 				'2023-09-23',
+	// 				'2023-09-24',
+	// 				'2023-09-30',
+	// 				'2023-10-01',
+	// 				'2023-10-07',
+	// 				'2023-10-08',
+	// 				'2023-10-09',
+	// 				'2023-10-14',
+	// 				'2023-10-15',
+	// 				'2023-10-21',
+	// 				'2023-10-22',
+	// 				'2023-10-28',
+	// 				'2023-10-29',
+	// 				'2023-11-04',
+	// 				'2023-11-05',
+	// 				'2023-11-11',
+	// 				'2023-11-12',
+	// 				'2023-11-18',
+	// 				'2023-11-19',
+	// 				'2023-11-25',
+	// 				'2023-11-26',
+	// 				'2023-12-02',
+	// 				'2023-12-03',
+	// 				'2023-12-09',
+	// 				'2023-12-10',
+	// 				'2023-12-16',
+	// 				'2023-12-17',
+	// 				'2023-12-23',
+	// 				'2023-12-24',
+	// 				'2023-12-28',
+	// 				'2023-12-29',
+	// 				'2023-12-30',
+	// 				'2023-12-31',
+	// 			];
+
+	// 			arrivalDate_ary.splice(0, 1);
+
+	// 			function checkHolyDay(arrivalDate_ary, leadTime, holyDay, status) {
+	// 				for (let i = 0; i < leadTime; i++) {
+	// 					if ($.inArray(arrivalDate_ary[i], holyDay) > -1) {
+	// 						console.log(arrivalDate_ary[i] + 'は休業日');
+	// 						arrivalDate_ary[i] = '';
+	// 						leadTime++;
+	// 					} else {
+	// 						//console.log(arrivalDate_ary[i] + 'を削除（' + status + 'リードタイム）');
+	// 						arrivalDate_ary[i] = '';
+	// 					}
+	// 				}
+	// 				arrivalDate_ary = arrivalDate_ary.filter(Boolean);
+	// 				return arrivalDate_ary;
+	// 			}
+
+	// 			// $('.fs-c-listedProductName__name').each(function () {
+	// 			// 	sizeOrderArray.push($(this).text());
+	// 			// });
+
+	// 			//組立サービスがありなら指定した日数のリードタイムを追加
+
+	// 			if (sizeOrderArray.find((value) => value.match(/サイズオーダー/g)) != undefined) {
+	// 				//console.log('サイズオーダー');
+	// 				orderLeadTime += 3;
+	// 				//console.log('サイズオーダー:', orderLeadTime);
+	// 				arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderLeadTime, operation_holyDay, '事務処理');
+	// 				manufactureLeadTime += 10;
+	// 				arrivalDate_ary = checkHolyDay(arrivalDate_ary, manufactureLeadTime, factory_holyDay, '生産');
+	// 			} else {
+	// 				//console.log('サイズオーダー以外');
+
+	// 				//組立サービスがありなら指定した日数のリードタイムを追加
+
+	// 				if (optionResult.result1 >= 0 || optionResult.result2 >= 0) {
+	// 					//console.log('組立サービス')
+	// 					orderLeadTime += 3;
+	// 					//console.log('組立サービス:', orderLeadTime);
+	// 					arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderLeadTime, operation_holyDay, '事務処理');
+	// 					assemblyLeadTime += 5;
+	// 					arrivalDate_ary = checkHolyDay(arrivalDate_ary, assemblyLeadTime, operation_holyDay, '組立');
+	// 				} else {
+	// 					if ($('#fs_input_payment_bankTransfer').prop('checked')) {
+	// 						orderLeadTime += 1;
+	// 						//console.log('銀行振込:', orderLeadTime);
+	// 						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderLeadTime, operation_holyDay, '事務処理');
+	// 					}
+	// 				}
+	// 			}
+
+	// 			var deliveryReadyLeadTime = 1;
+
+	// 			for (let i = 0; i < deliveryReadyLeadTime; i++) {
+	// 				if ($.inArray(arrivalDate_ary[i], operation_holyDay) > -1) {
+	// 					// console.log(arrivalDate_ary[i] + 'は運営が休業日');
+	// 					arrivalDate_ary[i] = '';
+	// 					deliveryReadyLeadTime++;
+	// 				} else {
+	// 					// console.log(arrivalDate_ary[i] + 'は運営が営業日だから発送');
+	// 					arrivalDate_ary[i] = '';
+	// 				}
+	// 			}
+	// 			arrivalDate_ary = arrivalDate_ary.filter(Boolean);
+
+	// 			var prefArray_SGW = [
+	// 					{ pref: '北海道', leadTime: 3 },
+	// 					{ pref: '青森県', leadTime: 2 },
+	// 					{ pref: '岩手県', leadTime: 2 },
+	// 					{ pref: '宮城県', leadTime: 2 },
+	// 					{ pref: '秋田県', leadTime: 2 },
+	// 					{ pref: '山形県', leadTime: 2 },
+	// 					{ pref: '福島県', leadTime: 2 },
+	// 					{ pref: '茨城県', leadTime: 1 },
+	// 					{ pref: '栃木県', leadTime: 1 },
+	// 					{ pref: '群馬県', leadTime: 1 },
+	// 					{ pref: '埼玉県', leadTime: 1 },
+	// 					{ pref: '千葉県', leadTime: 1 },
+	// 					{ pref: '東京都', leadTime: 1 },
+	// 					{ pref: '神奈川県', leadTime: 1 },
+	// 					{ pref: '新潟県', leadTime: 1 },
+	// 					{ pref: '富山県', leadTime: 1 },
+	// 					{ pref: '石川県', leadTime: 1 },
+	// 					{ pref: '福井県', leadTime: 1 },
+	// 					{ pref: '山梨県', leadTime: 1 },
+	// 					{ pref: '長野県', leadTime: 1 },
+	// 					{ pref: '岐阜県', leadTime: 1 },
+	// 					{ pref: '静岡県', leadTime: 1 },
+	// 					{ pref: '愛知県', leadTime: 1 },
+	// 					{ pref: '三重県', leadTime: 1 },
+	// 					{ pref: '滋賀県', leadTime: 1 },
+	// 					{ pref: '京都府', leadTime: 1 },
+	// 					{ pref: '大阪府', leadTime: 1 },
+	// 					{ pref: '兵庫県', leadTime: 1 },
+	// 					{ pref: '奈良県', leadTime: 1 },
+	// 					{ pref: '和歌山県', leadTime: 1 },
+	// 					{ pref: '鳥取県', leadTime: 2 },
+	// 					{ pref: '島根県', leadTime: 2 },
+	// 					{ pref: '岡山県', leadTime: 2 },
+	// 					{ pref: '広島県', leadTime: 2 },
+	// 					{ pref: '山口県', leadTime: 2 },
+	// 					{ pref: '徳島県', leadTime: 2 },
+	// 					{ pref: '香川県', leadTime: 2 },
+	// 					{ pref: '愛媛県', leadTime: 2 },
+	// 					{ pref: '高知県', leadTime: 2 },
+	// 					{ pref: '福岡県', leadTime: 3 },
+	// 					{ pref: '佐賀県', leadTime: 3 },
+	// 					{ pref: '長崎県', leadTime: 3 },
+	// 					{ pref: '熊本県', leadTime: 3 },
+	// 					{ pref: '大分県', leadTime: 3 },
+	// 					{ pref: '宮崎県', leadTime: 3 },
+	// 					{ pref: '鹿児島県', leadTime: 3 },
+	// 					{ pref: '沖縄県', leadTime: 7 },
+	// 				],
+	// 				prefArray_YHC = [
+	// 					{ pref: '北海道', leadTime: 6 },
+	// 					{ pref: '青森県', leadTime: 4 },
+	// 					{ pref: '岩手県', leadTime: 4 },
+	// 					{ pref: '宮城県', leadTime: 3 },
+	// 					{ pref: '秋田県', leadTime: 4 },
+	// 					{ pref: '山形県', leadTime: 4 },
+	// 					{ pref: '福島県', leadTime: 4 },
+	// 					{ pref: '茨城県', leadTime: 3 },
+	// 					{ pref: '栃木県', leadTime: 3 },
+	// 					{ pref: '群馬県', leadTime: 3 },
+	// 					{ pref: '埼玉県', leadTime: 2 },
+	// 					{ pref: '千葉県', leadTime: 3 },
+	// 					{ pref: '東京都', leadTime: 2 },
+	// 					{ pref: '神奈川県', leadTime: 2 },
+	// 					{ pref: '新潟県', leadTime: 4 },
+	// 					{ pref: '富山県', leadTime: 4 },
+	// 					{ pref: '石川県', leadTime: 5 },
+	// 					{ pref: '福井県', leadTime: 5 },
+	// 					{ pref: '山梨県', leadTime: 3 },
+	// 					{ pref: '長野県', leadTime: 4 },
+	// 					{ pref: '岐阜県', leadTime: 4 },
+	// 					{ pref: '静岡県', leadTime: 2 },
+	// 					{ pref: '愛知県', leadTime: 3 },
+	// 					{ pref: '三重県', leadTime: 3 },
+	// 					{ pref: '滋賀県', leadTime: 3 },
+	// 					{ pref: '京都府', leadTime: 3 },
+	// 					{ pref: '大阪府', leadTime: 3 },
+	// 					{ pref: '兵庫県', leadTime: 3 },
+	// 					{ pref: '奈良県', leadTime: 3 },
+	// 					{ pref: '和歌山県', leadTime: 3 },
+	// 					{ pref: '鳥取県', leadTime: 7 },
+	// 					{ pref: '島根県', leadTime: 7 },
+	// 					{ pref: '岡山県', leadTime: 6 },
+	// 					{ pref: '広島県', leadTime: 6 },
+	// 					{ pref: '山口県', leadTime: 5 },
+	// 					{ pref: '徳島県', leadTime: 5 },
+	// 					{ pref: '香川県', leadTime: 5 },
+	// 					{ pref: '愛媛県', leadTime: 5 },
+	// 					{ pref: '高知県', leadTime: 5 },
+	// 					{ pref: '福岡県', leadTime: 4 },
+	// 					{ pref: '佐賀県', leadTime: 5 },
+	// 					{ pref: '長崎県', leadTime: 5 },
+	// 					{ pref: '熊本県', leadTime: 5 },
+	// 					{ pref: '大分県', leadTime: 5 },
+	// 					{ pref: '宮崎県', leadTime: 5 },
+	// 					{ pref: '鹿児島県', leadTime: 5 },
+	// 					{ pref: '沖縄県', leadTime: 10 },
+	// 				];
+
+	// 			var destinationAddress = $('.fs-c-checkout-destination__address__address').text().split(/\s+/);
+	// 			var expectedArrival_time_selected = $('#fs_input_expectedArrival_time').val();
+	// 			// console.log(optionResult);
+	// 			if (optionResult.result2 >= 0) {
+	// 				//console.log('組立済+搬入');
+	// 				var prefArray = prefArray_YHC;
+	// 				var zipCode = $('.fs-c-checkout-destination__address .fs-c-checkout-destination__address__zipCode').text().replace('-', '');
+	// 				expectedArrivalTime_YHC(expectedArrival_time_selected, zipCode);
+	// 			} else if (optionResult.result1 >= 0) {
+	// 				//console.log('組立済+玄関渡し');
+	// 				expectedArrivalTime_SGW(expectedArrival_time_selected);
+	// 				var prefArray = prefArray_SGW;
+	// 			} else {
+	// 				//console.log('組立サービス以外');
+	// 				expectedArrivalTime_SGW(expectedArrival_time_selected);
+	// 				var prefArray = prefArray_SGW;
+	// 			}
+
+	// 			var prefArray_find = prefArray.find((u) => u.pref === destinationAddress[0]);
+	// 			var deliveryLeadTime = prefArray_find.leadTime;
+
+	// 			for (i = 0; i < deliveryLeadTime; i++) {
+	// 				//console.log(arrivalDate_ary[i] + 'を削除（配送リードタイム）');
+	// 				arrivalDate_ary[i] = '';
+	// 			}
+
+	// 			arrivalDate_ary = arrivalDate_ary.filter(Boolean);
+
+	// 			var optionHtml = '<option value="none">指定なし</option>';
+
+	// 			for (i = 0; arrivalDate_ary.length > i; i++) {
+	// 				var dateValue_ary = arrivalDate_ary[i].split('-');
+	// 				// 今回指定する年月日情報（２０２０年１０月１日）
+	// 				var yearStr = Number(dateValue_ary[0]);
+	// 				var monthStr = Number(dateValue_ary[1]);
+	// 				var dayStr = Number(dateValue_ary[2]);
+	// 				// Dateオブジェクトには実際の月ー１の値を指定するため
+	// 				var jsMonth = monthStr - 1;
+	// 				// Dateオブジェクトは曜日情報を0から6の数値で保持しているため、翻訳する
+	// 				var dayOfWeekStrJP = ['日', '月', '火', '水', '木', '金', '土'];
+	// 				// 指定日付で初期化したDateオブジェクトのインスタンスを生成する
+	// 				var date = new Date(yearStr, jsMonth, dayStr);
+	// 				// 木曜日は数値の4として保持されているため、dayOfWeekStrJP[4]の値が出力される
+	// 				optionHtml = optionHtml + '<option value="' + arrivalDate_ary[i] + '">' + dateValue_ary[0] + '/' + dateValue_ary[1] + '/' + dateValue_ary[2] + '(' + dayOfWeekStrJP[date.getDay()] + ')</option>';
+	// 				//console.log('<option value="' + arrivalDate_ary[i] + '">' + dateValue_ary[0] + '/' + dateValue_ary[1] + '/' + dateValue_ary[2] + '(' + dayOfWeekStrJP[date.getDay()] + ')</option>');
+	// 			}
+	// 			// $('#fs_input_expectedArrival_date').html(optionHtml);
+	// 			// $('#fs_input_expectedArrival_date').val(selectedValue);
+
+	// 			// var orderLeadTime = 0, //受注処理までのリードタイム
+	// 			// 	manufactureLeadTime = 0, //サイズオーダー時のリードタイム
+	// 			// 	assemblyLeadTime = 0, //組立サービス時のリードタイム
+	// 			// 	sizeOrderArray = [];
+
+	// 			// const operation_holyDay = [
+	// 			// 	'2023-01-01',
+	// 			// 	'2023-01-02',
+	// 			// 	'2023-01-03',
+	// 			// 	'2023-01-07',
+	// 			// 	'2023-01-08',
+	// 			// 	'2023-01-14',
+	// 			// 	'2023-01-15',
+	// 			// 	'2023-01-21',
+	// 			// 	'2023-01-22',
+	// 			// 	'2023-01-28',
+	// 			// 	'2023-01-29',
+	// 			// 	'2023-02-04',
+	// 			// 	'2023-02-05',
+	// 			// 	'2023-02-11',
+	// 			// 	'2023-02-12',
+	// 			// 	'2023-02-18',
+	// 			// 	'2023-02-19',
+	// 			// 	'2023-02-25',
+	// 			// 	'2023-02-26',
+	// 			// 	'2023-03-04',
+	// 			// 	'2023-03-05',
+	// 			// 	'2023-03-11',
+	// 			// 	'2023-03-12',
+	// 			// 	'2023-03-18',
+	// 			// 	'2023-03-19',
+	// 			// 	'2023-03-25',
+	// 			// 	'2023-03-26',
+	// 			// 	'2023-04-01',
+	// 			// 	'2023-04-02',
+	// 			// 	'2023-04-08',
+	// 			// 	'2023-04-09',
+	// 			// 	'2023-04-15',
+	// 			// 	'2023-04-16',
+	// 			// 	'2023-04-22',
+	// 			// 	'2023-04-23',
+	// 			// 	'2023-04-29',
+	// 			// 	'2023-04-30',
+	// 			// 	'2023-05-03',
+	// 			// 	'2023-05-04',
+	// 			// 	'2023-05-05',
+	// 			// 	'2023-05-06',
+	// 			// 	'2023-05-07',
+	// 			// 	'2023-05-13',
+	// 			// 	'2023-05-14',
+	// 			// 	'2023-05-20',
+	// 			// 	'2023-05-21',
+	// 			// 	'2023-05-27',
+	// 			// 	'2023-05-28',
+	// 			// 	'2023-06-03',
+	// 			// 	'2023-06-04',
+	// 			// 	'2023-06-10',
+	// 			// 	'2023-06-11',
+	// 			// 	'2023-06-17',
+	// 			// 	'2023-06-18',
+	// 			// 	'2023-06-24',
+	// 			// 	'2023-06-25',
+	// 			// 	'2023-07-01',
+	// 			// 	'2023-07-02',
+	// 			// 	'2023-07-08',
+	// 			// 	'2023-07-09',
+	// 			// 	'2023-07-15',
+	// 			// 	'2023-07-16',
+	// 			// 	'2023-07-17',
+	// 			// 	'2023-07-22',
+	// 			// 	'2023-07-23',
+	// 			// 	'2023-07-29',
+	// 			// 	'2023-07-30',
+	// 			// 	'2023-08-05',
+	// 			// 	'2023-08-06',
+	// 			// 	'2023-08-11',
+	// 			// 	'2023-08-12',
+	// 			// 	'2023-08-13',
+	// 			// 	'2023-08-14',
+	// 			// 	'2023-08-15',
+	// 			// 	'2023-08-19',
+	// 			// 	'2023-08-20',
+	// 			// 	'2023-08-26',
+	// 			// 	'2023-08-27',
+	// 			// 	'2023-09-02',
+	// 			// 	'2023-09-03',
+	// 			// 	'2023-09-09',
+	// 			// 	'2023-09-10',
+	// 			// 	'2023-09-16',
+	// 			// 	'2023-09-17',
+	// 			// 	'2023-09-23',
+	// 			// 	'2023-09-24',
+	// 			// 	'2023-09-30',
+	// 			// 	'2023-10-01',
+	// 			// 	'2023-10-07',
+	// 			// 	'2023-10-08',
+	// 			// 	'2023-10-09',
+	// 			// 	'2023-10-14',
+	// 			// 	'2023-10-15',
+	// 			// 	'2023-10-21',
+	// 			// 	'2023-10-22',
+	// 			// 	'2023-10-28',
+	// 			// 	'2023-10-29',
+	// 			// 	'2023-11-04',
+	// 			// 	'2023-11-05',
+	// 			// 	'2023-11-11',
+	// 			// 	'2023-11-12',
+	// 			// 	'2023-11-18',
+	// 			// 	'2023-11-19',
+	// 			// 	'2023-11-25',
+	// 			// 	'2023-11-26',
+	// 			// 	'2023-12-02',
+	// 			// 	'2023-12-03',
+	// 			// 	'2023-12-09',
+	// 			// 	'2023-12-10',
+	// 			// 	'2023-12-16',
+	// 			// 	'2023-12-17',
+	// 			// 	'2023-12-23',
+	// 			// 	'2023-12-24',
+	// 			// 	'2023-12-28',
+	// 			// 	'2023-12-29',
+	// 			// 	'2023-12-30',
+	// 			// 	'2023-12-31',
+	// 			// ];
+
+	// 			// const factory_holyDay = [
+	// 			// 	'2022-11-05',
+	// 			// 	'2022-11-06',
+	// 			// 	'2022-11-12',
+	// 			// 	'2022-11-13',
+	// 			// 	'2022-11-19',
+	// 			// 	'2022-11-20',
+	// 			// 	'2022-11-26',
+	// 			// 	'2022-11-27',
+	// 			// 	'2022-12-03',
+	// 			// 	'2022-12-04',
+	// 			// 	'2022-12-10',
+	// 			// 	'2022-12-11',
+	// 			// 	'2022-12-17',
+	// 			// 	'2022-12-18',
+	// 			// 	'2022-12-24',
+	// 			// 	'2022-12-25',
+	// 			// 	'2022-12-28',
+	// 			// 	'2022-12-29',
+	// 			// 	'2022-12-30',
+	// 			// 	'2022-12-31',
+	// 			// 	'2023-01-01',
+	// 			// 	'2023-01-02',
+	// 			// 	'2023-01-03',
+	// 			// 	'2023-01-04',
+	// 			// 	'2023-01-07',
+	// 			// 	'2023-01-08',
+	// 			// 	'2023-01-14',
+	// 			// 	'2023-01-15',
+	// 			// 	'2023-01-21',
+	// 			// 	'2023-01-22',
+	// 			// 	'2023-01-28',
+	// 			// 	'2023-01-29',
+	// 			// 	'2023-02-04',
+	// 			// 	'2023-02-05',
+	// 			// 	'2023-02-11',
+	// 			// 	'2023-02-12',
+	// 			// 	'2023-02-18',
+	// 			// 	'2023-02-19',
+	// 			// 	'2023-02-23',
+	// 			// 	'2023-02-25',
+	// 			// 	'2023-02-26',
+	// 			// 	'2023-03-04',
+	// 			// 	'2023-03-05',
+	// 			// 	'2023-03-11',
+	// 			// 	'2023-03-12',
+	// 			// 	'2023-03-18',
+	// 			// 	'2023-03-19',
+	// 			// 	'2023-03-25',
+	// 			// 	'2023-03-26',
+	// 			// 	'2023-04-01',
+	// 			// 	'2023-04-02',
+	// 			// 	'2023-04-08',
+	// 			// 	'2023-04-09',
+	// 			// 	'2023-04-15',
+	// 			// 	'2023-04-16',
+	// 			// 	'2023-04-22',
+	// 			// 	'2023-04-23',
+	// 			// 	'2023-04-29',
+	// 			// 	'2023-04-30',
+	// 			// 	'2023-05-03',
+	// 			// 	'2023-05-04',
+	// 			// 	'2023-05-05',
+	// 			// 	'2023-05-06',
+	// 			// 	'2023-05-07',
+	// 			// 	'2023-05-13',
+	// 			// 	'2023-05-14',
+	// 			// 	'2023-05-20',
+	// 			// 	'2023-05-21',
+	// 			// 	'2023-05-27',
+	// 			// 	'2023-05-28',
+	// 			// 	'2023-06-03',
+	// 			// 	'2023-06-04',
+	// 			// 	'2023-06-10',
+	// 			// 	'2023-06-11',
+	// 			// 	'2023-06-17',
+	// 			// 	'2023-06-18',
+	// 			// 	'2023-06-24',
+	// 			// 	'2023-06-25',
+	// 			// 	'2023-07-01',
+	// 			// 	'2023-07-02',
+	// 			// 	'2023-07-08',
+	// 			// 	'2023-07-09',
+	// 			// 	'2023-07-15',
+	// 			// 	'2023-07-16',
+	// 			// 	'2023-07-22',
+	// 			// 	'2023-07-23',
+	// 			// 	'2023-07-24',
+	// 			// 	'2023-07-25',
+	// 			// 	'2023-07-26',
+	// 			// 	'2023-07-29',
+	// 			// 	'2023-07-30',
+	// 			// 	'2023-08-05',
+	// 			// 	'2023-08-06',
+	// 			// 	'2023-08-11',
+	// 			// 	'2023-08-12',
+	// 			// 	'2023-08-13',
+	// 			// 	'2023-08-14',
+	// 			// 	'2023-08-15',
+	// 			// 	'2023-08-16',
+	// 			// 	'2023-08-19',
+	// 			// 	'2023-08-20',
+	// 			// 	'2023-08-26',
+	// 			// 	'2023-08-27',
+	// 			// 	'2023-09-02',
+	// 			// 	'2023-09-03',
+	// 			// 	'2023-09-09',
+	// 			// 	'2023-09-10',
+	// 			// 	'2023-09-16',
+	// 			// 	'2023-09-17',
+	// 			// 	'2023-09-18',
+	// 			// 	'2023-09-23',
+	// 			// 	'2023-09-24',
+	// 			// 	'2023-09-30',
+	// 			// 	'2023-10-01',
+	// 			// 	'2023-10-07',
+	// 			// 	'2023-10-08',
+	// 			// 	'2023-10-09',
+	// 			// 	'2023-10-14',
+	// 			// 	'2023-10-15',
+	// 			// 	'2023-10-21',
+	// 			// 	'2023-10-22',
+	// 			// 	'2023-10-28',
+	// 			// 	'2023-10-29',
+	// 			// 	'2023-11-04',
+	// 			// 	'2023-11-05',
+	// 			// 	'2023-11-11',
+	// 			// 	'2023-11-12',
+	// 			// 	'2023-11-18',
+	// 			// 	'2023-11-19',
+	// 			// 	'2023-11-25',
+	// 			// 	'2023-11-26',
+	// 			// 	'2023-12-02',
+	// 			// 	'2023-12-03',
+	// 			// 	'2023-12-09',
+	// 			// 	'2023-12-10',
+	// 			// 	'2023-12-16',
+	// 			// 	'2023-12-17',
+	// 			// 	'2023-12-23',
+	// 			// 	'2023-12-24',
+	// 			// 	'2023-12-28',
+	// 			// 	'2023-12-29',
+	// 			// 	'2023-12-30',
+	// 			// 	'2023-12-31',
+	// 			// ];
+
+	// 			// const pref_sgw = {
+	// 			// 	北海道: 3,
+	// 			// 	青森県: 2,
+	// 			// 	岩手県: 2,
+	// 			// 	宮城県: 2,
+	// 			// 	秋田県: 2,
+	// 			// 	山形県: 2,
+	// 			// 	福島県: 2,
+	// 			// 	茨城県: 1,
+	// 			// 	栃木県: 1,
+	// 			// 	群馬県: 1,
+	// 			// 	埼玉県: 1,
+	// 			// 	千葉県: 1,
+	// 			// 	東京都: 1,
+	// 			// 	神奈川県: 1,
+	// 			// 	新潟県: 1,
+	// 			// 	富山県: 1,
+	// 			// 	石川県: 1,
+	// 			// 	福井県: 1,
+	// 			// 	山梨県: 1,
+	// 			// 	長野県: 1,
+	// 			// 	岐阜県: 1,
+	// 			// 	静岡県: 1,
+	// 			// 	愛知県: 1,
+	// 			// 	三重県: 1,
+	// 			// 	滋賀県: 1,
+	// 			// 	京都府: 1,
+	// 			// 	大阪府: 1,
+	// 			// 	兵庫県: 1,
+	// 			// 	奈良県: 1,
+	// 			// 	和歌山県: 1,
+	// 			// 	鳥取県: 2,
+	// 			// 	島根県: 2,
+	// 			// 	岡山県: 2,
+	// 			// 	広島県: 2,
+	// 			// 	山口県: 2,
+	// 			// 	徳島県: 2,
+	// 			// 	香川県: 2,
+	// 			// 	愛媛県: 2,
+	// 			// 	高知県: 2,
+	// 			// 	福岡県: 3,
+	// 			// 	佐賀県: 3,
+	// 			// 	長崎県: 3,
+	// 			// 	熊本県: 3,
+	// 			// 	大分県: 3,
+	// 			// 	宮崎県: 3,
+	// 			// 	鹿児島県: 3,
+	// 			// 	沖縄県: 7,
+	// 			// };
+	// 		}
+	// 	};
+	// 	xhr.send(); // リクエストを送信する
+	// });
 });
 
 $(window).on('load', function () {
@@ -178,6 +1052,27 @@ function preSale_displayPassWordForm() {
 		if (productPathName.indexOf('/p/auth/preSale') === 0) {
 			$('#fs_ProductAuth .fs-l-pageMain').css('display', 'block');
 		}
+	}
+}
+
+/* cartInPopUp
+========================================================================== */
+
+function cartInPopUp() {
+	if ($('#fs_ProductDetails').length) {
+		var cartIn = $('#header-utility .fs-p-cartItemNumber').text();
+		setInterval(function () {
+			var cartItemNumber = $('#header-utility .fs-p-cartItemNumber').text();
+			// console.log('cartItemNumber:', cartItemNumber);
+			// console.log('cartIn:', cartIn);
+			if (cartItemNumber != cartIn) {
+				// console.log('カート投入');
+				cartIn = cartItemNumber;
+				$('#header-utility').after('<div class="goToCart"><a href="/p/cart">ご注文はこちら</a></div>');
+				$('.goToCart').fadeIn();
+				$('.goToCart').delay(5000).fadeOut();
+			}
+		}, 1000);
 	}
 }
 
@@ -766,16 +1661,57 @@ function productDetail_ptsContentsBanner() {
 	}
 }
 
-/* productDetail_ptsContentsBanner
+/* productDetail_bookShelfContentsBanner
 ========================================================================== */
-function productDetail_ptsContentsBanner() {
+function productDetail_bookShelfContentsBanner() {
 	if ($('#fs_ProductDetails').length) {
 		var url = window.location.pathname.substring(1);
 		url = url.split('/');
-		console.log(url);
 		// var series = url[url.length - 1].split('-');
 		if (url[3] == 'book-shelf') {
 			var html = '<ul id="contents-banner"><li><a href="/f/feature/book-shelf-capacity"><img src="https://shiraistore.itembox.design/item/src/book-shelf-capacity_460x96.jpg"></a></li></ul>';
+			$('#productActionBox').after(html);
+		}
+	}
+}
+
+/* productDetail_tlfContentsBanner
+========================================================================== */
+function productDetail_tlfContentsBanner() {
+	if ($('#fs_ProductDetails').length) {
+		var url = window.location.pathname.substring(1);
+		url = url.split('/');
+		var series = url[url.length - 1].split('-');
+		if (series[0] == 'tlf') {
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/tallflat-review"><img src="https://shiraistore.itembox.design/item/src/banner_tallflat-review_460x96.jpg"></a></li></ul>';
+			$('#productActionBox').after(html);
+		}
+	}
+}
+
+/* productDetail_logContentsBanner
+========================================================================== */
+function productDetail_logContentsBanner() {
+	if ($('#fs_ProductDetails').length) {
+		var url = window.location.pathname.substring(1);
+		url = url.split('/');
+		var series = url[url.length - 1].split('-');
+		if (series[0] == 'log') {
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/loguno-review"><img src="https://shiraistore.itembox.design/item/src/banner_loguno-review_460x96.jpg"></a></li></ul>';
+			$('#productActionBox').after(html);
+		}
+	}
+}
+
+/* productDetail_porContentsBanner
+========================================================================== */
+function productDetail_porContentsBanner() {
+	if ($('#fs_ProductDetails').length) {
+		var url = window.location.pathname.substring(1);
+		url = url.split('/');
+		var series = url[url.length - 1].split('-');
+		if (series[0] == 'por') {
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/portale-review"><img src="https://shiraistore.itembox.design/item/src/banner_portale-review_460x96.jpg"></a></li></ul>';
 			$('#productActionBox').after(html);
 		}
 	}
@@ -913,12 +1849,24 @@ function searchTagTitle() {
 		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li class="active">一人暮らし</li><li><a href="/p/search?tag=sale20230223-20230323-2">ファミリー</a></li></ul>');
 		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール 第1弾 対象商品');
 		$('title').text('新生活応援セール 第1弾 対象商品');
-	}  else if (params.tag == 'sale20230223-20230323-2') {
+	} else if (params.tag == 'sale20230223-20230323-2') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230223-20230323_1184x240.jpg" alt="新生活応援セール 第1弾 対象商品">');
 		$('#fs_ProductSearch h1').html('新生活応援セール 第1弾 対象商品');
 		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li><a href="/p/search?tag=sale20230223-20230323-1">一人暮らし</a></li><li class="active">ファミリー</li></ul>');
 		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール 第1弾 対象商品');
 		$('title').text('新生活応援セール 第1弾 対象商品 | 家具インテリア通販のSHIRAI STORE(白井産業)');
+	} else if (params.tag == 'sale20230323-20230423-1') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230323-20230423_1184x240.jpg" alt="新生活応援セール 第1弾 対象商品">');
+		$('#fs_ProductSearch h1').html('新生活応援セール 第2弾 対象商品');
+		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li class="active">一人暮らし</li><li><a href="/p/search?tag=sale20230323-20230423-2">ファミリー</a></li></ul>');
+		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール 第2弾 対象商品');
+		$('title').text('新生活応援セール 第2弾 対象商品');
+	} else if (params.tag == 'sale20230323-20230423-2') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230323-20230423_1184x240.jpg" alt="新生活応援セール 第1弾 対象商品">');
+		$('#fs_ProductSearch h1').html('新生活応援セール 第2弾 対象商品');
+		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li><a href="/p/search?tag=sale20230323-20230423-1">一人暮らし</a></li><li class="active">ファミリー</li></ul>');
+		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール 第2弾 対象商品');
+		$('title').text('新生活応援セール 第2弾 対象商品 | 家具インテリア通販のSHIRAI STORE(白井産業)');
 	} else if (params.tag == 'feature20230303') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-feature20230303_1184x240.jpg" alt="入園入学の準備">');
 		$('#fs_ProductSearch h1').html('入園入学の準備');
@@ -1642,6 +2590,9 @@ function rankingTop10_forFanplayr(category) {
 				break;
 			}
 		}
+
+		$('#rankingTop10_forFanplayr-outer').css('display','block');
+		
 	});
 	var categoryName = '';
 	switch (category) {

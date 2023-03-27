@@ -82,7 +82,7 @@ function checkZipCodes(checkType, zipCode) {
 		},
 	}).responseText;
 
-	//console.log(response);
+	console.log(response);
 
 	response = JSON.parse(response);
 
@@ -314,8 +314,8 @@ function optionJudgment() {
 		var execution = function () {
 			if (optionResult == false) {
 				optionResult = checkOption();
+				// console.log('optionResult:', optionResult);
 			}
-
 			if (optionResult != false) {
 				// console.log('optionResult:', optionResult);
 
@@ -329,8 +329,8 @@ function optionJudgment() {
 
 						//YHC時間指定
 						yhcTimeSpecifiedZipCodes_result = checkZipCodes('checkYhcTimeSpecifiedZipCodes', zipCode);
-						// console.log('yhcTimeSpecifiedZipCodes_result.serviceType4_is:', yhcTimeSpecifiedZipCodes_result.serviceType4_is);
-						// console.log('yhcTimeSpecifiedZipCodes_result.serviceType3_is:', yhcTimeSpecifiedZipCodes_result.serviceType3_is);
+						console.log('yhcTimeSpecifiedZipCodes_result.serviceType4_is:', yhcTimeSpecifiedZipCodes_result.serviceType4_is);
+						console.log('yhcTimeSpecifiedZipCodes_result.serviceType3_is:', yhcTimeSpecifiedZipCodes_result.serviceType3_is);
 
 						// console.log(zipCode);
 						checkRemoteIslandZipCodes_result = checkZipCodes('checkRemoteIslandZipCodes', zipCode);
@@ -351,8 +351,6 @@ function optionJudgment() {
 							checkFlag = 1;
 						}, 300);
 					}
-
-					// console.log('result2:',result);
 
 					if (checkFlag == 1) {
 						//時間指定がない場合
@@ -390,9 +388,9 @@ function optionJudgment() {
 						}
 
 						if (deliveryTime != '指定なし') {
-							//組立済+搬入サービスは日時指定が必須
-
-							if (optionResult.result2 >= 0) {
+							console.log('optionResult.result2:', optionResult.result2);
+							//通常配送と組立済+玄関渡しサービスの時間指定対応判定
+							if (optionResult.result2 == undefined || optionResult.result2 == -1) {
 								if (noTimeSpecifiedZipCodes_result == undefined) {
 									noTimeSpecifiedZipCodes_result = checkZipCodes('checkNoTimeSpecifiedZipCodes', zipCode);
 
@@ -411,6 +409,8 @@ function optionJudgment() {
 										});
 									}
 								}
+							} else if (optionResult.result2 >= 0) {
+
 							}
 						}
 
@@ -921,7 +921,7 @@ function expectedArrival(optionResult) {
 							//console.log('サイズオーダー以外');
 
 							//組立サービスがありなら指定した日数のリードタイムを追加
-							
+
 							if (optionResult.result1 >= 0 || optionResult.result2 >= 0) {
 								//console.log('組立サービス')
 								orderLeadTime += 3;
@@ -1204,7 +1204,7 @@ function checkOption() {
 	});
 	// console.log(optionArray);
 	if (optionArray.length == 0) {
-		return false;
+		return 'none';
 	} else {
 		var result1 = $.inArray('組立済+玄関渡し', optionArray);
 		var result2 = $.inArray('組立済+搬入', optionArray);
