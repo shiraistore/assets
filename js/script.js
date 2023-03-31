@@ -2600,7 +2600,7 @@ function rankingTop10_forFanplayr(category) {
 		case 'rack':
 			categoryName = '本棚・ラック';
 			break;
-		case 'tv-board':
+		case 'tv-stand':
 			categoryName = 'テレビ台';
 			break;
 		default:
