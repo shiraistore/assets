@@ -1060,19 +1060,21 @@ function preSale_displayPassWordForm() {
 
 function cartInPopUp() {
 	if ($('#fs_ProductDetails').length) {
-		var cartIn = $('#header-utility .fs-p-cartItemNumber').text();
-		setInterval(function () {
-			var cartItemNumber = $('#header-utility .fs-p-cartItemNumber').text();
-			// console.log('cartItemNumber:', cartItemNumber);
-			// console.log('cartIn:', cartIn);
-			if (cartItemNumber != cartIn) {
-				// console.log('カート投入');
-				cartIn = cartItemNumber;
-				$('#header-utility').after('<div class="goToCart"><a href="/p/cart">ご注文はこちら</a></div>');
-				$('.goToCart').fadeIn();
-				$('.goToCart').delay(5000).fadeOut();
-			}
-		}, 1000);
+		setTimeout(function () {
+			var cartIn = $('#header-utility .fs-p-cartItemNumber').text();
+			setInterval(function () {
+				var cartItemNumber = $('#header-utility .fs-p-cartItemNumber').text();
+				// console.log('cartItemNumber:', cartItemNumber);
+				// console.log('cartIn:', cartIn);
+				if (cartItemNumber != cartIn) {
+					// console.log('カート投入');
+					cartIn = cartItemNumber;
+					$('#header-utility').after('<div class="goToCart"><a href="/p/cart">ご注文はこちら</a></div>');
+					$('.goToCart').fadeIn();
+					$('.goToCart').delay(5000).fadeOut();
+				}
+			}, 1000);
+		}, 3000);
 	}
 }
 
@@ -2591,8 +2593,7 @@ function rankingTop10_forFanplayr(category) {
 			}
 		}
 
-		$('#rankingTop10_forFanplayr-outer').css('display','block');
-		
+		$('#rankingTop10_forFanplayr-outer').css('display', 'block');
 	});
 	var categoryName = '';
 	switch (category) {
