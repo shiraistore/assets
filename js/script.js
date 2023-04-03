@@ -2541,7 +2541,7 @@ function rankingTop10_forFanplayr(category) {
 			var reviewHTML = '';
 
 			if (reviewScore != 0) {
-				reviewHTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + productUrl + '&fp=rackranking">（' + reviewCount + '）</a></div>';
+				reviewHTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + productUrl + '&fp=' + category + 'ranking">（' + reviewCount + '）</a></div>';
 			} else {
 				reviewHTML = '';
 			}
@@ -2551,7 +2551,9 @@ function rankingTop10_forFanplayr(category) {
 				seriesCode +
 				'/' +
 				productUrl +
-				'?fp=rackranking"><img src="https://shiraistore.itembox.design/product/' +
+				'?fp=' +
+				category +
+				'ranking"><img src="https://shiraistore.itembox.design/product/' +
 				zeroPadding(product_image_group, 3) +
 				'/' +
 				productId_12Len +
@@ -2575,7 +2577,9 @@ function rankingTop10_forFanplayr(category) {
 				seriesCode +
 				'/' +
 				productUrl +
-				'?fp=rackranking">' +
+				'?fp=' +
+				category +
+				'ranking">' +
 				sellingPrice +
 				'</a></li>';
 
@@ -2608,7 +2612,7 @@ function rankingTop10_forFanplayr(category) {
 	}
 
 	$('#rankingTop10_forFanplayr ul').before('<h4>' + categoryName + ' ランキング</h4>');
-	$('#rankingTop10_forFanplayr ul').after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking-' + category + '?fp=rackranking" class="fs-c-button--standard">もっと見る</a></div>');
+	$('#rankingTop10_forFanplayr ul').after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking-' + category + '?fp=' + category + 'ranking" class="fs-c-button--standard">もっと見る</a></div>');
 }
 
 /* modal
