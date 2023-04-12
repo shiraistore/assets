@@ -395,13 +395,16 @@ function optionJudgment() {
 									noTimeSpecifiedZipCodes_result = checkZipCodes('checkNoTimeSpecifiedZipCodes', zipCode);
 
 									if (noTimeSpecifiedZipCodes_result.result == true) {
+										// お届け希望日をリセットする
 										$('#fs_button_changeDeliveryMethod button.fs-c-button--change--small').trigger('click');
-										setTimeout(function () {
-											$('#fs_input_expectedArrival_time').val('none');
-											setTimeout(function () {
+										const resetArrivalDate = setInterval(function () {
+											if ($('#__fs_modal_delivery button.fs-c-button--settings').length) {
+												$('#__fs_modal_delivery').css('display', 'none');
+												$('#fs_input_expectedArrival_time').val('none');
 												$('#__fs_modal_delivery button.fs-c-button--settings').trigger('click');
-											}, 100);
-										}, 100);
+												clearInterval(resetArrivalDate);
+											}
+										}, 1);
 										$('.fs-l-page').before('<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>このお届け先は時間指定ができません</h4><p>配送業者がお届け時間指定に対応していないため「指定なし」に変更されました。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>');
 										$('.confirmOrderAlert-button').on('click', function () {
 											$('#confirmOrderAlert').remove();
@@ -410,7 +413,6 @@ function optionJudgment() {
 									}
 								}
 							} else if (optionResult.result2 >= 0) {
-
 							}
 						}
 
@@ -568,18 +570,27 @@ function expectedArrival(optionResult) {
 			}
 			if ($('.fs-c-checkout-delivery__method__deliveryDate').next('dd').text() != '') {
 				if (($('.fs-c-checkout-delivery__method__deliveryTime').next('dd').text() != '指定なし' || $('.fs-c-checkout-delivery__method__deliveryDate').next('dd').text() != '指定なし') && stopFlag_load == 0) {
+					// お届け希望日をリセットする
 					$('#fs_button_changeDeliveryMethod button.fs-c-button--change--small').trigger('click');
-					$('#__fs_modal_delivery').css('display', 'none');
-					setTimeout(function () {
-						$('#__fs_modal_delivery').css('display', 'none');
-						$('#fs_input_expectedArrival_date').val('none');
-						$('#fs_input_expectedArrival_time').val('none');
-						setTimeout(function () {
+					const resetArrivalDate = setInterval(function () {
+						if ($('#__fs_modal_delivery button.fs-c-button--settings').length) {
+							$('#__fs_modal_delivery').css('display', 'none');
+							$('#fs_input_expectedArrival_date').val('none');
+							$('#fs_input_expectedArrival_time').val('none');
 							$('#__fs_modal_delivery button.fs-c-button--settings').trigger('click');
-						}, 100);
-					}, 100);
+							clearInterval(resetArrivalDate);
+						}
+					}, 1);
+					// setTimeout(function () {
+					// 	$('#fs_input_expectedArrival_date').val('none');
+					// 	$('#fs_input_expectedArrival_time').val('none');
+
+					// 	setTimeout(function () {
+
+					// 	}, 300);
+					// }, 200);
 					$('.fs-l-page').before('<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>お届け指定日時が「指定なし」に変更されました</h4><p>再読み込みがされたため、お届け指定日時が「指定なし」に変更されました。お届け指定日時を再設定してください。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>');
-					$('#__fs_modal_delivery').css('display', '');
+
 					$('.confirmOrderAlert-button').on('click', function () {
 						$('#confirmOrderAlert').remove();
 					});
@@ -939,7 +950,6 @@ function expectedArrival(optionResult) {
 						}
 
 						var deliveryReadyLeadTime = 1;
-
 						for (let i = 0; i < deliveryReadyLeadTime; i++) {
 							if ($.inArray(arrivalDate_ary[i], operation_holyDay) > -1) {
 								// console.log(arrivalDate_ary[i] + 'は運営が休業日');
@@ -1095,7 +1105,7 @@ function expectedArrival(optionResult) {
 							var date = new Date(yearStr, jsMonth, dayStr);
 							// 木曜日は数値の4として保持されているため、dayOfWeekStrJP[4]の値が出力される
 							optionHtml = optionHtml + '<option value="' + arrivalDate_ary[i] + '">' + dateValue_ary[0] + '/' + dateValue_ary[1] + '/' + dateValue_ary[2] + '(' + dayOfWeekStrJP[date.getDay()] + ')</option>';
-							//console.log('<option value="' + arrivalDate_ary[i] + '">' + dateValue_ary[0] + '/' + dateValue_ary[1] + '/' + dateValue_ary[2] + '(' + dayOfWeekStrJP[date.getDay()] + ')</option>');
+							// console.log('<option value="' + arrivalDate_ary[i] + '">' + dateValue_ary[0] + '/' + dateValue_ary[1] + '/' + dateValue_ary[2] + '(' + dayOfWeekStrJP[date.getDay()] + ')</option>');
 						}
 						$('#fs_input_expectedArrival_date').html(optionHtml);
 						$('#fs_input_expectedArrival_date').val(selectedValue);
@@ -1109,14 +1119,17 @@ function expectedArrival(optionResult) {
 						checkAddressRetention = checkAddress;
 					} else if (checkAddressRetention != checkAddress) {
 						if ($('.fs-c-checkout-delivery__method__deliveryTime').next('dd').text() != '指定なし' || $('.fs-c-checkout-delivery__method__deliveryDate').next('dd').text() != '指定なし') {
+							// お届け希望日をリセットする
 							$('#fs_button_changeDeliveryMethod button.fs-c-button--change--small').trigger('click');
-							setTimeout(function () {
-								$('#fs_input_expectedArrival_date').val('none');
-								$('#fs_input_expectedArrival_time').val('none');
-								setTimeout(function () {
+							const resetArrivalDate = setInterval(function () {
+								if ($('#__fs_modal_delivery button.fs-c-button--settings').length) {
+									$('#__fs_modal_delivery').css('display', 'none');
+									$('#fs_input_expectedArrival_date').val('none');
+									$('#fs_input_expectedArrival_time').val('none');
 									$('#__fs_modal_delivery button.fs-c-button--settings').trigger('click');
-								}, 100);
-							}, 100);
+									clearInterval(resetArrivalDate);
+								}
+							}, 1);
 
 							$('.fs-l-page').before('<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>お届け希望日時が「指定なし」に変更されました</h4><p>届け先住所が変更されたため、<span class="red">お届け希望日時を再度指定</span>してください。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>');
 							$('.confirmOrderAlert-button').on('click', function () {
@@ -1134,14 +1147,17 @@ function expectedArrival(optionResult) {
 					} else if ($('.fs-c-checkout-delivery__method__deliveryTime').next('dd').text() != '指定なし' || $('.fs-c-checkout-delivery__method__deliveryDate').next('dd').text() != '指定なし') {
 						if (checkPayment == 'BANK_TRANSFER') {
 							if (checkPaymentRetention != checkPayment) {
+								// お届け希望日をリセットする
 								$('#fs_button_changeDeliveryMethod button.fs-c-button--change--small').trigger('click');
-								setTimeout(function () {
-									$('#fs_input_expectedArrival_date').val('none');
-									$('#fs_input_expectedArrival_time').val('none');
-									setTimeout(function () {
+								const resetArrivalDate = setInterval(function () {
+									if ($('#__fs_modal_delivery button.fs-c-button--settings').length) {
+										$('#__fs_modal_delivery').css('display', 'none');
+										$('#fs_input_expectedArrival_date').val('none');
+										$('#fs_input_expectedArrival_time').val('none');
 										$('#__fs_modal_delivery button.fs-c-button--settings').trigger('click');
-									}, 100);
-								}, 100);
+										clearInterval(resetArrivalDate);
+									}
+								}, 1);
 
 								$('.fs-l-page').before('<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>お届け希望日時が「指定なし」に変更されました</h4><p>お支払い方法が銀行振込に変更されたため、<span class="red">お届け希望日時を再度指定</span>してください。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>');
 								$('.confirmOrderAlert-button').on('click', function () {
@@ -1204,7 +1220,7 @@ function checkOption() {
 	});
 	// console.log(optionArray);
 	if (optionArray.length == 0) {
-		return 'none';
+		return false;
 	} else {
 		var result1 = $.inArray('組立済+玄関渡し', optionArray);
 		var result2 = $.inArray('組立済+搬入', optionArray);
