@@ -1845,26 +1845,19 @@ function productSortSelect() {
 //セール会場用バナー表示
 function searchTagTitle() {
 	var params = parameterToArray();
-	if (params.tag == 'sale20230223-20230323-1') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230223-20230323_1184x240.jpg" alt="新生活応援セール 第1弾 対象商品">');
-		$('#fs_ProductSearch h1').html('新生活応援セール 第1弾 対象商品');
-		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li class="active">一人暮らし</li><li><a href="/p/search?tag=sale20230223-20230323-2">ファミリー</a></li></ul>');
-		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール 第1弾 対象商品');
-		$('title').text('新生活応援セール 第1弾 対象商品');
-	} else if (params.tag == 'sale20230223-20230323-2') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230223-20230323_1184x240.jpg" alt="新生活応援セール 第1弾 対象商品">');
-		$('#fs_ProductSearch h1').html('新生活応援セール 第1弾 対象商品');
-		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li><a href="/p/search?tag=sale20230223-20230323-1">一人暮らし</a></li><li class="active">ファミリー</li></ul>');
-		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール 第1弾 対象商品');
-		$('title').text('新生活応援セール 第1弾 対象商品 | 家具インテリア通販のSHIRAI STORE(白井産業)');
+	if (params.tag == 'sale20230420-20230508') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230420-20230508_1184x240.jpg" alt="3rd Anniversary SALE 対象商品">');
+		$('#fs_ProductSearch h1').html('3rd Anniversary SALE 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('3rd Anniversary SALE 対象商品');
+		$('title').text('3rd Anniversary SALE 対象商品');
 	} else if (params.tag == 'sale20230323-20230423-1') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230323-20230423_1184x240.jpg" alt="新生活応援セール 第1弾 対象商品">');
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230323-20230423_1184x240.jpg" alt="3rd Anniversary Sale 対象商品">');
 		$('#fs_ProductSearch h1').html('新生活応援セール 第2弾 対象商品');
 		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li class="active">一人暮らし</li><li><a href="/p/search?tag=sale20230323-20230423-2">ファミリー</a></li></ul>');
 		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール 第2弾 対象商品');
 		$('title').text('新生活応援セール 第2弾 対象商品');
 	} else if (params.tag == 'sale20230323-20230423-2') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230323-20230423_1184x240.jpg" alt="新生活応援セール 第1弾 対象商品">');
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230323-20230423_1184x240.jpg" alt="3rd Anniversary Sale 対象商品">');
 		$('#fs_ProductSearch h1').html('新生活応援セール 第2弾 対象商品');
 		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li><a href="/p/search?tag=sale20230323-20230423-1">一人暮らし</a></li><li class="active">ファミリー</li></ul>');
 		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール 第2弾 対象商品');
