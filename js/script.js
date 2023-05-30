@@ -53,7 +53,6 @@ $(function () {
 	instagramPostDisplayForSearchResults();
 	
 	var global_rakingTop10Type = $('.productTop10Slider.ranking').data('ranking');
-	console.log('global_rakingTop10Type:',global_rakingTop10Type);
 	if (global_rakingTop10Type) {
 		var global_page = getParam('page');
 		//console.log('global_page:',global_page);
@@ -3057,596 +3056,606 @@ function productDetailAddData() {
 
 		//console.log('modelCode:',modelCode);
 
-		var dataForProductDetailUrl = 'https://cdn.shirai-store.net/assets/json/productDetail/dataForProductDetail_' + modelCode + '_v2_1.json';
+		// var dataForProductDetailUrl = 'https://cdn.shirai-store.net/assets/json/productDetail/dataForProductDetail_' + modelCode + '_v2_1.json';
 
-		//console.log(dataForProductDetailUrl);
+		var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/getDataForProductDetail';
+		var params = { product_number: modelCode };
+		//console.log(JSON.stringify(params));
 
-		$.getJSON(dataForProductDetailUrl, function (data) {
-			var canonicalUrl = $('link[rel="canonical"]').attr('href');
-			if (canonicalUrl.indexOf('outdoor') < 0 && canonicalUrl.indexOf('altar') < 0 && canonicalUrl.indexOf('parts') < 0) {
-				if (data.rankingTop10 != undefined && data.rankingTop10 != '') {
-					var rankingList = data.rankingTop10;
-					for (var i in data.rankingTop10) {
-						var productUrl = rankingList[i].productUrl,
-							seriesCode = productUrl.slice(0, 3),
-							productId = rankingList[i].productId,
-							productName = rankingList[i].productName,
-							productId_12Len = zeroPadding(productId, 12),
-							product_image_group = Math.floor(productId / 100),
-							sellingPrice = Number(rankingList[i].sellingPrice),
-							normalPrice = Number(rankingList[i].normalPrice),
-							icon = rankingList[i].icon,
-							size = rankingList[i].size,
-							reviewScore = Number(rankingList[i].averageRating).toFixed(1),
-							reviewCount = Number(rankingList[i].reviewCount),
-							thumbnail = rankingList[i].thumbNumber,
-							categoryName = rankingList[i].categoryLv1,
-							categoryUrl = rankingList[i].categoryUrl;
+		var response = $.ajax({
+			type: 'post',
+			url: url,
+			async: false,
+			data: JSON.stringify(params),
+			contentType: 'application/json',
+			dataType: 'json',
+			scriptCharset: 'utf-8',
+			success: function (response) {
+				// Success
+				// console.log(JSON.stringify(response));
+			},
+			error: function (response) {
+				// Error
+				// console.log(JSON.stringify(response));
+			},
+		}).responseText;
 
-						thumbnail = ('00' + thumbnail).slice(-2);
+		response = JSON.parse(response);
 
-						if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
-							seriesCode = 'tl';
-						} else if (seriesCode == 'ona') {
-							seriesCode = 'of2';
-						}
+		// console.log(response);
 
-						if (sellingPrice < normalPrice) {
-							sellingPrice = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normalPrice.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
-						} else {
-							sellingPrice = '<p class="priceBox"><span class="price">¥ ' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
-						}
+		data = response.result;
+		// console.log(dataForProductDetailUrl);
 
-						var icon_ary = icon.split(',');
-
-						var iconHtml = '';
-						for (var j = 0; j < icon_ary.length; j++) {
-							if (icon_ary[j] != '') {
-								icon_ary[j] = icon_ary[j].split(':');
-
-								// if (icon_ary[j][0] == 'mark-rank' && categoryUrl == '') {
-								//     //categoryName = categoryNameShorter(categoryName);
-								//     iconHtml += '<span class="mark-rank">' + icon_ary[j][1] + '位</span>';
-								// }
-
-								if (icon_ary[j][0] == 'mark-categoryRank' && categoryUrl != '') {
-									//categoryName = categoryNameShorter(categoryName);
-									iconHtml += '<span class="mark-rank">' + icon_ary[j][1] + '位</span>';
-								}
-
-								if (icon_ary[j][0] == 'mark-new') {
-									iconHtml += '<span class="mark-new">新着</span>';
-								}
-
-								if (icon_ary[j][0] == 'mark-longseller') {
-									iconHtml += '<span class="mark-longseller">ロングセラー</span>';
-								}
-
-								if (icon_ary[j][0] == 'mark-limitedProduct') {
-									iconHtml += '<span class="mark-limitedProduct">当店限定商品</span>';
-								}
-
-								if (icon_ary[j][0] == 'mark-sale') {
-									iconHtml += '<span class="mark-sale">SALE</span>';
-								}
-
-								if (icon_ary[j][0] == 'mark-outlet') {
-									iconHtml += '<span class="mark-outlet">OUTLET</span>';
-								}
-							}
-						}
-
-						reviewScore = reviewScoreThreshold(reviewScore);
-
-						var reviewHTML = '';
-
-						if (reviewScore != 0) {
-							reviewHTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + productUrl + '">（' + reviewCount + '）</a></div>';
-						} else {
-							reviewHTML = '';
-						}
-
-						var h =
-							'<li><a href="/c/series/' +
-							seriesCode +
-							'/' +
-							productUrl +
-							'"><img src="https://shiraistore.itembox.design/product/' +
-							zeroPadding(product_image_group, 3) +
-							'/' +
-							productId_12Len +
-							'/' +
-							productId_12Len +
-							'-' +
-							thumbnail +
-							'-m.jpg" alt="' +
-							productName +
-							'" ><h3>' +
-							productName +
-							'</h3></a>' +
-							'<div class="productMarks">' +
-							iconHtml +
-							'</div>' +
-							'<div class="productSize">' +
-							size +
-							'</div>' +
-							reviewHTML +
-							'<a href="/c/series/' +
-							seriesCode +
-							'/' +
-							productUrl +
-							'">' +
-							sellingPrice +
-							'</a></li>';
-
-						$('.productTop10Slider.ranking ul').append(h);
-
-						var urlPath = location.pathname;
-						//console.log(urlPath);
-						if (urlPath == '/c/category/table' && i == 8) {
-							checkScreenSize();
-							break;
-						}
-
-						if (i == 9) {
-							checkScreenSize();
-							break;
-						}
-					}
-
-					$('.productTop10Slider.ranking').after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking-' + categoryUrl + '" class="fs-c-button--standard">もっと見る</a></div>');
-
-					$('#productDetail-rankingTop10').css('display', 'block');
-				}
-			}
-
-			var newWindowWidth = $(window).width();
-
-			var faqHtml = '';
-			//console.log('data.faq:', data.faq);
-			if (data.faq != undefined && data.faq != '') {
-				for (var i in data.faq) {
-					faqHtml += `<dt>${data.faq[i].question}</dt><dd>${data.faq[i].answer}</dd>`;
-				}
-
-				$('#product-review').before(`<div id="productDetail-faq"><h2 class="productDescriptionTitle">この商品に関するよくある質問</h2><dl>${faqHtml}</dl></div>`);
-			}
-
-			if (data.comparisonData != undefined && data.comparisonData != '') {
-				//console.log(data.comparisonData);
-				var comparisonData = data.comparisonData,
-					comparisonHTML = '',
-					comparisonImage = '<td></td>',
-					//comparisonName = '<td></td>',
-					comparisonReview = '<th>評価</th>',
-					comparisonPrice = '<th>価格</th>',
-					comparisonColor = '<th>カラー</th>',
-					comparisonSize = '<th>サイズ</th>',
-					comparisonButton = '<td></td>';
-
-				for (var i in comparisonData) {
-					var productUrl = comparisonData[i].productUrl,
-						seriesCode = productUrl.slice(0, 3),
-						productId = comparisonData[i].productId,
-						productName = comparisonData[i].productName,
-						productColor = comparisonData[i].color.split(' '),
-						productColor = productColor[0].replace('カラー：', ''),
-						productId_12Len = zeroPadding(productId, 12),
-						product_image_group = Math.floor(productId / 100),
-						sellingPrice = Number(comparisonData[i].sellingPrice),
-						normalPrice = Number(comparisonData[i].normalPrice),
-						categoryName = comparisonData[i].categoryName,
-						icon = comparisonData[i].icon,
-						size = comparisonData[i].size.replace(/\s/g, '').replace(/×/g, '<br>'),
-						reviewScore = Number(comparisonData[i].averageRating).toFixed(1),
-						reviewCount = Number(comparisonData[i].reviewCount),
-						thumbnail = ('00' + comparisonData[i].thumbNumber).slice(-2);
-
-					productName = productName.length > 36 ? productName.slice(0, 36) + '…' : productName;
-
-					if (sellingPrice < normalPrice) {
-						sellingPrice = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normalPrice.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
-					} else {
-						sellingPrice = '<p class="priceBox"><span class="price">¥ ' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
-					}
-
-					//console.log(icon)
-					var comparisonIconHtml = '';
-					if (icon != null) {
-						var icon_ary = icon.split(',');
-
-						for (var j = 0; j < icon_ary.length; j++) {
-							//console.log('icon_ary[j]:', icon_ary[j]);
-							if (icon_ary[j] != '') {
-								icon_ary[j] = icon_ary[j].split(':');
-
-								if (icon_ary[j][0] == 'mark-categoryRank' && icon_ary[j][1] < 11) {
-									categoryName = categoryNameShorter(categoryName);
-									comparisonIconHtml += '<span class="mark-catRank">' + categoryName + ' ' + icon_ary[j][1] + '位</span>';
-								}
-
-								if (icon_ary[j][0] == 'mark-new') {
-									comparisonIconHtml += '<span class="mark-new">新着</span>';
-								}
-
-								if (icon_ary[j][0] == 'mark-limitedProduct') {
-									comparisonIconHtml += '<span class="mark-limitedProduct">当店限定商品</span>';
-								}
-
-								if (icon_ary[j][0] == 'mark-sale') {
-									comparisonIconHtml += '<span class="mark-sale">SALE</span>';
-								}
-							}
-						}
-						if (comparisonIconHtml != '') {
-							comparisonIconHtml = '<div class="iconBox">' + comparisonIconHtml + '</div>';
-						}
-					} else {
-						comparisonIconHtml = '';
-					}
-
-					//レビュースコアの閾値を計算
-					reviewScore = reviewScoreThreshold(reviewScore);
-
-					var reviewHTML = '';
-
-					if (reviewScore != 0) {
-						reviewHTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + productUrl + '">（' + reviewCount + '）</a></div>';
-					} else {
-						reviewHTML = '評価がありません';
-					}
-
-					if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
-						seriesCode = 'tl';
-					} else if (seriesCode == 'ona') {
-						seriesCode = 'of2';
-					}
-
-					if (i == 0) {
-						comparisonImage +=
-							'<td><div class="displayProduct">表示中</div><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.design/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '-m.jpg" alt="" >' + comparisonIconHtml + productName + '</td>';
-					} else {
-						comparisonImage += '<td><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.design/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '-m.jpg" alt="" >' + comparisonIconHtml + '</div>' + productName + '</td>';
-					}
-
-					// += '<td><div>' + iconHtml + '</div><a href="/c/series/' + seriesCode + '/' + productUrl + '">' + productName + '</a></td>'
-					comparisonReview += '<td>' + reviewHTML + '</td>';
-					comparisonPrice += '<td>' + sellingPrice + '</td>';
-					comparisonColor += '<td>' + productColor + '</td>';
-					comparisonSize += '<td>' + size + '</td>';
-
-					if (i == 0) {
-						comparisonButton += '<td></td>';
-					} else {
-						comparisonButton += '<td><a href="/c/series/' + seriesCode + '/' + productUrl + '">詳細を見る</a></td>';
-					}
-				}
-
-				comparisonHTML = `<div id="productDetail-comparison"><h2 class="productDescriptionTitle">類似商品との比較</h2><div id="productComparison"><table><tbody><tr class="comparisonImage">${comparisonImage}</tr><tr class="comparisonReview">${comparisonReview}</tr><tr class="comparisonPrice">${comparisonPrice}</tr><tr class="comparisonColor">${comparisonColor}</tr><tr class="comparisonSize">${comparisonSize}</tr><tr class="comparisonButton">${comparisonButton}</tr></tbody></table></div>`;
-
-				$('.fs-p-productDescription--full').after(comparisonHTML);
-			}
-
-			if (data.nextArrivalDate[0] != undefined) {
-				const convertJST = new Date(data.nextArrivalDate[0].nextArrivalDate);
-				convertJST.setHours(convertJST.getHours() + 9);
-				let nextArrivalDate = convertJST.toLocaleString('ja-JP');
-				nextArrivalDate = nextArrivalDate.replace(/ .*/g, '');
-				$('.fs-c-productNotice--outOfStock span').html('次回の入荷日は<strong class="newArrivalDate">「' + nextArrivalDate + '」</strong>頃の予定です。');
-			}
-
-			// console.log(data.ranking[0].categoryUrl);
-			if (data.ranking[0] != undefined && data.ranking[0].categoryUrl != 'altar' && data.ranking[0].categoryUrl != 'outdoor' && data.ranking[0].categoryUrl != 'parts') {
-				var iconHtml = '<li class="fs-c-productMark__item"><a class="mark-categoryRank fs-c-productMark__mark--0 fs-c-productMark__mark" href="/f/ranking-' + data.ranking[0].categoryUrl + '"><span class="fs-c-productMark__label">' + data.ranking[0].categoryName + ' ' + data.ranking[0].categoryRanking + '位' + '</span></a></li>';
-				if ($('.fs-c-productMarks').length) {
-					$('.fs-c-productMark').append(iconHtml);
-				} else {
-					$('.fs-c-productPrices').before('<div class="fs-c-productMarks"><ul class="fs-c-productMark">' + iconHtml + '</ul></div>');
-				}
-			}
-
-			//console.log(data.price[0]);
-			if (data.price[0] != undefined) {
-				var salePrice = $('.fs-c-productPrice--selling .fs-c-price__value').text().replace(',', '');
-				//console.log(salePrice);
-				//console.log('salePrice:' + salePrice);
-				if (data.price[0].normalPrice != salePrice) {
-					$('body').addClass('time-sale');
-					$('.fs-c-productPrice--selling').addClass('salePrice');
-
-					var normalPrice = data.price[0].normalPrice;
-					//console.log(normalPrice);
-					var priceOffValue = Math.round((1 - salePrice / normalPrice) * 100 * 10) / 10;
-					$('.fs-c-productPrice--selling.salePrice .fs-c-productPrice__addon__label').before('<span class="priceOffValue">' + priceOffValue + '% OFF</span>');
-					//console.log(normalPrice);
-					normalPrice = String(normalPrice).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
-					var normalPriceHTML =
-						'<div class="fs-c-productPrice fs-c-productPrice--selling"><span class="fs-c-productPrice__main"><span class="fs-c-productPrice__main__price fs-c-price"><span class="fs-c-price__currencyMark">¥</span><span class="fs-c-price__value">' +
-						normalPrice +
-						'</span></span></span><span class="fs-c-productPrice__addon"><span class="fs-c-productPrice__addon__label">税込</span></span></div>';
-					$('.fs-c-productPrice--selling').before(normalPriceHTML);
-				}
-			}
-
-			for (var i in data.reviewDetail) {
-				//reviewScore_ary.push(multipleReviewList[i].rating);
-
-				var productUrl = data.reviewDetail[i].productUrl,
+		if (data.rankingTop10 != undefined && data.rankingTop10 != '') {
+			var rankingList = data.rankingTop10;
+			for (var i in data.rankingTop10) {
+				var productUrl = rankingList[i].productUrl,
 					seriesCode = productUrl.slice(0, 3),
-					productId = data.reviewDetail[i].productId,
-					nickname = data.reviewDetail[i].nickname,
-					prefecture = data.reviewDetail[i].prefecture,
-					ageGroup = data.reviewDetail[i].ageGroup,
-					gender = data.reviewDetail[i].gender,
-					reviewScore = Number(data.reviewDetail[i].rating).toFixed(1),
-					datetime = data.reviewDetail[i].datetime.slice(0, 10).replace(/-/g, '/'),
-					reviewBody = data.reviewDetail[i].reviewBody,
+					productId = rankingList[i].productId,
+					productName = rankingList[i].productName,
 					productId_12Len = zeroPadding(productId, 12),
 					product_image_group = Math.floor(productId / 100),
-					thumbnail = ('00' + data.reviewDetail[i].thumbNumber).slice(-2),
-					color = data.reviewDetail[i].color;
+					sellingPrice = Number(rankingList[i].sellingPrice),
+					normalPrice = Number(rankingList[i].normalPrice),
+					icon = rankingList[i].icon,
+					size = rankingList[i].size,
+					reviewScore = Number(rankingList[i].averageRating).toFixed(1),
+					reviewCount = Number(rankingList[i].reviewCount),
+					thumbnail = rankingList[i].thumbNumber,
+					categoryName = rankingList[i].categoryLv1,
+					categoryUrl = rankingList[i].categoryUrl;
+
+				thumbnail = ('00' + thumbnail).slice(-2);
 
 				if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 					seriesCode = 'tl';
-				} else if (seriesCode == 'ona') {
-					seriesCode = 'of2';
 				}
 
-				var reviewScoreToFixed = data.reviewDetail[i].rating;
-
-				//レビュースコアの閾値を計算
-				reviewScore = reviewScoreThreshold(reviewScore);
-
-				var profHTML = '';
-
-				profHTML = '<div class="fs-c-reviewer__profile">' + profHTML + '</div></div>';
-
-				var reviewerHTML = '<div class="fs-c-reviewList__item__info fs-c-reviewInfo"><div class="fs-c-reviewInfo__reviewer fs-c-reviewer"><div class="fs-c-reviewer__name"><span class="fs-c-reviewer__name__nickname">' + nickname + '</span></div><div class="fs-c-reviewer__status"><span class="fs-c-reviewerStatus">購入者</span></div>';
-
-				var dateHTML = '<dl class="fs-c-reviewInfo__date"><dt>投稿日</dt><dd><time datetime="' + datetime + '" class="fs-c-time">' + datetime + '</time></dd></dl><div class="fs-c-reviewRating"><div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"></div></div></div>';
-
-				var colorHTML = '<div class="color">' + color + '</div>';
-
-				var commentHTML = '<div class="fs-c-reviewList__item__body fs-c-reviewBody">' + reviewBody + '</div>';
-
-				var imageHTML = '<div class="reviewImage"><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.design/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '-xs.jpg" alt="" ></a></div>';
-
-				var h = '<li class="fs-c-reviewList__item reviewScore-' + reviewScoreToFixed + '">' + imageHTML + '<div class="reviewContent">' + reviewerHTML + profHTML + dateHTML + colorHTML + commentHTML + '</div></li>';
-
-				$('#multipleReviewList ul').append(h);
-			}
-
-			//文字量が多いレビューの表示領域開閉
-			var newWindowWidth = $(window).width();
-			if (newWindowWidth <= 480) {
-				var maxHeight = '360';
-			} else {
-				var maxHeight = '240';
-			}
-
-			//console.log(maxHeight);
-
-			reviewSlideDown('#multipleReviewList', maxHeight);
-
-			//レビューグラフの書き出し
-
-			var ratingCount = 0;
-			for (var j = 5; j > 0; j--) {
-				var reviewCount = data.reviewRating[0].reviewCount;
-
-				switch (j) {
-					case 5:
-						ratingCount = data.reviewRating[0].rating5Count;
-						break;
-					case 4:
-						ratingCount = data.reviewRating[0].rating4Count;
-						break;
-					case 3:
-						ratingCount = data.reviewRating[0].rating3Count;
-						break;
-					case 2:
-						ratingCount = data.reviewRating[0].rating2Count;
-						break;
-					case 1:
-						ratingCount = data.reviewRating[0].rating1Count;
-						break;
-				}
-
-				var rate = Math.round((ratingCount / reviewCount) * 100);
-
-				$('.score' + j + ' .bar-info').attr('data-total', rate);
-				$('.score' + j + ' .rating').html(rate + '%');
-				score_count = 0;
-			}
-
-			function skillSet() {
-				$('.bar-info').each(function () {
-					total = $(this).data('total');
-					$(this).css('width', total + '%');
-				});
-				$('.percent').each(function () {
-					var $this = $(this);
-					$({
-						Counter: 10,
-					}).animate(
-						{
-							Counter: $this.text(),
-						},
-						{
-							duration: 3000,
-							easing: 'swing',
-							step: function () {
-								$this.text(Math.ceil(this.Counter) + '%');
-							},
-						}
-					);
-				});
-			}
-			setTimeout(skillSet, 400);
-
-			//console.log(reviewCount)
-			//平均レビュースコアの設定と表示
-			if (reviewCount > 0) {
-				var averageRating = data.reviewRating[0].averageRating;
-				var reviewScore = data.reviewRating[0].averageRating;
-
-				//レビュースコアの閾値を計算
-				reviewScore = reviewScoreThreshold(reviewScore);
-
-				var averageHTML = '<div id="averageScore"><span class="fs-c-reviewInfo__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"></span><span>' + averageRating + '</span></div>';
-
-				$('#product-reviewTitle').after(averageHTML);
-
-				$('#product-reviewTitle span').text(reviewCount + '件の');
-
-				var reviewListURL = '/f/reviewList?modelCode=' + modelCode;
-
-				$('.score-bar-inner').click(function () {
-					var score = $(this).data('score');
-					//console.log(score);
-					location.href = reviewListURL + '&score=' + score;
-				});
-
-				//価格上部にレビュースコアを表示
-				$('#productPriceBox').before('<div id="product-ratingStars"><a href="#product-review"><span class="fs-c-reviewInfo__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"></span><span>' + averageRating + '</span><span>（' + reviewCount + '）</span></a></div>');
-
-				$('#reviwRatingBox').css('display', 'block');
-
-				//レビュー件数が10件以下ならレビュー詳細ボタンを削除
-				if (reviewCount < 11) {
-					$('.fs-c-productReview__allReviews').remove();
+				if (sellingPrice < normalPrice) {
+					sellingPrice = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normalPrice.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
 				} else {
-					$('#multipleReviewList').append('<div class="fs-c-productReview__allReviews fs-c-buttonContainer fs-c-buttonContainer--viewAllReviews"><a href="' + reviewListURL + '" class="othersReview fs-c-button--viewAllReviews fs-c-button--plain"><span class="fs-c-button__label">その他のレビューを見る</span></a></div>');
+					sellingPrice = '<p class="priceBox"><span class="price">¥ ' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
 				}
-			} else {
-				$('#product-reviewTitle').after('<p class="text-center">この商品のレビューはありません。</p>');
+
+				var icon_ary = icon.split(',');
+
+				var iconHtml = '';
+				for (var j = 0; j < icon_ary.length; j++) {
+					if (icon_ary[j] != '') {
+						icon_ary[j] = icon_ary[j].split(':');
+
+						// if (icon_ary[j][0] == 'mark-rank' && categoryUrl == '') {
+						//     //categoryName = categoryNameShorter(categoryName);
+						//     iconHtml += '<span class="mark-rank">' + icon_ary[j][1] + '位</span>';
+						// }
+
+						if (icon_ary[j][0] == 'mark-categoryRank' && categoryUrl != '') {
+							//categoryName = categoryNameShorter(categoryName);
+							iconHtml += '<span class="mark-rank">' + icon_ary[j][1] + '位</span>';
+						}
+
+						if (icon_ary[j][0] == 'mark-new') {
+							iconHtml += '<span class="mark-new">新着</span>';
+						}
+
+						if (icon_ary[j][0] == 'mark-longseller') {
+							iconHtml += '<span class="mark-longseller">ロングセラー</span>';
+						}
+
+						if (icon_ary[j][0] == 'mark-limitedProduct') {
+							iconHtml += '<span class="mark-limitedProduct">当店限定商品</span>';
+						}
+
+						if (icon_ary[j][0] == 'mark-sale') {
+							iconHtml += '<span class="mark-sale">SALE</span>';
+						}
+
+						if (icon_ary[j][0] == 'mark-outlet') {
+							iconHtml += '<span class="mark-outlet">OUTLET</span>';
+						}
+					}
+				}
+
+				reviewScore = reviewScoreThreshold(reviewScore);
+
+				var reviewHTML = '';
+
+				if (reviewScore != 0) {
+					reviewHTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + productUrl + '">（' + reviewCount + '）</a></div>';
+				} else {
+					reviewHTML = '';
+				}
+
+				var h =
+					'<li><a href="/c/series/' +
+					seriesCode +
+					'/' +
+					productUrl +
+					'"><img src="https://shiraistore.itembox.design/product/' +
+					zeroPadding(product_image_group, 3) +
+					'/' +
+					productId_12Len +
+					'/' +
+					productId_12Len +
+					'-' +
+					thumbnail +
+					'-m.jpg" alt="' +
+					productName +
+					'" ><h3>' +
+					productName +
+					'</h3></a>' +
+					'<div class="productMarks">' +
+					iconHtml +
+					'</div>' +
+					'<div class="productSize">' +
+					size +
+					'</div>' +
+					reviewHTML +
+					'<a href="/c/series/' +
+					seriesCode +
+					'/' +
+					productUrl +
+					'">' +
+					sellingPrice +
+					'</a></li>';
+
+				$('.productTop10Slider.ranking ul').append(h);
+
+				var urlPath = location.pathname;
+				//console.log(urlPath);
+				if (urlPath == '/c/category/table' && i == 8) {
+					checkScreenSize();
+					break;
+				}
+
+				if (i == 9) {
+					checkScreenSize();
+					break;
+				}
 			}
 
-			//console.log(data.seriesItems);
-			if (data.seriesItems.length >= 1) {
-				for (var i in data.seriesItems) {
-					var productUrl = data.seriesItems[i].productUrl,
-						seriesCode = productUrl.slice(0, 3),
-						productId = data.seriesItems[i].productId,
-						productName = data.seriesItems[i].productName,
-						productId_12Len = zeroPadding(productId, 12),
-						product_image_group = Math.floor(productId / 100),
-						sellingPrice = Number(data.seriesItems[i].sellingPrice),
-						normalPrice = Number(data.seriesItems[i].normalPrice),
-						icon = data.seriesItems[i].icon,
-						size = data.seriesItems[i].size,
-						reviewScore = Number(data.seriesItems[i].averageRating).toFixed(1),
-						reviewCount = Number(data.seriesItems[i].reviewCount),
-						thumbnail = data.seriesItems[i].thumbNumber,
-						categoryName = data.seriesItems[i].categoryLv1,
-						categoryUrl = data.seriesItems[i].categoryUrl;
+			$('.productTop10Slider.ranking').after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking-' + categoryUrl + '" class="fs-c-button--standard">もっと見る</a></div>');
 
-					thumbnail = ('00' + thumbnail).slice(-2);
+			$('#productDetail-rankingTop10').css('display', 'block');
+		}
 
-					if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
-						seriesCode = 'tl';
-					} else if (seriesCode == 'ona') {
-						seriesCode = 'of2';
-					}
+		var newWindowWidth = $(window).width();
 
-					if (sellingPrice < normalPrice) {
-						sellingPrice = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normalPrice.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
-					} else {
-						sellingPrice = '<p class="priceBox"><span class="price">¥ ' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
-					}
+		var faqHtml = '';
+		//console.log('data.faq:', data.faq);
+		if (data.faq != undefined && data.faq != '') {
+			for (var i in data.faq) {
+				faqHtml += `<dt>${data.faq[i].question}</dt><dd>${data.faq[i].answer}</dd>`;
+			}
 
-					var iconHtml = '';
+			$('#product-review').before(`<div id="productDetail-faq"><h2 class="productDescriptionTitle">この商品に関するよくある質問</h2><dl>${faqHtml}</dl></div>`);
+		}
 
-					if (icon != null) {
-						var icon_ary = icon.split(',');
+		if (data.comparisonData != undefined && data.comparisonData != '') {
+			//console.log(data.comparisonData);
+			var comparisonData = data.comparisonData,
+				comparisonHTML = '',
+				comparisonImage = '<td></td>',
+				//comparisonName = '<td></td>',
+				comparisonReview = '<th>評価</th>',
+				comparisonPrice = '<th>価格</th>',
+				comparisonColor = '<th>カラー</th>',
+				comparisonSize = '<th>サイズ</th>',
+				comparisonButton = '<td></td>';
 
-						for (var j = 0; j < icon_ary.length; j++) {
-							if (icon_ary[j] != '') {
-								icon_ary[j] = icon_ary[j].split(':');
+			for (var i in comparisonData) {
+				var productUrl = comparisonData[i].productUrl,
+					seriesCode = productUrl.slice(0, 3),
+					productId = comparisonData[i].productId,
+					productName = comparisonData[i].productName,
+					productColor = comparisonData[i].color.split(' '),
+					productColor = productColor[0].replace('カラー：', ''),
+					productId_12Len = zeroPadding(productId, 12),
+					product_image_group = Math.floor(productId / 100),
+					sellingPrice = Number(comparisonData[i].sellingPrice),
+					normalPrice = Number(comparisonData[i].normalPrice),
+					categoryName = comparisonData[i].categoryName,
+					icon = comparisonData[i].icon,
+					size = comparisonData[i].size.replace(/\s/g, '').replace(/×/g, '<br>'),
+					reviewScore = Number(comparisonData[i].averageRating).toFixed(1),
+					reviewCount = Number(comparisonData[i].reviewCount),
+					thumbnail = ('00' + comparisonData[i].thumbNumber).slice(-2);
 
-								if (icon_ary[j][0] == 'mark-categoryRank' && icon_ary[j][1] < 11) {
-									categoryName = categoryNameShorter(categoryName);
-									iconHtml += '<a href="/f/ranking-' + categoryUrl + '" class="mark-catRank">' + categoryName + ' ' + icon_ary[j][1] + '位</a>';
-								}
+				productName = productName.length > 36 ? productName.slice(0, 36) + '…' : productName;
 
-								if (icon_ary[j][0] == 'mark-new') {
-									iconHtml += '<span class="mark-new">新着</span>';
-								}
+				if (sellingPrice < normalPrice) {
+					sellingPrice = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normalPrice.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
+				} else {
+					sellingPrice = '<p class="priceBox"><span class="price">¥ ' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
+				}
 
-								if (icon_ary[j][0] == 'mark-limitedProduct') {
-									iconHtml += '<span class="mark-limitedProduct">当店限定商品</span>';
-								}
+				//console.log(icon)
+				var comparisonIconHtml = '';
+				if (icon != null) {
+					var icon_ary = icon.split(',');
 
-								if (icon_ary[j][0] == 'mark-sale') {
-									iconHtml += '<span class="mark-sale">SALE</span>';
-								}
+					for (var j = 0; j < icon_ary.length; j++) {
+						//console.log('icon_ary[j]:', icon_ary[j]);
+						if (icon_ary[j] != '') {
+							icon_ary[j] = icon_ary[j].split(':');
+
+							if (icon_ary[j][0] == 'mark-categoryRank' && icon_ary[j][1] < 11) {
+								categoryName = categoryNameShorter(categoryName);
+								comparisonIconHtml += '<span class="mark-catRank">' + categoryName + ' ' + icon_ary[j][1] + '位</span>';
+							}
+
+							if (icon_ary[j][0] == 'mark-new') {
+								comparisonIconHtml += '<span class="mark-new">新着</span>';
+							}
+
+							if (icon_ary[j][0] == 'mark-limitedProduct') {
+								comparisonIconHtml += '<span class="mark-limitedProduct">当店限定商品</span>';
+							}
+
+							if (icon_ary[j][0] == 'mark-sale') {
+								comparisonIconHtml += '<span class="mark-sale">SALE</span>';
 							}
 						}
 					}
-
-					reviewScore = reviewScoreThreshold(reviewScore);
-					//console.log('reviewScore:',reviewScore)
-
-					var reviewHTML = '';
-
-					if (reviewScore != 0) {
-						reviewHTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + productUrl + '">（' + reviewCount + '）</a></div>';
-					} else {
-						reviewHTML = '';
+					if (comparisonIconHtml != '') {
+						comparisonIconHtml = '<div class="iconBox">' + comparisonIconHtml + '</div>';
 					}
+				} else {
+					comparisonIconHtml = '';
+				}
 
-					if (iconHtml == undefined) {
-						iconHtml = '';
+				//レビュースコアの閾値を計算
+				reviewScore = reviewScoreThreshold(reviewScore);
+
+				var reviewHTML = '';
+
+				if (reviewScore != 0) {
+					reviewHTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + productUrl + '">（' + reviewCount + '）</a></div>';
+				} else {
+					reviewHTML = '評価がありません';
+				}
+
+				if (!seriesCode.indexOf('tl')) {
+					seriesCode = 'tl';
+				}
+
+				if (i == 0) {
+					comparisonImage +=
+						'<td><div class="displayProduct">表示中</div><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.design/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '-m.jpg" alt="" >' + comparisonIconHtml + productName + '</td>';
+				} else {
+					comparisonImage += '<td><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.design/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '-m.jpg" alt="" >' + comparisonIconHtml + '</div>' + productName + '</td>';
+				}
+
+				// += '<td><div>' + iconHtml + '</div><a href="/c/series/' + seriesCode + '/' + productUrl + '">' + productName + '</a></td>'
+				comparisonReview += '<td>' + reviewHTML + '</td>';
+				comparisonPrice += '<td>' + sellingPrice + '</td>';
+				comparisonColor += '<td>' + productColor + '</td>';
+				comparisonSize += '<td>' + size + '</td>';
+
+				if (i == 0) {
+					comparisonButton += '<td></td>';
+				} else {
+					comparisonButton += '<td><a href="/c/series/' + seriesCode + '/' + productUrl + '">詳細を見る</a></td>';
+				}
+			}
+
+			comparisonHTML = `<div id="productDetail-comparison"><h2 class="productDescriptionTitle">類似商品との比較</h2><div id="productComparison"><table><tbody><tr class="comparisonImage">${comparisonImage}</tr><tr class="comparisonReview">${comparisonReview}</tr><tr class="comparisonPrice">${comparisonPrice}</tr><tr class="comparisonColor">${comparisonColor}</tr><tr class="comparisonSize">${comparisonSize}</tr><tr class="comparisonButton">${comparisonButton}</tr></tbody></table></div>`;
+
+			$('.fs-p-productDescription--full').after(comparisonHTML);
+		}
+
+		if (data.nextArrivalDate[0] != undefined) {
+			const convertJST = new Date(data.nextArrivalDate[0].nextArrivalDate);
+			convertJST.setHours(convertJST.getHours() + 9);
+			let nextArrivalDate = convertJST.toLocaleString('ja-JP');
+			nextArrivalDate = nextArrivalDate.replace(/ .*/g, '');
+			$('.fs-c-productNotice--outOfStock span').html('次回の入荷日は<strong class="newArrivalDate">「' + nextArrivalDate + '」</strong>頃の予定です。');
+		}
+
+		//console.log(data.ranking[0]);
+		if (data.ranking[0] != undefined) {
+			var iconHtml = '<li class="fs-c-productMark__item"><a class="mark-categoryRank fs-c-productMark__mark--0 fs-c-productMark__mark" href="/f/ranking-' + data.ranking[0].categoryUrl + '"><span class="fs-c-productMark__label">' + data.ranking[0].categoryName + ' ' + data.ranking[0].categoryRanking + '位' + '</span></a></li>';
+			if ($('.fs-c-productMarks').length) {
+				$('.fs-c-productMark').append(iconHtml);
+			} else {
+				$('.fs-c-productPrices').before('<div class="fs-c-productMarks"><ul class="fs-c-productMark">' + iconHtml + '</ul></div>');
+			}
+		}
+
+		//console.log(data.price[0]);
+		if (data.price[0] != undefined) {
+			var salePrice = $('.fs-c-productPrice--selling .fs-c-price__value').text().replace(',', '');
+			//console.log(salePrice);
+			//console.log('salePrice:' + salePrice);
+			if (data.price[0].normalPrice != salePrice) {
+				$('body').addClass('time-sale');
+				$('.fs-c-productPrice--selling').addClass('salePrice');
+
+				var normalPrice = data.price[0].normalPrice;
+				//console.log(normalPrice);
+				var priceOffValue = Math.round((1 - salePrice / normalPrice) * 100 * 10) / 10;
+				$('.fs-c-productPrice--selling.salePrice .fs-c-productPrice__addon__label').before('<span class="priceOffValue">' + priceOffValue + '% OFF</span>');
+				//console.log(normalPrice);
+				normalPrice = String(normalPrice).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
+				var normalPriceHTML =
+					'<div class="fs-c-productPrice fs-c-productPrice--selling"><span class="fs-c-productPrice__main"><span class="fs-c-productPrice__main__price fs-c-price"><span class="fs-c-price__currencyMark">¥</span><span class="fs-c-price__value">' +
+					normalPrice +
+					'</span></span></span><span class="fs-c-productPrice__addon"><span class="fs-c-productPrice__addon__label">税込</span></span></div>';
+				$('.fs-c-productPrice--selling').before(normalPriceHTML);
+			}
+		}
+
+		for (var i in data.reviewDetail) {
+			//reviewScore_ary.push(multipleReviewList[i].rating);
+
+			var productUrl = data.reviewDetail[i].productUrl,
+				seriesCode = productUrl.slice(0, 3),
+				productId = data.reviewDetail[i].productId,
+				nickname = data.reviewDetail[i].nickname,
+				prefecture = data.reviewDetail[i].prefecture,
+				ageGroup = data.reviewDetail[i].ageGroup,
+				gender = data.reviewDetail[i].gender,
+				reviewScore = Number(data.reviewDetail[i].rating).toFixed(1),
+				datetime = data.reviewDetail[i].datetime.slice(0, 10).replace(/-/g, '/'),
+				reviewBody = data.reviewDetail[i].reviewBody,
+				productId_12Len = zeroPadding(productId, 12),
+				product_image_group = Math.floor(productId / 100),
+				thumbnail = ('00' + data.reviewDetail[i].thumbNumber).slice(-2),
+				color = data.reviewDetail[i].color;
+
+			var reviewScoreToFixed = data.reviewDetail[i].rating;
+
+			//レビュースコアの閾値を計算
+			reviewScore = reviewScoreThreshold(reviewScore);
+
+			var profHTML = '';
+
+			profHTML = '<div class="fs-c-reviewer__profile">' + profHTML + '</div></div>';
+
+			var reviewerHTML = '<div class="fs-c-reviewList__item__info fs-c-reviewInfo"><div class="fs-c-reviewInfo__reviewer fs-c-reviewer"><div class="fs-c-reviewer__name"><span class="fs-c-reviewer__name__nickname">' + nickname + '</span></div><div class="fs-c-reviewer__status"><span class="fs-c-reviewerStatus">購入者</span></div>';
+
+			var dateHTML = '<dl class="fs-c-reviewInfo__date"><dt>投稿日</dt><dd><time datetime="' + datetime + '" class="fs-c-time">' + datetime + '</time></dd></dl><div class="fs-c-reviewRating"><div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"></div></div></div>';
+
+			var colorHTML = '<div class="color">' + color + '</div>';
+
+			var commentHTML = '<div class="fs-c-reviewList__item__body fs-c-reviewBody">' + reviewBody + '</div>';
+
+			var imageHTML = '<div class="reviewImage"><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.design/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '-xs.jpg" alt="" ></a></div>';
+
+			var h = '<li class="fs-c-reviewList__item reviewScore-' + reviewScoreToFixed + '">' + imageHTML + '<div class="reviewContent">' + reviewerHTML + profHTML + dateHTML + colorHTML + commentHTML + '</div></li>';
+
+			$('#multipleReviewList ul').append(h);
+		}
+
+		//文字量が多いレビューの表示領域開閉
+		var newWindowWidth = $(window).width();
+		if (newWindowWidth <= 480) {
+			var maxHeight = '360';
+		} else {
+			var maxHeight = '240';
+		}
+
+		//console.log(maxHeight);
+
+		reviewSlideDown('#multipleReviewList', maxHeight);
+
+		//レビューグラフの書き出し
+
+		var ratingCount = 0;
+		for (var j = 5; j > 0; j--) {
+			var reviewCount = data.reviewRating[0].reviewCount;
+
+			switch (j) {
+				case 5:
+					ratingCount = data.reviewRating[0].rating5Count;
+					break;
+				case 4:
+					ratingCount = data.reviewRating[0].rating4Count;
+					break;
+				case 3:
+					ratingCount = data.reviewRating[0].rating3Count;
+					break;
+				case 2:
+					ratingCount = data.reviewRating[0].rating2Count;
+					break;
+				case 1:
+					ratingCount = data.reviewRating[0].rating1Count;
+					break;
+			}
+
+			var rate = Math.round((ratingCount / reviewCount) * 100);
+
+			$('.score' + j + ' .bar-info').attr('data-total', rate);
+			$('.score' + j + ' .rating').html(rate + '%');
+			score_count = 0;
+		}
+
+		function skillSet() {
+			$('.bar-info').each(function () {
+				total = $(this).data('total');
+				$(this).css('width', total + '%');
+			});
+			$('.percent').each(function () {
+				var $this = $(this);
+				$({
+					Counter: 10,
+				}).animate(
+					{
+						Counter: $this.text(),
+					},
+					{
+						duration: 3000,
+						easing: 'swing',
+						step: function () {
+							$this.text(Math.ceil(this.Counter) + '%');
+						},
 					}
+				);
+			});
+		}
+		setTimeout(skillSet, 400);
 
-					var h =
-						'<li><a href="/c/series/' +
-						seriesCode +
-						'/' +
-						productUrl +
-						'"><img src="https://shiraistore.itembox.design/product/' +
-						zeroPadding(product_image_group, 3) +
-						'/' +
-						productId_12Len +
-						'/' +
-						productId_12Len +
-						'-' +
-						thumbnail +
-						'-m.jpg" alt="' +
-						productName +
-						'" ><h3>' +
-						productName +
-						'</h3></a>' +
-						'<div class="productMarks">' +
-						iconHtml +
-						'</div>' +
-						'<div class="productSize">' +
-						size +
-						'</div>' +
-						reviewHTML +
-						'<a href="/c/series/' +
-						seriesCode +
-						'/' +
-						productUrl +
-						'">' +
-						sellingPrice +
-						'</a></li>';
+		//console.log(reviewCount)
+		//平均レビュースコアの設定と表示
+		if (reviewCount > 0) {
+			var averageRating = data.reviewRating[0].averageRating;
+			var reviewScore = data.reviewRating[0].averageRating;
 
-					$('.productTop10Slider.series ul').append(h);
+			//レビュースコアの閾値を計算
+			reviewScore = reviewScoreThreshold(reviewScore);
 
-					//$('img.lazy').lazyload();
-					if (i == 14) {
-						if (data.seriesItems.length > 15) {
-							$('.productTop10Slider.series ul').after('<div class="fs-c-buttonContainer more-button"><a href="/c/series/' + seriesCode + '" class="fs-c-button--standard">もっと見る</a></div>');
+			var averageHTML = '<div id="averageScore"><span class="fs-c-reviewInfo__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"></span><span>' + averageRating + '</span></div>';
+
+			$('#product-reviewTitle').after(averageHTML);
+
+			$('#product-reviewTitle span').text(reviewCount + '件の');
+
+			var reviewListURL = '/f/reviewList?modelCode=' + modelCode;
+
+			$('.score-bar-inner').click(function () {
+				var score = $(this).data('score');
+				//console.log(score);
+				location.href = reviewListURL + '&score=' + score;
+			});
+
+			//価格上部にレビュースコアを表示
+			$('#productPriceBox').before('<div id="product-ratingStars"><a href="#product-review"><span class="fs-c-reviewInfo__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"></span><span>' + averageRating + '</span><span>（' + reviewCount + '）</span></a></div>');
+
+			$('#reviwRatingBox').css('display', 'block');
+
+			//レビュー件数が10件以下ならレビュー詳細ボタンを削除
+			if (reviewCount < 11) {
+				$('.fs-c-productReview__allReviews').remove();
+			} else {
+				$('#multipleReviewList').append('<div class="fs-c-productReview__allReviews fs-c-buttonContainer fs-c-buttonContainer--viewAllReviews"><a href="' + reviewListURL + '" class="othersReview fs-c-button--viewAllReviews fs-c-button--plain"><span class="fs-c-button__label">その他のレビューを見る</span></a></div>');
+			}
+		} else {
+			$('#product-reviewTitle').after('<p class="text-center">この商品のレビューはありません。</p>');
+		}
+
+		//console.log(data.seriesItems);
+		if (data.seriesItems.length >= 1) {
+			for (var i in data.seriesItems) {
+				var productUrl = data.seriesItems[i].productUrl,
+					seriesCode = productUrl.slice(0, 3),
+					productId = data.seriesItems[i].productId,
+					productName = data.seriesItems[i].productName,
+					productId_12Len = zeroPadding(productId, 12),
+					product_image_group = Math.floor(productId / 100),
+					sellingPrice = Number(data.seriesItems[i].sellingPrice),
+					normalPrice = Number(data.seriesItems[i].normalPrice),
+					icon = data.seriesItems[i].icon,
+					size = data.seriesItems[i].size,
+					reviewScore = Number(data.seriesItems[i].averageRating).toFixed(1),
+					reviewCount = Number(data.seriesItems[i].reviewCount),
+					thumbnail = data.seriesItems[i].thumbNumber,
+					categoryName = data.seriesItems[i].categoryLv1,
+					categoryUrl = data.seriesItems[i].categoryUrl;
+
+				thumbnail = ('00' + thumbnail).slice(-2);
+
+				if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
+					seriesCode = 'tl';
+				}
+
+				if (sellingPrice < normalPrice) {
+					sellingPrice = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normalPrice.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
+				} else {
+					sellingPrice = '<p class="priceBox"><span class="price">¥ ' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
+				}
+
+				var iconHtml = '';
+
+				if (icon != null) {
+					var icon_ary = icon.split(',');
+
+					for (var j = 0; j < icon_ary.length; j++) {
+						if (icon_ary[j] != '') {
+							icon_ary[j] = icon_ary[j].split(':');
+
+							if (icon_ary[j][0] == 'mark-categoryRank' && icon_ary[j][1] < 11) {
+								categoryName = categoryNameShorter(categoryName);
+								iconHtml += '<a href="/f/ranking-' + categoryUrl + '" class="mark-catRank">' + categoryName + ' ' + icon_ary[j][1] + '位</a>';
+							}
+
+							if (icon_ary[j][0] == 'mark-new') {
+								iconHtml += '<span class="mark-new">新着</span>';
+							}
+
+							if (icon_ary[j][0] == 'mark-limitedProduct') {
+								iconHtml += '<span class="mark-limitedProduct">当店限定商品</span>';
+							}
+
+							if (icon_ary[j][0] == 'mark-sale') {
+								iconHtml += '<span class="mark-sale">SALE</span>';
+							}
 						}
-						checkScreenSize();
-						break;
 					}
 				}
-				checkScreenSize();
-				$('#productDetail-seriesItems').css('display', 'block');
+
+				reviewScore = reviewScoreThreshold(reviewScore);
+				//console.log('reviewScore:',reviewScore)
+
+				var reviewHTML = '';
+
+				if (reviewScore != 0) {
+					reviewHTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + productUrl + '">（' + reviewCount + '）</a></div>';
+				} else {
+					reviewHTML = '';
+				}
+
+				if (iconHtml == undefined) {
+					iconHtml = '';
+				}
+
+				var h =
+					'<li><a href="/c/series/' +
+					seriesCode +
+					'/' +
+					productUrl +
+					'"><img src="https://shiraistore.itembox.design/product/' +
+					zeroPadding(product_image_group, 3) +
+					'/' +
+					productId_12Len +
+					'/' +
+					productId_12Len +
+					'-' +
+					thumbnail +
+					'-m.jpg" alt="' +
+					productName +
+					'" ><h3>' +
+					productName +
+					'</h3></a>' +
+					'<div class="productMarks">' +
+					iconHtml +
+					'</div>' +
+					'<div class="productSize">' +
+					size +
+					'</div>' +
+					reviewHTML +
+					'<a href="/c/series/' +
+					seriesCode +
+					'/' +
+					productUrl +
+					'">' +
+					sellingPrice +
+					'</a></li>';
+
+				$('.productTop10Slider.series ul').append(h);
+
+				//$('img.lazy').lazyload();
+				if (i == 14) {
+					if (data.seriesItems.length > 15) {
+						$('.productTop10Slider.series ul').after('<div class="fs-c-buttonContainer more-button"><a href="/c/series/' + seriesCode + '" class="fs-c-button--standard">もっと見る</a></div>');
+					}
+					checkScreenSize();
+					break;
+				}
 			}
-		});
+			checkScreenSize();
+			$('#productDetail-seriesItems').css('display', 'block');
+		}
 
 		$.getJSON('https://cdn.shirai-store.net/assets/json/common/instagramDisplayPhoto_v1_0.json', function (instagramPostData) {
 			//console.log(instagramPostData);
@@ -3830,7 +3839,6 @@ function checkScreenSize() {
 	if ($('.productTop10Slider.ranking').length && ranking_top10Slider) {
 		var newWindowWidth = $(window).width();
 		if (newWindowWidth <= 1200) {
-			console.log('!!!!!')
 			ranking_top10Slider.destroySlider();
 			$('.productTop10Slider').addClass('destroy');
 		} else {
