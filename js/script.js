@@ -37,7 +37,7 @@ $(function () {
 	reviewSlideDown('#fs_ProductDetails', '240'); //OK
 	instagramPostList(); //OK
 	soldOut(); //OK
-	//em_transfer();
+	transfer();
 	preSale_displayPassWordForm();
 	featureMamihapiSeries_slider(); //OK
 	featureMamihapiSeries_cart(); //OK
@@ -51,7 +51,7 @@ $(function () {
 	searchFilterTnl(); //OK
 	reviewsDisplayForSearchResults();
 	instagramPostDisplayForSearchResults();
-	
+
 	var global_rakingTop10Type = $('.productTop10Slider.ranking').data('ranking');
 	if (global_rakingTop10Type) {
 		var global_page = getParam('page');
@@ -100,7 +100,7 @@ $(function () {
 	advancedSearchFormSelected();
 	advancedSearchForm();
 	cartInPopUp();
-	
+
 	multipleRankingTop10(); //汎用的に使えるランキング
 });
 
@@ -178,22 +178,16 @@ function cartInPopUp() {
 	}
 }
 
-/* em_transfer
+/* ransfer
 ========================================================================== */
-function em_transfer() {
-	if ($('#fs_ProductAuth').length) {
-		var productPathName = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
+function transfer() {
+	if ($('#fs_PageNotFound').length) {
+		var productURL = location.href;
 
-		if (productPathName.indexOf('tnl-emts') === 0) {
-			window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-emts';
-		} else if (productPathName.indexOf('tnl-emu') === 0) {
-			window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-emu';
-		} else if (productPathName.indexOf('tnl-em') === 0) {
-			window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-em';
-		} else if (productPathName.indexOf('sep-emdesk') === 0) {
-			window.location.href = 'https://shirai-store.net/f/sizeOrder/sep-emdesk';
-		} else if (productPathName.indexOf('sep-em') === 0) {
-			window.location.href = 'https://shirai-store.net/f/sizeOrder/sep-emrack';
+		if (productURL == 'https://shirai-store.net/c/series/mhp/mhp-8090p-na') {
+			window.location.href = 'https://shirai-store.net/c/preSale/mhp-8090p-na';
+		} else if (productURL == 'https://shirai-store.net/c/series/mhp/mhp-8090p-iv') {
+			window.location.href = 'https://shirai-store.net/c/preSale/mhp-8090p-iv';
 		}
 	}
 }
@@ -1541,11 +1535,11 @@ function multipleRankingTop10() {
 			} else {
 				var categoryName = '-' + category;
 			}
-			
+
 			var jsonurl = 'https://cdn.shirai-store.net/assets/json/ranking/ranking' + categoryName + '_v2_0.json';
 			var selector = $(this);
 			//console.log(jsonurl);
-			$.getJSON(jsonurl,selector, function (rankingList) {
+			$.getJSON(jsonurl, selector, function (rankingList) {
 				for (var i in rankingList) {
 					var productUrl = rankingList[i].productUrl,
 						seriesCode = productUrl.slice(0, 3),
@@ -1691,7 +1685,9 @@ function multipleRankingTop10() {
 				}
 			});
 
-			$(this).find('ul').after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking' + categoryName + '" class="fs-c-button--standard">もっと見る</a></div>');
+			$(this)
+				.find('ul')
+				.after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking' + categoryName + '" class="fs-c-button--standard">もっと見る</a></div>');
 		}
 	});
 }
@@ -1863,7 +1859,8 @@ function rankingTop10_forFanplayr(category) {
 	}
 
 	$('#rankingTop10_forFanplayr ul').before('<h4>' + categoryName + ' ランキング</h4>');
-	$('#rankingTop10_forFanplayr ul').after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking-' + cateory + '?fp=' + category + 'ranking" class="fs-c-button--standard">もっと見る</a></div>');g
+	$('#rankingTop10_forFanplayr ul').after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking-' + cateory + '?fp=' + category + 'ranking" class="fs-c-button--standard">もっと見る</a></div>');
+	g;
 }
 
 /* modal
