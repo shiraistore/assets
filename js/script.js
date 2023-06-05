@@ -32,6 +32,7 @@ $(function () {
 	productDetail_tlfContentsBanner();
 	productDetail_logContentsBanner();
 	productDetail_porContentsBanner();
+	productDetail_howToStoreKidsBooksContentsBanner();
 	searchTagsTitleDescriptionChange();
 
 	reviewSlideDown('#fs_ProductDetails', '240'); //OK
@@ -808,6 +809,21 @@ function productDetail_porContentsBanner() {
 		var series = url[url.length - 1].split('-');
 		if (series[0] == 'por') {
 			var html = '<ul id="contents-banner"><li><a href="/f/feature/portale-review"><img src="https://shiraistore.itembox.design/item/src/banner_portale-review_460x96.jpg"></a></li></ul>';
+			$('#productActionBox').after(html);
+		}
+	}
+}
+
+/* productDetail_howToStoreKidsBooksContentsBanner
+========================================================================== */
+function productDetail_howToStoreKidsBooksContentsBanner() {
+	if ($('#fs_ProductDetails').length) {
+		var url = window.location.pathname.substring(1);
+		url = url.split('/');
+		var series = url[url.length - 1].split('-');
+		console.log(series);
+		if (series[1] == '2590bsa' || '2590bsb' ||'5590desk' || '7075bs' || '7055bsb' || '7055bsa' ) {
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/howToStoreKidsBooks"><img src="https://shiraistore.itembox.design/item/src/banner_howToStoreKidsBooks_460x96.jpg"></a></li></ul>';
 			$('#productActionBox').after(html);
 		}
 	}
