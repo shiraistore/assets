@@ -821,8 +821,8 @@ function productDetail_howToStoreKidsBooksContentsBanner() {
 		var url = window.location.pathname.substring(1);
 		url = url.split('/');
 		var series = url[url.length - 1].split('-');
-		console.log(series);
-		if (series[1] == '2590bsa' || '2590bsb' ||'5590desk' || '7075bs' || '7055bsb' || '7055bsa' ) {
+		console.log(series[1]);
+		if ((series[1] == '2590bsa')||(series[1] == '2590bsb')||(series[1] == '5590desk')||(series[1] == '7075bs')||(series[1] == '7055bsb') || (series[1] == '7055bsa')) {
 			var html = '<ul id="contents-banner"><li><a href="/f/feature/howToStoreKidsBooks"><img src="https://shiraistore.itembox.design/item/src/banner_howToStoreKidsBooks_460x96.jpg"></a></li></ul>';
 			$('#productActionBox').after(html);
 		}
