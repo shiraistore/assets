@@ -38,7 +38,7 @@ $(function () {
 	reviewSlideDown('#fs_ProductDetails', '240'); //OK
 	instagramPostList(); //OK
 	soldOut(); //OK
-	transfer();
+	//transfer();
 	preSale_displayPassWordForm();
 	featureMamihapiSeries_slider(); //OK
 	featureMamihapiSeries_cart(); //OK
