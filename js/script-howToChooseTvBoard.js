@@ -5,7 +5,7 @@ $(function () {
 /* addCart
 ========================================================================== */
 function addCart() {
-	$.getJSON('https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/feature/howToChooseTvBoard_v1_0.json', function (data) {
+	$.getJSON('https://cdn.shirai-store.net/assets/json/feature/howToChooseTvBoard_v1_0.json', function (data) {
 		//console.log(data);
 		$('.addToCart').each(function () {
 			var product = $(this).data('products');

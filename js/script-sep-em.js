@@ -191,7 +191,7 @@ $(window).on('load scroll', function () {});
 
 function sep_emrack_select() {
 	if ($('#sep-emrack').length) {
-		$.getJSON('https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/common/sepSizeOrderPrice_v1_1.json', function (priceArray) {
+		$.getJSON('https://cdn.shirai-store.net/assets/json/common/sepSizeOrderPrice_v1_1.json', function (priceArray) {
 			sep_emrack_selectWrite(priceArray);
 			$('#sep-emrack input[type="radio"],#sep-emrack select').change(function () {
 				sep_emrack_selectWrite(priceArray);
@@ -371,7 +371,7 @@ function sep_emrack_select() {
 
 function sep_emdesk_select() {
 	if ($('#sep-emdesk').length) {
-		$.getJSON('https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/common/sepSizeOrderPrice_v1_1.json', function (priceArray) {
+		$.getJSON('https://cdn.shirai-store.net/assets/json/common/sepSizeOrderPrice_v1_1.json', function (priceArray) {
 			sep_emrack_selectWrite(priceArray);
 			$('#sep-emdesk input[type="radio"],#sep-emdesk select').change(function () {
 				sep_emrack_selectWrite(priceArray);
