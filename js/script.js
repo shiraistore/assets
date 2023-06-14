@@ -317,7 +317,7 @@ function reviewsDisplayForSearchResults() {
 function instagramPostDisplayForSearchResults() {
 	if ($('#fs_ProductSearch').length || $('#fs_ProductCategory').length) {
 		if (!$('.fs-body-category-preSale').length) {
-			$.getJSON('https://cdn.shirai-store.net/assets/json/common/instagramDisplayPhoto_v1_0.json', function (instagramPostData) {
+			$.getJSON('https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/common/instagramDisplayPhoto_v1_0.json', function (instagramPostData) {
 				//console.log(instagramPostData);
 				var productNumbers;
 				var listHtml = '';
@@ -1341,7 +1341,7 @@ function reviewSlideDown(id, cssHeight) {
 
 function instagramPostList() {
 	if ($('#fs_Top, #shirai_fan').length) {
-		$.getJSON('https://cdn.shirai-store.net/assets/json/common/instagramDisplayPhoto_v1_0.json', function (instagramPostData) {
+		$.getJSON('https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/common/instagramDisplayPhoto_v1_0.json', function (instagramPostData) {
 			var listHtml = '';
 			for (var i in instagramPostData.reverse()) {
 				var postId = instagramPostData[i].postId,
@@ -1552,7 +1552,7 @@ function multipleRankingTop10() {
 				var categoryName = '-' + category;
 			}
 
-			var jsonurl = 'https://cdn.shirai-store.net/assets/json/ranking/ranking' + categoryName + '_v2_0.json';
+			var jsonurl = 'https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/ranking/ranking' + categoryName + '_v2_0.json';
 			var selector = $(this);
 			//console.log(jsonurl);
 			$.getJSON(jsonurl, selector, function (rankingList) {
@@ -1712,7 +1712,7 @@ function multipleRankingTop10() {
 ========================================================================== */
 
 function rankingTop10_forFanplayr(category) {
-	var jsonurl = 'https://cdn.shirai-store.net/assets/json/ranking/ranking-' + category + '_v2_0.json';
+	var jsonurl = 'https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/ranking/ranking-' + category + '_v2_0.json';
 	$.getJSON(jsonurl, function (rankingList) {
 		for (var i in rankingList) {
 			var productUrl = rankingList[i].productUrl,
@@ -2597,7 +2597,7 @@ function multipleReviewList() {
 	var url_ary = url.split('?');
 	if (url_ary[0] == 'https://shirai-store.net/f/reviewList') {
 		var modelCode = getParam('modelCode');
-		var rewviewListURL = 'https://cdn.shirai-store.net/assets/json/reviewList/reviewList_' + modelCode + '_v2_0.json';
+		var rewviewListURL = 'https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/reviewList/reviewList_' + modelCode + '_v2_0.json';
 		var reviewScore_ary = [];
 
 		$.getJSON(rewviewListURL, function (multipleReviewList) {
@@ -2897,7 +2897,7 @@ function multipleReviewList() {
 function productListAddData() {
 	if ($('#fs_ProductCategory').length || $('#fs_ProductSearch').length) {
 		//$(function () {
-		$.getJSON('https://cdn.shirai-store.net/assets/json/common/dataForProductList_v2_0.json', function (data) {
+		$.getJSON('https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/common/dataForProductList_v2_0.json', function (data) {
 			$('.fs-c-productListItem').each(function () {
 				url = $(this).find('.fs-c-productName > a').attr('href').split('/').pop();
 				var result_ranking = data.ranking.find(function (v) {
@@ -3069,7 +3069,7 @@ function productDetailAddData() {
 
 		//console.log('modelCode:',modelCode);
 
-		// var dataForProductDetailUrl = 'https://cdn.shirai-store.net/assets/json/productDetail/dataForProductDetail_' + modelCode + '_v2_1.json';
+		// var dataForProductDetailUrl = 'https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/productDetail/dataForProductDetail_' + modelCode + '_v2_1.json';
 
 		var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/getDataForProductDetail';
 		var params = { product_number: modelCode };
@@ -3670,7 +3670,7 @@ function productDetailAddData() {
 			$('#productDetail-seriesItems').css('display', 'block');
 		}
 
-		$.getJSON('https://cdn.shirai-store.net/assets/json/common/instagramDisplayPhoto_v1_0.json', function (instagramPostData) {
+		$.getJSON('https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/common/instagramDisplayPhoto_v1_0.json', function (instagramPostData) {
 			//console.log(instagramPostData);
 			var productNumbers = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
 			//console.log(productNumbers);
@@ -3928,7 +3928,7 @@ function categoryNameShorter(categoryName) {
 }
 
 function recommendTop10() {
-	$.getJSON('https://cdn.shirai-store.net/assets/json/recommend/recommend_v2_0.json', function (recommendList) {
+	$.getJSON('https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/recommend/recommend_v2_0.json', function (recommendList) {
 		for (var i in recommendList) {
 			var productUrl = recommendList[i].productUrl,
 				seriesCode = productUrl.slice(0, 3),
@@ -4073,7 +4073,7 @@ function rankingTop10(rakingTop10Type) {
 		rakingTop10Type = 'ranking';
 	}
 
-	var jsonurl = 'https://cdn.shirai-store.net/assets/json/ranking/' + rakingTop10Type + catURL + '_v2_0.json';
+	var jsonurl = 'https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/ranking/' + rakingTop10Type + catURL + '_v2_0.json';
 	//console.log(jsonurl);
 	$.getJSON(jsonurl, function (rankingList) {
 		for (var i in rankingList) {
@@ -4227,7 +4227,7 @@ function rankingTop10(rakingTop10Type) {
 }
 
 function recommendList() {
-	$.getJSON('https://cdn.shirai-store.net/assets/json/recommend/recommend_v2_0.json', function (recommendList) {
+	$.getJSON('https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/recommend/recommend_v2_0.json', function (recommendList) {
 		for (var i in recommendList) {
 			var productUrl = recommendList[i].productUrl,
 				seriesCode = productUrl.slice(0, 3),
@@ -4364,7 +4364,7 @@ function recommendList() {
 }
 
 function rankingList(jsonfile) {
-	var jsonurl = 'https://cdn.shirai-store.net/assets/json/ranking/' + jsonfile + '_v2_0.json';
+	var jsonurl = 'https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/ranking/' + jsonfile + '_v2_0.json';
 	//console.log(jsonurl);
 	$.getJSON(jsonurl, function (rankingList) {
 		for (var i in rankingList) {
