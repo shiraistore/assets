@@ -7,7 +7,7 @@ $(function () {
 
 function tnl_em_introduction() {
 	if ($('#tnl-em-introduction').length) {
-		$.getJSON('https://cdn.shirai-store.net/assets/json/reviewList/reviewList_tnl_v2_0.json', function (multipleReviewList) {
+		$.getJSON('https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/reviewList/reviewList_tnl_v2_0.json', function (multipleReviewList) {
 			var reviewScore_ary = [];
 			for (var i in multipleReviewList) {
 				reviewScore_ary.push(multipleReviewList[i].rating);
@@ -299,8 +299,8 @@ function tnl_em_introduction() {
 function tnl_em_select() {
 	if ($('#tnl_em').length) {
 		$.getJSON(
-			'https://cdn.shirai-store.net/assets/json/common/tnlSizeOrderPrice_v1_1.json',
-			//'https://cdn.shirai-store.net/assets/json/common/tnlSizeOrderPrice_sale_v1_1.json',
+			'https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/common/tnlSizeOrderPrice_v1_1.json',
+			//'https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/common/tnlSizeOrderPrice_sale_v1_1.json',
 			function (priceArray) {
 				tnl_em_selectWrite(priceArray);
 				$('#tnl_em input[type="radio"],#tnl_em select').change(function () {
@@ -614,8 +614,8 @@ function tnl_em_select() {
 function tnl_emu_select() {
 	if ($('#tnl_emu').length) {
 		$.getJSON(
-			'https://cdn.shirai-store.net/assets/json/common/tnlSizeOrderPrice_v1_1.json',
-			//'https://cdn.shirai-store.net/assets/json/common/tnlSizeOrderPrice_sale_v1_1.json',
+			'https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/common/tnlSizeOrderPrice_v1_1.json',
+			//'https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/common/tnlSizeOrderPrice_sale_v1_1.json',
 			function (priceArray) {
 				var paramWidth = getParam('w');
 				var paramDepth = getParam('d');
@@ -795,8 +795,8 @@ function tnl_emu_select() {
 function tnl_emts_select() {
 	if ($('#tnl_emts').length) {
 		$.getJSON(
-			'https://cdn.shirai-store.net/assets/json/common/tnlSizeOrderPrice_v1_1.json',
-			//'https://cdn.shirai-store.net/assets/json/common/tnlSizeOrderPrice_sale_v1_1.json',
+			'https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/common/tnlSizeOrderPrice_v1_1.json',
+			//'https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/common/tnlSizeOrderPrice_sale_v1_1.json',
 			function (priceArray) {
 				tnl_emts_selectWrite(priceArray);
 				$('#tnl_emts input[type="radio"],#tnl_emts select').change(function () {

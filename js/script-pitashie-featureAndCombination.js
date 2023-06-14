@@ -31,7 +31,7 @@ jQuery(function($){
 });
 
 function featurePts() {
-    $.getJSON('https://cdn.shirai-store.net/assets/json/feature/pitashie-featureAndCombinatio_v1_0.json', function (data) {
+    $.getJSON('https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/feature/pitashie-featureAndCombinatio_v1_0.json', function (data) {
         //console.log(data);
         $('.addToCart').each(function () {
             var product = $(this).data('products');
