@@ -3233,6 +3233,27 @@ function productDetailAddData() {
 			$('#productDetail-rankingTop10').css('display', 'block');
 		}
 
+		if (data.selectionPrice != undefined && data.selectionPrice != '') {
+			let adisSaleHtml = '';
+			for(const selectionData of data.selectionPrice){
+				console.log(selectionData.selectionCode);
+				const selectionNormalPrice = selectionData.selectionNormalPrice;
+				const selectionPrice = selectionData.selectionPrice;
+				const differencePrice = selectionNormalPrice - selectionPrice;
+				if(selectionData.selectionNormalPrice > selectionData.selectionPrice){
+					if(selectionData.selectionCode == 'ADIS-01'){
+						adisSaleHtml += `<li>組立済+玄関渡し：¥<span style="text-decoration:line-through">${selectionNormalPrice.toLocaleString()}</span> → <span class="adisSalePrice">¥${selectionPrice.toLocaleString()}</span><span class="differencePrice">¥${differencePrice.toLocaleString()} OFF</span></li>`
+					}else if(selectionData.selectionCode == 'ADIS-02'){
+						adisSaleHtml += `<li>組立済+搬入：¥<span style="text-decoration:line-through">${selectionNormalPrice.toLocaleString()}</span> → <span class="adisSalePrice">¥${selectionPrice.toLocaleString()}</span><span class="differencePrice">¥${differencePrice.toLocaleString()} OFF</span></li>`
+					}
+				}
+			}
+
+			adisSaleHtml = `<div id="adisSale"><h4>組立サービス割引キャンペーン</h4><ul>${adisSaleHtml}</ul></div>`;
+
+			$('.fs-c-productOption__option').prepend(adisSaleHtml);
+		}
+
 		var newWindowWidth = $(window).width();
 
 		var faqHtml = '';
