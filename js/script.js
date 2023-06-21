@@ -32,6 +32,7 @@ $(function () {
 	productDetail_tlfContentsBanner();
 	productDetail_logContentsBanner();
 	productDetail_porContentsBanner();
+	productDetail_amrContentsBanner();
 	productDetail_howToStoreKidsBooksContentsBanner();
 	searchTagsTitleDescriptionChange();
 
@@ -821,10 +822,31 @@ function productDetail_howToStoreKidsBooksContentsBanner() {
 		var url = window.location.pathname.substring(1);
 		url = url.split('/');
 		var series = url[url.length - 1].split('-');
-		console.log(series[1]);
 		if (series[1] == '2590bsa' || series[1] == '2590bsb' || series[1] == '5590desk' || series[1] == '7075bs' || series[1] == '7055bsb' || series[1] == '7055bsa') {
 			var html = '<ul id="contents-banner"><li><a href="/f/feature/howToStoreKidsBooks"><img src="https://shiraistore.itembox.design/item/src/banner_howToStoreKidsBooks_460x96.jpg"></a></li></ul>';
 			$('#productActionBox').after(html);
+		}
+	}
+}
+
+/* productDetail_amrContentsBanner
+========================================================================== */
+function productDetail_amrContentsBanner() {
+	if ($('#fs_ProductDetails').length) {
+		var url = window.location.pathname.substring(1);
+		url = url.split('/');
+		var series = url[url.length - 1];
+		if (series.match(/amr-1480ds/)) {
+			var html = '<div class="amr-adis-caution" style="display:none;"><img src="https://shiraistore.itembox.design/item/src/product_detail/detail-amr-adis-caution.png"></div>';
+			$('.fs-c-productOption__comment').after(html);
+			$('#optionWithPrice_1').change(function () {
+				var str = $(this).val();
+				if (str == 'ADIS-01' || str == 'ADIS-02') {
+					$('.amr-adis-caution').slideDown();
+				} else {
+					$('.amr-adis-caution').slideUp();
+				}
+			});
 		}
 	}
 }
@@ -3246,11 +3268,10 @@ function productDetailAddData() {
 					} else if (selectionData.selectionCode == 'ADIS-02') {
 						adisSaleHtml += `<li>組立済+搬入：¥<span style="text-decoration:line-through">${selectionNormalPrice.toLocaleString()}</span> → <span class="adisSalePrice">¥${selectionPrice.toLocaleString()}</span><span class="differencePrice">¥${differencePrice.toLocaleString()} OFF</span></li>`;
 					}
-					adisSaleHtml = `<div id="adisSale"><h4>組立サービス割引キャンペーン</h4><ul>${adisSaleHtml}</ul></div>`;
-
-					$('.fs-c-productOption__option').prepend(adisSaleHtml);
 				}
 			}
+			adisSaleHtml = `<div id="adisSale"><h4>組立サービス割引キャンペーン</h4><ul>${adisSaleHtml}</ul></div>`;
+			$('.fs-c-productOption__option').prepend(adisSaleHtml);
 		}
 
 		var newWindowWidth = $(window).width();
