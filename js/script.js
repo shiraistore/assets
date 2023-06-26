@@ -32,6 +32,7 @@ $(function () {
 	productDetail_tlfContentsBanner();
 	productDetail_logContentsBanner();
 	productDetail_porContentsBanner();
+	productDetail_amrContentsBanner();
 	productDetail_howToStoreKidsBooksContentsBanner();
 	searchTagsTitleDescriptionChange();
 
@@ -317,7 +318,7 @@ function reviewsDisplayForSearchResults() {
 function instagramPostDisplayForSearchResults() {
 	if ($('#fs_ProductSearch').length || $('#fs_ProductCategory').length) {
 		if (!$('.fs-body-category-preSale').length) {
-			$.getJSON('https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/common/instagramDisplayPhoto_v1_0.json', function (instagramPostData) {
+			$.getJSON('https://cdn.shirai-store.net/assets/json/common/instagramDisplayPhoto_v1_0.json', function (instagramPostData) {
 				//console.log(instagramPostData);
 				var productNumbers;
 				var listHtml = '';
@@ -821,10 +822,31 @@ function productDetail_howToStoreKidsBooksContentsBanner() {
 		var url = window.location.pathname.substring(1);
 		url = url.split('/');
 		var series = url[url.length - 1].split('-');
-		console.log(series[1]);
-		if ((series[1] == '2590bsa')||(series[1] == '2590bsb')||(series[1] == '5590desk')||(series[1] == '7075bs')||(series[1] == '7055bsb') || (series[1] == '7055bsa')) {
+		if (series[1] == '2590bsa' || series[1] == '2590bsb' || series[1] == '5590desk' || series[1] == '7075bs' || series[1] == '7055bsb' || series[1] == '7055bsa') {
 			var html = '<ul id="contents-banner"><li><a href="/f/feature/howToStoreKidsBooks"><img src="https://shiraistore.itembox.design/item/src/banner_howToStoreKidsBooks_460x96.jpg"></a></li></ul>';
 			$('#productActionBox').after(html);
+		}
+	}
+}
+
+/* productDetail_amrContentsBanner
+========================================================================== */
+function productDetail_amrContentsBanner() {
+	if ($('#fs_ProductDetails').length) {
+		var url = window.location.pathname.substring(1);
+		url = url.split('/');
+		var series = url[url.length - 1];
+		if (series.match(/amr-1480ds/)) {
+			var html = '<div class="amr-adis-caution" style="display:none;"><img src="https://shiraistore.itembox.design/item/src/product_detail/detail-amr-adis-caution.png"></div>';
+			$('.fs-c-productOption__comment').after(html);
+			$('#optionWithPrice_1').change(function () {
+				var str = $(this).val();
+				if (str == 'ADIS-01' || str == 'ADIS-02') {
+					$('.amr-adis-caution').slideDown();
+				} else {
+					$('.amr-adis-caution').slideUp();
+				}
+			});
 		}
 	}
 }
@@ -1341,7 +1363,7 @@ function reviewSlideDown(id, cssHeight) {
 
 function instagramPostList() {
 	if ($('#fs_Top, #shirai_fan').length) {
-		$.getJSON('https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/common/instagramDisplayPhoto_v1_0.json', function (instagramPostData) {
+		$.getJSON('https://cdn.shirai-store.net/assets/json/common/instagramDisplayPhoto_v1_0.json', function (instagramPostData) {
 			var listHtml = '';
 			for (var i in instagramPostData.reverse()) {
 				var postId = instagramPostData[i].postId,
@@ -1552,7 +1574,7 @@ function multipleRankingTop10() {
 				var categoryName = '-' + category;
 			}
 
-			var jsonurl = 'https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/ranking/ranking' + categoryName + '_v2_0.json';
+			var jsonurl = 'https://cdn.shirai-store.net/assets/json/ranking/ranking' + categoryName + '_v2_0.json';
 			var selector = $(this);
 			//console.log(jsonurl);
 			$.getJSON(jsonurl, selector, function (rankingList) {
@@ -1712,7 +1734,7 @@ function multipleRankingTop10() {
 ========================================================================== */
 
 function rankingTop10_forFanplayr(category) {
-	var jsonurl = 'https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/ranking/ranking-' + category + '_v2_0.json';
+	var jsonurl = 'https://cdn.shirai-store.net/assets/json/ranking/ranking-' + category + '_v2_0.json';
 	$.getJSON(jsonurl, function (rankingList) {
 		for (var i in rankingList) {
 			var productUrl = rankingList[i].productUrl,
@@ -2597,7 +2619,7 @@ function multipleReviewList() {
 	var url_ary = url.split('?');
 	if (url_ary[0] == 'https://shirai-store.net/f/reviewList') {
 		var modelCode = getParam('modelCode');
-		var rewviewListURL = 'https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/reviewList/reviewList_' + modelCode + '_v2_0.json';
+		var rewviewListURL = 'https://cdn.shirai-store.net/assets/json/reviewList/reviewList_' + modelCode + '_v2_0.json';
 		var reviewScore_ary = [];
 
 		$.getJSON(rewviewListURL, function (multipleReviewList) {
@@ -2897,7 +2919,7 @@ function multipleReviewList() {
 function productListAddData() {
 	if ($('#fs_ProductCategory').length || $('#fs_ProductSearch').length) {
 		//$(function () {
-		$.getJSON('https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/common/dataForProductList_v2_0.json', function (data) {
+		$.getJSON('https://cdn.shirai-store.net/assets/json/common/dataForProductList_v2_0.json', function (data) {
 			$('.fs-c-productListItem').each(function () {
 				url = $(this).find('.fs-c-productName > a').attr('href').split('/').pop();
 				var result_ranking = data.ranking.find(function (v) {
@@ -3069,7 +3091,7 @@ function productDetailAddData() {
 
 		//console.log('modelCode:',modelCode);
 
-		// var dataForProductDetailUrl = 'https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/productDetail/dataForProductDetail_' + modelCode + '_v2_1.json';
+		// var dataForProductDetailUrl = 'https://cdn.shirai-store.net/assets/json/productDetail/dataForProductDetail_' + modelCode + '_v2_1.json';
 
 		var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/getDataForProductDetail';
 		var params = { product_number: modelCode };
@@ -3232,27 +3254,27 @@ function productDetailAddData() {
 
 			$('#productDetail-rankingTop10').css('display', 'block');
 		}
-
-		if (data.selectionPrice != undefined && data.selectionPrice != '') {
-			let adisSaleHtml = '';
-			for(const selectionData of data.selectionPrice){
-				console.log(selectionData.selectionCode);
-				const selectionNormalPrice = selectionData.selectionNormalPrice;
-				const selectionPrice = selectionData.selectionPrice;
-				const differencePrice = selectionNormalPrice - selectionPrice;
-				if(selectionData.selectionNormalPrice > selectionData.selectionPrice){
-					if(selectionData.selectionCode == 'ADIS-01'){
-						adisSaleHtml += `<li>組立済+玄関渡し：¥<span style="text-decoration:line-through">${selectionNormalPrice.toLocaleString()}</span> → <span class="adisSalePrice">¥${selectionPrice.toLocaleString()}</span><span class="differencePrice">¥${differencePrice.toLocaleString()} OFF</span></li>`
-					}else if(selectionData.selectionCode == 'ADIS-02'){
-						adisSaleHtml += `<li>組立済+搬入：¥<span style="text-decoration:line-through">${selectionNormalPrice.toLocaleString()}</span> → <span class="adisSalePrice">¥${selectionPrice.toLocaleString()}</span><span class="differencePrice">¥${differencePrice.toLocaleString()} OFF</span></li>`
+		if (!$('.fs-c-productOption').length) {
+			if (data.selectionPrice != undefined && data.selectionPrice != '') {
+				let adisSaleHtml = '';
+				for (const selectionData of data.selectionPrice) {
+					console.log(selectionData.selectionCode);
+					const selectionNormalPrice = selectionData.selectionNormalPrice;
+					const selectionPrice = selectionData.selectionPrice;
+					const differencePrice = selectionNormalPrice - selectionPrice;
+					if (selectionData.selectionNormalPrice > selectionData.selectionPrice) {
+						if (selectionData.selectionCode == 'ADIS-01') {
+							adisSaleHtml += `<li>組立済+玄関渡し：¥<span style="text-decoration:line-through">${selectionNormalPrice.toLocaleString()}</span> → <span class="adisSalePrice">¥${selectionPrice.toLocaleString()}</span><span class="differencePrice">¥${differencePrice.toLocaleString()} OFF</span></li>`;
+						} else if (selectionData.selectionCode == 'ADIS-02') {
+							adisSaleHtml += `<li>組立済+搬入：¥<span style="text-decoration:line-through">${selectionNormalPrice.toLocaleString()}</span> → <span class="adisSalePrice">¥${selectionPrice.toLocaleString()}</span><span class="differencePrice">¥${differencePrice.toLocaleString()} OFF</span></li>`;
+						}
 					}
 				}
+				adisSaleHtml = `<div id="adisSale"><h4>組立サービス割引キャンペーン</h4><ul>${adisSaleHtml}</ul></div>`;
+				$('.fs-c-productOption__option').prepend(adisSaleHtml);
 			}
-
-			adisSaleHtml = `<div id="adisSale"><h4>組立サービス割引キャンペーン</h4><ul>${adisSaleHtml}</ul></div>`;
-
-			$('.fs-c-productOption__option').prepend(adisSaleHtml);
 		}
+		
 
 		var newWindowWidth = $(window).width();
 
@@ -3691,7 +3713,7 @@ function productDetailAddData() {
 			$('#productDetail-seriesItems').css('display', 'block');
 		}
 
-		$.getJSON('https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/common/instagramDisplayPhoto_v1_0.json', function (instagramPostData) {
+		$.getJSON('https://cdn.shirai-store.net/assets/json/common/instagramDisplayPhoto_v1_0.json', function (instagramPostData) {
 			//console.log(instagramPostData);
 			var productNumbers = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
 			//console.log(productNumbers);
@@ -3949,7 +3971,7 @@ function categoryNameShorter(categoryName) {
 }
 
 function recommendTop10() {
-	$.getJSON('https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/recommend/recommend_v2_0.json', function (recommendList) {
+	$.getJSON('https://cdn.shirai-store.net/assets/json/recommend/recommend_v2_0.json', function (recommendList) {
 		for (var i in recommendList) {
 			var productUrl = recommendList[i].productUrl,
 				seriesCode = productUrl.slice(0, 3),
@@ -4094,7 +4116,7 @@ function rankingTop10(rakingTop10Type) {
 		rakingTop10Type = 'ranking';
 	}
 
-	var jsonurl = 'https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/ranking/' + rakingTop10Type + catURL + '_v2_0.json';
+	var jsonurl = 'https://cdn.shirai-store.net/assets/json/ranking/' + rakingTop10Type + catURL + '_v2_0.json';
 	//console.log(jsonurl);
 	$.getJSON(jsonurl, function (rankingList) {
 		for (var i in rankingList) {
@@ -4248,7 +4270,7 @@ function rankingTop10(rakingTop10Type) {
 }
 
 function recommendList() {
-	$.getJSON('https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/recommend/recommend_v2_0.json', function (recommendList) {
+	$.getJSON('https://cdn.shirai-store.net/assets/json/recommend/recommend_v2_0.json', function (recommendList) {
 		for (var i in recommendList) {
 			var productUrl = recommendList[i].productUrl,
 				seriesCode = productUrl.slice(0, 3),
@@ -4385,7 +4407,7 @@ function recommendList() {
 }
 
 function rankingList(jsonfile) {
-	var jsonurl = 'https://cdn.jsdelivr.net/gh/shiraistore/assets@v1.1.73/json/ranking/' + jsonfile + '_v2_0.json';
+	var jsonurl = 'https://cdn.shirai-store.net/assets/json/ranking/' + jsonfile + '_v2_0.json';
 	//console.log(jsonurl);
 	$.getJSON(jsonurl, function (rankingList) {
 		for (var i in rankingList) {
