@@ -3254,7 +3254,7 @@ function productDetailAddData() {
 
 			$('#productDetail-rankingTop10').css('display', 'block');
 		}
-		if (!$('.fs-c-productOption').length) {
+		if ($('.fs-c-productOption #optionWithPrice_1').length) {
 			if (data.selectionPrice != undefined && data.selectionPrice != '') {
 				let adisSaleHtml = '';
 				for (const selectionData of data.selectionPrice) {
