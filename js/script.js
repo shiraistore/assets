@@ -738,7 +738,9 @@ function productDetail_mhpContentsBanner() {
 		if (series[0] == 'mhp') {
 			var html =
 				'<ul id="contents-banner"><li><a href="/f/feature/mamihapi-howToStoreClothes"><img src="https://shiraistore.itembox.design/item/src/banner_mamihapi-howToStoreClothes_460x96.jpg"></a></li><li><a href="/f/feature/mamihapi-byage"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-byage.png"></a></li><li><a href="/f/feature/mamihapi-questionnaire"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-questionnaire.png"></a></li><li><a href="/f/feature/mamihapi-tidyingUpReview"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-tidyingUpReview.jpg"></a></li></ul>';
-
+			if (series[1] == '2590bsa' || series[1] == '2590bsb' || series[1] == '5590desk') {
+				var html ='<ul id="contents-banner"><li><a href="/f/feature/mamihapi-howToStoreClothes"><img src="https://shiraistore.itembox.design/item/src/banner_mamihapi-howToStoreClothes_460x96.jpg"></a></li><li><a href="/f/feature/mamihapi-byage"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-byage.png"></a></li><li><a href="/f/feature/mamihapi-questionnaire"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-questionnaire.png"></a></li><li><a href="/f/feature/mamihapi-tidyingUpReview"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-tidyingUpReview.jpg"></a></li><li><a href="/f/feature/howToStoreKidsBooks"><img src="https://shiraistore.itembox.design/item/src/banner_howToStoreKidsBooks_460x96.jpg"></a></li></ul>';
+			}
 			$('#productActionBox').after(html);
 		}
 	}
@@ -822,7 +824,7 @@ function productDetail_howToStoreKidsBooksContentsBanner() {
 		var url = window.location.pathname.substring(1);
 		url = url.split('/');
 		var series = url[url.length - 1].split('-');
-		if (series[1] == '2590bsa' || series[1] == '2590bsb' || series[1] == '5590desk' || series[1] == '7075bs' || series[1] == '7055bsb' || series[1] == '7055bsa') {
+		if (series[1] == '7075bs' || series[1] == '7055bsb' || series[1] == '7055bsa') {
 			var html = '<ul id="contents-banner"><li><a href="/f/feature/howToStoreKidsBooks"><img src="https://shiraistore.itembox.design/item/src/banner_howToStoreKidsBooks_460x96.jpg"></a></li></ul>';
 			$('#productActionBox').after(html);
 		}
@@ -847,6 +849,16 @@ function productDetail_amrContentsBanner() {
 					$('.amr-adis-caution').slideUp();
 				}
 			});
+		}
+	}
+
+	if ($('#fs_ProductDetails').length) {
+		var url = window.location.pathname.substring(1);
+		url = url.split('/');
+		var series = url[url.length - 1].split('-');
+		if (series[0] == 'amr') {
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/admira-capacity"><img src="https://shiraistore.itembox.design/item/src/banner_admira-capacity_460x96.jpg"></a></li></ul>';
+			$('#productActionBox').after(html);
 		}
 	}
 }
