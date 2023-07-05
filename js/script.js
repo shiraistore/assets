@@ -989,11 +989,11 @@ function productSortSelect() {
 //セール会場用バナー表示
 function searchTagTitle() {
 	var params = parameterToArray();
-	if (params.tag == 'sale20230420-20230508') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230420-20230508_1184x240.jpg" alt="3rd Anniversary SALE 対象商品">');
-		$('#fs_ProductSearch h1').html('3rd Anniversary SALE 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('3rd Anniversary SALE 対象商品');
-		$('title').text('3rd Anniversary SALE 対象商品');
+	if (params.tag == 'sale20230706-20230720') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230706-20230720_1184x240.jpg" alt="テレビ台セール 対象商品">');
+		$('#fs_ProductSearch h1').html('テレビ台セール 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('テレビ台セール 対象商品');
+		$('title').text('テレビ台セール 対象商品');
 	} else if (params.tag == 'sale20230511-20230518') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230511-20230518_1184x240.jpg" alt="7Days TimeSale 対象商品">');
 		$('#fs_ProductSearch h1').html('7Days TimeSale 対象商品');
