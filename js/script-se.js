@@ -1,6 +1,4 @@
-var noTimeSpecifiedZipCodes_result = undefined;
-var yhcTimeSpecifiedZipCodes_result = undefined;
-var checkRemoteIslandZipCodes_result = undefined;
+let checkZipCodeResult = undefined;
 
 $(window).on('load', function () {
 	optionJudgment(); //order
@@ -59,8 +57,8 @@ function optionNameChange() {
 /* checkout checkZipCodes
 ========================================================================== */
 
-function checkZipCodes(checkType, zipCode) {
-	var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/' + checkType;
+function checkZipCodes(zipCode) {
+	var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/checkDeliveryZipCodes';
 	var params = { zip_code: zipCode };
 	//console.log(JSON.stringify(params));
 	//console.log(url);
@@ -327,19 +325,22 @@ function optionJudgment() {
 						//郵便番号が変更された場合
 						zipCodeChangeCheck = zipCode;
 
+						checkZipCodeResult = checkZipCodes(zipCode);
+						//console.log(checkZipCodeResult);
+
 						//YHC時間指定
-						yhcTimeSpecifiedZipCodes_result = checkZipCodes('checkYhcTimeSpecifiedZipCodes', zipCode);
+						//yhcTimeSpecifiedZipCodes_result = checkZipCodeResult;
 						// console.log('yhcTimeSpecifiedZipCodes_result.serviceType4_is:', yhcTimeSpecifiedZipCodes_result.serviceType4_is);
 						// console.log('yhcTimeSpecifiedZipCodes_result.serviceType3_is:', yhcTimeSpecifiedZipCodes_result.serviceType3_is);
 
 						// console.log(zipCode);
-						checkRemoteIslandZipCodes_result = checkZipCodes('checkRemoteIslandZipCodes', zipCode);
+						//checkRemoteIslandZipCodes_result = checkZipCodes('checkRemoteIslandZipCodes', zipCode);
 						// console.log('result1:',result);
 						$('body').addClass('modal_displayNone');
 						setTimeout(function () {
 							$('#fs_button_changeDeliveryMethod button.fs-c-button--change--small').trigger('click');
 							setTimeout(function () {
-								if (checkRemoteIslandZipCodes_result.result) {
+								if (checkZipCodeResult.remote_island_is == 1) {
 									$('#fs_input_expectedArrival_note').val('【重要】お届け先が離島であるため別途送料がかかります。ご注文内容を確認後にメールにて送料をお知らせします。追加送料にご了承いただきましたら発送いたします。');
 								} else {
 									$('#fs_input_expectedArrival_note').val('');
@@ -357,13 +358,16 @@ function optionJudgment() {
 						//指定状態を取得する
 						var deliveryDate = $('.fs-c-checkout-delivery__method__deliveryDate').next('dd').text();
 						var deliveryTime = $('.fs-c-checkout-delivery__method__deliveryTime').next('dd').text();
+
+						//checkZipCodeResult = checkZipCodes(zipCode);
+						//console.log(checkZipCodeResult);
 						//console.log('deliveryDate:' + deliveryDate);
 						//console.log('deliveryTime:' + deliveryTime);
 
 						// console.log('zipCode:' + zipCode);
 						// console.log('zipCodeChangeCheck:' + zipCodeChangeCheck);
 						if (optionResult.result2 >= 0) {
-							if (yhcTimeSpecifiedZipCodes_result.serviceType4_is == 1 || yhcTimeSpecifiedZipCodes_result.serviceType3_is == 1) {
+							if (checkZipCodeResult.yhc_serviceType4_is == 1 || checkZipCodeResult.yhc_serviceType3_is == 1) {
 								if (deliveryDate == '指定なし' || deliveryTime == '指定なし') {
 									//組立済+搬入サービスは日時指定が必須
 
@@ -372,7 +376,7 @@ function optionJudgment() {
 										$('#fs_button_placeOrder').after('<p class="deliveryMethodAlert red text-center mt-16">このお届け先で「組立済+搬入」サービスをご利用の場合は<strong>お届け希望日と時間帯</strong>をご指定ください。</p>');
 									}
 								}
-							} else if (yhcTimeSpecifiedZipCodes_result.serviceType4_is == 0 && yhcTimeSpecifiedZipCodes_result.serviceType3_is == 0) {
+							} else if (checkZipCodeResult.yhc_serviceType4_is == 0 && checkZipCodeResult.yhc_serviceType3_is == 0) {
 								if (deliveryDate == '指定なし') {
 									orderDisabled();
 									if (!$('.deliveryMethodAlert').length) {
@@ -391,10 +395,10 @@ function optionJudgment() {
 							// console.log('optionResult.result2:', optionResult.result2);
 							//通常配送と組立済+玄関渡しサービスの時間指定対応判定
 							if (optionResult.result2 == undefined || optionResult.result2 == -1) {
-								if (noTimeSpecifiedZipCodes_result == undefined) {
-									noTimeSpecifiedZipCodes_result = checkZipCodes('checkNoTimeSpecifiedZipCodes', zipCode);
+								if (checkZipCodeResult.sgw_time_specified_is == undefined) {
+									//noTimeSpecifiedZipCodes_result = checkZipCodes('checkNoTimeSpecifiedZipCodes', zipCode);
 
-									if (noTimeSpecifiedZipCodes_result.result == true) {
+									if (checkZipCodeResult.sgw_time_specified_is == 1) {
 										// お届け希望日をリセットする
 										$('#fs_button_changeDeliveryMethod button.fs-c-button--change--small').trigger('click');
 										const resetArrivalDate = setInterval(function () {
@@ -408,7 +412,7 @@ function optionJudgment() {
 										$('.fs-l-page').before('<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>このお届け先は時間指定ができません</h4><p>配送業者がお届け時間指定に対応していないため「指定なし」に変更されました。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>');
 										$('.confirmOrderAlert-button').on('click', function () {
 											$('#confirmOrderAlert').remove();
-											noTimeSpecifiedZipCodes_result = undefined;
+											checkZipCodeResult.sgw_time_specified_is = undefined;
 										});
 									}
 								}
@@ -416,7 +420,7 @@ function optionJudgment() {
 							}
 						}
 
-						if (checkRemoteIslandZipCodes_result.result == true) {
+						if (checkZipCodeResult.remote_island_is == 1) {
 							//離島の場合
 
 							//組立サービス利用は沖縄・離島不可
@@ -491,7 +495,7 @@ function optionJudgment() {
 						}
 
 						//離島の場合
-						if (checkRemoteIslandZipCodes_result.result == true) {
+						if (checkZipCodeResult.remote_island_is == 1) {
 							//沖縄離島の場合は代引利用が不可
 							$('#fs_input_payment_cashOnDelivery').prop('disabled', true);
 							$('.fs-c-checkout-paymentMethod--cashOnDelivery').css('opacity', '0.5');
@@ -608,25 +612,6 @@ function expectedArrival(optionResult) {
 							sizeOrderArray = [];
 
 						var operation_holyDay = [
-							'2022-11-05',
-							'2022-11-06',
-							'2022-11-12',
-							'2022-11-13',
-							'2022-11-19',
-							'2022-11-20',
-							'2022-11-26',
-							'2022-11-27',
-							'2022-12-03',
-							'2022-12-04',
-							'2022-12-10',
-							'2022-12-11',
-							'2022-12-17',
-							'2022-12-18',
-							'2022-12-24',
-							'2022-12-25',
-							'2022-12-29',
-							'2022-12-30',
-							'2022-12-31',
 							'2023-01-01',
 							'2023-01-02',
 							'2023-01-03',
@@ -747,26 +732,6 @@ function expectedArrival(optionResult) {
 						];
 
 						var factory_holyDay = [
-							'2022-11-05',
-							'2022-11-06',
-							'2022-11-12',
-							'2022-11-13',
-							'2022-11-19',
-							'2022-11-20',
-							'2022-11-26',
-							'2022-11-27',
-							'2022-12-03',
-							'2022-12-04',
-							'2022-12-10',
-							'2022-12-11',
-							'2022-12-17',
-							'2022-12-18',
-							'2022-12-24',
-							'2022-12-25',
-							'2022-12-28',
-							'2022-12-29',
-							'2022-12-30',
-							'2022-12-31',
 							'2023-01-01',
 							'2023-01-02',
 							'2023-01-03',
@@ -835,7 +800,6 @@ function expectedArrival(optionResult) {
 							'2023-07-23',
 							'2023-07-24',
 							'2023-07-25',
-							'2023-07-26',
 							'2023-07-29',
 							'2023-07-30',
 							'2023-08-05',
@@ -903,12 +867,16 @@ function expectedArrival(optionResult) {
 						function checkHolyDay(arrivalDate_ary, leadTime, holyDay, status) {
 							for (let i = 0; i < leadTime; i++) {
 								if ($.inArray(arrivalDate_ary[i], holyDay) > -1) {
-									//console.log(arrivalDate_ary[i] + 'は休業日');
+									// console.log(arrivalDate_ary[i] + 'は休業日');
 									arrivalDate_ary[i] = '';
 									leadTime++;
 								} else {
-									//console.log(arrivalDate_ary[i] + 'を削除（' + status + 'リードタイム）');
-									arrivalDate_ary[i] = '';
+									if (status == '生産' && i == leadTime - 1) {
+										break;
+									} else {
+										// console.log(arrivalDate_ary[i] + 'を削除（' + status + 'リードタイム）');
+										arrivalDate_ary[i] = '';
+									}
 								}
 							}
 							arrivalDate_ary = arrivalDate_ary.filter(Boolean);
@@ -919,6 +887,8 @@ function expectedArrival(optionResult) {
 							sizeOrderArray.push($(this).text());
 						});
 
+						var deliveryReadyLeadTime = 1;
+
 						//組立サービスがありなら指定した日数のリードタイムを追加
 
 						if (sizeOrderArray.find((value) => value.match(/サイズオーダー/g)) != undefined) {
@@ -928,6 +898,16 @@ function expectedArrival(optionResult) {
 							arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderLeadTime, operation_holyDay, '事務処理');
 							manufactureLeadTime += 10; //通常10日
 							arrivalDate_ary = checkHolyDay(arrivalDate_ary, manufactureLeadTime, factory_holyDay, '生産');
+
+							if ($.inArray(arrivalDate_ary[0], operation_holyDay) > -1) {
+								// console.log(arrivalDate_ary[0] + 'は運営が休業日');
+								deliveryReadyLeadTime = 1;
+							} else {
+								if ($.inArray(arrivalDate_ary[0], factory_holyDay) < 0) {
+									// console.log(arrivalDate_ary[0] + 'は運営と工場が営業日だから発送');
+									deliveryReadyLeadTime = 0;
+								}
+							}
 						} else {
 							//console.log('サイズオーダー以外');
 
@@ -936,20 +916,19 @@ function expectedArrival(optionResult) {
 							if (optionResult.result1 >= 0 || optionResult.result2 >= 0) {
 								//console.log('組立サービス')
 								orderLeadTime += 3;
-								//console.log('組立サービス:', orderLeadTime);
+								// console.log('組立サービス:', orderLeadTime);
 								arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderLeadTime, operation_holyDay, '事務処理');
 								assemblyLeadTime += 5;
 								arrivalDate_ary = checkHolyDay(arrivalDate_ary, assemblyLeadTime, operation_holyDay, '組立');
 							} else {
 								if ($('#fs_input_payment_bankTransfer').prop('checked')) {
 									orderLeadTime += 1;
-									//console.log('銀行振込:', orderLeadTime);
+									// console.log('銀行振込:', orderLeadTime);
 									arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderLeadTime, operation_holyDay, '事務処理');
 								}
 							}
 						}
 
-						var deliveryReadyLeadTime = 1;
 						for (let i = 0; i < deliveryReadyLeadTime; i++) {
 							if ($.inArray(arrivalDate_ary[i], operation_holyDay) > -1) {
 								// console.log(arrivalDate_ary[i] + 'は運営が休業日');
@@ -1068,7 +1047,7 @@ function expectedArrival(optionResult) {
 							//console.log('組立済+搬入');
 							var prefArray = prefArray_YHC;
 							var zipCode = $('.fs-c-checkout-destination__address .fs-c-checkout-destination__address__zipCode').text().replace('-', '');
-							expectedArrivalTime_YHC(expectedArrival_time_selected, zipCode);
+							expectedArrivalTime_YHC(zipCode);
 						} else if (optionResult.result1 >= 0) {
 							//console.log('組立済+玄関渡し');
 							expectedArrivalTime_SGW(expectedArrival_time_selected);
@@ -1083,7 +1062,7 @@ function expectedArrival(optionResult) {
 						var deliveryLeadTime = prefArray_find.leadTime;
 
 						for (i = 0; i < deliveryLeadTime; i++) {
-							//console.log(arrivalDate_ary[i] + 'を削除（配送リードタイム）');
+							// console.log(arrivalDate_ary[i] + 'を削除（配送リードタイム）');
 							arrivalDate_ary[i] = '';
 						}
 
@@ -1195,14 +1174,18 @@ function expectedArrivalTime_SGW(selected) {
 	$('#fs_input_expectedArrival_time option[value="' + selected + '"]').prop('selected', true);
 }
 
-function expectedArrivalTime_YHC(selected, zipCode) {
-	yhcTimeSpecifiedZipCodes_result = checkZipCodes('checkYhcTimeSpecifiedZipCodes', zipCode);
+function expectedArrivalTime_YHC(zipCode) {
+	let checkZipCodeResult = checkZipCodes(zipCode);
+	// console.log(checkZipCodeResult);
 
-	if (yhcTimeSpecifiedZipCodes_result.serviceType4_is == 1) {
+	var selected = $('#fs_input_expectedArrival_time').val();
+	//console.log(selected);
+
+	if (checkZipCodeResult.yhc_serviceType4_is == 1) {
 		var expectedArrival_time_type4_html = '<option value="6">12:00〜15:00</option><option value="7">15:00〜18:00</option><option value="8">18:00〜21:00</option>';
 		$('#fs_input_expectedArrival_time').replaceWith('<select name="time" id="fs_input_expectedArrival_time" class="fs-c-dropdown__menu"><option value="none" selected="selected">指定なし</option><option value="1">午前中</option>' + expectedArrival_time_type4_html + '</select>');
 		$('#fs_input_expectedArrival_time option[value="' + selected + '"]').prop('selected', true);
-	} else if (yhcTimeSpecifiedZipCodes_result.serviceType3_is == 1) {
+	} else if (checkZipCodeResult.yhc_serviceType3_is == 1) {
 		var expectedArrival_time_type3_html = '<option value="9">12:00〜18:00</option><option value="8">18:00〜21:00</option>';
 		$('#fs_input_expectedArrival_time').replaceWith('<select name="time" id="fs_input_expectedArrival_time" class="fs-c-dropdown__menu"><option value="none" selected="selected">指定なし</option><option value="1">午前中</option>' + expectedArrival_time_type3_html + '</select>');
 		$('#fs_input_expectedArrival_time option[value="' + selected + '"]').prop('selected', true);

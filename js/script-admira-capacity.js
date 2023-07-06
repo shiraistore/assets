@@ -74,6 +74,7 @@ function addCart() {
 					}
 					adis = adis + '</select>';
 				}
+				
 
 				$(this)
 					.find('.addToCartImage')
