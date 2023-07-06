@@ -738,7 +738,9 @@ function productDetail_mhpContentsBanner() {
 		if (series[0] == 'mhp') {
 			var html =
 				'<ul id="contents-banner"><li><a href="/f/feature/mamihapi-howToStoreClothes"><img src="https://shiraistore.itembox.design/item/src/banner_mamihapi-howToStoreClothes_460x96.jpg"></a></li><li><a href="/f/feature/mamihapi-byage"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-byage.png"></a></li><li><a href="/f/feature/mamihapi-questionnaire"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-questionnaire.png"></a></li><li><a href="/f/feature/mamihapi-tidyingUpReview"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-tidyingUpReview.jpg"></a></li></ul>';
-
+			if (series[1] == '2590bsa' || series[1] == '2590bsb' || series[1] == '5590desk') {
+				var html ='<ul id="contents-banner"><li><a href="/f/feature/mamihapi-howToStoreClothes"><img src="https://shiraistore.itembox.design/item/src/banner_mamihapi-howToStoreClothes_460x96.jpg"></a></li><li><a href="/f/feature/mamihapi-byage"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-byage.png"></a></li><li><a href="/f/feature/mamihapi-questionnaire"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-questionnaire.png"></a></li><li><a href="/f/feature/mamihapi-tidyingUpReview"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-tidyingUpReview.jpg"></a></li><li><a href="/f/feature/howToStoreKidsBooks"><img src="https://shiraistore.itembox.design/item/src/banner_howToStoreKidsBooks_460x96.jpg"></a></li></ul>';
+			}
 			$('#productActionBox').after(html);
 		}
 	}
@@ -822,7 +824,7 @@ function productDetail_howToStoreKidsBooksContentsBanner() {
 		var url = window.location.pathname.substring(1);
 		url = url.split('/');
 		var series = url[url.length - 1].split('-');
-		if (series[1] == '2590bsa' || series[1] == '2590bsb' || series[1] == '5590desk' || series[1] == '7075bs' || series[1] == '7055bsb' || series[1] == '7055bsa') {
+		if (series[1] == '7075bs' || series[1] == '7055bsb' || series[1] == '7055bsa') {
 			var html = '<ul id="contents-banner"><li><a href="/f/feature/howToStoreKidsBooks"><img src="https://shiraistore.itembox.design/item/src/banner_howToStoreKidsBooks_460x96.jpg"></a></li></ul>';
 			$('#productActionBox').after(html);
 		}
@@ -847,6 +849,16 @@ function productDetail_amrContentsBanner() {
 					$('.amr-adis-caution').slideUp();
 				}
 			});
+		}
+	}
+
+	if ($('#fs_ProductDetails').length) {
+		var url = window.location.pathname.substring(1);
+		url = url.split('/');
+		var series = url[url.length - 1].split('-');
+		if (series[0] == 'amr') {
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/admira-capacity"><img src="https://shiraistore.itembox.design/item/src/banner_admira-capacity_460x96.jpg"></a></li></ul>';
+			$('#productActionBox').after(html);
 		}
 	}
 }
@@ -977,11 +989,11 @@ function productSortSelect() {
 //セール会場用バナー表示
 function searchTagTitle() {
 	var params = parameterToArray();
-	if (params.tag == 'sale20230420-20230508') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230420-20230508_1184x240.jpg" alt="3rd Anniversary SALE 対象商品">');
-		$('#fs_ProductSearch h1').html('3rd Anniversary SALE 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('3rd Anniversary SALE 対象商品');
-		$('title').text('3rd Anniversary SALE 対象商品');
+	if (params.tag == 'sale20230706-20230720') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230706-20230720_1184x240.jpg" alt="テレビ台セール 対象商品">');
+		$('#fs_ProductSearch h1').html('テレビ台セール 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('テレビ台セール 対象商品');
+		$('title').text('テレビ台セール 対象商品');
 	} else if (params.tag == 'sale20230511-20230518') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230511-20230518_1184x240.jpg" alt="7Days TimeSale 対象商品">');
 		$('#fs_ProductSearch h1').html('7Days TimeSale 対象商品');
