@@ -900,12 +900,15 @@ function expectedArrival(optionResult) {
 							arrivalDate_ary = checkHolyDay(arrivalDate_ary, manufactureLeadTime, factory_holyDay, '生産');
 
 							if ($.inArray(arrivalDate_ary[0], operation_holyDay) > -1) {
+								// 運営が休業日
 								// console.log(arrivalDate_ary[0] + 'は運営が休業日');
 								deliveryReadyLeadTime = 1;
 							} else {
+								// 運営が営業日
 								if ($.inArray(arrivalDate_ary[0], factory_holyDay) < 0) {
+									//工場が営業日
 									// console.log(arrivalDate_ary[0] + 'は運営と工場が営業日だから発送');
-									deliveryReadyLeadTime = 0;
+									deliveryReadyLeadTime = 1;
 								}
 							}
 						} else {
