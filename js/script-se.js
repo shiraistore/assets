@@ -26,7 +26,6 @@ function optionNameChange() {
 
 				// リンクの最後の部分(型番)を取得
 				modelNumber = productUrl_ary[productUrl_ary.length - 1];
-				
 				//optionHasProductsにmodelNumberがあるか判定する
 				var optionValue = '';
 				if (optionHasProducts.indexOf(modelNumber) != -1) {
@@ -36,14 +35,13 @@ function optionNameChange() {
 
 						optionValue = $(this).next('.fs-c-listedProductName__selection').find('.fs-c-listedProductName__selection__choice').text();
 						optionValue = `（扉の開き方：${optionValue})`;
-						
 
 						//textとして挿入
 						$(this).next('.fs-c-listedProductName__selection').find('.fs-c-listedProductName__selection__choice').text(optionValue);
 					} else if (modelNumber.match(/adl-4013dh/)) {
 						optionValue = $(this).next('.fs-c-listedProductName__selection').find('.fs-c-listedProductName__selection__choice').text();
 						optionValue = `（組立の向き：${optionValue})`;
-						
+						//console.log(optionValue);
 
 						$(this).next('.fs-c-listedProductName__selection').find('.fs-c-listedProductName__selection__choice').text(optionValue);
 					}
@@ -60,8 +58,8 @@ function optionNameChange() {
 function checkZipCodes(zipCode) {
 	var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/checkDeliveryZipCodes';
 	var params = { zip_code: zipCode };
-	
-	
+	//console.log(JSON.stringify(params));
+	//console.log(url);
 	var response = $.ajax({
 		type: 'post',
 		url: url,
@@ -72,15 +70,15 @@ function checkZipCodes(zipCode) {
 		scriptCharset: 'utf-8',
 		success: function (response) {
 			// Success
-			
+			//console.log(JSON.stringify(response));
 		},
 		error: function (response) {
 			// Error
-			
+			// console.log(JSON.stringify(response));
 		},
 	}).responseText;
 
-	
+	// console.log(response);
 
 	response = JSON.parse(response);
 
@@ -130,11 +128,13 @@ function sizeOrderDisplayThumb() {
 		orderColor = '';
 	if ($('.sizeOrder').length) {
 		if ($('.sizeOrder').find('.fs-c-productImage__image').attr('src').indexOf('xs.jpg') >= 0) {
+			//console.log('A')
 			$('.sizeOrder').each(function () {
+				//console.log('B')
 				orderDetails = $(this).find('.fs-c-listedOptionPrice__option__value').html();
-				
+				//console.log(orderDetails);
 				var href = $(this).find('.fs-c-listedProductName__name').attr('href');
-				
+				//console.log(href);
 				if (href.indexOf('tnl-em') >= 0) {
 					if (orderDetails.indexOf('本体') >= 0) {
 						orderType = 'TNL-EM';
@@ -208,7 +208,7 @@ function sizeOrderDisplayThumb() {
 							break;
 					}
 
-					
+					// console.log(orderType);
 
 					if (orderType == 'TNL-EMTS') {
 						var thumbnail = orderType + orderWidth + orderDepth + '-' + orderColor + '_thum.jpg';
@@ -216,13 +216,13 @@ function sizeOrderDisplayThumb() {
 						var thumbnail = orderType + orderHeight + orderWidth + orderDepth + '-' + orderColor + '_thum.jpg';
 					}
 
-					
+					//console.log(thumbnail);
 
 					$(this)
 						.find('img')
 						.attr('src', '/assets/img/product/sizeOrder/tnl-em/thum/' + thumbnail);
 				} else if (href.indexOf('sep-emdesk') >= 0) {
-					
+					//console.log('emdesk');
 					orderWidth = orderDetails.replace(/.*横幅([0-9]+)cm.*/g, '$1');
 					if (orderDetails.indexOf('深型')) {
 						orderDepth = 'f';
@@ -230,8 +230,8 @@ function sizeOrderDisplayThumb() {
 						orderDepth = 'a';
 					}
 
-					
-					
+					// console.log('orderWidth:', orderWidth);
+					// console.log('orderDepth:', orderDepth);
 
 					orderColor = $(this).find('.fs-c-listedOptionPrice__option:nth-child(3) .fs-c-listedOptionPrice__option__value').text();
 
@@ -251,18 +251,18 @@ function sizeOrderDisplayThumb() {
 
 					var thumbnail = orderWidth + orderDepth + '-' + orderColor + '_thum.jpg';
 
-					
+					//console.log(thumbnail);
 
 					$(this)
 						.find('img')
 						.attr('src', '/assets/img/product/sizeOrder/sep-em/desk/thum/' + thumbnail);
 				} else if (href.indexOf('sep-em') >= 0) {
-					
+					//console.log('emrack');
 					orderWidth = orderDetails.replace(/.*横([0-9]+)マス.*/g, '$1');
 					orderHeight = orderDetails.replace(/.*縦([0-9]+)マス.*/g, '$1');
 
-					
-					
+					// console.log('orderWidth:', orderWidth);
+					// console.log('orderHeight:', orderHeight);
 
 					orderColor = $(this).find('.fs-c-listedOptionPrice__option:nth-child(3) .fs-c-listedOptionPrice__option__value').text();
 
@@ -280,7 +280,7 @@ function sizeOrderDisplayThumb() {
 
 					var thumbnail = orderWidth + '-' + orderHeight + '-' + orderColor + '_thum.jpg';
 
-					
+					//console.log(thumbnail);
 
 					$(this)
 						.find('img')
@@ -294,7 +294,7 @@ function sizeOrderDisplayThumb() {
 		$('.readyMade img').each(function () {
 			var readyMadeImage = $(this).attr('src');
 			readyMadeImage = readyMadeImage.replace(/[0-9]{2}-xs.jpg/, '02-xs.jpg');
-			
+			//console.log(readyMadeImage);
 			$(this).attr('src', readyMadeImage);
 		});
 	}
@@ -310,13 +310,11 @@ function optionJudgment() {
 		var execution = function () {
 			if (optionResult == false) {
 				optionResult = checkOption();
-				
 			}
 			if (optionResult != false) {
-				
 
 				var zipCode = $('.fs-c-checkout-destination__address .fs-c-checkout-destination__address__zipCode').text().replace('-', '');
-				
+
 				if (zipCode != undefined) {
 					//離島で組立サービスを利用している場合
 					if (zipCode != zipCodeChangeCheck) {
@@ -324,16 +322,7 @@ function optionJudgment() {
 						zipCodeChangeCheck = zipCode;
 
 						checkZipCodeResult = checkZipCodes(zipCode);
-						
 
-						//YHC時間指定
-						//yhcTimeSpecifiedZipCodes_result = checkZipCodeResult;
-						
-						
-
-						
-						//checkRemoteIslandZipCodes_result = checkZipCodes('checkRemoteIslandZipCodes', zipCode);
-						
 						$('body').addClass('modal_displayNone');
 						setTimeout(function () {
 							$('#fs_button_changeDeliveryMethod button.fs-c-button--change--small').trigger('click');
@@ -357,13 +346,6 @@ function optionJudgment() {
 						var deliveryDate = $('.fs-c-checkout-delivery__method__deliveryDate').next('dd').text();
 						var deliveryTime = $('.fs-c-checkout-delivery__method__deliveryTime').next('dd').text();
 
-						//checkZipCodeResult = checkZipCodes(zipCode);
-						
-						
-						
-
-						
-						
 						if (optionResult.result2 >= 0) {
 							if (checkZipCodeResult.yhc_serviceType4_is == 1 || checkZipCodeResult.yhc_serviceType3_is == 1) {
 								if (deliveryDate == '指定なし' || deliveryTime == '指定なし') {
@@ -390,11 +372,8 @@ function optionJudgment() {
 						}
 
 						if (deliveryTime != '指定なし') {
-							
 							//通常配送と組立済+玄関渡しサービスの時間指定対応判定
 							if (optionResult.result2 == undefined || optionResult.result2 == -1) {
-								//if (checkZipCodeResult.sgw_time_specified_is == undefined) {
-								//noTimeSpecifiedZipCodes_result = checkZipCodes('checkNoTimeSpecifiedZipCodes', zipCode);
 
 								if (checkZipCodeResult.sgw_time_specified_is == 0) {
 									// お届け希望日をリセットする
@@ -412,17 +391,15 @@ function optionJudgment() {
 									}
 									$('.confirmOrderAlert-button').on('click', function () {
 										$('#confirmOrderAlert').remove();
-										// checkZipCodeResult.sgw_time_specified_is = undefined;
 									});
 								}
-								//}
+
 							} else if (optionResult.result2 >= 0) {
 							}
 						}
 
 						if (checkZipCodeResult.remote_island_is == 1) {
 							//離島の場合
-
 							//組立サービス利用は沖縄・離島不可
 
 							if (optionResult.result1 >= 0 || optionResult.result2 >= 0) {
@@ -454,9 +431,8 @@ function optionJudgment() {
 							couponUseCheck();
 							optionNameChange();
 						}
-						
 
-						//組立サービス利用は代引不可
+						// 組立サービス利用は代引不可
 						if (optionResult.result1 >= 0 || optionResult.result2 >= 0) {
 							$('#fs_input_payment_cashOnDelivery').prop('disabled', true);
 							$('.fs-c-checkout-paymentMethod--cashOnDelivery').css('opacity', '0.5');
@@ -474,7 +450,7 @@ function optionJudgment() {
 							}
 						}
 
-						//サイズオーダーは代引不可
+						// サイズオーダーは代引不可
 						var sizeOrderArray = [];
 
 						$('.fs-c-listedProductName__name').each(function () {
@@ -482,7 +458,7 @@ function optionJudgment() {
 						});
 
 						if (sizeOrderArray.find((value) => value.match(/サイズオーダー/g)) != undefined) {
-							
+							// console.log('サイズオーダー');
 
 							$('#fs_input_payment_cashOnDelivery').prop('disabled', true);
 							$('.fs-c-checkout-paymentMethod--cashOnDelivery').css('opacity', '0.5');
@@ -532,14 +508,10 @@ function optionJudgment() {
 
 		var checkFlag = 0;
 		
-		// var txt = new XMLHttpRequest();
-		// txt.open('get', 'https://shiraistore.itembox.design/item/js/remoteIslandZipCode.csv', false);
-		// txt.send();
-		// var zipCodeArray = txt.responseText.split('\n');
 		var zipCodeChangeCheck;
 
 		var orderDisabled = function () {
-			
+			//console.log('orderDisabled');
 			$('#fs_button_placeOrder button').prop('disabled', true);
 			$('#fs_button_placeOrder button').css({
 				background: '#ccc',
@@ -549,7 +521,7 @@ function optionJudgment() {
 		};
 
 		var orderEnabled = function () {
-			
+			//console.log('orderEnabled');
 			$('#fs_button_placeOrder button').prop('disabled', false);
 			$('#fs_button_placeOrder button').css({
 				background: '#e87909',
@@ -587,14 +559,7 @@ function expectedArrival(optionResult) {
 							clearInterval(resetArrivalDate);
 						}
 					}, 1);
-					// setTimeout(function () {
-					// 	$('#fs_input_expectedArrival_date').val('none');
-					// 	$('#fs_input_expectedArrival_time').val('none');
-
-					// 	setTimeout(function () {
-
-					// 	}, 300);
-					// }, 200);
+					
 					$('.fs-l-page').before('<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>お届け指定日時が「指定なし」に変更されました</h4><p>再読み込みがされたため、お届け指定日時が「指定なし」に変更されました。お届け指定日時を再設定してください。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>');
 
 					$('.confirmOrderAlert-button').on('click', function () {
@@ -868,15 +833,16 @@ function expectedArrival(optionResult) {
 
 						function checkHolyDay(arrivalDate_ary, leadTime, holyDay, status) {
 							for (let i = 0; i < leadTime; i++) {
+								// console.log(leadTime);
 								if ($.inArray(arrivalDate_ary[i], holyDay) > -1) {
-									
+									// console.log(arrivalDate_ary[i] + 'は' + status + 'が休業日');
 									arrivalDate_ary[i] = '';
 									leadTime++;
 								} else {
-									if (status == '生産' && i == leadTime - 1) {
+									if (status == '生産' && i == leadTime) {
 										break;
 									} else {
-										
+										// console.log(arrivalDate_ary[i] + 'を削除（' + status + 'リードタイム）');
 										arrivalDate_ary[i] = '';
 									}
 								}
@@ -894,40 +860,34 @@ function expectedArrival(optionResult) {
 						//組立サービスがありなら指定した日数のリードタイムを追加
 
 						if (sizeOrderArray.find((value) => value.match(/サイズオーダー/g)) != undefined) {
-							
+							//console.log('サイズオーダー');
 							orderLeadTime += 3;
-							
+							//console.log('サイズオーダー:', orderLeadTime);
 							arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderLeadTime, operation_holyDay, '事務処理');
 							manufactureLeadTime += 10; //通常10日
 							arrivalDate_ary = checkHolyDay(arrivalDate_ary, manufactureLeadTime, factory_holyDay, '生産');
 
 							if ($.inArray(arrivalDate_ary[0], operation_holyDay) > -1) {
 								// 運営が休業日
-								
+								// console.log(arrivalDate_ary[0] + 'は運営が休業日');
 								deliveryReadyLeadTime = 1;
-							} else {
-								// 運営が営業日
-								if ($.inArray(arrivalDate_ary[0], factory_holyDay) < 0) {
-									//工場が営業日
-									
-									deliveryReadyLeadTime = 2;
-								}
 							}
 						} else {
-							
+							//console.log('サイズオーダー以外');
 
 							//組立サービスがありなら指定した日数のリードタイムを追加
 
 							if (optionResult.result1 >= 0 || optionResult.result2 >= 0) {
+								//console.log('組立サービスあり')
 								orderLeadTime += 3;
-								
 								arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderLeadTime, operation_holyDay, '事務処理');
 								assemblyLeadTime += 5;
 								arrivalDate_ary = checkHolyDay(arrivalDate_ary, assemblyLeadTime, operation_holyDay, '組立');
 							} else {
+								//console.log('組立サービスなし');
 								if ($('#fs_input_payment_bankTransfer').prop('checked')) {
 									orderLeadTime += 1;
-									
+									// console.log('銀行振込:', orderLeadTime);
 									arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderLeadTime, operation_holyDay, '事務処理');
 								}
 							}
@@ -935,11 +895,11 @@ function expectedArrival(optionResult) {
 
 						for (let i = 0; i < deliveryReadyLeadTime; i++) {
 							if ($.inArray(arrivalDate_ary[i], operation_holyDay) > -1) {
-								
+								// console.log(arrivalDate_ary[i] + 'は運営が休業日');
 								arrivalDate_ary[i] = '';
 								deliveryReadyLeadTime++;
 							} else {
-								
+								// console.log(arrivalDate_ary[i] + 'は運営が営業日だから発送');
 								arrivalDate_ary[i] = '';
 							}
 						}
@@ -1046,13 +1006,22 @@ function expectedArrival(optionResult) {
 
 						var destinationAddress = $('.fs-c-checkout-destination__address__address').text().split(/\s+/);
 						var expectedArrival_time_selected = $('#fs_input_expectedArrival_time').val();
-						
-						
-						if (optionResult.result2 >= 0) {
-							
-							var prefArray = prefArray_YHC;
+
+						if (sizeOrderArray.find((value) => value.match(/サイズオーダー/g)) != undefined) {
+							// console.log('サイズオーダー');
+							var prefArray = prefArray_SGW;
 							var zipCode = $('.fs-c-checkout-destination__address .fs-c-checkout-destination__address__zipCode').text().replace('-', '');
-							expectedArrivalTime_YHC(zipCode);
+							expectedArrivalTime_SGW(zipCode);
+
+							if (checkZipCodeResult.sgw_time_specified_is == 0) {
+								$('#fs_input_expectedArrival_time').replaceWith('<select name="time" id="fs_input_expectedArrival_time" class="fs-c-dropdown__menu" disabled><option value="none" selected="selected">指定なし</option></select>');
+								$('.fs-c-checkout-deliveryMethod__deliveryTime label').html('お届け時間帯 <span class="red">このお届け先は時間をご指定いただけません</span>');
+								$('#fs_input_expectedArrival_time option[value="none"]').prop('selected', true);
+							}
+						} else if (optionResult.result2 >= 0) {
+							// console.log('組立済+搬入');
+							var prefArray = prefArray_YHC;
+							expectedArrivalTime_YHC(checkZipCodeResult);
 
 							if (checkZipCodeResult.yhc_serviceType4_is == 0 && checkZipCodeResult.yhc_serviceType3_is == 0) {
 								$('#fs_input_expectedArrival_time').replaceWith('<select name="time" id="fs_input_expectedArrival_time" class="fs-c-dropdown__menu" disabled><option value="none" selected="selected">指定なし</option></select>');
@@ -1060,7 +1029,7 @@ function expectedArrival(optionResult) {
 								$('#fs_input_expectedArrival_time option[value="none"]').prop('selected', true);
 							}
 						} else if (optionResult.result1 >= 0) {
-							
+							// console.log('組立済+玄関渡し');
 							expectedArrivalTime_SGW(expectedArrival_time_selected);
 							var prefArray = prefArray_SGW;
 
@@ -1070,11 +1039,13 @@ function expectedArrival(optionResult) {
 								$('#fs_input_expectedArrival_time option[value="none"]').prop('selected', true);
 							}
 						} else {
-							
+							// console.log('組立サービス以外');
+							var zipCode = $('.fs-c-checkout-destination__address .fs-c-checkout-destination__address__zipCode').text().replace('-', '');
+							checkZipCodeResult = checkZipCodes(zipCode);
 							expectedArrivalTime_SGW(expectedArrival_time_selected);
 							var prefArray = prefArray_SGW;
 
-							
+							// console.log('checkZipCodeResult:', checkZipCodeResult);
 
 							if (checkZipCodeResult.sgw_time_specified_is == 0) {
 								$('#fs_input_expectedArrival_time').replaceWith('<select name="time" id="fs_input_expectedArrival_time" class="fs-c-dropdown__menu" disabled><option value="none" selected="selected">指定なし</option></select>');
@@ -1085,9 +1056,10 @@ function expectedArrival(optionResult) {
 
 						var prefArray_find = prefArray.find((u) => u.pref === destinationAddress[0]);
 						var deliveryLeadTime = prefArray_find.leadTime;
+						// console.log('deliveryLeadTime:',deliveryLeadTime);
 
 						for (i = 0; i < deliveryLeadTime; i++) {
-							
+							// console.log(arrivalDate_ary[i] + 'を削除（配送リードタイム）');
 							arrivalDate_ary[i] = '';
 						}
 
@@ -1109,7 +1081,7 @@ function expectedArrival(optionResult) {
 							var date = new Date(yearStr, jsMonth, dayStr);
 							// 木曜日は数値の4として保持されているため、dayOfWeekStrJP[4]の値が出力される
 							optionHtml = optionHtml + '<option value="' + arrivalDate_ary[i] + '">' + dateValue_ary[0] + '/' + dateValue_ary[1] + '/' + dateValue_ary[2] + '(' + dayOfWeekStrJP[date.getDay()] + ')</option>';
-							
+							// console.log('<option value="' + arrivalDate_ary[i] + '">' + dateValue_ary[0] + '/' + dateValue_ary[1] + '/' + dateValue_ary[2] + '(' + dayOfWeekStrJP[date.getDay()] + ')</option>');
 						}
 						$('#fs_input_expectedArrival_date').html(optionHtml);
 						$('#fs_input_expectedArrival_date').val(selectedValue);
@@ -1202,12 +1174,12 @@ function expectedArrivalTime_SGW(selected) {
 	$('#fs_input_expectedArrival_time option[value="' + selected + '"]').prop('selected', true);
 }
 
-function expectedArrivalTime_YHC(zipCode) {
-	let checkZipCodeResult = checkZipCodes(zipCode);
-	
+function expectedArrivalTime_YHC(checkZipCodeResult) {
+	//let checkZipCodeResult = checkZipCodes(zipCode);
+	// console.log(checkZipCodeResult);
 
 	var selected = $('#fs_input_expectedArrival_time').val();
-	
+	//console.log(selected);
 
 	if (checkZipCodeResult.yhc_serviceType4_is == 1) {
 		var expectedArrival_time_type4_html = '<option value="6">12:00〜15:00</option><option value="7">15:00〜18:00</option><option value="8">18:00〜21:00</option>';
@@ -1222,6 +1194,8 @@ function expectedArrivalTime_YHC(zipCode) {
 		$('.fs-c-checkout-deliveryMethod__deliveryTime label').html('お届け時間帯 <span class="red">このお届け先は時間をご指定いただけません</span>');
 		$('#fs_input_expectedArrival_time option[value="none"]').prop('selected', true);
 	}
+
+	return checkZipCodeResult;
 }
 
 function checkOption() {
@@ -1229,7 +1203,7 @@ function checkOption() {
 	$('.fs-c-listedOptionPrice__option__value').each(function () {
 		optionArray.push($(this).text());
 	});
-	
+	// console.log(optionArray);
 	if (optionArray.length == 0) {
 		return false;
 	} else {
