@@ -739,7 +739,8 @@ function productDetail_mhpContentsBanner() {
 			var html =
 				'<ul id="contents-banner"><li><a href="/f/feature/mamihapi-howToStoreClothes"><img src="https://shiraistore.itembox.design/item/src/banner_mamihapi-howToStoreClothes_460x96.jpg"></a></li><li><a href="/f/feature/mamihapi-byage"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-byage.png"></a></li><li><a href="/f/feature/mamihapi-questionnaire"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-questionnaire.png"></a></li><li><a href="/f/feature/mamihapi-tidyingUpReview"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-tidyingUpReview.jpg"></a></li></ul>';
 			if (series[1] == '2590bsa' || series[1] == '2590bsb' || series[1] == '5590desk') {
-				var html ='<ul id="contents-banner"><li><a href="/f/feature/mamihapi-howToStoreClothes"><img src="https://shiraistore.itembox.design/item/src/banner_mamihapi-howToStoreClothes_460x96.jpg"></a></li><li><a href="/f/feature/mamihapi-byage"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-byage.png"></a></li><li><a href="/f/feature/mamihapi-questionnaire"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-questionnaire.png"></a></li><li><a href="/f/feature/mamihapi-tidyingUpReview"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-tidyingUpReview.jpg"></a></li><li><a href="/f/feature/howToStoreKidsBooks"><img src="https://shiraistore.itembox.design/item/src/banner_howToStoreKidsBooks_460x96.jpg"></a></li></ul>';
+				var html =
+					'<ul id="contents-banner"><li><a href="/f/feature/mamihapi-howToStoreClothes"><img src="https://shiraistore.itembox.design/item/src/banner_mamihapi-howToStoreClothes_460x96.jpg"></a></li><li><a href="/f/feature/mamihapi-byage"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-byage.png"></a></li><li><a href="/f/feature/mamihapi-questionnaire"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-questionnaire.png"></a></li><li><a href="/f/feature/mamihapi-tidyingUpReview"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-tidyingUpReview.jpg"></a></li><li><a href="/f/feature/howToStoreKidsBooks"><img src="https://shiraistore.itembox.design/item/src/banner_howToStoreKidsBooks_460x96.jpg"></a></li></ul>';
 			}
 			$('#productActionBox').after(html);
 		}
@@ -3270,8 +3271,9 @@ function productDetailAddData() {
 			if (!$('.fs-c-productMarks .mark-soldout').length) {
 				if (data.selectionPrice != undefined && data.selectionPrice != '') {
 					let adisSaleHtml = '';
+					let is_adisSale = 0;
 					for (const selectionData of data.selectionPrice) {
-						console.log(selectionData.selectionCode);
+						// console.log(selectionData.selectionCode);
 						const selectionNormalPrice = selectionData.selectionNormalPrice;
 						const selectionPrice = selectionData.selectionPrice;
 						const differencePrice = selectionNormalPrice - selectionPrice;
@@ -3281,10 +3283,13 @@ function productDetailAddData() {
 							} else if (selectionData.selectionCode == 'ADIS-02') {
 								adisSaleHtml += `<li>組立済+搬入：¥<span style="text-decoration:line-through">${selectionNormalPrice.toLocaleString()}</span> → <span class="adisSalePrice">¥${selectionPrice.toLocaleString()}</span><span class="differencePrice">¥${differencePrice.toLocaleString()} OFF</span></li>`;
 							}
+							is_adisSale = 1;
 						}
 					}
-					adisSaleHtml = `<div id="adisSale"><h4>組立サービス割引キャンペーン</h4><ul>${adisSaleHtml}</ul></div>`;
-					$('.fs-c-productOption__option').prepend(adisSaleHtml);
+					if (is_adisSale == 1) {
+						adisSaleHtml = `<div id="adisSale"><h4>組立サービス割引キャンペーン</h4><ul>${adisSaleHtml}</ul></div>`;
+						$('.fs-c-productOption__option').prepend(adisSaleHtml);
+					}
 				}
 			}
 		}
@@ -4621,6 +4626,8 @@ function calendar() {
 	calObj[0].daysClass['2023/5/5'] = 'Holyday';
 	calObj[0].daysClass['2023/7/17'] = 'Holyday';
 	calObj[0].daysClass['2023/8/11'] = 'Holyday';
+	calObj[0].daysClass['2023/8/14'] = 'Holyday';
+	calObj[0].daysClass['2023/8/15'] = 'Holyday';
 	calObj[0].daysClass['2023/8/16'] = 'Holyday';
 	calObj[0].daysClass['2023/9/18'] = 'Holyday';
 	calObj[0].daysClass['2023/9/23'] = 'Holyday';
