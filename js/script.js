@@ -995,11 +995,11 @@ function searchTagTitle() {
 		$('#fs_ProductSearch h1').html('テレビ台セール 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('テレビ台セール 対象商品');
 		$('title').text('テレビ台セール 対象商品');
-	} else if (params.tag == 'sale20230511-20230518') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230511-20230518_1184x240.jpg" alt="7Days TimeSale 対象商品">');
-		$('#fs_ProductSearch h1').html('7Days TimeSale 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('7Days TimeSale 対象商品');
-		$('title').text('7Days TimeSale 対象商品');
+	} else if (params.tag == 'sale20230727-20230810') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230727-20230810_1184x240.jpg" alt="Summer SALE 第1弾 対象商品">');
+		$('#fs_ProductSearch h1').html('Summer SALE 第1弾 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('Summer SALE 第1弾 対象商品');
+		$('title').text('Summer SALE 第1弾 対象商品');
 	} else if (params.tag == 'feature20230303') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-feature20230303_1184x240.jpg" alt="入園入学の準備">');
 		$('#fs_ProductSearch h1').html('入園入学の準備');
@@ -4609,52 +4609,17 @@ function calendar() {
 
 	// ["day"] 日付に対してのクラス指定
 	calObj[0].daysClass = new Object();
-	calObj[0].daysClass['2022/12/28'] = 'Holyday';
-	calObj[0].daysClass['2022/12/29'] = 'Holyday';
-	calObj[0].daysClass['2022/12/30'] = 'Holyday';
-	calObj[0].daysClass['2023/1/1'] = 'Holyday';
-	calObj[0].daysClass['2023/1/2'] = 'Holyday';
-	calObj[0].daysClass['2023/1/3'] = 'Holyday';
-	calObj[0].daysClass['2023/1/4'] = 'Holyday';
-	calObj[0].daysClass['2023/1/9'] = 'Holyday';
-	calObj[0].daysClass['2023/2/11'] = 'Holyday';
-	calObj[0].daysClass['2023/2/23'] = 'Holyday';
-	calObj[0].daysClass['2023/3/21'] = 'Holyday';
-	calObj[0].daysClass['2023/4/29'] = 'Holyday';
-	calObj[0].daysClass['2023/5/3'] = 'Holyday';
-	calObj[0].daysClass['2023/5/4'] = 'Holyday';
-	calObj[0].daysClass['2023/5/5'] = 'Holyday';
 	calObj[0].daysClass['2023/7/17'] = 'Holyday';
 	calObj[0].daysClass['2023/8/11'] = 'Holyday';
 	calObj[0].daysClass['2023/8/14'] = 'Holyday';
 	calObj[0].daysClass['2023/8/15'] = 'Holyday';
 	calObj[0].daysClass['2023/8/16'] = 'Holyday';
 	calObj[0].daysClass['2023/9/18'] = 'Holyday';
-	calObj[0].daysClass['2023/9/23'] = 'Holyday';
 	calObj[0].daysClass['2023/10/9'] = 'Holyday';
-	calObj[0].daysClass['2023/11/3'] = 'Holyday';
-	calObj[0].daysClass['2023/11/23'] = 'Holyday';
+	calObj[0].daysClass['2023/12/28'] = 'Holyday';
+	calObj[0].daysClass['2023/12/29'] = 'Holyday';
 	calObj[0].daysClass['2024/1/1'] = 'Holyday';
 	calObj[0].daysClass['2024/1/8'] = 'Holyday';
-	calObj[0].daysClass['2024/2/11'] = 'Holyday';
-	calObj[0].daysClass['2024/2/12'] = 'Holyday';
-	calObj[0].daysClass['2024/2/23'] = 'Holyday';
-	calObj[0].daysClass['2024/3/20'] = 'Holyday';
-	calObj[0].daysClass['2024/4/29'] = 'Holyday';
-	calObj[0].daysClass['2024/5/3'] = 'Holyday';
-	calObj[0].daysClass['2024/5/4'] = 'Holyday';
-	calObj[0].daysClass['2024/5/5'] = 'Holyday';
-	calObj[0].daysClass['2024/5/6'] = 'Holyday';
-	calObj[0].daysClass['2024/7/15'] = 'Holyday';
-	calObj[0].daysClass['2024/8/11'] = 'Holyday';
-	calObj[0].daysClass['2024/8/12'] = 'Holyday';
-	calObj[0].daysClass['2024/9/16'] = 'Holyday';
-	calObj[0].daysClass['2024/9/22'] = 'Holyday';
-	calObj[0].daysClass['2024/9/23'] = 'Holyday';
-	calObj[0].daysClass['2024/10/14'] = 'Holyday';
-	calObj[0].daysClass['2024/11/3'] = 'Holyday';
-	calObj[0].daysClass['2024/11/4'] = 'Holyday';
-	calObj[0].daysClass['2024/11/23'] = 'Holyday';
 	//calObj[0].daysClass["2012/6/9"] = 'Birthday;テキストテキストテキスト<br />テキストテキストテキスト;http://weblogs.trancedive.com';
 	// 2012/6/9にBirthdayクラスを指定ってことね(和田の誕生日です)。
 	// セミコロンで区切ると説明コメント、URLを付けることができます(全クラス指定共通)。
