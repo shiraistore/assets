@@ -990,11 +990,11 @@ function productSortSelect() {
 //セール会場用バナー表示
 function searchTagTitle() {
 	var params = parameterToArray();
-	if (params.tag == 'sale20230706-20230720') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230706-20230720_1184x240.jpg" alt="テレビ台セール 対象商品">');
-		$('#fs_ProductSearch h1').html('テレビ台セール 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('テレビ台セール 対象商品');
-		$('title').text('テレビ台セール 対象商品');
+	if (params.tag == 'sale20230810-20230824') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230810-20230824_1184x240.jpg" alt="Summer SALE 第2弾 対象商品">');
+		$('#fs_ProductSearch h1').html('Summer SALE 第2弾 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('Summer SALE 第2弾 対象商品');
+		$('title').text('Summer SALE 第2弾 対象商品');
 	} else if (params.tag == 'sale20230727-20230810') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230727-20230810_1184x240.jpg?v=20230727" alt="Summer SALE 第1弾 対象商品">');
 		$('#fs_ProductSearch h1').html('Summer SALE 第1弾 対象商品');
