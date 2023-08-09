@@ -4,7 +4,7 @@ $(function () {
 });
 
 function inputValue(){
-    const code = getParam(no);
+    const code = getParam('on');
     document.getElementById("orderCode").value = code;
 }
 
