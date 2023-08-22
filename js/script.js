@@ -693,6 +693,8 @@ function productDetailSeriesLink() {
 		var series = url[url.length - 1].split('-');
 		if (series[0] == 'tl1' || series[0] == 'tl2' || series[0] == 'tl3') {
 			series[0] = series[0].slice(0, 2);
+		} else if (series[0] == 'ona') {
+			series[0] = 'of2';
 		}
 
 		var categoryURL = $('nav .fs-c-breadcrumb__list li:nth-last-child(2) a').attr('href');
@@ -3128,7 +3130,6 @@ function productDetailAddData() {
 			},
 		}).responseText;
 
-		
 		response = JSON.parse(response);
 
 		// console.log(response);
@@ -3159,7 +3160,7 @@ function productDetailAddData() {
 
 				if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 					seriesCode = 'tl';
-				} else if(seriesCode == 'ona'){
+				} else if (seriesCode == 'ona') {
 					seriesCode = 'of2';
 				}
 
@@ -3395,6 +3396,8 @@ function productDetailAddData() {
 
 				if (!seriesCode.indexOf('tl')) {
 					seriesCode = 'tl';
+				} else if (seriesCode == 'ona') {
+					seriesCode = 'of2';
 				}
 
 				if (i == 0) {
@@ -3634,6 +3637,8 @@ function productDetailAddData() {
 
 				if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 					seriesCode = 'tl';
+				} else if (seriesCode == 'ona') {
+					seriesCode = 'of2';
 				}
 
 				if (sellingPrice < normalPrice) {
