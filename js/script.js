@@ -3128,6 +3128,7 @@ function productDetailAddData() {
 			},
 		}).responseText;
 
+		
 		response = JSON.parse(response);
 
 		// console.log(response);
