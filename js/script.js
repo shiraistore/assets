@@ -997,11 +997,11 @@ function searchTagTitle() {
 		$('#fs_ProductSearch h1').html('Summer SALE 第2弾 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('Summer SALE 第2弾 対象商品');
 		$('title').text('Summer SALE 第2弾 対象商品');
-	} else if (params.tag == 'sale20230727-20230810') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230727-20230810_1184x240.jpg?v=20230727" alt="Summer SALE 第1弾 対象商品">');
-		$('#fs_ProductSearch h1').html('Summer SALE 第1弾 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('Summer SALE 第1弾 対象商品');
-		$('title').text('Summer SALE 第1弾 対象商品');
+	} else if (params.tag == 'sale20230907-20230921') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230907-20230921_1184x240.jpg" alt="タナリオセール 対象商品">');
+		$('#fs_ProductSearch h1').html('タナリオセール 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('タナリオセール 対象商品');
+		$('title').text('タナリオセール 対象商品');
 	} else if (params.tag == 'feature20230303') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-feature20230303_1184x240.jpg" alt="入園入学の準備">');
 		$('#fs_ProductSearch h1').html('入園入学の準備');
@@ -2202,6 +2202,12 @@ function rewriteDOM() {
 			} else if ($(this).attr('href').indexOf('sep-em') >= 0) {
 				$(this).attr('href', '/f/sizeOrder/sep-emrack');
 				$(this).parents('.fs-c-cartTable__product').addClass('sizeOrder');
+			} else if ($(this).attr('href').indexOf('pre-em') >= 0) {
+				$(this).attr('href', '/f/sizeOrder/pre-emfot');
+				$(this).parents('.fs-c-cartTable__product').addClass('sizeOrder');
+			} else if ($(this).attr('href').indexOf('por-em') >= 0) {
+				$(this).attr('href', '/f/sizeOrder/por-emdu');
+				$(this).parents('.fs-c-cartTable__product').addClass('sizeOrder');
 			} else {
 				$(this).parents('.fs-c-cartTable__product').addClass('readyMade');
 			}
@@ -2366,6 +2372,56 @@ function rewriteDOM() {
 				$(this)
 					.find('img')
 					.attr('src', '/assets/img/product/sizeOrder/sep-em/desk/thum/' + thumbnail);
+			} else if (href.indexOf('pre-emfot') >= 0) {
+				//console.log('emfot');
+				orderHeight = orderDetails.replace(/.*高さ([0-9]+)cm.*/g, '$1');
+				//console.log(orderHeight);
+
+				//orderHeight = orderHeight.slice(0, -1) + '0';
+				//console.log('orderHeight:', orderHeight);
+
+				var thumbnail = orderHeight + '_thum.jpg';
+
+				//console.log(thumbnail);
+
+				$(this)
+					.find('img')
+					.attr('src', '/assets/img/product/sizeOrder/pre-em/thum/' + thumbnail);
+			} else if (href.indexOf('por-emdu') >= 0) {
+				//console.log('emfot');
+				orderHeight = orderDetails.replace(/.*高さ([0-9]+)-.*/g, '$1');
+				//console.log(orderHeight);
+
+				orderWidth = orderDetails.replace(/.*幅([0-9]+)cm.*/g, '$1');
+
+				//console.log('orderWidth:', orderWidth);
+
+				orderColor = $(this).find('.fs-c-listedOptionPrice__option:nth-child(3) .fs-c-listedOptionPrice__option__value').text();
+
+				switch (orderColor) {
+					case 'ダークブラウン':
+						orderColor = 'dk';
+						break;
+					case 'ナチュラルブラウン':
+						orderColor = 'na';
+						break;
+					case 'ホワイト（白木目）':
+						orderColor = 'wh';
+						break;
+				}
+
+				//console.log(orderColor);
+
+				//orderHeight = orderHeight.slice(0, -1) + '0';
+				//console.log('orderHeight:', orderHeight);
+
+				var thumbnail = orderHeight + orderWidth + orderColor + '_thum.jpg';
+
+				//console.log(thumbnail);
+
+				$(this)
+					.find('img')
+					.attr('src', '/assets/img/product/sizeOrder/por-em/thum/' + thumbnail);
 			}
 		});
 
