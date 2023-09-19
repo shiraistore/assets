@@ -35,6 +35,7 @@ $(function () {
 	productDetail_amrContentsBanner();
 	productDetail_howToStoreKidsBooksContentsBanner();
 	searchTagsTitleDescriptionChange();
+	putMemberIdOptInPolicy();
 
 	reviewSlideDown('#fs_ProductDetails', '240'); //OK
 	instagramPostList(); //OK
@@ -142,6 +143,58 @@ $(window).on('load scroll', function () {
 function previewModeDecision() {
 	if ($('#fs_preview_header').length) {
 		$('body').addClass('previewMode');
+	}
+}
+
+/* preSale_displayPassWordForm
+========================================================================== */
+function putMemberIdOptInPolicy() {
+	if ($('#fs_CheckoutSuccess').length) {
+		const memberId = $('#memberId').text();
+		// console.log(memberId);
+		// 会員かどうか判定（会員であればmemberIdに整数が入る）
+		if (memberId != 'guest') {
+			// 新しいプライバシーポリシーに同意しているかどうかチェックをする関数
+			function apiOptInPolicy(url, params) {
+				var response = $.ajax({
+					type: 'post',
+					url: url,
+					async: false,
+					data: JSON.stringify(params),
+					contentType: 'application/json',
+					dataType: 'json',
+					scriptCharset: 'utf-8',
+					success: function (response) {
+						// Success
+						//console.log(JSON.stringify(response));
+					},
+					error: function (response) {
+						// Error
+						// console.log(JSON.stringify(response));
+					},
+				}).responseText;
+				response = JSON.parse(response);
+				return response;
+			}
+			is_optIn = $.cookie('is_optIn');
+
+			let jstOffset = 9 * 60 * 60 * 1000;
+
+			// 現在のUTC時間にオフセットを加算して、日本時間を取得
+			let jstDate = new Date(Date.now() + jstOffset);
+
+			// "yyyy-mm-ddThh:mm:ss" の形式に変換
+			let formattedDate = jstDate.toISOString().split('.')[0];
+			// console.log('memberId:', memberId);
+			// console.log('is_optIn:', is_optIn);
+			// console.log('formattedDate:', formattedDate);
+			postParams = JSON.parse(`{"member_id":"${memberId}","is_opt_in":"${is_optIn}","at_datetime":"${formattedDate}"}`);
+			console.log(postParams);
+
+			const postUrl = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/postMemberOptInPolicy';
+
+			apiOptInPolicy(postUrl, postParams);
+		}
 	}
 }
 
@@ -992,11 +1045,11 @@ function productSortSelect() {
 //セール会場用バナー表示
 function searchTagTitle() {
 	var params = parameterToArray();
-	if (params.tag == 'sale20230810-20230824') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230810-20230824_1184x240.jpg" alt="Summer SALE 第2弾 対象商品">');
-		$('#fs_ProductSearch h1').html('Summer SALE 第2弾 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('Summer SALE 第2弾 対象商品');
-		$('title').text('Summer SALE 第2弾 対象商品');
+	if (params.tag == 'sale20230921-20231012') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230921-20231012_1184x240.jpg" alt="Autumn SALE 対象商品">');
+		$('#fs_ProductSearch h1').html('Autumn SALE 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('Autumn SALE 対象商品');
+		$('title').text('Autumn SALE 対象商品');
 	} else if (params.tag == 'sale20230907-20230921') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230907-20230921_1184x240.jpg" alt="タナリオセール 対象商品">');
 		$('#fs_ProductSearch h1').html('タナリオセール 対象商品');
@@ -2106,6 +2159,10 @@ function rewriteDOM() {
 
 		if (!$('.fs-c-productOption').length) {
 			$('#productActionBox').before('<dl class="fs-c-productOption unusable"><dt class="fs-c-productOption__name"><label for="optionWithPrice_1" class="fs-c-productOption__label">組立サービス</label></dt><dd class="fs-c-productOption__option">この商品は組立サービスをご利用いただけません。</dd></dl>');
+		}
+
+		if (location.href.match('pre-em1830m|pre-em1860m')) {
+			$('#productActionBox').before('<dl class="fs-c-productOption unusable"><dt class="fs-c-productOption__name"><label for="optionWithPrice_1" class="fs-c-productOption__label">組立サービス</label></dt><dd class="fs-c-productOption__option">この商品は組立サービスをご利用いただけません。</dd></dl><dl class="fs-c-productOption unusable"><dt class="fs-c-productOption__name"><label for="optionWithPrice_1" class="fs-c-productOption__label">ご注意</label></dt><dd class="fs-c-productOption__option red">この商品は受注生産品のため、ご注文確定後はキャンセルを承ることができません。</dd></dl>');
 		}
 
 		//タナリオサイズオーダー テキストリンク
