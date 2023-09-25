@@ -92,7 +92,8 @@ function featurePts() {
             var productImageSize = $(this).data('imagesize');
             products_ary = products.split(',');
             quantity_ary = quantity.split(',');
-            //console.log(products_ary);
+            console.log(products_ary);
+            console.log(quantity_ary);
 
             var html = '',
                 totalSellingPrice = 0,
@@ -123,11 +124,13 @@ function featurePts() {
                     // console.log('productNumber:', productNumber);
                     // console.log('productId:', productId);
                     // console.log('productName:', productName);
-                    // console.log('sellingPrice:', sellingPrice);
+                    //console.log('sellingPrice:', sellingPrice);
                     // console.log('normalPrice:', normalPrice);
 
+                    sellingPrice = sellingPrice * parseInt(quantity_ary[index], 10);
                     totalSellingPrice += sellingPrice;
                     totalNormalPrice += normalPrice;
+                    console.log(totalSellingPrice);
 
                     //console.log('adis_ary:', adis_ary);
                     adis01_totalPrice += adis_ary[1][2];
@@ -163,6 +166,8 @@ function featurePts() {
                 priceText = '<p class="productPrice"><span>price</span><span class="sellingPrice">¥' + totalSellingPrice.toLocaleString() + '<span class="tax">（税込）</span></span></p>';
             }
 
+            console.log(priceText);
+
 
 
             $(this).find('.addToCartImage').prepend('<img src="' + imgSrc + '">');
@@ -192,4 +197,3 @@ function featurePts() {
         });
     });
 }
-
