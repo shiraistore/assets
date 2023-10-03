@@ -2262,10 +2262,10 @@ function rewriteDOM() {
 			} else if ($(this).attr('href').indexOf('sep-em') >= 0) {
 				$(this).attr('href', '/f/sizeOrder/sep-emrack');
 				$(this).parents('.fs-c-cartTable__product').addClass('sizeOrder');
-			} else if ($(this).attr('href').indexOf('pre-em') >= 0) {
+			} else if ($(this).attr('href').indexOf('pre-emfot') >= 0) {
 				$(this).attr('href', '/f/sizeOrder/pre-emfot');
 				$(this).parents('.fs-c-cartTable__product').addClass('sizeOrder');
-			} else if ($(this).attr('href').indexOf('por-em') >= 0) {
+			} else if ($(this).attr('href').indexOf('por-emdu') >= 0) {
 				$(this).attr('href', '/f/sizeOrder/por-emdu');
 				$(this).parents('.fs-c-cartTable__product').addClass('sizeOrder');
 			} else {
