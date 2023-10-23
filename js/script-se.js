@@ -13,15 +13,16 @@ $(window).on('load', function () {
 /* checkOrderEnabled
 ========================================================================== */
 function checkOrderEnabled() {
-	is_optIn = $.cookie('is_optIn');
-	is_option = $.cookie('is_option');
-	is_specifyDate = $.cookie('is_specifyDate');
+	// checkMemberIdOptInPolicy実装時に有効化
+	// is_optIn = $.cookie('is_optIn');
+	// is_option = $.cookie('is_option');
+	// is_specifyDate = $.cookie('is_specifyDate');
 
-	if (is_optIn == 1 && is_option == 1 && is_specifyDate == 1) {
-		orderEnabled();
-	} else {
-		orderDisabled();
-	}
+	// if (is_optIn == 1 && is_option == 1 && is_specifyDate == 1) {
+	// 	orderEnabled();
+	// } else {
+	// 	orderDisabled();
+	// }
 }
 
 /* checkMemberIdOptInPolicy
