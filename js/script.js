@@ -35,6 +35,7 @@ $(function () {
 	productDetail_amrContentsBanner();
 	productDetail_howToStoreKidsBooksContentsBanner();
 	searchTagsTitleDescriptionChange();
+	putMemberIdOptInPolicy();
 
 	reviewSlideDown('#fs_ProductDetails', '240'); //OK
 	instagramPostList(); //OK
@@ -142,6 +143,58 @@ $(window).on('load scroll', function () {
 function previewModeDecision() {
 	if ($('#fs_preview_header').length) {
 		$('body').addClass('previewMode');
+	}
+}
+
+/* preSale_displayPassWordForm
+========================================================================== */
+function putMemberIdOptInPolicy() {
+	if ($('#fs_CheckoutSuccess').length) {
+		const memberId = $('#memberId').text();
+		// console.log(memberId);
+		// 会員かどうか判定（会員であればmemberIdに整数が入る）
+		if (memberId != 'guest') {
+			// 新しいプライバシーポリシーに同意しているかどうかチェックをする関数
+			function apiOptInPolicy(url, params) {
+				var response = $.ajax({
+					type: 'post',
+					url: url,
+					async: false,
+					data: JSON.stringify(params),
+					contentType: 'application/json',
+					dataType: 'json',
+					scriptCharset: 'utf-8',
+					success: function (response) {
+						// Success
+						//console.log(JSON.stringify(response));
+					},
+					error: function (response) {
+						// Error
+						// console.log(JSON.stringify(response));
+					},
+				}).responseText;
+				response = JSON.parse(response);
+				return response;
+			}
+			is_optIn = $.cookie('is_optIn');
+
+			let jstOffset = 9 * 60 * 60 * 1000;
+
+			// 現在のUTC時間にオフセットを加算して、日本時間を取得
+			let jstDate = new Date(Date.now() + jstOffset);
+
+			// "yyyy-mm-ddThh:mm:ss" の形式に変換
+			let formattedDate = jstDate.toISOString().split('.')[0];
+			// console.log('memberId:', memberId);
+			// console.log('is_optIn:', is_optIn);
+			// console.log('formattedDate:', formattedDate);
+			postParams = JSON.parse(`{"member_id":"${memberId}","is_opt_in":"${is_optIn}","at_datetime":"${formattedDate}"}`);
+			console.log(postParams);
+
+			const postUrl = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/postMemberOptInPolicy';
+
+			apiOptInPolicy(postUrl, postParams);
+		}
 	}
 }
 
@@ -992,16 +1045,16 @@ function productSortSelect() {
 //セール会場用バナー表示
 function searchTagTitle() {
 	var params = parameterToArray();
-	if (params.tag == 'sale20230810-20230824') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230810-20230824_1184x240.jpg" alt="Summer SALE 第2弾 対象商品">');
-		$('#fs_ProductSearch h1').html('Summer SALE 第2弾 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('Summer SALE 第2弾 対象商品');
-		$('title').text('Summer SALE 第2弾 対象商品');
-	} else if (params.tag == 'sale20230727-20230810') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230727-20230810_1184x240.jpg?v=20230727" alt="Summer SALE 第1弾 対象商品">');
-		$('#fs_ProductSearch h1').html('Summer SALE 第1弾 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('Summer SALE 第1弾 対象商品');
-		$('title').text('Summer SALE 第1弾 対象商品');
+	if (params.tag == 'sale20230921-20231012') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230921-20231012_1184x240.jpg" alt="Autumn SALE 対象商品">');
+		$('#fs_ProductSearch h1').html('Autumn SALE 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('Autumn SALE 対象商品');
+		$('title').text('Autumn SALE 対象商品');
+	} else if (params.tag == 'sale20230907-20230921') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230907-20230921_1184x240.jpg" alt="タナリオセール 対象商品">');
+		$('#fs_ProductSearch h1').html('タナリオセール 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('タナリオセール 対象商品');
+		$('title').text('タナリオセール 対象商品');
 	} else if (params.tag == 'feature20230303') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-feature20230303_1184x240.jpg" alt="入園入学の準備">');
 		$('#fs_ProductSearch h1').html('入園入学の準備');
@@ -2108,11 +2161,16 @@ function rewriteDOM() {
 			$('#productActionBox').before('<dl class="fs-c-productOption unusable"><dt class="fs-c-productOption__name"><label for="optionWithPrice_1" class="fs-c-productOption__label">組立サービス</label></dt><dd class="fs-c-productOption__option">この商品は組立サービスをご利用いただけません。</dd></dl>');
 		}
 
+		if (location.href.match('pre-em1830m|pre-em1860m')) {
+			$('#productActionBox').before('<dl class="fs-c-productOption unusable"><dt class="fs-c-productOption__name"><label for="optionWithPrice_1" class="fs-c-productOption__label">組立サービス</label></dt><dd class="fs-c-productOption__option">この商品は組立サービスをご利用いただけません。</dd></dl><dl class="fs-c-productOption unusable"><dt class="fs-c-productOption__name"><label for="optionWithPrice_1" class="fs-c-productOption__label">ご注意</label></dt><dd class="fs-c-productOption__option red">この商品は受注生産品のため、ご注文確定後はキャンセルを承ることができません。</dd></dl>');
+		}
+
 		//タナリオサイズオーダー テキストリンク
 
 		var url = location.pathname;
 		var seriseCode = url.split('/').pop();
 		// console.log('seriseCode:', seriseCode);
+
 
 		if (seriseCode.indexOf('tnl-t') != -1) {
 			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div>【サイズオーダー】ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-emts">横幅1cm単位でご注文はこちら</a></div></div>');
@@ -2126,6 +2184,8 @@ function rewriteDOM() {
 			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div>【サイズオーダー】1〜30マスまでご希望のサイズでお作りします。<a href="/f/sizeOrder/sep-emrack">1マス単位でのご注文はこちら</a></div></div>');
 		} else if (seriseCode.match(/.*sep-[0-9]{4}?desk.+-.*/) != null) {
 			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div>【サイズオーダー】横幅60〜210cmまでご希望のサイズでお作りします。<a href="/f/sizeOrder/sep-emdesk">横幅1cm単位でご注文はこちら</a></div></div>');
+		} else if (seriseCode.match(/.*por-[0-9]{4}?du-.*/) != null) {
+			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div>【サイズオーダー】天井の高さに合わせてご希望のサイズでお作りします。<a href="/f/sizeOrder/por-emdu">特別なサイズのご注文はこちら</a></div></div>');
 		}
 
 		// console.log('match:', seriseCode.match(/.*sep-[0-9]{4}?-.*/));
@@ -2201,6 +2261,12 @@ function rewriteDOM() {
 				$(this).parents('.fs-c-cartTable__product').addClass('sizeOrder');
 			} else if ($(this).attr('href').indexOf('sep-em') >= 0) {
 				$(this).attr('href', '/f/sizeOrder/sep-emrack');
+				$(this).parents('.fs-c-cartTable__product').addClass('sizeOrder');
+			} else if ($(this).attr('href').indexOf('pre-emfot') >= 0) {
+				$(this).attr('href', '/f/sizeOrder/pre-emfot');
+				$(this).parents('.fs-c-cartTable__product').addClass('sizeOrder');
+			} else if ($(this).attr('href').indexOf('por-emdu') >= 0) {
+				$(this).attr('href', '/f/sizeOrder/por-emdu');
 				$(this).parents('.fs-c-cartTable__product').addClass('sizeOrder');
 			} else {
 				$(this).parents('.fs-c-cartTable__product').addClass('readyMade');
@@ -2366,6 +2432,56 @@ function rewriteDOM() {
 				$(this)
 					.find('img')
 					.attr('src', '/assets/img/product/sizeOrder/sep-em/desk/thum/' + thumbnail);
+			} else if (href.indexOf('pre-emfot') >= 0) {
+				//console.log('emfot');
+				orderHeight = orderDetails.replace(/.*高さ([0-9]+)cm.*/g, '$1');
+				//console.log(orderHeight);
+
+				//orderHeight = orderHeight.slice(0, -1) + '0';
+				//console.log('orderHeight:', orderHeight);
+
+				var thumbnail = orderHeight + '_thum.jpg';
+
+				//console.log(thumbnail);
+
+				$(this)
+					.find('img')
+					.attr('src', '/assets/img/product/sizeOrder/pre-em/thum/' + thumbnail);
+			} else if (href.indexOf('por-emdu') >= 0) {
+				//console.log('emfot');
+				orderHeight = orderDetails.replace(/.*高さ([0-9]+)-.*/g, '$1');
+				//console.log(orderHeight);
+
+				orderWidth = orderDetails.replace(/.*幅([0-9]+)cm.*/g, '$1');
+
+				//console.log('orderWidth:', orderWidth);
+
+				orderColor = $(this).find('.fs-c-listedOptionPrice__option:nth-child(3) .fs-c-listedOptionPrice__option__value').text();
+
+				switch (orderColor) {
+					case 'ダークブラウン':
+						orderColor = 'dk';
+						break;
+					case 'ナチュラルブラウン':
+						orderColor = 'na';
+						break;
+					case 'ホワイト（白木目）':
+						orderColor = 'wh';
+						break;
+				}
+
+				//console.log(orderColor);
+
+				//orderHeight = orderHeight.slice(0, -1) + '0';
+				//console.log('orderHeight:', orderHeight);
+
+				var thumbnail = orderHeight + orderWidth + orderColor + '_thum.jpg';
+
+				//console.log(thumbnail);
+
+				$(this)
+					.find('img')
+					.attr('src', '/assets/img/product/sizeOrder/por-em/thum/' + thumbnail);
 			}
 		});
 
@@ -4624,6 +4740,8 @@ function calendar() {
 	calObj[0].daysClass['2023/8/16'] = 'Holyday';
 	calObj[0].daysClass['2023/9/18'] = 'Holyday';
 	calObj[0].daysClass['2023/10/9'] = 'Holyday';
+	calObj[0].daysClass['2023/11/3'] = 'Holyday';
+	calObj[0].daysClass['2023/11/23'] = 'Holyday';
 	calObj[0].daysClass['2023/12/28'] = 'Holyday';
 	calObj[0].daysClass['2023/12/29'] = 'Holyday';
 	calObj[0].daysClass['2024/1/1'] = 'Holyday';

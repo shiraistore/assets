@@ -1,9 +1,103 @@
 let checkZipCodeResult = undefined;
+let is_apiOptIn, is_optIn, is_option, is_specifyDate;
 
 $(window).on('load', function () {
+	$.removeCookie('is_optIn');
+	$.removeCookie('is_option');
+	$.removeCookie('is_specifyDate');
 	optionJudgment(); //order
+
 	//expectedArrival(); //order
 });
+
+/* checkOrderEnabled
+========================================================================== */
+function checkOrderEnabled() {
+	is_optIn = $.cookie('is_optIn');
+	is_option = $.cookie('is_option');
+	is_specifyDate = $.cookie('is_specifyDate');
+
+	if (is_optIn == 1 && is_option == 1 && is_specifyDate == 1) {
+		orderEnabled();
+	} else {
+		orderDisabled();
+	}
+}
+
+/* checkMemberIdOptInPolicy
+========================================================================== */
+function checkMemberIdOptInPolicy() {
+	if ($('#fs_Checkout,#fs_CheckoutWithAmazon').length) {
+		const memberId = $('#memberId').text();
+		console.log(memberId);
+		// 会員かどうか判定（会員であればmemberIdに整数が入る）
+		if (memberId != 'guest') {
+			// 新しいプライバシーポリシーに同意しているかどうかチェックをする関数
+			function apiOptInPolicy(url, params) {
+				var response = $.ajax({
+					type: 'post',
+					url: url,
+					async: false,
+					data: JSON.stringify(params),
+					contentType: 'application/json',
+					dataType: 'json',
+					scriptCharset: 'utf-8',
+					success: function (response) {
+						// Success
+						//console.log(JSON.stringify(response));
+					},
+					error: function (response) {
+						// Error
+						// console.log(JSON.stringify(response));
+					},
+				}).responseText;
+
+				console.log('apiOptInPolicy:', response);
+				response = JSON.parse(response);
+				return response;
+			}
+
+			// Cookieにis_optInのKEYがない場合にオプトイン状況をAPIで取得する
+			if (is_apiOptIn == undefined) {
+				const checkUrl = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/checkMemberOptInPolicy';
+				const checkParams = { member_id: memberId };
+				is_apiOptIn = apiOptInPolicy(checkUrl, checkParams);
+				if (is_apiOptIn['result'] == false) {
+					is_apiOptIn = 'none';
+				} else {
+					is_apiOptIn = is_apiOptIn['is_opt_in'];
+				}
+			}
+
+			//APIのオプトイン状態が1であれば表示しない
+			if (is_apiOptIn == 0) {
+				if (!$('#optInPolicy').length) {
+					const policyOptInHtml = '<a href="/p/about/privacy-policy" target="_blank" class="text-link-color">プライバシーポリシー</a>に同意する<br><span class="xsmall-text">*別タブで開きます</span>';
+					is_optIn = $.cookie('is_optIn');
+					if (is_optIn == 1) {
+						$('#fs_button_placeOrder').before(`<div id="optInPolicy"><p>プライバシーポリシーの改訂に伴い、同意をお願いいたします。</p><input type="checkbox" checked>${policyOptInHtml}</div>`);
+					} else {
+						$('#fs_button_placeOrder').before(`<div id="optInPolicy"><p>プライバシーポリシーの改訂に伴い、同意をお願いいたします。</p><input type="checkbox">${policyOptInHtml}</div>`);
+					}
+
+					// プライバシーポリシーの同意チェックボックスを変更するとオプトイン状況をAPIで書き込む
+					$('#optInPolicy input').change(function () {
+						if ($(this).prop('checked')) {
+							$.cookie('is_optIn', 1);
+							console.log('checked-1');
+						} else {
+							$.cookie('is_optIn', 0);
+							console.log('uncheck');
+						}
+					});
+				}
+			} else {
+				$.cookie('is_optIn', 1);
+				console.log('checked-2');
+			}
+		}
+	}
+}
 
 function optionNameChange() {
 	if ($('#fs_Checkout,#fs_CheckoutWithAmazon').length) {
@@ -56,7 +150,7 @@ function optionNameChange() {
 ========================================================================== */
 
 function checkZipCodes(zipCode) {
-	var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/checkDeliveryZipCodes';
+	var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/check_zip_code_for_delivery';
 	var params = { zip_code: zipCode };
 	//console.log(JSON.stringify(params));
 	//console.log(url);
@@ -312,7 +406,7 @@ function optionJudgment() {
 				optionResult = checkOption();
 			}
 			if (optionResult != false) {
-
+				// console.log('オプションあり');
 				var zipCode = $('.fs-c-checkout-destination__address .fs-c-checkout-destination__address__zipCode').text().replace('-', '');
 
 				if (zipCode != undefined) {
@@ -327,7 +421,7 @@ function optionJudgment() {
 						setTimeout(function () {
 							$('#fs_button_changeDeliveryMethod button.fs-c-button--change--small').trigger('click');
 							setTimeout(function () {
-								if (checkZipCodeResult.remote_island_is == 1) {
+								if (checkZipCodeResult.is_remote_island == 1) {
 									$('#fs_input_expectedArrival_note').val('【重要】お届け先が離島であるため別途送料がかかります。ご注文内容を確認後にメールにて送料をお知らせします。追加送料にご了承いただきましたら発送いたします。');
 								} else {
 									$('#fs_input_expectedArrival_note').val('');
@@ -347,25 +441,32 @@ function optionJudgment() {
 						var deliveryTime = $('.fs-c-checkout-delivery__method__deliveryTime').next('dd').text();
 
 						if (optionResult.result2 >= 0) {
-							if (checkZipCodeResult.yhc_serviceType4_is == 1 || checkZipCodeResult.yhc_serviceType3_is == 1) {
+							if (checkZipCodeResult.is_yhc_serviceType4 == 1 || checkZipCodeResult.is_yhc_serviceType3 == 1) {
 								if (deliveryDate == '指定なし' || deliveryTime == '指定なし') {
 									//組立済+搬入サービスは日時指定が必須
 
-									orderDisabled();
+									// orderDisabled();
+									$.cookie('is_specifyDate', 0);
 									if (!$('.deliveryMethodAlert').length) {
 										$('#fs_button_placeOrder').after('<p class="deliveryMethodAlert red text-center mt-16">このお届け先で「組立済+搬入」サービスをご利用の場合は<strong>お届け希望日と時間帯</strong>をご指定ください。</p>');
 									}
+								} else {
+									$.cookie('is_specifyDate', 1);
 								}
-							} else if (checkZipCodeResult.yhc_serviceType4_is == 0 && checkZipCodeResult.yhc_serviceType3_is == 0) {
+							} else if (checkZipCodeResult.is_yhc_serviceType4 == 0 && checkZipCodeResult.is_yhc_serviceType3 == 0) {
 								if (deliveryDate == '指定なし') {
-									orderDisabled();
+									// orderDisabled();
+									$.cookie('is_specifyDate', 0);
 									if (!$('.deliveryMethodAlert').length) {
 										$('#fs_button_placeOrder').after('<p class="deliveryMethodAlert red text-center mt-16">このお届け先で「組立済+搬入」サービスをご利用の場合は<strong>お届け希望日</strong>をご指定ください。</p>');
 									}
+								} else {
+									$.cookie('is_specifyDate', 1);
 								}
 							}
 						} else {
-							orderEnabled();
+							// orderEnabled();
+							$.cookie('is_specifyDate', 1);
 							if ($('.deliveryMethodAlert').length) {
 								$('.deliveryMethodAlert').remove();
 							}
@@ -374,8 +475,7 @@ function optionJudgment() {
 						if (deliveryTime != '指定なし') {
 							//通常配送と組立済+玄関渡しサービスの時間指定対応判定
 							if (optionResult.result2 == undefined || optionResult.result2 == -1) {
-
-								if (checkZipCodeResult.sgw_time_specified_is == 0) {
+								if (checkZipCodeResult.is_sgw_time_specified == 0) {
 									// お届け希望日をリセットする
 									$('#fs_button_changeDeliveryMethod button.fs-c-button--change--small').trigger('click');
 									const resetArrivalDate = setInterval(function () {
@@ -393,42 +493,44 @@ function optionJudgment() {
 										$('#confirmOrderAlert').remove();
 									});
 								}
-
 							} else if (optionResult.result2 >= 0) {
 							}
 						}
 
-						if (checkZipCodeResult.remote_island_is == 1) {
+						if (checkZipCodeResult.is_remote_island == 1) {
 							//離島の場合
 							//組立サービス利用は沖縄・離島不可
 
 							if (optionResult.result1 >= 0 || optionResult.result2 >= 0) {
-								orderDisabled();
+								// orderDisabled();
+								$.cookie('is_option', 0);
 								if (!$('.deliveryAlert').length) {
 									$('.fs-c-checkout-destination__title').after('<div class="deliveryAlert"><p class="mb-0">お届け先が沖縄・離島の場合は「組立サービス」をご利用いただけません。<br>該当する商品をカートから削除し、組立サービスを選択せずにカートに入れてからご注文ください。</p></div>');
 									$('#fs_button_placeOrder').after('<p class="deliveryMethodAlert1 red text-center mt-16">お届け先が沖縄・離島の場合は「組立サービス」をご利用いただけません。</p>');
 								}
 							} else {
-								orderEnabled();
+								// orderEnabled();
+								$.cookie('is_option', 1);
 								if ($('.deliveryAlert').length) {
 									$('.deliveryAlert').remove();
 									$('.deliveryMethodAlert1').remove();
 								}
 							}
+						} else {
+							$.cookie('is_option', 1);
 						}
 						if (!$('.deliveryMethodAlert2').length) {
 							var sizeOrderArray = [];
 							$('.fs-c-listedProductName__name').each(function () {
 								sizeOrderArray.push($(this).text());
 							});
-							if (sizeOrderArray.find((value) => value.match(/サイズオーダー/g)) != undefined || optionResult.result1 >= 0 || optionResult.result2 >= 0) {
+							if (sizeOrderArray.find((value) => value.match(/(サイズオーダー|受注生産)/g)) != undefined || optionResult.result1 >= 0 || optionResult.result2 >= 0) {
 								$('#fs_button_placeOrder').before('<p class="deliveryMethodAlert2 mt-16"><span>お願い</span>サイズオーダーや組立サービスは、キャンセルや変更を承ることができません。ご注文内容に誤りがないかご確認ください。</p>');
 							}
 
 							$('#fs_couponCode').attr('placeholder', '会員様のみご利用いただけます');
 							addDeliveryMethodTitle(optionResult);
 							sizeOrderDisplayThumb();
-							couponUseCheck();
 							optionNameChange();
 						}
 
@@ -457,14 +559,14 @@ function optionJudgment() {
 							sizeOrderArray.push($(this).text());
 						});
 
-						if (sizeOrderArray.find((value) => value.match(/サイズオーダー/g)) != undefined) {
+						if (sizeOrderArray.find((value) => value.match(/(サイズオーダー|受注生産)/g)) != undefined) {
 							// console.log('サイズオーダー');
 
 							$('#fs_input_payment_cashOnDelivery').prop('disabled', true);
 							$('.fs-c-checkout-paymentMethod--cashOnDelivery').css('opacity', '0.5');
-							$('.fs-c-checkout-paymentMethod--cashOnDelivery .fs-c-radio__radioLabelText').html('代金引換<span class="red paymentCaution">（サイズオーダーをお申し込みの場合はご利用いただけません）</span>');
+							$('.fs-c-checkout-paymentMethod--cashOnDelivery .fs-c-radio__radioLabelText').html('代金引換<span class="red paymentCaution">（サイズオーダー・受注生産品をご注文の場合はご利用いただけません）</span>');
 							if ($('#fs_input_payment_cashOnDelivery').prop('checked')) {
-								$('.fs-l-page').before('<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>代金引換をご利用いただけません</h4><p>申し訳ございませんが、サイズオーダーをお申し込みの場合は代金引換をご利用いただけません。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>');
+								$('.fs-l-page').before('<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>代金引換をご利用いただけません</h4><p>申し訳ございませんが、サイズオーダーや受注生産品をご注文の場合は代金引換をご利用いただけません。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>');
 								$('.fs-c-checkout-paymentMethodList li:nth-child(2) label').trigger('click');
 								$('.confirmOrderAlert-button').on('click', function () {
 									$('#confirmOrderAlert').remove();
@@ -473,7 +575,7 @@ function optionJudgment() {
 						}
 
 						//離島の場合
-						if (checkZipCodeResult.remote_island_is == 1) {
+						if (checkZipCodeResult.is_remote_island == 1) {
 							//沖縄離島の場合は代引利用が不可
 							$('#fs_input_payment_cashOnDelivery').prop('disabled', true);
 							$('.fs-c-checkout-paymentMethod--cashOnDelivery').css('opacity', '0.5');
@@ -503,39 +605,45 @@ function optionJudgment() {
 						});
 					}
 				}
+			} else {
+				// console.log('オプションなし');
+				$.cookie('is_option', 1);
+				$.cookie('is_specifyDate', 1);
 			}
+
+			couponUseCheck();
+			// checkMemberIdOptInPolicy();
 		};
 
 		var checkFlag = 0;
-		
+
 		var zipCodeChangeCheck;
-
-		var orderDisabled = function () {
-			//console.log('orderDisabled');
-			$('#fs_button_placeOrder button').prop('disabled', true);
-			$('#fs_button_placeOrder button').css({
-				background: '#ccc',
-				cursor: 'default',
-				border: '1px solid #ccc',
-			});
-		};
-
-		var orderEnabled = function () {
-			//console.log('orderEnabled');
-			$('#fs_button_placeOrder button').prop('disabled', false);
-			$('#fs_button_placeOrder button').css({
-				background: '#e87909',
-				cursor: 'pointer',
-				border: '1px solid #e87909',
-			});
-		};
 
 		setInterval(function () {
 			execution(optionResult);
+			checkOrderEnabled();
 		}, 300);
 
 		expectedArrival(optionResult);
 	}
+}
+
+function orderDisabled() {
+	$('#fs_button_placeOrder button').prop('disabled', true);
+	$('#fs_button_placeOrder button').css({
+		background: '#ccc',
+		cursor: 'default',
+		border: '1px solid #ccc',
+	});
+}
+
+function orderEnabled() {
+	$('#fs_button_placeOrder button').prop('disabled', false);
+	$('#fs_button_placeOrder button').css({
+		background: '#e87909',
+		cursor: 'pointer',
+		border: '1px solid #e87909',
+	});
 }
 
 /* expectedArrival
@@ -559,7 +667,7 @@ function expectedArrival(optionResult) {
 							clearInterval(resetArrivalDate);
 						}
 					}, 1);
-					
+
 					$('.fs-l-page').before('<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>お届け指定日時が「指定なし」に変更されました</h4><p>再読み込みがされたため、お届け指定日時が「指定なし」に変更されました。お届け指定日時を再設定してください。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>');
 
 					$('.confirmOrderAlert-button').on('click', function () {
@@ -860,7 +968,7 @@ function expectedArrival(optionResult) {
 
 						//組立サービスがありなら指定した日数のリードタイムを追加
 
-						if (sizeOrderArray.find((value) => value.match(/サイズオーダー/g)) != undefined) {
+						if (sizeOrderArray.find((value) => value.match(/(サイズオーダー|受注生産)/g)) != undefined) {
 							//console.log('サイズオーダー');
 							orderLeadTime += 3;
 							//console.log('サイズオーダー:', orderLeadTime);
@@ -1008,13 +1116,13 @@ function expectedArrival(optionResult) {
 						var destinationAddress = $('.fs-c-checkout-destination__address__address').text().split(/\s+/);
 						var expectedArrival_time_selected = $('#fs_input_expectedArrival_time').val();
 
-						if (sizeOrderArray.find((value) => value.match(/サイズオーダー/g)) != undefined) {
+						if (sizeOrderArray.find((value) => value.match(/(サイズオーダー|受注生産)/g)) != undefined) {
 							// console.log('サイズオーダー');
 							var prefArray = prefArray_SGW;
 							var zipCode = $('.fs-c-checkout-destination__address .fs-c-checkout-destination__address__zipCode').text().replace('-', '');
 							expectedArrivalTime_SGW(zipCode);
 
-							if (checkZipCodeResult.sgw_time_specified_is == 0) {
+							if (checkZipCodeResult.is_sgw_time_specified == 0) {
 								$('#fs_input_expectedArrival_time').replaceWith('<select name="time" id="fs_input_expectedArrival_time" class="fs-c-dropdown__menu" disabled><option value="none" selected="selected">指定なし</option></select>');
 								$('.fs-c-checkout-deliveryMethod__deliveryTime label').html('お届け時間帯 <span class="red">このお届け先は時間をご指定いただけません</span>');
 								$('#fs_input_expectedArrival_time option[value="none"]').prop('selected', true);
@@ -1024,7 +1132,7 @@ function expectedArrival(optionResult) {
 							var prefArray = prefArray_YHC;
 							expectedArrivalTime_YHC(checkZipCodeResult);
 
-							if (checkZipCodeResult.yhc_serviceType4_is == 0 && checkZipCodeResult.yhc_serviceType3_is == 0) {
+							if (checkZipCodeResult.is_yhc_serviceType4 == 0 && checkZipCodeResult.is_yhc_serviceType3 == 0) {
 								$('#fs_input_expectedArrival_time').replaceWith('<select name="time" id="fs_input_expectedArrival_time" class="fs-c-dropdown__menu" disabled><option value="none" selected="selected">指定なし</option></select>');
 								$('.fs-c-checkout-deliveryMethod__deliveryTime label').html('お届け時間帯 <span class="red">このお届け先は時間をご指定いただけません</span>');
 								$('#fs_input_expectedArrival_time option[value="none"]').prop('selected', true);
@@ -1034,7 +1142,7 @@ function expectedArrival(optionResult) {
 							expectedArrivalTime_SGW(expectedArrival_time_selected);
 							var prefArray = prefArray_SGW;
 
-							if (checkZipCodeResult.sgw_time_specified_is == 0) {
+							if (checkZipCodeResult.is_sgw_time_specified == 0) {
 								$('#fs_input_expectedArrival_time').replaceWith('<select name="time" id="fs_input_expectedArrival_time" class="fs-c-dropdown__menu" disabled><option value="none" selected="selected">指定なし</option></select>');
 								$('.fs-c-checkout-deliveryMethod__deliveryTime label').html('お届け時間帯 <span class="red">このお届け先は時間をご指定いただけません</span>');
 								$('#fs_input_expectedArrival_time option[value="none"]').prop('selected', true);
@@ -1048,7 +1156,7 @@ function expectedArrival(optionResult) {
 
 							// console.log('checkZipCodeResult:', checkZipCodeResult);
 
-							if (checkZipCodeResult.sgw_time_specified_is == 0) {
+							if (checkZipCodeResult.is_sgw_time_specified == 0) {
 								$('#fs_input_expectedArrival_time').replaceWith('<select name="time" id="fs_input_expectedArrival_time" class="fs-c-dropdown__menu" disabled><option value="none" selected="selected">指定なし</option></select>');
 								$('.fs-c-checkout-deliveryMethod__deliveryTime label').html('お届け時間帯 <span class="red">このお届け先は時間をご指定いただけません</span>');
 								$('#fs_input_expectedArrival_time option[value="none"]').prop('selected', true);
@@ -1182,11 +1290,11 @@ function expectedArrivalTime_YHC(checkZipCodeResult) {
 	var selected = $('#fs_input_expectedArrival_time').val();
 	//console.log(selected);
 
-	if (checkZipCodeResult.yhc_serviceType4_is == 1) {
+	if (checkZipCodeResult.is_yhc_serviceType4 == 1) {
 		var expectedArrival_time_type4_html = '<option value="6">12:00〜15:00</option><option value="7">15:00〜18:00</option><option value="8">18:00〜21:00</option>';
 		$('#fs_input_expectedArrival_time').replaceWith('<select name="time" id="fs_input_expectedArrival_time" class="fs-c-dropdown__menu"><option value="none" selected="selected">指定なし</option><option value="1">午前中</option>' + expectedArrival_time_type4_html + '</select>');
 		$('#fs_input_expectedArrival_time option[value="' + selected + '"]').prop('selected', true);
-	} else if (checkZipCodeResult.yhc_serviceType3_is == 1) {
+	} else if (checkZipCodeResult.is_yhc_serviceType3 == 1) {
 		var expectedArrival_time_type3_html = '<option value="9">12:00〜18:00</option><option value="8">18:00〜21:00</option>';
 		$('#fs_input_expectedArrival_time').replaceWith('<select name="time" id="fs_input_expectedArrival_time" class="fs-c-dropdown__menu"><option value="none" selected="selected">指定なし</option><option value="1">午前中</option>' + expectedArrival_time_type3_html + '</select>');
 		$('#fs_input_expectedArrival_time option[value="' + selected + '"]').prop('selected', true);
