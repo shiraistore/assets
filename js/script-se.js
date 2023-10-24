@@ -23,6 +23,14 @@ function checkOrderEnabled() {
 	// } else {
 	// 	orderDisabled();
 	// }
+
+	is_specifyDate = $.cookie('is_specifyDate');
+
+	if (is_specifyDate == 1) {
+		orderEnabled();
+	} else {
+		orderDisabled();
+	}
 }
 
 /* checkMemberIdOptInPolicy
@@ -1230,32 +1238,50 @@ function expectedArrival(optionResult) {
 
 					//支払い方法が他の決裁方法から銀行振込に指定された場合にお届け希望日をリセットする
 					checkPayment = $('.fs-c-checkout-paymentMethodList input:checked').val();
-					if (checkPaymentRetention == '') {
+					var deliveryTime = $('.fs-c-checkout-delivery__method__deliveryTime').next('dd').text();
+					var deliveryDate = $('.fs-c-checkout-delivery__method__deliveryDate').next('dd').text();
+
+					if (checkPaymentRetention == '' || checkPaymentRetention == undefined) {
 						checkPaymentRetention = checkPayment;
-					} else if ($('.fs-c-checkout-delivery__method__deliveryTime').next('dd').text() != '指定なし' || $('.fs-c-checkout-delivery__method__deliveryDate').next('dd').text() != '指定なし') {
-						if (checkPayment == 'BANK_TRANSFER') {
-							if (checkPaymentRetention != checkPayment) {
-								// お届け希望日をリセットする
-								$('#fs_button_changeDeliveryMethod button.fs-c-button--change--small').trigger('click');
-								const resetArrivalDate = setInterval(function () {
-									if ($('#__fs_modal_delivery button.fs-c-button--settings').length) {
-										$('#__fs_modal_delivery').css('display', 'none');
-										$('#fs_input_expectedArrival_date').val('none');
-										$('#fs_input_expectedArrival_time').val('none');
-										$('#__fs_modal_delivery button.fs-c-button--settings').trigger('click');
-										clearInterval(resetArrivalDate);
-									}
-								}, 1);
-								if (!$('#confirmOrderAlert').length) {
-									$('.fs-l-page').before('<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>お届け希望日時が「指定なし」に変更されました</h4><p>お支払い方法が銀行振込に変更されたため、<span class="red">お届け希望日時を再度指定</span>してください。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>');
-								}
-								$('.confirmOrderAlert-button').on('click', function () {
-									$('#confirmOrderAlert').remove();
-									noTimeSpecifiedZipCodes_result = undefined;
+					} else if (checkPaymentRetention != checkPayment) {
+						if (deliveryTime != '指定なし' || deliveryDate != '指定なし') {
+							if (checkPayment == 'BANK_TRANSFER') {
+								// console.log('optionResult.result1:', optionResult.result1);
+								// console.log('optionResult.result2:', optionResult.result2);
+								var sizeOrderArray = [];
+								$('.fs-c-listedProductName__name').each(function () {
+									sizeOrderArray.push($(this).text());
 								});
+								var checkSizeOrder = sizeOrderArray.find((value) => value.match(/(サイズオーダー|受注生産)/g));
+								// console.log('A', checkSizeOrder);
+								if (checkPaymentRetention != checkPayment) {
+									// お届け希望日をリセットする
+
+									if ((optionResult.result1 == -1 && optionResult.result2 == -1) || (optionResult.result1 == undefined || optionResult.result2 == undefined || checkSizeOrder != undefined)) {
+										$('#fs_button_changeDeliveryMethod button.fs-c-button--change--small').trigger('click');
+										const resetArrivalDate = setInterval(function () {
+											if ($('#__fs_modal_delivery button.fs-c-button--settings').length) {
+												$('#__fs_modal_delivery').css('display', 'none');
+												$('#fs_input_expectedArrival_date').val('none');
+												$('#fs_input_expectedArrival_time').val('none');
+												$('#__fs_modal_delivery button.fs-c-button--settings').trigger('click');
+												clearInterval(resetArrivalDate);
+											}
+										}, 1);
+										if (!$('#confirmOrderAlert').length) {
+											$('.fs-l-page').before(
+												'<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>お届け希望日時が「指定なし」に変更されました</h4><p>お支払い方法が銀行振込に変更されたため、<span class="red">お届け希望日時を再度指定</span>してください。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
+											);
+										}
+										$('.confirmOrderAlert-button').on('click', function () {
+											$('#confirmOrderAlert').remove();
+											noTimeSpecifiedZipCodes_result = undefined;
+										});
+									}
+								}
 							}
+							checkPaymentRetention = checkPayment;
 						}
-						checkPaymentRetention = checkPayment;
 					}
 				}
 			}
