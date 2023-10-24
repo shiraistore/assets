@@ -1253,30 +1253,31 @@ function expectedArrival(optionResult) {
 									sizeOrderArray.push($(this).text());
 								});
 								var checkSizeOrder = sizeOrderArray.find((value) => value.match(/(サイズオーダー|受注生産)/g));
-								// console.log('A', checkSizeOrder);
+								// console.log('checkSizeOrder', checkSizeOrder);
 								if (checkPaymentRetention != checkPayment) {
 									// お届け希望日をリセットする
-
-									if ((optionResult.result1 == -1 && optionResult.result2 == -1) || (optionResult.result1 == undefined || optionResult.result2 == undefined || checkSizeOrder != undefined)) {
-										$('#fs_button_changeDeliveryMethod button.fs-c-button--change--small').trigger('click');
-										const resetArrivalDate = setInterval(function () {
-											if ($('#__fs_modal_delivery button.fs-c-button--settings').length) {
-												$('#__fs_modal_delivery').css('display', 'none');
-												$('#fs_input_expectedArrival_date').val('none');
-												$('#fs_input_expectedArrival_time').val('none');
-												$('#__fs_modal_delivery button.fs-c-button--settings').trigger('click');
-												clearInterval(resetArrivalDate);
+									if (checkSizeOrder == undefined) {
+										if ((optionResult.result1 == -1 && optionResult.result2 == -1) || optionResult.result1 == undefined || optionResult.result2 == undefined) {
+											$('#fs_button_changeDeliveryMethod button.fs-c-button--change--small').trigger('click');
+											const resetArrivalDate = setInterval(function () {
+												if ($('#__fs_modal_delivery button.fs-c-button--settings').length) {
+													$('#__fs_modal_delivery').css('display', 'none');
+													$('#fs_input_expectedArrival_date').val('none');
+													$('#fs_input_expectedArrival_time').val('none');
+													$('#__fs_modal_delivery button.fs-c-button--settings').trigger('click');
+													clearInterval(resetArrivalDate);
+												}
+											}, 1);
+											if (!$('#confirmOrderAlert').length) {
+												$('.fs-l-page').before(
+													'<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>お届け希望日時が「指定なし」に変更されました</h4><p>お支払い方法が銀行振込に変更されたため、<span class="red">お届け希望日時を再度指定</span>してください。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
+												);
 											}
-										}, 1);
-										if (!$('#confirmOrderAlert').length) {
-											$('.fs-l-page').before(
-												'<div id="confirmOrderAlert"><div id="confirmOrderAlert-inner"><h4>お届け希望日時が「指定なし」に変更されました</h4><p>お支払い方法が銀行振込に変更されたため、<span class="red">お届け希望日時を再度指定</span>してください。</p><div class="confirmOrderAlert-button"><span>OK</span></div></div></div>'
-											);
+											$('.confirmOrderAlert-button').on('click', function () {
+												$('#confirmOrderAlert').remove();
+												noTimeSpecifiedZipCodes_result = undefined;
+											});
 										}
-										$('.confirmOrderAlert-button').on('click', function () {
-											$('#confirmOrderAlert').remove();
-											noTimeSpecifiedZipCodes_result = undefined;
-										});
 									}
 								}
 							}
