@@ -12,25 +12,32 @@ $(window).on('load', function () {
 
 /* checkOrderEnabled
 ========================================================================== */
-function checkOrderEnabled() {
-	// checkMemberIdOptInPolicy実装時に有効化
-	// is_optIn = $.cookie('is_optIn');
-	// is_option = $.cookie('is_option');
+function checkOrderEnabled(memberId) {
+	// checkMemberIdOptInPolicy
+	is_optIn = $.cookie('is_optIn');
+	is_option = $.cookie('is_option');
+	is_specifyDate = $.cookie('is_specifyDate');
+	if (memberId != 'guest') {
+		if (is_optIn == 1 && is_option == 1 && is_specifyDate == 1) {
+			orderEnabled();
+		} else {
+			orderDisabled();
+		}
+	} else {
+		if (is_option == 1 && is_specifyDate == 1) {
+			orderEnabled();
+		} else {
+			orderDisabled();
+		}
+	}
+
 	// is_specifyDate = $.cookie('is_specifyDate');
 
-	// if (is_optIn == 1 && is_option == 1 && is_specifyDate == 1) {
+	// if (is_specifyDate == 1) {
 	// 	orderEnabled();
 	// } else {
 	// 	orderDisabled();
 	// }
-
-	is_specifyDate = $.cookie('is_specifyDate');
-
-	if (is_specifyDate == 1) {
-		orderEnabled();
-	} else {
-		orderDisabled();
-	}
 }
 
 /* checkMemberIdOptInPolicy
@@ -38,7 +45,7 @@ function checkOrderEnabled() {
 function checkMemberIdOptInPolicy() {
 	if ($('#fs_Checkout,#fs_CheckoutWithAmazon').length) {
 		const memberId = $('#memberId').text();
-		console.log(memberId);
+		// console.log(memberId);
 		// 会員かどうか判定（会員であればmemberIdに整数が入る）
 		if (memberId != 'guest') {
 			// 新しいプライバシーポリシーに同意しているかどうかチェックをする関数
@@ -61,7 +68,7 @@ function checkMemberIdOptInPolicy() {
 					},
 				}).responseText;
 
-				console.log('apiOptInPolicy:', response);
+				// console.log('apiOptInPolicy:', response);
 				response = JSON.parse(response);
 				return response;
 			}
@@ -71,11 +78,13 @@ function checkMemberIdOptInPolicy() {
 				const checkUrl = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/checkMemberOptInPolicy';
 				const checkParams = { member_id: memberId };
 				is_apiOptIn = apiOptInPolicy(checkUrl, checkParams);
+				// console.log('is_apiOptIn:', is_apiOptIn);
 				if (is_apiOptIn['result'] == false) {
 					is_apiOptIn = 'none';
 				} else {
 					is_apiOptIn = is_apiOptIn['is_opt_in'];
 				}
+				// console.log('is_apiOptIn:', is_apiOptIn);
 			}
 
 			//APIのオプトイン状態が1であれば表示しない
@@ -93,17 +102,19 @@ function checkMemberIdOptInPolicy() {
 					$('#optInPolicy input').change(function () {
 						if ($(this).prop('checked')) {
 							$.cookie('is_optIn', 1);
-							console.log('checked-1');
+							// console.log('checked-1');
 						} else {
 							$.cookie('is_optIn', 0);
-							console.log('uncheck');
+							// console.log('uncheck');
 						}
 					});
 				}
 			} else {
 				$.cookie('is_optIn', 1);
-				console.log('checked-2');
+				// console.log('checked-2');
 			}
+		} else {
+			return memberId;
 		}
 	}
 }
@@ -410,6 +421,7 @@ function sizeOrderDisplayThumb() {
 function optionJudgment() {
 	if ($('#fs_Checkout,#fs_CheckoutWithAmazon').length) {
 		var optionResult = false;
+		var memberId;
 		var execution = function () {
 			if (optionResult == false) {
 				optionResult = checkOption();
@@ -621,7 +633,7 @@ function optionJudgment() {
 			}
 
 			couponUseCheck();
-			// checkMemberIdOptInPolicy();
+			memberId = checkMemberIdOptInPolicy();
 		};
 
 		var checkFlag = 0;
@@ -630,7 +642,7 @@ function optionJudgment() {
 
 		setInterval(function () {
 			execution(optionResult);
-			checkOrderEnabled();
+			checkOrderEnabled(memberId);
 		}, 300);
 
 		expectedArrival(optionResult);
