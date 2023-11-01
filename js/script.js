@@ -151,6 +151,7 @@ function previewModeDecision() {
 function putMemberIdOptInPolicy() {
 	if ($('#fs_CheckoutSuccess').length) {
 		const memberId = $('#memberId').text();
+		const is_optIn = $.cookie('is_optIn');
 		// console.log(memberId);
 		// 会員かどうか判定（会員であればmemberIdに整数が入る）
 		if (memberId != 'guest') {
@@ -176,24 +177,29 @@ function putMemberIdOptInPolicy() {
 				response = JSON.parse(response);
 				return response;
 			}
-			is_optIn = $.cookie('is_optIn');
 
-			let jstOffset = 9 * 60 * 60 * 1000;
+			const checkUrl = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/checkMemberOptInPolicy';
+			const checkParams = { member_id: memberId };
+			response = apiOptInPolicy(checkUrl, checkParams);
 
-			// 現在のUTC時間にオフセットを加算して、日本時間を取得
-			let jstDate = new Date(Date.now() + jstOffset);
+			// console.log('response-result:',response['result']);
+			// console.log('response-is_opt_in:',response['is_opt_in']);
+			if (response['result'] == false || response['is_opt_in'] == '') {
+				// console.log('A');
+				let jstOffset = 9 * 60 * 60 * 1000;
 
-			// "yyyy-mm-ddThh:mm:ss" の形式に変換
-			let formattedDate = jstDate.toISOString().split('.')[0];
-			// console.log('memberId:', memberId);
-			// console.log('is_optIn:', is_optIn);
-			// console.log('formattedDate:', formattedDate);
-			postParams = JSON.parse(`{"member_id":"${memberId}","is_opt_in":"${is_optIn}","at_datetime":"${formattedDate}"}`);
-			console.log(postParams);
+				// 現在のUTC時間にオフセットを加算して、日本時間を取得
+				let jstDate = new Date(Date.now() + jstOffset);
 
-			const postUrl = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/postMemberOptInPolicy';
+				// "yyyy-mm-ddThh:mm:ss" の形式に変換
+				let formattedDate = jstDate.toISOString().split('.')[0];
+				postParams = JSON.parse(`{"member_id":"${memberId}","is_opt_in":"${is_optIn}","at_datetime":"${formattedDate}"}`);
+				// console.log(postParams);
 
-			apiOptInPolicy(postUrl, postParams);
+				const postUrl = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/postMemberOptInPolicy';
+
+				apiOptInPolicy(postUrl, postParams);
+			}
 		}
 	}
 }
@@ -1050,11 +1056,11 @@ function searchTagTitle() {
 		$('#fs_ProductSearch h1').html('Autumn SALE 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('Autumn SALE 対象商品');
 		$('title').text('Autumn SALE 対象商品');
-	} else if (params.tag == 'sale20230907-20230921') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230907-20230921_1184x240.jpg" alt="タナリオセール 対象商品">');
-		$('#fs_ProductSearch h1').html('タナリオセール 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('タナリオセール 対象商品');
-		$('title').text('タナリオセール 対象商品');
+	} else if (params.tag == 'sale20231102-20231116') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20231102-20231116_1184x240.jpg" alt="FLASH SALE 対象商品">');
+		$('#fs_ProductSearch h1').html('FLASH SALE 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('FLASH SALE 対象商品');
+		$('title').text('FLASH SALE 対象商品');
 	} else if (params.tag == 'feature20230303') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-feature20230303_1184x240.jpg" alt="入園入学の準備">');
 		$('#fs_ProductSearch h1').html('入園入学の準備');
@@ -2149,6 +2155,26 @@ function rewriteDOM() {
 			}
 		});
 
+		//搬入経路表示
+		if (location.href.match('por-1812tv|por-1815tv')) {
+			//画像を表示
+			var deliveryRoute =
+				'<div class="deliveryRoute mt-8"><p style="font-size: 1.1rem;">商品の大きさにより玄関またはお部屋まで搬入できない場合があります。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">【購入前にご確認いただきたいポイント】<br>・廊下、階段の折り返しスペースの幅と天井までの高さ<br>・玄関などの出入り口の幅と高さ<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.design/item/src/product_detail/detail-deliveryRoute.png?v=20231023" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>';
+			$(deliveryRoute).insertAfter('.fs-c-productOption__comment');
+			//組立サービスが選択されていない場合
+			if (optionName == 'ADIS-00') {
+				$('.deliveryRoute').slideUp();
+			}
+			$('#optionWithPrice_1').change(function () {
+				optionName = $('#optionWithPrice_1').val();
+				if (optionName != 'ADIS-00') {
+					$('.deliveryRoute').slideDown();
+				} else {
+					$('.deliveryRoute').slideUp();
+				}
+			});
+		}
+
 		//商品詳細：お気に入りボタン移動
 		$('.fs-c-productQuantityAndWishlist .fs-c-productQuantityAndWishlist__wishlist').insertAfter('.fs-c-button--addToCart--detail');
 
@@ -2162,7 +2188,9 @@ function rewriteDOM() {
 		}
 
 		if (location.href.match('pre-em1830m|pre-em1860m')) {
-			$('#productActionBox').before('<dl class="fs-c-productOption unusable"><dt class="fs-c-productOption__name"><label for="optionWithPrice_1" class="fs-c-productOption__label">組立サービス</label></dt><dd class="fs-c-productOption__option">この商品は組立サービスをご利用いただけません。</dd></dl><dl class="fs-c-productOption unusable"><dt class="fs-c-productOption__name"><label for="optionWithPrice_1" class="fs-c-productOption__label">ご注意</label></dt><dd class="fs-c-productOption__option red">この商品は受注生産品のため、ご注文確定後はキャンセルを承ることができません。</dd></dl>');
+			$('#productActionBox').before(
+				'<dl class="fs-c-productOption unusable"><dt class="fs-c-productOption__name"><label for="optionWithPrice_1" class="fs-c-productOption__label">組立サービス</label></dt><dd class="fs-c-productOption__option">この商品は組立サービスをご利用いただけません。</dd></dl><dl class="fs-c-productOption unusable"><dt class="fs-c-productOption__name"><label for="optionWithPrice_1" class="fs-c-productOption__label">ご注意</label></dt><dd class="fs-c-productOption__option red">この商品は受注生産品のため、ご注文確定後はキャンセルを承ることができません。</dd></dl>'
+			);
 		}
 
 		//タナリオサイズオーダー テキストリンク
@@ -2170,7 +2198,6 @@ function rewriteDOM() {
 		var url = location.pathname;
 		var seriseCode = url.split('/').pop();
 		// console.log('seriseCode:', seriseCode);
-
 
 		if (seriseCode.indexOf('tnl-t') != -1) {
 			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div>【サイズオーダー】ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-emts">横幅1cm単位でご注文はこちら</a></div></div>');
