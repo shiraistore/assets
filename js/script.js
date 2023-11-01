@@ -193,7 +193,7 @@ function putMemberIdOptInPolicy() {
 
 				// "yyyy-mm-ddThh:mm:ss" の形式に変換
 				let formattedDate = jstDate.toISOString().split('.')[0];
-				postParams = JSON.parse(`{"member_id":"${memberId}","is_opt_in":"${is_optIn}","at_datetime":"${formattedDate}"}`);
+				postParams = JSON.parse(`{"member_id":"${memberId}","is_opt_in":"${is_optIn}","update_at":"${formattedDate}"}`);
 				// console.log(postParams);
 
 				const postUrl = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/postMemberOptInPolicy';
