@@ -194,7 +194,7 @@ function putMemberIdOptInPolicy() {
 				// "yyyy-mm-ddThh:mm:ss" の形式に変換
 				let formattedDate = jstDate.toISOString().split('.')[0];
 				postParams = JSON.parse(`{"member_id":"${memberId}","is_opt_in":"${is_optIn}","update_at":"${formattedDate}"}`);
-				// console.log(postParams);
+				console.log(postParams);
 
 				const postUrl = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/postMemberOptInPolicy';
 
@@ -5119,6 +5119,35 @@ function globalNavi() {
 		$('[class^="data-category-area"]').not(target).slideUp(200);
 		$(target).slideDown(200);
 	});
+
+	var windowWidth = parseInt($(window).width());
+	if (windowWidth > 480) {
+		$('.dropDownloginBox').hover(
+			function () {
+				$('#globalNavi-overlay').hide().stop().fadeIn(200);
+				$('#loginBox').hide().stop().fadeIn(200);
+			},
+			function () {
+				$('#loginBox').stop().fadeOut(200);
+				$('#globalNavi-overlay').stop().fadeOut(200);
+			}
+		);
+	}else if (windowWidth <= 480) {
+		$(document).on('click', '.dropDownloginBox', function () {
+			if ($('#loginBox').css('display') == 'none') {
+				$('#loginBox').slideDown();
+				$('#globalNavi-overlay').fadeIn(200);
+			} else {
+				$('#loginBox').slideUp();
+				$('#globalNavi-overlay').fadeOut(200);
+			}
+		});
+
+		$('#globalNavi-overlay').on('click', function () {
+			$('#loginBox').slideUp();
+			$('#globalNavi-overlay').fadeOut(200);
+		});
+	}
 }
 
 /* imageChange
