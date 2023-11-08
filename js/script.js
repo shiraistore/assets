@@ -4760,19 +4760,31 @@ function calendar() {
 
 	// ["day"] 日付に対してのクラス指定
 	calObj[0].daysClass = new Object();
-	calObj[0].daysClass['2023/7/17'] = 'Holyday';
-	calObj[0].daysClass['2023/8/11'] = 'Holyday';
-	calObj[0].daysClass['2023/8/14'] = 'Holyday';
-	calObj[0].daysClass['2023/8/15'] = 'Holyday';
-	calObj[0].daysClass['2023/8/16'] = 'Holyday';
-	calObj[0].daysClass['2023/9/18'] = 'Holyday';
-	calObj[0].daysClass['2023/10/9'] = 'Holyday';
 	calObj[0].daysClass['2023/11/3'] = 'Holyday';
 	calObj[0].daysClass['2023/11/23'] = 'Holyday';
 	calObj[0].daysClass['2023/12/28'] = 'Holyday';
 	calObj[0].daysClass['2023/12/29'] = 'Holyday';
 	calObj[0].daysClass['2024/1/1'] = 'Holyday';
+	calObj[0].daysClass['2024/1/2'] = 'Holyday';
+	calObj[0].daysClass['2024/1/3'] = 'Holyday';
 	calObj[0].daysClass['2024/1/8'] = 'Holyday';
+	calObj[0].daysClass['2024/2/12'] = 'Holyday';
+	calObj[0].daysClass['2024/2/23'] = 'Holyday';
+	calObj[0].daysClass['2024/3/20'] = 'Holyday';
+	calObj[0].daysClass['2024/4/29'] = 'Holyday';
+	calObj[0].daysClass['2024/5/3'] = 'Holyday';
+	calObj[0].daysClass['2024/5/6'] = 'Holyday';
+	calObj[0].daysClass['2024/7/15'] = 'Holyday';
+	calObj[0].daysClass['2024/8/12'] = 'Holyday';
+	calObj[0].daysClass['2024/8/13'] = 'Holyday';
+	calObj[0].daysClass['2024/8/14'] = 'Holyday';
+	calObj[0].daysClass['2024/8/15'] = 'Holyday';
+	calObj[0].daysClass['2024/9/16'] = 'Holyday';
+	calObj[0].daysClass['2024/9/23'] = 'Holyday';
+	calObj[0].daysClass['2024/10/14'] = 'Holyday';
+	calObj[0].daysClass['2024/11/4'] = 'Holyday';
+	calObj[0].daysClass['2024/12/30'] = 'Holyday';
+	calObj[0].daysClass['2024/12/31'] = 'Holyday';
 	//calObj[0].daysClass["2012/6/9"] = 'Birthday;テキストテキストテキスト<br />テキストテキストテキスト;http://weblogs.trancedive.com';
 	// 2012/6/9にBirthdayクラスを指定ってことね(和田の誕生日です)。
 	// セミコロンで区切ると説明コメント、URLを付けることができます(全クラス指定共通)。
