@@ -1188,7 +1188,7 @@ function ADIS_discriptionOpenClose() {
 		}
 	});
 
-	$('#optDisc-ADIS-close, .optDisc-overlay').on('click', function () {
+	$('#optDisc-ADIS-close, #optDisc-overlay').on('click', function () {
 		$('#optDisc-ADIS-body').fadeOut(200);
 		$('#optDisc-overlay').fadeOut(200);
 	});
