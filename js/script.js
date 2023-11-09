@@ -1160,23 +1160,37 @@ function parameterToArray() {
 ========================================================================== */
 //組立サービス説明 開閉
 function ADIS_discriptionOpenClose() {
+	// $('#optDisc-ADIS-title').on('click', function () {
+	// 	$('#optDisc-ADIS-body').slideToggle(function () {
+	// 		if ($(this).is(':visible')) {
+	// 			$(this).prev('dl').addClass('visible');
+	// 		} else {
+	// 			$(this).prev('dl').removeClass('visible');
+	// 		}
+	// 	});
+	// });
+	// $('#optDisc-ADIS-close').on('click', function () {
+	// 	$('#optDisc-ADIS-body').slideToggle(function () {
+	// 		if ($(this).is(':visible')) {
+	// 			$(this).prev('dl').addClass('visible');
+	// 		} else {
+	// 			$(this).prev('dl').removeClass('visible');
+	// 		}
+	// 	});
+	// });
+
+	$('#optDisc-ADIS-body').after('<div id="optDisc-overlay"></div>');
+
 	$('#optDisc-ADIS-title').on('click', function () {
-		$('#optDisc-ADIS-body').slideToggle(function () {
-			if ($(this).is(':visible')) {
-				$(this).prev('dl').addClass('visible');
-			} else {
-				$(this).prev('dl').removeClass('visible');
-			}
-		});
+		if ($('#optDisc-ADIS-body').css('display') == 'none') {
+			$('#optDisc-ADIS-body').fadeIn(200);
+			$('#optDisc-overlay').fadeIn(200);
+		}
 	});
-	$('#optDisc-ADIS-close').on('click', function () {
-		$('#optDisc-ADIS-body').slideToggle(function () {
-			if ($(this).is(':visible')) {
-				$(this).prev('dl').addClass('visible');
-			} else {
-				$(this).prev('dl').removeClass('visible');
-			}
-		});
+
+	$('#optDisc-ADIS-close, .optDisc-overlay').on('click', function () {
+		$('#optDisc-ADIS-body').fadeOut(200);
+		$('#optDisc-overlay').fadeOut(200);
 	});
 
 	$('.optDisc-ADIS-title').on('click', function () {
