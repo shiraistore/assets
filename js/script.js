@@ -40,7 +40,7 @@ $(function () {
 	reviewSlideDown('#fs_ProductDetails', '240'); //OK
 	instagramPostList(); //OK
 	soldOut(); //OK
-	//transfer();
+	transfer();
 	preSale_displayPassWordForm();
 	featureMamihapiSeries_slider(); //OK
 	featureMamihapiSeries_cart(); //OK
@@ -239,16 +239,24 @@ function cartInPopUp() {
 	}
 }
 
-/* ransfer
+/* transfer
 ========================================================================== */
 function transfer() {
-	if ($('#fs_PageNotFound').length) {
+	// if ($('#fs_PageNotFound').length) {
+	// 	var productURL = location.href;
+
+	// 	if (productURL == 'https://shirai-store.net/c/series/mhp/mhp-8090p-na') {
+	// 		window.location.href = 'https://shirai-store.net/c/preSale/mhp-8090p-na';
+	// 	} else if (productURL == 'https://shirai-store.net/c/series/mhp/mhp-8090p-iv') {
+	// 		window.location.href = 'https://shirai-store.net/c/preSale/mhp-8090p-iv';
+	// 	}
+	// }
+	
+	if ($('#fs_ProductSearch').length) {
 		var productURL = location.href;
 
-		if (productURL == 'https://shirai-store.net/c/series/mhp/mhp-8090p-na') {
-			window.location.href = 'https://shirai-store.net/c/preSale/mhp-8090p-na';
-		} else if (productURL == 'https://shirai-store.net/c/series/mhp/mhp-8090p-iv') {
-			window.location.href = 'https://shirai-store.net/c/preSale/mhp-8090p-iv';
+		if (productURL == 'https://shirai-store.net/p/search?tag=outlet') {
+			window.location.href = 'https://shirai-store.net/c/outlet';
 		}
 	}
 }
