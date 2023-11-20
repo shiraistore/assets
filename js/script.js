@@ -1059,11 +1059,11 @@ function productSortSelect() {
 //セール会場用バナー表示
 function searchTagTitle() {
 	var params = parameterToArray();
-	if (params.tag == 'sale20230921-20231012') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20230921-20231012_1184x240.jpg" alt="Autumn SALE 対象商品">');
-		$('#fs_ProductSearch h1').html('Autumn SALE 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('Autumn SALE 対象商品');
-		$('title').text('Autumn SALE 対象商品');
+	if (params.tag == 'sale20231121-20231207') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20231121-20231207_1184x240.jpg" alt="BLACK FRIDAY 対象商品">');
+		$('#fs_ProductSearch h1').html('BLACK FRIDAY 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('BLACK FRIDAY 対象商品');
+		$('title').text('BLACK FRIDAY 対象商品');
 	} else if (params.tag == 'sale20231102-20231116') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20231102-20231116_1184x240.jpg" alt="FLASH SALE 対象商品">');
 		$('#fs_ProductSearch h1').html('FLASH SALE 対象商品');
