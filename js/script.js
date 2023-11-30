@@ -1064,11 +1064,11 @@ function searchTagTitle() {
 		$('#fs_ProductSearch h1').html('BLACK FRIDAY 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('BLACK FRIDAY 対象商品');
 		$('title').text('BLACK FRIDAY 対象商品');
-	} else if (params.tag == 'sale20231102-20231116') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20231102-20231116_1184x240.jpg" alt="FLASH SALE 対象商品">');
-		$('#fs_ProductSearch h1').html('FLASH SALE 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('FLASH SALE 対象商品');
-		$('title').text('FLASH SALE 対象商品');
+	} else if (params.tag == 'sale20231207-20231226') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20231207-20231226_1184x240.jpg" alt="Winter SALE 対象商品">');
+		$('#fs_ProductSearch h1').html('Winter SALE 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('Winter SALE 対象商品');
+		$('title').text('Winter SALE 対象商品');
 	} else if (params.tag == 'feature20230303') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-feature20230303_1184x240.jpg" alt="入園入学の準備">');
 		$('#fs_ProductSearch h1').html('入園入学の準備');
