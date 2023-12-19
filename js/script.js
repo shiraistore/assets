@@ -4789,6 +4789,7 @@ function calendar() {
 	calObj[0].daysClass['2024/1/1'] = 'Holyday';
 	calObj[0].daysClass['2024/1/2'] = 'Holyday';
 	calObj[0].daysClass['2024/1/3'] = 'Holyday';
+	calObj[0].daysClass['2024/1/4'] = 'Holyday';
 	calObj[0].daysClass['2024/1/8'] = 'Holyday';
 	calObj[0].daysClass['2024/2/12'] = 'Holyday';
 	calObj[0].daysClass['2024/2/23'] = 'Holyday';
@@ -4801,6 +4802,7 @@ function calendar() {
 	calObj[0].daysClass['2024/8/13'] = 'Holyday';
 	calObj[0].daysClass['2024/8/14'] = 'Holyday';
 	calObj[0].daysClass['2024/8/15'] = 'Holyday';
+	calObj[0].daysClass['2024/8/16'] = 'Holyday';
 	calObj[0].daysClass['2024/9/16'] = 'Holyday';
 	calObj[0].daysClass['2024/9/23'] = 'Holyday';
 	calObj[0].daysClass['2024/10/14'] = 'Holyday';
