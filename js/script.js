@@ -1059,11 +1059,11 @@ function productSortSelect() {
 //セール会場用バナー表示
 function searchTagTitle() {
 	var params = parameterToArray();
-	if (params.tag == 'sale20231121-20231207') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20231121-20231207_1184x240.jpg" alt="BLACK FRIDAY 対象商品">');
-		$('#fs_ProductSearch h1').html('BLACK FRIDAY 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('BLACK FRIDAY 対象商品');
-		$('title').text('BLACK FRIDAY 対象商品');
+	if (params.tag == 'sale20231226-20240109') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20231226-20240109_1184x240.jpg" alt="歳末＆新春セール 対象商品">');
+		$('#fs_ProductSearch h1').html('歳末＆新春セール 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('歳末＆新春セール 対象商品');
+		$('title').text('歳末＆新春セール 対象商品');
 	} else if (params.tag == 'sale20231207-20231226') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20231207-20231226_1184x240.jpg" alt="Winter SALE 対象商品">');
 		$('#fs_ProductSearch h1').html('Winter SALE 対象商品');
