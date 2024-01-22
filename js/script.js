@@ -2406,6 +2406,9 @@ function rewriteDOM() {
 					case 'ホワイト単色':
 						orderColor = 'WT';
 						break;
+					case 'グレー単色':
+						orderColor = 'GY';
+						break;
 				}
 
 				if (orderType == 'TNL-EMTS') {
