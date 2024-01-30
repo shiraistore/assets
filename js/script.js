@@ -2160,6 +2160,36 @@ function rewriteDOM() {
 			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-doorOpeningDirection.png">');
 		} else if (location.href.match('adl')) {
 			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-adlOpeningDirection.png">');
+		} else if (location.href.match('lge-1612-na')) {
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-1612-na.png">');
+		} else if (location.href.match('lge-1612-iv')) {
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-1612-iv.png">');
+		} else if (location.href.match('lge-1612-dk')) {
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-1612-dk.png">');
+		} else if (location.href.match('lge-1212-na')) {
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-1212-na.png">');
+		} else if (location.href.match('lge-1212-iv')) {
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-1212-iv.png">');
+		} else if (location.href.match('lge-1212-dk')) {
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-1212-dk.png">');
+		} else if (location.href.match('lge-1285-na')) {
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-1285-na.png">');
+		} else if (location.href.match('lge-1285-iv')) {
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-1285-iv.png">');
+		} else if (location.href.match('lge-1285-dk')) {
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-1285-dk.png">');
+		} else if (location.href.match('lge-8545-na')) {
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-8545-na.png">');
+		} else if (location.href.match('lge-8545-iv')) {
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-8545-iv.png">');
+		} else if (location.href.match('lge-8545-dk')) {
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-8545-dk.png">');
+		 }else if (location.href.match('lge-8585-na')) {
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-8585-na.png">');
+		} else if (location.href.match('lge-8585-iv')) {
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-8585-iv.png">');
+		} else if (location.href.match('lge-8585-dk')) {
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-8585-dk.png">');
 		}
 
 		//組立サービス変更
@@ -3260,12 +3290,12 @@ function productDetailAddData() {
 		//商品の特長の開くボタン
 		$('.productDetailGradient span').click(function () {
 			//現在のheight取得
-			curHeight = $('.fs-p-productDescription--full').height();
+			curHeight = $('#productDescriptionBlock').height();
 			//autoにした場合のheightを取得
-			autoHeight = $('.fs-p-productDescription--full').css('height', 'auto').height();
+			autoHeight = $('#productDescriptionBlock').css('height', 'auto').height();
 			//autoにした場合のheightへ向かってanimate
 			//数値なのでanimateが有効
-			$('.fs-p-productDescription--full')
+			$('#productDescriptionBlock')
 				.height(curHeight)
 				.animate({ height: autoHeight }, 500, 'linear', function () {
 					$('.productDetailGradient').remove();
