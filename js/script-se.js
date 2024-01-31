@@ -320,6 +320,9 @@ function sizeOrderDisplayThumb() {
 						case 'ホワイト単色':
 							orderColor = 'WT';
 							break;
+						case 'グレー単色':
+							orderColor = 'GY';
+							break;
 					}
 
 					// console.log(orderType);
@@ -462,7 +465,7 @@ function optionJudgment() {
 						var deliveryTime = $('.fs-c-checkout-delivery__method__deliveryTime').next('dd').text();
 
 						if (optionResult.result2 >= 0) {
-							if (checkZipCodeResult.is_yhc_serviceType4 == 1 || checkZipCodeResult.is_yhc_serviceType3 == 1) {
+							if (checkZipCodeResult.is_yhc_service_type_4 == 1 || checkZipCodeResult.is_yhc_service_type_3 == 1) {
 								if (deliveryDate == '指定なし' || deliveryTime == '指定なし') {
 									//組立済+搬入サービスは日時指定が必須
 
@@ -474,7 +477,7 @@ function optionJudgment() {
 								} else {
 									$.cookie('is_specifyDate', 1);
 								}
-							} else if (checkZipCodeResult.is_yhc_serviceType4 == 0 && checkZipCodeResult.is_yhc_serviceType3 == 0) {
+							} else if (checkZipCodeResult.is_yhc_service_type_4 == 0 && checkZipCodeResult.is_yhc_service_type_3 == 0) {
 								if (deliveryDate == '指定なし') {
 									// orderDisabled();
 									$.cookie('is_specifyDate', 0);
@@ -1191,7 +1194,7 @@ function expectedArrival(optionResult) {
 							var prefArray = prefArray_YHC;
 							expectedArrivalTime_YHC(checkZipCodeResult);
 
-							if (checkZipCodeResult.is_yhc_serviceType4 == 0 && checkZipCodeResult.is_yhc_serviceType3 == 0) {
+							if (checkZipCodeResult.is_yhc_service_type_4 == 0 && checkZipCodeResult.is_yhc_service_type_3 == 0) {
 								$('#fs_input_expectedArrival_time').replaceWith('<select name="time" id="fs_input_expectedArrival_time" class="fs-c-dropdown__menu" disabled><option value="none" selected="selected">指定なし</option></select>');
 								$('.fs-c-checkout-deliveryMethod__deliveryTime label').html('お届け時間帯 <span class="red">このお届け先は時間をご指定いただけません</span>');
 								$('#fs_input_expectedArrival_time option[value="none"]').prop('selected', true);
@@ -1368,11 +1371,11 @@ function expectedArrivalTime_YHC(checkZipCodeResult) {
 	var selected = $('#fs_input_expectedArrival_time').val();
 	//console.log(selected);
 
-	if (checkZipCodeResult.is_yhc_serviceType4 == 1) {
+	if (checkZipCodeResult.is_yhc_service_type_4 == 1) {
 		var expectedArrival_time_type4_html = '<option value="6">12:00〜15:00</option><option value="7">15:00〜18:00</option><option value="8">18:00〜21:00</option>';
 		$('#fs_input_expectedArrival_time').replaceWith('<select name="time" id="fs_input_expectedArrival_time" class="fs-c-dropdown__menu"><option value="none" selected="selected">指定なし</option><option value="1">午前中</option>' + expectedArrival_time_type4_html + '</select>');
 		$('#fs_input_expectedArrival_time option[value="' + selected + '"]').prop('selected', true);
-	} else if (checkZipCodeResult.is_yhc_serviceType3 == 1) {
+	} else if (checkZipCodeResult.is_yhc_service_type_3 == 1) {
 		var expectedArrival_time_type3_html = '<option value="9">12:00〜18:00</option><option value="8">18:00〜21:00</option>';
 		$('#fs_input_expectedArrival_time').replaceWith('<select name="time" id="fs_input_expectedArrival_time" class="fs-c-dropdown__menu"><option value="none" selected="selected">指定なし</option><option value="1">午前中</option>' + expectedArrival_time_type3_html + '</select>');
 		$('#fs_input_expectedArrival_time option[value="' + selected + '"]').prop('selected', true);
