@@ -2272,7 +2272,7 @@ function rewriteDOM() {
 
 		//ルチカクーポン施策
 		if (seriseCode.indexOf('ltk') != -1) {
-			$('.fs-c-productPostage').after('<div id="ltkCoupon"><div class="ltkCouponLeft"><div class="ltkSeries"><span class="ltkSeriesTitle">ルチカシリーズ</span></div><div class="ltk1000off">1000円OFFクーポン</div><div class="ltkCouponCode"><div class="ltkCouponCodeText">クーポンコード：LTK1000</div><div class="ltkCouponCodeCopy">コピー</div></div><p class="ltkCaution">※有効期限…2024/2/15（何度でもお使いいただけます）<br>※ご利用には会員登録が必要です。</p></div><div class="ltkCouponRight"></div><div class="success-msg">クリップボードにコピーしました</div></div>');
+			$('.fs-c-productPostage').after('<div id="ltkCoupon"><div class="ltkCouponLeft"><div class="ltkSeries"><span class="ltkSeriesTitle">ルチカシリーズ</span></div><div class="ltkDiscout">30%OFFクーポン</div><div class="ltkCouponCode"><div class="ltkCouponCodeText">クーポンコード：LTK1000</div><div class="ltkCouponCodeCopy">コピー</div></div><p class="ltkCaution">※有効期限…2024/2/15（何度でもお使いいただけます）<br>※ご利用には会員登録が必要です。</p></div><div class="ltkCouponRight"></div><div class="success-msg">クリップボードにコピーしました</div></div>');
 
 			$('#ltkCoupon').click(function () {
 				var code = 'LTK1000';
