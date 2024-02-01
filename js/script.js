@@ -2268,6 +2268,25 @@ function rewriteDOM() {
 		}
 
 		// console.log('match:', seriseCode.match(/.*sep-[0-9]{4}?-.*/));
+
+
+		//ルチカクーポン施策
+		if (seriseCode.indexOf('ltk') != -1) {
+			$('.fs-c-productPostage').after('<div id="ltkCoupon"><div class="ltkCouponLeft"><div class="ltkSeries"><span class="ltkSeriesTitle">ルチカシリーズ</span></div><div class="ltk1000off">1000円OFFクーポン</div><div class="ltkCouponCode"><div class="ltkCouponCodeText">クーポンコード：LTK1000</div><div class="ltkCouponCodeCopy">コピー</div></div><p class="ltkCaution">※有効期限…2024/2/15（何度でもお使いいただけます）<br>※ご利用には会員登録が必要です。</p></div><div class="ltkCouponRight"></div><div class="success-msg">クリップボードにコピーしました</div></div>');
+
+			$('#ltkCoupon').click(function () {
+				var code = 'LTK1000';
+		
+				// クリップボードにコピー
+				navigator.clipboard.writeText(code);
+		
+				// メッセージ表示
+				$('.success-msg').fadeIn('slow', function () {
+					$(this).delay(2000).fadeOut('slow');
+				});
+			});
+		}
+
 	}
 
 	if ($('#fs_ShoppingCart').length) {
