@@ -33,6 +33,7 @@ $(function () {
 	productDetail_logContentsBanner();
 	productDetail_porContentsBanner();
 	productDetail_amrContentsBanner();
+	productDetail_ntuContentsBanner();
 	productDetail_howToStoreKidsBooksContentsBanner();
 	searchTagsTitleDescriptionChange();
 	putMemberIdOptInPolicy();
@@ -928,6 +929,21 @@ function productDetail_amrContentsBanner() {
 		var series = url[url.length - 1].split('-');
 		if (series[0] == 'amr') {
 			var html = '<ul id="contents-banner"><li><a href="/f/feature/admira-capacity"><img src="https://shiraistore.itembox.design/item/src/banner_admira-capacity_460x96.jpg"></a></li></ul>';
+			$('#productActionBox').after(html);
+		}
+	}
+}
+
+/* productDetail_ntuContentsBanner
+========================================================================== */
+function productDetail_ntuContentsBanner() {
+	if ($('#fs_ProductDetails').length) {
+		var url = window.location.pathname.substring(1);
+		url = url.split('/');
+		var series = url[url.length - 1].split('-');
+		if (series[0] == 'ntu') {
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/naturica-coordinate"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-naturica-coordinate.jpg"></a></li></ul>';
+
 			$('#productActionBox').after(html);
 		}
 	}
