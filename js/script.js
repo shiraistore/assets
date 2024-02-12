@@ -33,6 +33,7 @@ $(function () {
 	productDetail_logContentsBanner();
 	productDetail_porContentsBanner();
 	productDetail_amrContentsBanner();
+	productDetail_ntuContentsBanner();
 	productDetail_howToStoreKidsBooksContentsBanner();
 	searchTagsTitleDescriptionChange();
 	putMemberIdOptInPolicy();
@@ -194,7 +195,7 @@ function putMemberIdOptInPolicy() {
 				// "yyyy-mm-ddThh:mm:ss" の形式に変換
 				let formattedDate = jstDate.toISOString().split('.')[0];
 				postParams = JSON.parse(`{"member_id":"${memberId}","is_opt_in":"${is_optIn}","update_at":"${formattedDate}"}`);
-				console.log(postParams);
+				// console.log(postParams);
 
 				const postUrl = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/postMemberOptInPolicy';
 
@@ -465,7 +466,7 @@ function searchTagsCanonicalChange() {
 function searchTagsTitleDescriptionChange() {
 	if ($('#fs_ProductSearch').length) {
 		var param = getParam('tag');
-		console.log(param);
+		// console.log(param);
 		switch (param) {
 			case 'おもちゃ収納ずっと使える':
 				$('title').html('大きくなってもずっと使えるおもちゃ収納の商品一覧 | 収納家具専門 SHIRAI STORE');
@@ -928,6 +929,21 @@ function productDetail_amrContentsBanner() {
 		var series = url[url.length - 1].split('-');
 		if (series[0] == 'amr') {
 			var html = '<ul id="contents-banner"><li><a href="/f/feature/admira-capacity"><img src="https://shiraistore.itembox.design/item/src/banner_admira-capacity_460x96.jpg"></a></li></ul>';
+			$('#productActionBox').after(html);
+		}
+	}
+}
+
+/* productDetail_ntuContentsBanner
+========================================================================== */
+function productDetail_ntuContentsBanner() {
+	if ($('#fs_ProductDetails').length) {
+		var url = window.location.pathname.substring(1);
+		url = url.split('/');
+		var series = url[url.length - 1].split('-');
+		if (series[0] == 'ntu') {
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/naturica-coordinate"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-naturica-coordinate.jpg"></a></li></ul>';
+
 			$('#productActionBox').after(html);
 		}
 	}
@@ -1662,7 +1678,7 @@ function modal_addContent_instagram(instagramPostData, thumbnail_url, element) {
 function multipleRankingTop10() {
 	$('.productTop10Slider').each(function () {
 		if (typeof $(this).data('category') !== 'undefined') {
-			console.log('AAAA');
+			// console.log('AAAA');
 			var category = $(this).data('category');
 			if (category == 'allProducts') {
 				var categoryName = '';
@@ -2268,6 +2284,25 @@ function rewriteDOM() {
 		}
 
 		// console.log('match:', seriseCode.match(/.*sep-[0-9]{4}?-.*/));
+
+
+		//ルチカクーポン施策
+		if (seriseCode.indexOf('ltk') != -1) {
+			$('.fs-c-productPostage').after('<div id="ltkCoupon"><div class="ltkCouponLeft"><div class="ltkSeries"><span class="ltkSeriesTitle">ルチカシリーズ</span></div><div class="ltkDiscout">30%OFFクーポン</div><div class="ltkCouponCode"><div class="ltkCouponCodeText">クーポンコード：LTK1000</div><div class="ltkCouponCodeCopy">コピー</div></div><p class="ltkCaution">※有効期限…2024/2/15（何度でもお使いいただけます）<br>※ご利用には会員登録が必要です。</p></div><div class="ltkCouponRight"></div><div class="success-msg">クリップボードにコピーしました</div></div>');
+
+			$('#ltkCoupon').click(function () {
+				var code = 'LTK1000';
+		
+				// クリップボードにコピー
+				navigator.clipboard.writeText(code);
+		
+				// メッセージ表示
+				$('.success-msg').fadeIn('slow', function () {
+					$(this).delay(2000).fadeOut('slow');
+				});
+			});
+		}
+
 	}
 
 	if ($('#fs_ShoppingCart').length) {
@@ -3234,30 +3269,6 @@ function productDetailAddData() {
 		});
 
 		$(window).on('load', function () {
-			var srcPath = '';
-			if ($('.fs-body-product-log-3518gh-br').length) {
-				srcPath = '83d65eca-f3fc-47f1-900c-262e5b54bf7c';
-			} else if ($('.fs-body-product-log-3518gh-na').length) {
-				srcPath = '3e0e9ccf-6d54-441f-b175-b9a71fb4aa31';
-			} else if ($('.fs-body-product-log-3515gh-br').length) {
-				srcPath = 'c597604c-65a3-4bea-af06-bf6fdc839309';
-			} else if ($('.fs-body-product-log-3515gh-na').length) {
-				srcPath = 'efc87ddb-72ef-4483-acea-d1d71e07d7d8';
-			} else if ($('.fs-body-product-log-3512gh-br').length) {
-				srcPath = '56675797-ed1f-4f50-914e-8361cc05853e';
-			} else if ($('.fs-body-product-log-3512gh-na').length) {
-				srcPath = '7b198c17-5371-4fc2-81d2-7d3b7eb6518f';
-			}
-
-			if (srcPath != '') {
-				$('#productImageBoxSlider').after(
-					'<div id="showRoom"><div class="modal-open text-link-color">360°ビュー</div><a href="https://1tap-showroom.dendoh.co.jp/ar/?key=' +
-						srcPath +
-						'&placement=0" class="displayInlineBlock ml-8 text-link-color" target="_blank">ARでサイズ感を試す</a><div class="modal-container"><div class="modal-body"><div class="modal-close">×</div><div class="modal-content"><iframe loading="lazy" src="https://1tap-showroom.dendoh.co.jp/embed/?key=' +
-						srcPath +
-						'" title="ワンタップショールーム" frameborder="0" width="100%" height="600px"></iframe></div></div></div></div>'
-				);
-			}
 
 			// 変数に要素を入れる
 			var open = $('.modal-open'),
@@ -3306,7 +3317,7 @@ function productDetailAddData() {
 
 		// var dataForProductDetailUrl = 'https://cdn.shirai-store.net/assets/json/productDetail/dataForProductDetail_' + modelCode + '_v2_1.json';
 
-		var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/getDataForProductDetail';
+		var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/get_data_for_product_detail';
 		var params = { product_number: modelCode };
 		//console.log(JSON.stringify(params));
 
@@ -4136,7 +4147,7 @@ function checkScreenSize() {
 			$('.productTop10Slider').removeClass('destroy');
 		}
 	}
-	//newLife2022
+	//newLife
 	if ($('#newLife2022').length && (newLife_top10Slider1 || newLife_top10Slider2 || newLife_top10Slider3 || newLife_top10Slider4 || newLife_top10Slider5 || newLife_top10Slider6 || newLife_top10Slider7 || newLife_top10Slider8 || newLife_top10Slider9 || newLife_top10Slider10 || newLife_top10Slider11 || newLife_top10Slider12 || newLife_top10Slider13)) {
 		var newWindowWidth = $(window).width();
 		if (newWindowWidth <= 1200) {
