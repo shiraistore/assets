@@ -3341,7 +3341,7 @@ function productDetailAddData() {
 
 		response = JSON.parse(response);
 
-		// console.log(response);
+		console.log(response);
 
 		data = response.result;
 		// console.log(dataForProductDetailUrl);
