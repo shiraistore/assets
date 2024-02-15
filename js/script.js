@@ -3341,7 +3341,7 @@ function productDetailAddData() {
 
 		response = JSON.parse(response);
 
-		console.log(response);
+		// console.log(response);
 
 		data = response.result;
 		// console.log(dataForProductDetailUrl);
@@ -3950,7 +3950,7 @@ function productDetailAddData() {
 
 
 		//商品詳細おすすめ表示 ※開発中
-		console.log(data.productsAffinity);
+		// console.log(data.productsAffinity);
 		if (data.productsAffinity.length >= 1) {
 			for (var i in data.productsAffinity) {
 				var productUrl = data.productsAffinity[i].productUrl,
