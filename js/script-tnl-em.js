@@ -455,7 +455,7 @@ function tnl_em_select() {
 					$('#tnl_em_selectedStrength').text(optionStrengthName);
 					$('#tnl_em_selectedMaterial').text(optionMaterialName);
 					$('#tnl_em_selectedADIS').text(optionADISName);
-					if (optionColor == 'NA' || optionColor == 'NB' || optionColor == 'WH' || optionColor == 'WT') {
+					if (optionColor == 'NA' || optionColor == 'NB' || optionColor == 'WH' || optionColor == 'WT' || optionColor == 'GY') {
 						var optionTextInversion = 'textColorInversion';
 					} else {
 						var optionTextInversion = '';
@@ -705,7 +705,7 @@ function tnl_emu_select() {
 					$('#tnl_emu_selectedDepth').text(optionDepthName);
 					$('#tnl_emu_selectedMaterial').text(optionMaterialName);
 					$('#tnl_emu_selectedADIS').text(optionADISName);
-					if (optionColor == 'NA' || optionColor == 'NB' || optionColor == 'WH' || optionColor == 'WT') {
+					if (optionColor == 'NA' || optionColor == 'NB' || optionColor == 'WH' || optionColor == 'WT' || optionColor == 'GY') {
 						var optionTextInversion = 'textColorInversion';
 					} else {
 						var optionTextInversion = '';
@@ -898,7 +898,7 @@ function tnl_emts_select() {
 					$('#tnl_emts_selectedDepth').text(optionDepthName);
 					$('#tnl_emts_selectedStrength').text(optionStrengthName);
 					$('#tnl_emts_selectedMaterial').text(optionMaterialName);
-					if (optionColor == 'NA' || optionColor == 'NB' || optionColor == 'WH' || optionColor == 'WT') {
+					if (optionColor == 'NA' || optionColor == 'NB' || optionColor == 'WH' || optionColor == 'WT' || optionColor == 'GY') {
 						var optionTextInversion = 'textColorInversion';
 					} else {
 						var optionTextInversion = '';
