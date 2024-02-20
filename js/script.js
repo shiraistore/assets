@@ -1075,7 +1075,19 @@ function productSortSelect() {
 //セール会場用バナー表示
 function searchTagTitle() {
 	var params = parameterToArray();
-	if (params.tag == 'sale20231226-20240109') {
+	if (params.tag == 'sale20240222-20240321-1') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240222-20240321_1184x240.jpg" alt="新生活応援セール 第1弾 対象商品">');
+		$('#fs_ProductSearch h1').html('新生活応援セール 第1弾 対象商品');
+		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li class="active">一人暮らし</li><li><a href="/p/search?tag=sale20240222-20240321-2">ファミリー</a></li></ul>');
+		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール 第1弾 対象商品');
+		$('title').text('新生活応援セール 第1弾 対象商品');
+	}  else if (params.tag == 'sale20240222-20240321-2') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240222-20240321_1184x240.jpg" alt="新生活応援セール 第1弾 対象商品">');
+		$('#fs_ProductSearch h1').html('新生活応援セール 第1弾 対象商品');
+		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li><a href="/p/search?tag=sale20240222-20240321-1">一人暮らし</a></li><li class="active">ファミリー</li></ul>');
+		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール 第1弾 対象商品');
+		$('title').text('新生活応援セール 第1弾 対象商品 | 家具インテリア通販のSHIRAI STORE(白井産業)');
+	} else if (params.tag == 'sale20231226-20240109') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20231226-20240109_1184x240.jpg" alt="歳末＆新春セール 対象商品">');
 		$('#fs_ProductSearch h1').html('歳末＆新春セール 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('歳末＆新春セール 対象商品');
@@ -2009,7 +2021,7 @@ function rankingTop10_forFanplayr(category) {
 	}
 
 	$('#rankingTop10_forFanplayr ul').before('<h4>' + categoryName + ' ランキング</h4>');
-	$('#rankingTop10_forFanplayr ul').after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking-' + cateory + '?fp=' + category + 'ranking" class="fs-c-button--standard">もっと見る</a></div>');
+	$('#rankingTop10_forFanplayr ul').after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking-' + category + '?fp=' + category + 'ranking" class="fs-c-button--standard">もっと見る</a></div>');
 	g;
 }
 
