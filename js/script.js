@@ -2016,6 +2016,9 @@ function rankingTop10_forFanplayr(category) {
 		case 'tv-stand':
 			categoryName = 'テレビ台';
 			break;
+		case 'kitchen':
+			categoryName = 'キッチン収納';
+			break;
 		default:
 			break;
 	}
@@ -3961,7 +3964,7 @@ function productDetailAddData() {
 		}
 
 
-		//商品詳細おすすめ表示 ※開発中
+		// //商品詳細おすすめ表示 ※開発中
 		// console.log(data.productsAffinity);
 		// if (data.productsAffinity.length >= 1) {
 		// 	for (var i in data.productsAffinity) {
@@ -3978,11 +3981,12 @@ function productDetailAddData() {
 		// 			reviewScore = Number(data.productsAffinity[i].averageRating).toFixed(1),
 		// 			reviewCount = Number(data.productsAffinity[i].reviewCount),
 		// 			thumbnail = data.productsAffinity[i].thumbNumber,
-		// 			categoryName = data.productsAffinity[i].categoryLv1,
+		// 			categoryName = data.productsAffinity[i].categoryName,
 		// 			categoryUrl = data.productsAffinity[i].categoryUrl;
 
 		// 		thumbnail = ('00' + thumbnail).slice(-2);
 
+		// 		console.log(categoryName);
 		// 		if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 		// 			seriesCode = 'tl';
 		// 		} else if (seriesCode == 'ona') {
@@ -4004,10 +4008,10 @@ function productDetailAddData() {
 		// 				if (icon_ary[j] != '') {
 		// 					icon_ary[j] = icon_ary[j].split(':');
 
-		// 					if (icon_ary[j][0] == 'mark-categoryRank' && icon_ary[j][1] < 11) {
-		// 						categoryName = categoryNameShorter(categoryName);
-		// 						iconHtml += '<a href="/f/ranking-' + categoryUrl + '" class="mark-catRank">' + categoryName + ' ' + icon_ary[j][1] + '位</a>';
-		// 					}
+		// 					// if (icon_ary[j][0] == 'mark-categoryRank' && icon_ary[j][1] < 11) {
+		// 					// 	categoryName = categoryNameShorter(categoryName);
+		// 					// 	iconHtml += '<a href="/f/ranking-' + categoryUrl + '" class="mark-catRank">' + categoryName + ' ' + icon_ary[j][1] + '位</a>';
+		// 					// }
 
 		// 					if (icon_ary[j][0] == 'mark-new') {
 		// 						iconHtml += '<span class="mark-new">新着</span>';
@@ -4044,7 +4048,7 @@ function productDetailAddData() {
 		// 			seriesCode +
 		// 			'/' +
 		// 			productUrl +
-		// 			'"><img src="https://shiraistore.itembox.design/product/' +
+		// 			'"><span><img src="https://shiraistore.itembox.design/product/' +
 		// 			zeroPadding(product_image_group, 3) +
 		// 			'/' +
 		// 			productId_12Len +
@@ -4054,21 +4058,18 @@ function productDetailAddData() {
 		// 			thumbnail +
 		// 			'-m.jpg" alt="' +
 		// 			productName +
-		// 			'" ><h3>' +
+		// 			'" ></span><h4>' +
 		// 			productName +
-		// 			'</h3></a>' +
-		// 			'<div class="productMarks">' +
-		// 			iconHtml +
-		// 			'</div>' +
-		// 			'<div class="productSize">' +
-		// 			size +
-		// 			'</div>' +
+		// 			'</h4></a>' +
 		// 			reviewHTML +
 		// 			'<a href="/c/series/' +
 		// 			seriesCode +
 		// 			'/' +
 		// 			productUrl +
-		// 			'">' +
+		// 			'">' + 
+		// 			'<div class="productMarks">' +
+		// 			iconHtml +
+		// 			'</div>'  +
 		// 			sellingPrice +
 		// 			'</a></li>';
 		// 			console.log(h);
