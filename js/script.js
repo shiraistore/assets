@@ -3356,7 +3356,7 @@ function productDetailAddData() {
 
 		response = JSON.parse(response);
 
-		console.log(response);
+		//console.log(response);
 
 		data = response.result;
 		// console.log(dataForProductDetailUrl);
@@ -3965,7 +3965,7 @@ function productDetailAddData() {
 
 
 		//商品詳細おすすめ表示 ※開発中
-		console.log(data.productsAffinity);
+		//console.log(data.productsAffinity);
 		if (data.productsAffinity.length >= 1) {
 			for (var i in data.productsAffinity) {
 				var productUrl = data.productsAffinity[i].productUrl,
@@ -3986,7 +3986,6 @@ function productDetailAddData() {
 
 				thumbnail = ('00' + thumbnail).slice(-2);
 
-				console.log(categoryName);
 				if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 					seriesCode = 'tl';
 				} else if (seriesCode == 'ona') {
@@ -4072,7 +4071,7 @@ function productDetailAddData() {
 					'">' + 
 					sellingPrice +
 					'</a></li>';
-					console.log(h);
+					//console.log(h);
 				$('.productTop10Slider.productsAffinity ul').append(h);
 			}
 			checkScreenSize();
