@@ -2019,6 +2019,15 @@ function rankingTop10_forFanplayr(category) {
 		case 'kitchen':
 			categoryName = 'キッチン収納';
 			break;
+		case 'kids':
+			categoryName = 'キッズ収納';
+			break;
+		case 'entrance':
+			categoryName = '玄関収納';
+			break;
+		case 'wall-unit-storage':
+			categoryName = '壁面収納・システム収納';
+			break;
 		default:
 			break;
 	}
