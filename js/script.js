@@ -1092,11 +1092,18 @@ function searchTagTitle() {
 		$('#fs_ProductSearch h1').html('歳末＆新春セール 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('歳末＆新春セール 対象商品');
 		$('title').text('歳末＆新春セール 対象商品');
-	} else if (params.tag == 'sale20231207-20231226') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20231207-20231226_1184x240.jpg" alt="Winter SALE 対象商品">');
-		$('#fs_ProductSearch h1').html('Winter SALE 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('Winter SALE 対象商品');
-		$('title').text('Winter SALE 対象商品');
+	} else if (params.tag == 'sale20240321-20240418-1') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240321-20240418_1184x240.jpg" alt="新生活応援セール 第2弾 対象商品">');
+		$('#fs_ProductSearch h1').html('新生活応援セール 第2弾 対象商品');
+		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li class="active">一人暮らし</li><li><a href="/p/search?tag=sale20240321-20240418-2">ファミリー</a></li></ul>');
+		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール 第2弾 対象商品');
+		$('title').text('新生活応援セール 第2弾 対象商品');
+	} else if (params.tag == 'sale20240321-20240418-2') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240321-20240418_1184x240.jpg" alt="新生活応援セール 第2弾 対象商品">');
+		$('#fs_ProductSearch h1').html('新生活応援セール 第2弾 対象商品');
+		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li><a href="/p/search?tag=sale20240321-20240418-1">一人暮らし</a></li><li class="active">ファミリー</li></ul>');
+		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール 第2弾 対象商品');
+		$('title').text('新生活応援セール 第2弾 対象商品 | 家具インテリア通販のSHIRAI STORE(白井産業)');
 	} else if (params.tag == 'feature20240216') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-feature20240216_1184x240.jpg" alt="入園入学の準備">');
 		$('#fs_ProductSearch h1').html('入園入学の準備');
