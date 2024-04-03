@@ -2359,7 +2359,9 @@ function hitItemProduct_forFanplayr() {
 						seriesCode +
 						'/' +
 						productUrl +
-						'"><img src="https://shiraistore.itembox.design/product/' +
+						'?fp=' + 
+						categoryUrl + 
+						'HitItem"><img src="https://shiraistore.itembox.design/product/' +
 						zeroPadding(product_image_group, 3) +
 						'/' +
 						productId_12Len +
@@ -2375,7 +2377,9 @@ function hitItemProduct_forFanplayr() {
 						seriesCode +
 						'/' +
 						productUrl +
-						'"><h4>HIT ITEM</h4><p>' +
+						'?fp=' + 
+						categoryUrl +
+						'HitItem"><h4>HIT ITEM</h4><p>' +
 						productName +
 						'</p><div class="productMarks">' +
 						iconHtml +
