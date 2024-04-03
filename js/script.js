@@ -48,7 +48,6 @@ $(function () {
 	featureMamihapibyage_slider(); //OK
 	featureMamihapiByage_cart(); //OK
 	productListAddData(); //OK
-	hitItemProduct_forFanplayr();
 	productDetailAddData(); //OK
 	orderChangeCancelForm();
 	multipleReviewList(); //OK
@@ -2273,11 +2272,6 @@ function hitItemProduct_forFanplayr() {
 						if (icon_ary[j] != '') {
 							icon_ary[j] = icon_ary[j].split(':');
 		
-							// if (icon_ary[j][0] == 'mark-rank' && categoryUrl == '') {
-							//     //categoryName = categoryNameShorter(categoryName);
-							//     iconHtml += '<span class="mark-rank">' + icon_ary[j][1] + '位</span>';
-							// }
-		
 							if (icon_ary[j][0] == 'mark-categoryRank' && categoryUrl != '') {
 								//categoryName = categoryNameShorter(categoryName);
 								iconHtml += '<span class="mark-rank">ランキング' + icon_ary[j][1] + '位</span>';
@@ -2336,16 +2330,7 @@ function hitItemProduct_forFanplayr() {
 					} else {
 						reviewHTML = '';
 					}
-		
-					// reviewScore = reviewScoreThreshold(reviewScore);
-		
-					// var reviewHTML = '';
-		
-					// if (reviewScore != 0) {
-					// 	reviewHTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + productUrl + '">（' + reviewCount + '）</a></div>';
-					// } else {
-					// 	reviewHTML = '';
-					// }
+
 		
 					var h =
 					'<div class="hitItemProduct_forFanplayr-inner-left"><a href="/c/series/' +
@@ -2381,19 +2366,6 @@ function hitItemProduct_forFanplayr() {
 					console.log(h);
 		
 					$('#hitItemProduct_forFanplayr-inner').append(h);
-		
-					// var urlPath = location.pathname;
-					// //console.log(urlPath);
-					// if (urlPath == '/c/category/table' && i == 8) {
-					// 	checkScreenSize();
-					// 	break;
-					// }
-		
-					// if (i == 9) {
-					// 	checkScreenSize();
-					// 	break;
-					// }
-				//}
 		
 				$('#hitItemProduct_forFanplayr-outer').css('display', 'block');
 			}
