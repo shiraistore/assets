@@ -108,11 +108,11 @@ $(function () {
 	cartInPopUp();
 
 	multipleRankingTop10(); //汎用的に使えるランキング
-	//hitItemProduct_forFanplayr();
 });
 
 $(window).on('load', function () {
 	pinterestTagWrite(); //OK
+	campaignBannerForSearchResults();
 });
 
 global_lastInnerWidth = document.body.clientWidth;
@@ -451,6 +451,15 @@ function instagramPostDisplayForSearchResults() {
 			});
 		}
 	}
+}
+
+/* campaignBannerForSearchResults
+========================================================================== */
+
+function campaignBannerForSearchResults() {
+		if ($('#fs_ProductSearch').length) {
+			$('.fs-c-productList').after(`<div id="banner-search"><a href="https://shirai-store.net/f/4thAnniversaryPresentCampaign"><img class="imageChange mt-40 mb-40" src="https://shiraistore.itembox.design/item/src/mainVisual_4thAnniversaryPresentCampaign_pc.jpg" alt="4th Anniversary プレゼントキャンペーン"></a></div>`);
+		}
 }
 
 /* searchTagsCanonicalChange
@@ -5013,6 +5022,12 @@ function rankingTop10(rakingTop10Type) {
 	});
 
 	$('.productTop10Slider.ranking ul').after('<div class="fs-c-buttonContainer more-button"><a href="/f/' + rakingTop10Type + catURL + '" class="fs-c-button--standard">もっと見る</a></div>');
+	// if ($('#fs_ProductCategory').length) {
+	// 	const titleName = $('h1').html();
+	// 	console.log(titleName);
+	// 	$('.productTop10Slider h2').html(titleName + 'のランキング');
+	// }
+	
 }
 
 function recommendList() {
