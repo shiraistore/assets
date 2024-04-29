@@ -5022,11 +5022,11 @@ function rankingTop10(rakingTop10Type) {
 	});
 
 	$('.productTop10Slider.ranking ul').after('<div class="fs-c-buttonContainer more-button"><a href="/f/' + rakingTop10Type + catURL + '" class="fs-c-button--standard">もっと見る</a></div>');
-	// if ($('#fs_ProductCategory').length) {
-	// 	const titleName = $('h1').html();
-	// 	console.log(titleName);
-	// 	$('.productTop10Slider h2').html(titleName + 'のランキング');
-	// }
+	if ($('#fs_ProductCategory').length) {
+		const titleName = $('h1').html();
+		console.log(titleName);
+		$('.productTop10Slider h2').html(titleName + 'のランキング');
+	}
 	
 }
 
