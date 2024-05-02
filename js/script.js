@@ -63,10 +63,10 @@ $(function () {
 		if (global_page == 1 || global_page == null) {
 			if ($('#fs_CustomPage').length) {
 				rankingTop10(); //OK
-				//hitItemCategory_forFanplayr();
+				hitItemCategory_forFanplayr();
 			} else {
 				rankingTop10(global_rakingTop10Type); //OK
-				//hitItemCategory_forFanplayr(global_rakingTop10Type);
+				hitItemCategory_forFanplayr(global_rakingTop10Type);
 			}
 		} else {
 			$('.productTop10Slider').remove();
@@ -298,6 +298,12 @@ function getUrlRedirect() {
 		window.location.href = 'https://shirai-store.net/f/ranking-kids';
 	} else if (url == 'https://shirai-store.net/f/ranking_office-furniture') {
 		window.location.href = 'https://shirai-store.net/f/ranking-office-furniture';
+	} else if (url.match(/https:\/\/shirai-store\.net\/p\/auth\/sizeOrder\/tnl-em(?![tsu])[^\s\/]*/)) {
+		window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-em';
+	} else if (url.match(/https:\/\/shirai-store\.net\/p\/auth\/sizeOrder\/tnl-emts[^\s\/]*/)) {
+		window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-emts';
+	} else if (url.match(/https:\/\/shirai-store\.net\/p\/auth\/sizeOrder\/tnl-emu[^\s\/]*/)) {
+		window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-emu';
 	}
 }
 
@@ -2054,7 +2060,7 @@ function rankingTop10_forFanplayr(category) {
 ========================================================================== */
 function hitItemCategory_forFanplayr(hitItemType) {
 			var pathName = location.pathname;
-			//console.log(pathName);
+			// console.log(pathName);
 			var catURL = '';
 			if (hitItemType != undefined) {
 				catURL = pathName.split('/').pop();
@@ -2162,45 +2168,15 @@ function hitItemCategory_forFanplayr(hitItemType) {
 					var reviewHTML = '';
 
 					if (reviewScore != 0) {
-						reviewHTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + productUrl + '">（' + reviewCount + '）</a></div>';
+						reviewHTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '">（' + reviewCount + '）</div>';
 					} else {
 						reviewHTML = '';
 					}
 
 					var h =
-						'<div class="hitItemCategory_forFanplayr-inner-left"><a href="/c/series/' +
-						seriesCode +
-						'/' +
-						productUrl +
-						'?fp=' + 
-						catURL + 
-						'HitItem"><img src="https://shiraistore.itembox.design/product/' +
-						zeroPadding(product_image_group, 3) +
-						'/' +
-						productId_12Len +
-						'/' +
-						productId_12Len +
-						'-' +
-						thumbnail +
-						'-s.jpg" alt="' +
-						productName +
-						'" ></a></div><div class="hitItemCategory_forFanplayr-inner-right"><a href="/c/series/' +
-						seriesCode +
-						'/' +
-						productUrl +
-						'?fp=' + 
-						catURL +
-						'HitItem"><h4>HIT ITEM</h4><p>' +
-						productName +
-						'</p>' +
-						'<div class="productMarks">' +
-						iconHtml +
-						'</div>' +
-						reviewHTML +
-						sellingPrice +
-						'</a></div>';
+						'<a href="/c/series/' + seriesCode + '/' + productUrl + '?fp=' +  catURL + 'HitItem"><div class="hitItemCategory_forFanplayr-inner-left"><img src="https://shiraistore.itembox.design/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '-s.jpg" alt="' + productName + '" ></div><div class="hitItemCategory_forFanplayr-inner-right"><h4>HIT ITEM</h4><p>' + productName + '</p>' + '<div class="productMarks">' + iconHtml + '</div>' + reviewHTML + sellingPrice + '</div></a>';
 
-					//console.log(h);
+					console.log(h);
 
 					$('#hitItemCategory_forFanplayr-inner').append(h);
 			});
