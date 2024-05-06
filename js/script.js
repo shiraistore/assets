@@ -304,6 +304,10 @@ function getUrlRedirect() {
 		window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-emts';
 	} else if (url.match(/https:\/\/shirai-store\.net\/p\/auth\/sizeOrder\/tnl-emu[^\s\/]*/)) {
 		window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-emu';
+	} else if (url.match(/https:\/\/shirai-store\.net\/p\/auth\/sizeOrder\/sep-em(?![desk])[^\s\/]*/)) {
+		window.location.href = 'https://shirai-store.net/f/sizeOrder/sep-emrack';
+	} else if (url.match(/https:\/\/shirai-store\.net\/p\/auth\/sizeOrder\/sep-emdesk[^\s\/]*/)) {
+		window.location.href = 'https://shirai-store.net/f/sizeOrder/sep-emdesk';
 	}
 }
 
