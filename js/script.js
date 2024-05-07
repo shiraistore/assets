@@ -112,7 +112,6 @@ $(function () {
 
 $(window).on('load', function () {
 	pinterestTagWrite(); //OK
-	campaignBannerForSearchResults();
 });
 
 global_lastInnerWidth = document.body.clientWidth;
@@ -466,11 +465,11 @@ function instagramPostDisplayForSearchResults() {
 /* campaignBannerForSearchResults
 ========================================================================== */
 
-function campaignBannerForSearchResults() {
-		if ($('#fs_ProductSearch').length) {
-			$('.fs-c-productList').after(`<div id="banner-search"><a href="https://shirai-store.net/f/4thAnniversaryPresentCampaign"><img class="imageChange mt-40 mb-40" src="https://shiraistore.itembox.design/item/src/mainVisual_4thAnniversaryPresentCampaign_pc.jpg" alt="4th Anniversary プレゼントキャンペーン"></a></div>`);
-		}
-}
+// function campaignBannerForSearchResults() {
+// 		if ($('#fs_ProductSearch').length) {
+// 			$('.fs-c-productList').after(`<div id="banner-search"><a href="https://shirai-store.net/f/4thAnniversaryPresentCampaign"><img class="imageChange mt-40 mb-40" src="https://shiraistore.itembox.design/item/src/mainVisual_4thAnniversaryPresentCampaign_pc.jpg" alt="4th Anniversary プレゼントキャンペーン"></a></div>`);
+// 		}
+// }
 
 /* searchTagsCanonicalChange
 ========================================================================== */
