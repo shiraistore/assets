@@ -128,7 +128,7 @@ function optionNameChange() {
 			var modelNumber = '';
 
 			// 該当するmodelNumberを配列に格納する
-			var optionHasProducts = ['por-1830d-na', 'por-1830d-wh', 'por-1830d-dk', 'por-5530du-na', 'por-5530du-wh', 'por-5530du-dk', 'hnb-4540d', 'adl-4013dh-na', 'adl-4013dh-wh', 'adl-4013dh-dk'];
+			var optionHasProducts = ['por-1830d-na', 'por-1830d-wh', 'por-1830d-dk', 'por-5530du-na', 'por-5530du-wh', 'por-5530du-dk', 'hnb-4540d', 'adl-4013dh-na', 'adl-4013dh-wh', 'adl-4013dh-dk', 'sep-1690ar-na' ,'sep-1690ar-dk'];
 
 			//CAUTION:カートのスクリプトと指定しているClassが異なる fs-c-cartTable__productName__name -> fs-c-listedProductName__name
 			$('.fs-c-listedProductName__name').each(function () {
@@ -152,7 +152,7 @@ function optionNameChange() {
 
 						//textとして挿入
 						$(this).next('.fs-c-listedProductName__selection').find('.fs-c-listedProductName__selection__choice').text(optionValue);
-					} else if (modelNumber.match(/adl-4013dh/)) {
+					} else if (modelNumber.match(/adl-4013dh|sep-1690ar/)) {
 						optionValue = $(this).next('.fs-c-listedProductName__selection').find('.fs-c-listedProductName__selection__choice').text();
 						optionValue = `（組立の向き：${optionValue})`;
 						//console.log(optionValue);
