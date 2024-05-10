@@ -108,9 +108,10 @@ function addCart() {
 
 					adis = adis + '<option value="' + adis_ary[0][0] + '">' + adis_ary[0][1] + '(+' + adis_ary[0][2].toLocaleString() + '円 税込)</option>';
 
-					if (adis_ary[1][0] != undefined) {
+					if (adis_ary.length == 2) {
 						adis = adis + '<option value="' + adis_ary[1][0] + '">' + adis_ary[1][1] + '(+' + adis_ary[1][2].toLocaleString() + '円 税込)</option>';
-					} else if (adis_ary[2][0] != undefined) {
+					} else if (adis_ary.length == 3) {
+						adis = adis + '<option value="' + adis_ary[1][0] + '">' + adis_ary[1][1] + '(+' + adis_ary[1][2].toLocaleString() + '円 税込)</option>';
 						adis = adis + '<option value="' + adis_ary[2][0] + '">' + adis_ary[2][1] + '(+' + adis_ary[2][2].toLocaleString() + '円 税込)</option>';
 					}
 					adis = adis + '</select>';
