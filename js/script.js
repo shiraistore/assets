@@ -2577,6 +2577,8 @@ function rewriteDOM() {
 			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-8585-iv.png">');
 		} else if (location.href.match('lge-8585-dk')) {
 			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-8585-dk.png">');
+		} else if (location.href.match('sep-1690ar')) {
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-sepOption.png">');
 		}
 
 		//組立サービス変更
@@ -2641,11 +2643,15 @@ function rewriteDOM() {
 		if (seriseCode.indexOf('tnl-t') != -1) {
 			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div>【サイズオーダー】ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-emts">横幅1cm単位でご注文はこちら</a></div></div>');
 		} else if (seriseCode.indexOf('tnl-198') != -1 || seriseCode.indexOf('tnl-18') != -1) {
+			// $('.fs-c-productPostage').after(
+			// 	'<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div><span class="mark-sale fs-c-productMark__mark--0 fs-c-productMark__mark"><span class="fs-c-productMark__label">サイズオーダー 10%OFF SALE</span></span><br>ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-em-introduction">横幅1cm単位でご注文はこちら</a><a href="/f/sizeOrder/tnl-emu">上置きのご注文はこちら</a></span></div></div>'
+			// );
 			$('.fs-c-productPostage').after(
-				'<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div><span class="mark-sale fs-c-productMark__mark--0 fs-c-productMark__mark"><span class="fs-c-productMark__label">サイズオーダー 10%OFF SALE</span></span><br>ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-em-introduction">横幅1cm単位でご注文はこちら</a><a href="/f/sizeOrder/tnl-emu">上置きのご注文はこちら</a></span></div></div>'
+				'<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div>ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-em-introduction">横幅1cm単位でご注文はこちら</a><a href="/f/sizeOrder/tnl-emu">上置きのご注文はこちら</a></span></div></div>'
 			);
 		} else if (seriseCode.indexOf('tnl-') != -1) {
-			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div><span class="mark-sale fs-c-productMark__mark--0 fs-c-productMark__mark"><span class="fs-c-productMark__label">サイズオーダー 10%OFF SALE</span></span><br>ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-em-introduction">横幅1cm単位でご注文はこちら</a></div></div>');
+			// $('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div><span class="mark-sale fs-c-productMark__mark--0 fs-c-productMark__mark"><span class="fs-c-productMark__label">サイズオーダー 10%OFF SALE</span></span><br>ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-em-introduction">横幅1cm単位でご注文はこちら</a></div></div>');
+			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div>ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-em-introduction">横幅1cm単位でご注文はこちら</a></div></div>');
 		} else if (seriseCode.match(/.*sep-[0-9]{4}?-.*/) != null) {
 			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div>【サイズオーダー】1〜30マスまでご希望のサイズでお作りします。<a href="/f/sizeOrder/sep-emrack">1マス単位でのご注文はこちら</a></div></div>');
 		} else if (seriseCode.match(/.*sep-[0-9]{4}?desk.+-.*/) != null) {
