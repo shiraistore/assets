@@ -1035,7 +1035,7 @@ function expectedArrival(optionResult) {
 							orderLeadTime += 3;
 							//console.log('サイズオーダー:', orderLeadTime);
 							arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderLeadTime, operation_holyDay, '事務処理');
-							manufactureLeadTime += 12; //通常10日
+							manufactureLeadTime += 10; //通常10日
 							arrivalDate_ary = checkHolyDay(arrivalDate_ary, manufactureLeadTime, factory_holyDay, '生産');
 
 							if ($.inArray(arrivalDate_ary[0], operation_holyDay) > -1) {
