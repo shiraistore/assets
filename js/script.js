@@ -37,6 +37,7 @@ $(function () {
 	productDetail_howToStoreKidsBooksContentsBanner();
 	searchTagsTitleDescriptionChange();
 	putMemberIdOptInPolicy();
+	getTopRanking();
 
 	reviewSlideDown('#fs_ProductDetails', '240'); //OK
 	instagramPostList(); //OK
@@ -1096,28 +1097,16 @@ function productSortSelect() {
 //セール会場用バナー表示
 function searchTagTitle() {
 	var params = parameterToArray();
-	if (params.tag == 'sale20240418-20240507-1') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240418-20240507-1_1184x240.jpg" alt="4th Anniversary Sale 対象商品">');
-		$('#fs_ProductSearch h1').html('4th Anniversary Sale 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('4th Anniversary Sale 対象商品');
-		$('title').text('4th Anniversary Sale 対象商品');
+	if (params.tag == 'sale20240516-20240530') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240516-20240530_1184x240.jpg" alt="ラックセール 対象商品">');
+		$('#fs_ProductSearch h1').html('ラックセール 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('ラックセール 対象商品');
+		$('title').text('ラックセール 対象商品');
 	} else if (params.tag == 'sale20240418-20240507-2') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240418-20240507-2_1184x240.jpg" alt="タナリオセール 対象商品">');
 		$('#fs_ProductSearch h1').html('タナリオセール 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('タナリオセール 対象商品');
 		$('title').text('タナリオセール 対象商品');
-	} else if (params.tag == 'sale20240321-20240418-1') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240321-20240418_1184x240.jpg" alt="新生活応援セール 第2弾 対象商品">');
-		$('#fs_ProductSearch h1').html('新生活応援セール 第2弾 対象商品');
-		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li class="active">一人暮らし</li><li><a href="/p/search?tag=sale20240321-20240418-2">ファミリー</a></li></ul>');
-		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール 第2弾 対象商品');
-		$('title').text('新生活応援セール 第2弾 対象商品');
-	} else if (params.tag == 'sale20240321-20240418-2') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240321-20240418_1184x240.jpg" alt="新生活応援セール 第2弾 対象商品">');
-		$('#fs_ProductSearch h1').html('新生活応援セール 第2弾 対象商品');
-		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li><a href="/p/search?tag=sale20240321-20240418-1">一人暮らし</a></li><li class="active">ファミリー</li></ul>');
-		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール 第2弾 対象商品');
-		$('title').text('新生活応援セール 第2弾 対象商品 | 家具インテリア通販のSHIRAI STORE(白井産業)');
 	} else if (params.tag == 'feature20240216') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-feature20240216-2_1184x240.jpg" alt="入園入学特集">');
 		$('#fs_ProductSearch h1').html('入園入学特集');
@@ -2381,6 +2370,41 @@ function hitItemProduct_forFanplayr() {
 			}
 		}
 	}
+
+
+/* hitItemProduct_forFanplayr
+========================================================================== */
+function getTopRanking() {
+	if ($('#fs_Top').length) {
+		var url = location.pathname;
+		var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/get_data';
+		var params = { "url": "top" };
+		//console.log(JSON.stringify(params));
+
+		var response = $.ajax({
+			type: 'post',
+			url: url,
+			async: false,
+			data: JSON.stringify(params),
+			contentType: 'application/json',
+			dataType: 'json',
+			scriptCharset: 'utf-8',
+			success: function (response) {
+				// Success
+				// console.log(JSON.stringify(response));
+			},
+			error: function (response) {
+				// Error
+				// console.log(JSON.stringify(response));
+			},
+		}).responseText;
+
+		response = JSON.parse(response);
+
+		//console.log(response);
+	}
+}
+
 
 
 
