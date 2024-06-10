@@ -1869,7 +1869,7 @@ function multipleRankingTop10() {
 
 function rankingTop10_forFanplayr(category) {
 	var jsonurl = 'https://cdn.shirai-store.net/assets/json/ranking/ranking-' + category + '_v2_0.json';
-	console.log(jsonurl);
+	// console.log(jsonurl);
 	$.getJSON(jsonurl, function (rankingList) {
 		for (var i in rankingList) {
 			var productUrl = rankingList[i].productUrl,
@@ -2401,15 +2401,15 @@ function getTopRanking() {
 
 		response = JSON.parse(response);
 
-		console.log(response);
+		// console.log(response);
 
 		data = response.ranking;
-		console.log(data);
+		// console.log(data);
 
 		if (data != undefined && data != '') {
 			for (var i in data){
 				var rankingCategory = data[i];
-				console.log(rankingCategory); //カテゴリごとの商品情報の配列を取得
+				// console.log(rankingCategory); //カテゴリごとの商品情報の配列を取得
 
 				for(var i in rankingCategory){
 					var sku_no = rankingCategory[i].sku_no, //カテゴリごとの商品情報を取得
@@ -5156,7 +5156,7 @@ function rankingTop10(rakingTop10Type) {
 	$('.productTop10Slider.ranking ul').after('<div class="fs-c-buttonContainer more-button"><a href="/f/' + rakingTop10Type + catURL + '" class="fs-c-button--standard">もっと見る</a></div>');
 	if ($('#fs_ProductCategory').length) {
 		const titleName = $('h1').html();
-		console.log(titleName);
+		// console.log(titleName);
 		$('.productTop10Slider h2').html(titleName + 'のランキング');
 	}
 	
