@@ -37,7 +37,7 @@ $(function () {
 	productDetail_howToStoreKidsBooksContentsBanner();
 	searchTagsTitleDescriptionChange();
 	putMemberIdOptInPolicy();
-	getTopRanking();
+	//getTopRanking();
 
 	reviewSlideDown('#fs_ProductDetails', '240'); //OK
 	instagramPostList(); //OK
@@ -1708,7 +1708,7 @@ function multipleRankingTop10() {
 				var categoryName = '-' + category;
 			}
 
-			var jsonurl = 'https://cdn.shirai-store.net/assets/json/ranking/ranking' + '_v2_0.json';
+			var jsonurl = 'https://cdn.shirai-store.net/assets/json/ranking/ranking' + categoryName + '_v2_0.json';
 			var selector = $(this);
 			//console.log(jsonurl);
 			$.getJSON(jsonurl, selector, function (rankingList) {
@@ -2404,41 +2404,36 @@ function getTopRanking() {
 		// console.log(response);
 
 		data = response.ranking;
-		// console.log(data);
+		//console.log(data);
 
 		if (data != undefined && data != '') {
-			for (var i in data){
-				var rankingCategory = data[i];
-				// console.log(rankingCategory); //カテゴリごとの商品情報の配列を取得
-
-				for(var i in rankingCategory){
-					var sku_no = rankingCategory[i].sku_no, //カテゴリごとの商品情報を取得
-						id = rankingCategory[i].id,
-						name = rankingCategory[i].name,
-						selling_price = rankingCategory[i].selling_price,
-						normal_price = rankingCategory[i].normal_price,
-						icon = rankingCategory[i].icon,
-						size = rankingCategory[i].size,
-						average_rating = rankingCategory[i].average_rating,
-						number_review = rankingCategory[i].number_review,
-						category_url = rankingCategory[i].category_url,
-						category_name = rankingCategory[i].category_name,
-						thumbnail_number = rankingCategory[i].thumbnail_number;
+			$.each(data, function(category, products) {
+				var html = '';
+				$.each(products.slice(0, 9), function(index, product) {
+					var sku_no = product.sku_no,
+						id = product.id,
+						productId_12Len = zeroPadding(id, 12),
+						name = product.name,
+						selling_price = product.selling_price,
+						normal_price = product.normal_price,
+						icon = product.icon,
+						size = product.size,
+						product_image_group = Math.floor(id / 100),
+						average_rating = product.average_rating,
+						number_review = product.number_review,
+						category_url = product.category_url,
+						category_name = product.category_name,
+						thumbnail_number = product.thumbnail_number;
 
 						thumbnail = ('00' + thumbnail_number).slice(-2);
+						seriesCode = sku_no.slice(0, 3);
 
-						// if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
-						// 	seriesCode = 'tl';
-						// } else if (seriesCode == 'ona') {
-						// 	seriesCode = 'of2';
-						// }
-		
 						if (selling_price < normal_price) {
 							selling_price = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normal_price.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + selling_price.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
 						} else {
 							selling_price = '<p class="priceBox"><span class="price">¥ ' + selling_price.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
 						}
-		
+
 						var icon_ary = icon.split(',');
 		
 						var iconHtml = '';
@@ -2478,47 +2473,88 @@ function getTopRanking() {
 							}
 						}
 
-						// reviewScore = reviewScoreThreshold(reviewScore);
 
-						// var reviewHTML = '';
-		
-						// if (reviewScore != 0) {
-						// 	reviewHTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + productUrl + '">（' + reviewCount + '）</a></div>';
-						// } else {
-						// 	reviewHTML = '';
-						// }
-
-						var h = '';
-
-
-
-
-
-
-
-
-
-
-
-						var urlPath = location.pathname;
-						//console.log(urlPath);
-						if (urlPath == '/c/category/table' && i == 8) {
-							checkScreenSize();
-							break;
+						if (average_rating < 0.5) {
+							average_rating = '0';
+						} else if (average_rating < 1.0) {
+							average_rating = '0.5';
+						} else if (average_rating < 1.5) {
+							average_rating = '1.0';
+						} else if (average_rating < 2.0) {
+							reviewaverage_ratingScore = '1.5';
+						} else if (average_rating < 2.5) {
+							average_rating = '2.0';
+						} else if (average_rating < 3.0) {
+							average_rating = '2.5';
+						} else if (average_rating < 3.5) {
+							average_rating = '3.0';
+						} else if (average_rating < 4.0) {
+							average_rating = '3.5';
+						} else if (average_rating < 4.5) {
+							average_rating = '4.0';
+						} else if (average_rating < 5) {
+							average_rating = '4.5';
+						} else if (average_rating == 5) {
+							average_rating = '5.0';
 						}
-		
-						if (i == 9) {
-							checkScreenSize();
-							break;
+			
+						var reviewHTML = '';
+			
+						if (average_rating != 0) {
+							reviewHTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + average_rating + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + sku_no + '">（' + number_review + '）</a></div>';
+						} else {
+							reviewHTML = '';
 						}
-					}
 
-				//$('#productDetail-rankingTop10').css('display', 'block');
-				
+
+						html +=
+						'<li><a href="/c/series/' +
+						seriesCode +
+						'/' +
+						sku_no +
+						'"><img src="https://shiraistore.itembox.design/product/' +
+						zeroPadding(product_image_group, 3) +
+						'/' +
+						productId_12Len +
+						'/' +
+						productId_12Len +
+						'-' +
+						thumbnail +
+						'-m.jpg" alt="' +
+						name +
+						'" ><h3>' +
+						name +
+						'</h3></a>' +
+						'<div class="productMarks">' +
+						iconHtml +
+						'</div>' +
+						'<div class="productSize">' +
+						size +
+						'</div>' +
+						reviewHTML +
+						'<a href="/c/series/' +
+						seriesCode +
+						'/' +
+						sku_no +
+						'">' +
+						selling_price +
+						'</a></li>';
+
+				});
+				$(".tabcontent[data-category='" + category + "'] ul").html(html);
+				$('#topPage-ranking-categories').css('display', 'block');
+			  });
 			}
-		}
 
+			$('.tablink[data-category="all"]').click();
 
+			$(document).on('click', '.tablink', function() {
+				var category = $(this).data('category');
+				$('.tabcontent').removeClass('active').hide();
+				$('.tabcontent[data-category="' + category + '"]').addClass('active').show();
+				$('.tablink').removeClass('active');
+				$(this).addClass('active');
+			});
 	}
 }
 
