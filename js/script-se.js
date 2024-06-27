@@ -323,6 +323,12 @@ function sizeOrderDisplayThumb() {
 						case 'グレー単色':
 							orderColor = 'GY';
 							break;
+						case 'ブラウンウォールナット1':
+							orderColor = 'MW';
+							break;
+						case 'ライトウォールナット':
+							orderColor = 'LW';
+							break;
 					}
 
 					// console.log(orderType);
