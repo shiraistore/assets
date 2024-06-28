@@ -38,6 +38,7 @@ $(function () {
 	searchTagsTitleDescriptionChange();
 	putMemberIdOptInPolicy();
 	//getTopRanking();
+	//getTopFaq();
 
 	reviewSlideDown('#fs_ProductDetails', '240'); //OK
 	instagramPostList(); //OK
@@ -2391,7 +2392,7 @@ function getTopRanking() {
 			scriptCharset: 'utf-8',
 			success: function (response) {
 				// Success
-				// console.log(JSON.stringify(response));
+				//console.log(JSON.stringify(response));
 			},
 			error: function (response) {
 				// Error
@@ -2401,7 +2402,7 @@ function getTopRanking() {
 
 		response = JSON.parse(response);
 
-		// console.log(response);
+		//console.log(response);
 
 		data = response.ranking;
 		//console.log(data);
@@ -2410,7 +2411,7 @@ function getTopRanking() {
 			$.each(data, function(category, products) {
 				var html = '';
 				$.each(products.slice(0, 9), function(index, product) {
-					var sku_no = product.sku_no,
+					var sku_no = product.sku_no.toLowerCase(),
 						id = product.id,
 						productId_12Len = zeroPadding(id, 12),
 						name = product.name,
@@ -2423,10 +2424,17 @@ function getTopRanking() {
 						number_review = product.number_review,
 						category_url = product.category_url,
 						category_name = product.category_name,
-						thumbnail_number = product.thumbnail_number;
+						thumbnail_number = product.thumbnail_number,
+						ranking = index + 1;
 
 						thumbnail = ('00' + thumbnail_number).slice(-2);
 						seriesCode = sku_no.slice(0, 3);
+
+						if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
+							seriesCode = 'tl';
+						} else if (seriesCode == 'ona') {
+							seriesCode = 'of2';
+						}
 
 						if (selling_price < normal_price) {
 							selling_price = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normal_price.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + selling_price.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
@@ -2435,21 +2443,22 @@ function getTopRanking() {
 						}
 
 						var icon_ary = icon.split(',');
+						//console.log(icon_ary);
 		
 						var iconHtml = '';
 						for (var j = 0; j < icon_ary.length; j++) {
 							if (icon_ary[j] != '') {
 								icon_ary[j] = icon_ary[j].split(':');
 		
-								// if (icon_ary[j][0] == 'mark-rank' && category_url == '') {
-								//     //categoryName = categoryNameShorter(category_name);
-								//     iconHtml += '<span class="mark-rank">' + icon_ary[j][1] + '位</span>';
-								// }
-		
-								if (icon_ary[j][0] == 'mark-categoryRank' && category_url != '') {
-									//categoryName = categoryNameShorter(category_name);
-									iconHtml += '<span class="mark-rank">' + icon_ary[j][1] + '位</span>';
+								if (icon_ary[j][0] == 'mark-rank') {
+								    categoryName = categoryNameShorter(category_name);
+								    iconHtml += '<span class="mark-rank">' + ranking + '位</span>';
 								}
+		
+								// if (icon_ary[j][0] == 'mark-categoryRank' && category_url != '') {
+								// 	categoryName = categoryNameShorter(category_name);
+								// 	iconHtml += '<span class="mark-rank">' + icon_ary[j][1] + '位</span>';
+								// }
 		
 								if (icon_ary[j][0] == 'mark-new') {
 									iconHtml += '<span class="mark-new">新着</span>';
@@ -2472,7 +2481,6 @@ function getTopRanking() {
 								}
 							}
 						}
-
 
 						if (average_rating < 0.5) {
 							average_rating = '0';
@@ -2539,14 +2547,18 @@ function getTopRanking() {
 						'">' +
 						selling_price +
 						'</a></li>';
-
 				});
 				$(".tabcontent[data-category='" + category + "'] ul").html(html);
-				$('#topPage-ranking-categories').css('display', 'block');
+
+				// $('#topPage-ranking-categories').after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking-' + category + '" class="fs-c-button--standard">もっと見る</a></div>');
+
+				if (category === 'all') {
+					$(".tabcontent[data-category='all']").addClass('active').show();
+				}
 			  });
 			}
 
-			$('.tablink[data-category="all"]').click();
+			$('#topPage-ranking-categories').css('display', 'block');
 
 			$(document).on('click', '.tablink', function() {
 				var category = $(this).data('category');
@@ -2555,6 +2567,45 @@ function getTopRanking() {
 				$('.tablink').removeClass('active');
 				$(this).addClass('active');
 			});
+	}
+}
+
+/* getTopFaq
+========================================================================== */
+function getTopFaq() {
+	if ($('#fs_Top').length) {
+		var url = location.pathname;
+		var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/get_data';
+		//console.log("Request URL:", url);
+
+		var params = { "url": "top" };
+		//console.log(JSON.stringify(params));
+
+		var response = $.ajax({
+			type: 'post',
+			url: url,
+			async: false,
+			data: JSON.stringify(params),
+			contentType: 'application/json',
+			dataType: 'json',
+			scriptCharset: 'utf-8',
+			success: function (response) {
+				// Success
+				console.log(JSON.stringify(response));
+			},
+			error: function (response) {
+				// Error
+				//console.log(JSON.stringify(response));
+			},
+		}).responseText;
+
+		response = JSON.parse(response);
+
+		//console.log(response);
+
+		data = response.ranking;
+		//console.log(data);
+
 	}
 }
 
