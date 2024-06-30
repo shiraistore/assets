@@ -402,7 +402,7 @@ function tnl_em_select() {
 					} else {
 						readyMadeFlag_material = 0;
 						for (var i = 0; i <= optionColor_length; i++) {
-							if (i == 1 || i == 3 || i == 6) {
+							if (i == 1 || i == 3 || i == 5) {
 								$('#tnl_em input[name=tnl_em_optionColor]').eq(i).parent('label').css('display', 'block');
 							} else {
 								$('#tnl_em input[name=tnl_em_optionColor]').eq(i).parent('label').css('display', 'none');
