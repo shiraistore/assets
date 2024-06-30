@@ -402,7 +402,7 @@ function tnl_em_select() {
 					} else {
 						readyMadeFlag_material = 0;
 						for (var i = 0; i <= optionColor_length; i++) {
-							if (i == 1 || i == 6 || i == 8) {
+							if (i == 1 || i == 3 || i == 6) {
 								$('#tnl_em input[name=tnl_em_optionColor]').eq(i).parent('label').css('display', 'block');
 							} else {
 								$('#tnl_em input[name=tnl_em_optionColor]').eq(i).parent('label').css('display', 'none');
@@ -455,7 +455,7 @@ function tnl_em_select() {
 					$('#tnl_em_selectedStrength').text(optionStrengthName);
 					$('#tnl_em_selectedMaterial').text(optionMaterialName);
 					$('#tnl_em_selectedADIS').text(optionADISName);
-					if (optionColor == 'NA' || optionColor == 'NB' || optionColor == 'WH' || optionColor == 'WT' || optionColor == 'GY') {
+					if (optionColor == 'NA' || optionColor == 'NB' || optionColor == 'WH' || optionColor == 'WT' || optionColor == 'GY' || optionColor == 'LW') {
 						var optionTextInversion = 'textColorInversion';
 					} else {
 						var optionTextInversion = '';
@@ -659,7 +659,7 @@ function tnl_emu_select() {
 						$('#tnl_emu input[name=tnl_emu_optionColor]').parent('label').css('display', 'block');
 					} else {
 						for (var i = 0; i <= optionColor_length; i++) {
-							if (i == 1 || i == 6 || i == 8) {
+							if (i == 1 || i == 3 || i == 6) {
 								$('#tnl_emu input[name=tnl_emu_optionColor]').eq(i).parent('label').css('display', 'block');
 							} else {
 								$('#tnl_emu input[name=tnl_emu_optionColor]').eq(i).parent('label').css('display', 'none');
@@ -705,7 +705,7 @@ function tnl_emu_select() {
 					$('#tnl_emu_selectedDepth').text(optionDepthName);
 					$('#tnl_emu_selectedMaterial').text(optionMaterialName);
 					$('#tnl_emu_selectedADIS').text(optionADISName);
-					if (optionColor == 'NA' || optionColor == 'NB' || optionColor == 'WH' || optionColor == 'WT' || optionColor == 'GY') {
+					if (optionColor == 'NA' || optionColor == 'NB' || optionColor == 'WH' || optionColor == 'WT' || optionColor == 'GY' || optionColor == 'LW') {
 						var optionTextInversion = 'textColorInversion';
 					} else {
 						var optionTextInversion = '';
@@ -848,7 +848,7 @@ function tnl_emts_select() {
 					} else {
 						readyMadeFlag_material = 0;
 						for (var i = 0; i <= optionColor_length; i++) {
-							if (i == 1 || i == 6 || i == 8) {
+							if (i == 1 || i == 3 || i == 6) {
 								$('#tnl_emts input[name=tnl_emts_optionColor]').eq(i).parent('label').css('display', 'block');
 							} else {
 								$('#tnl_emts input[name=tnl_emts_optionColor]').eq(i).parent('label').css('display', 'none');
@@ -898,7 +898,7 @@ function tnl_emts_select() {
 					$('#tnl_emts_selectedDepth').text(optionDepthName);
 					$('#tnl_emts_selectedStrength').text(optionStrengthName);
 					$('#tnl_emts_selectedMaterial').text(optionMaterialName);
-					if (optionColor == 'NA' || optionColor == 'NB' || optionColor == 'WH' || optionColor == 'WT' || optionColor == 'GY') {
+					if (optionColor == 'NA' || optionColor == 'NB' || optionColor == 'WH' || optionColor == 'WT' || optionColor == 'GY' || optionColor == 'LW') {
 						var optionTextInversion = 'textColorInversion';
 					} else {
 						var optionTextInversion = '';
