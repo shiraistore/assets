@@ -659,7 +659,7 @@ function tnl_emu_select() {
 						$('#tnl_emu input[name=tnl_emu_optionColor]').parent('label').css('display', 'block');
 					} else {
 						for (var i = 0; i <= optionColor_length; i++) {
-							if (i == 1 || i == 3 || i == 6) {
+							if (i == 1 || i == 3 || i == 5) {
 								$('#tnl_emu input[name=tnl_emu_optionColor]').eq(i).parent('label').css('display', 'block');
 							} else {
 								$('#tnl_emu input[name=tnl_emu_optionColor]').eq(i).parent('label').css('display', 'none');
@@ -848,7 +848,7 @@ function tnl_emts_select() {
 					} else {
 						readyMadeFlag_material = 0;
 						for (var i = 0; i <= optionColor_length; i++) {
-							if (i == 1 || i == 3 || i == 6) {
+							if (i == 1 || i == 3 || i == 5) {
 								$('#tnl_emts input[name=tnl_emts_optionColor]').eq(i).parent('label').css('display', 'block');
 							} else {
 								$('#tnl_emts input[name=tnl_emts_optionColor]').eq(i).parent('label').css('display', 'none');
