@@ -1103,11 +1103,11 @@ function searchTagTitle() {
 		$('#fs_ProductSearch h1').html('ラックセール 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('ラックセール 対象商品');
 		$('title').text('ラックセール 対象商品');
-	} else if (params.tag == 'sale20240418-20240507-2') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240418-20240507-2_1184x240.jpg" alt="タナリオセール 対象商品">');
-		$('#fs_ProductSearch h1').html('タナリオセール 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('タナリオセール 対象商品');
-		$('title').text('タナリオセール 対象商品');
+	} else if (params.tag == 'sale20240704-20240718') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240704-20240718_1184x240.jpg" alt="テレビ台セール 対象商品">');
+		$('#fs_ProductSearch h1').html('テレビ台セール 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('テレビ台セール 対象商品');
+		$('title').text('テレビ台セール 対象商品');
 	} else if (params.tag == 'feature20240216') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-feature20240216-2_1184x240.jpg" alt="入園入学特集">');
 		$('#fs_ProductSearch h1').html('入園入学特集');
@@ -2407,10 +2407,14 @@ function getTopRanking() {
 		data = response.ranking;
 		//console.log(data);
 
+		// 画面幅をチェック
+		var isMobile = window.matchMedia('only screen and (max-width: 1024px)').matches;
+
 		if (data != undefined && data != '') {
 			$.each(data, function(category, products) {
 				var html = '';
-				$.each(products.slice(0, 9), function(index, product) {
+				var itemsToShow = isMobile ? 10 : 9; // スマートフォンの場合は10商品、その他は9商品表示
+				$.each(products.slice(0, itemsToShow), function(index, product) {
 					var sku_no = product.sku_no.toLowerCase(),
 						id = product.id,
 						productId_12Len = zeroPadding(id, 12),
@@ -2550,10 +2554,11 @@ function getTopRanking() {
 				});
 				$(".tabcontent[data-category='" + category + "'] ul").html(html);
 
-				// $('#topPage-ranking-categories').after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking-' + category + '" class="fs-c-button--standard">もっと見る</a></div>');
-
-				if (category === 'all') {
+				if (category === 'all' && category !== 'dresser') {
+					$(".tabcontent[data-category='all'] ul").after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking" class="fs-c-button--standard">もっと見る</a></div>');
 					$(".tabcontent[data-category='all']").addClass('active').show();
+				} else if (category !== 'all' && category !== 'dresser') {
+					$(".tabcontent[data-category='" + category + "'] ul").after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking-' + category + '" class="fs-c-button--standard">もっと見る</a></div>');
 				}
 			  });
 			}
@@ -2576,7 +2581,7 @@ function getTopFaq() {
 	if ($('#fs_Top').length) {
 		var url = location.pathname;
 		var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/get_data';
-		//console.log("Request URL:", url);
+		console.log("Request URL:", url);
 
 		var params = { "url": "top" };
 		//console.log(JSON.stringify(params));
@@ -2591,11 +2596,11 @@ function getTopFaq() {
 			scriptCharset: 'utf-8',
 			success: function (response) {
 				// Success
-				console.log(JSON.stringify(response));
+				//console.log("API Response:", response);
 			},
 			error: function (response) {
 				// Error
-				//console.log(JSON.stringify(response));
+				//console.error("API Error:", response);
 			},
 		}).responseText;
 
@@ -2603,13 +2608,24 @@ function getTopFaq() {
 
 		//console.log(response);
 
-		data = response.ranking;
+		data = response.faq;
 		//console.log(data);
 
+		var faqHtml = '';
+		console.log('data.faq:', data);
+		if (data != undefined && data != '') {
+			for (var i in data) {
+				faqHtml += `<dt><span>${data[i].question}</span></dt><dd>${data[i].answer}</dd>`;
+			}
+
+			$('#content-category-list').before(`<div id="top-faq"><h2 class="productDescriptionTitle">よくある質問</h2><dl>${faqHtml}</dl></div>`);
+		}
+
+		$('#top-faq dt span').click(function () {
+			$(this).parents('dt').next('dd').slideToggle();
+		});
 	}
 }
-
-
 
 
 /* modal
