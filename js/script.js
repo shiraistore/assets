@@ -37,8 +37,8 @@ $(function () {
 	productDetail_howToStoreKidsBooksContentsBanner();
 	searchTagsTitleDescriptionChange();
 	putMemberIdOptInPolicy();
-	//getTopRanking();
-	//getTopFaq();
+	getTopRanking();
+	getTopFaq();
 
 	reviewSlideDown('#fs_ProductDetails', '240'); //OK
 	instagramPostList(); //OK
@@ -2413,8 +2413,8 @@ function getTopRanking() {
 		if (data != undefined && data != '') {
 			$.each(data, function(category, products) {
 				var html = '';
-				var itemsToShow = isMobile ? 10 : 9; // スマートフォンの場合は10商品、その他は9商品表示
-				$.each(products.slice(0, itemsToShow), function(index, product) {
+				//var itemsToShow = isMobile ? 10 : 9;
+				$.each(products.slice(0, 10), function(index, product) {
 					var sku_no = product.sku_no.toLowerCase(),
 						id = product.id,
 						productId_12Len = zeroPadding(id, 12),
@@ -2581,7 +2581,7 @@ function getTopFaq() {
 	if ($('#fs_Top').length) {
 		var url = location.pathname;
 		var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/get_data';
-		console.log("Request URL:", url);
+		//console.log("Request URL:", url);
 
 		var params = { "url": "top" };
 		//console.log(JSON.stringify(params));
@@ -2612,18 +2612,18 @@ function getTopFaq() {
 		//console.log(data);
 
 		var faqHtml = '';
-		console.log('data.faq:', data);
+		//console.log('data.faq:', data);
 		if (data != undefined && data != '') {
 			for (var i in data) {
-				faqHtml += `<dt><span>${data[i].question}</span></dt><dd>${data[i].answer}</dd>`;
+				faqHtml += `<div><dt><span>${data[i].question}</span></dt><dd>${data[i].answer}</dd></div>`;
 			}
 
 			$('#content-category-list').before(`<div id="top-faq"><h2 class="productDescriptionTitle">よくある質問</h2><dl>${faqHtml}</dl></div>`);
 		}
 
-		$('#top-faq dt span').click(function () {
-			$(this).parents('dt').next('dd').slideToggle();
-		});
+		// $('#top-faq dt span').click(function () {
+		// 	$(this).parents('dt').next('dd').slideToggle();
+		// });
 	}
 }
 
@@ -4107,6 +4107,7 @@ function productDetailAddData() {
 
 			$('#productDetail-rankingTop10').css('display', 'block');
 		}
+
 		if ($('.fs-c-productOption #optionWithPrice_1').length) {
 			if (!$('.fs-c-productMarks .mark-soldout').length) {
 				if (data.selectionPrice != undefined && data.selectionPrice != '') {
