@@ -4758,6 +4758,7 @@ var ranking_top10Slider;
 var productDetail_top10Slider;
 var productsAffinity_top10Slider;
 var newLife_top10Slider1, newLife_top10Slider2, newLife_top10Slider3, newLife_top10Slider4, newLife_top10Slider5, newLife_top10Slider6, newLife_top10Slider7, newLife_top10Slider8, newLife_top10Slider9, newLife_top10Slider10, newLife_top10Slider11, newLife_top10Slider12, newLife_top10Slider13;
+var feature_slider;
 
 var top10Slider_option1 = {
 	infiniteLoop: false,
@@ -4832,6 +4833,9 @@ if (newLife_top10Slider12 == null) {
 if (newLife_top10Slider13 == null) {
 	newLife_top10Slider13 = $('#newLife2022 .bxslider13').bxSlider(top10Slider_option1);
 }
+if (feature_slider == null) {
+	feature_slider = $('#list-feature .bxslider').bxSlider(top10Slider_option1);
+}
 
 function reviewScoreThreshold(reviewScore) {
 	//レビュースコアの閾値を設定
@@ -4901,6 +4905,16 @@ function checkScreenSize() {
 		} else {
 			productsAffinity_top10Slider.reloadSlider(top10Slider_option2);
 			$('.productTop10Slider').removeClass('destroy');
+		}
+	}
+	if ($('#list-feature').length && feature_slider) {
+		var newWindowWidth = $(window).width();
+		if (newWindowWidth <= 1200) {
+			feature_slider.destroySlider();
+			$('#list-feature').addClass('destroy');
+		} else {
+			feature_slider.reloadSlider(top10Slider_option2);
+			$('#plist-feature').removeClass('destroy');
 		}
 	}
 	//newLife
