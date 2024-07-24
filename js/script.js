@@ -1098,16 +1098,16 @@ function productSortSelect() {
 //セール会場用バナー表示
 function searchTagTitle() {
 	var params = parameterToArray();
-	if (params.tag == 'sale20240516-20240530') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240516-20240530_1184x240.jpg" alt="ラックセール 対象商品">');
-		$('#fs_ProductSearch h1').html('ラックセール 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('ラックセール 対象商品');
-		$('title').text('ラックセール 対象商品');
-	} else if (params.tag == 'sale20240704-20240718') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240704-20240718_1184x240.jpg" alt="テレビ台セール 対象商品">');
-		$('#fs_ProductSearch h1').html('テレビ台セール 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('テレビ台セール 対象商品');
-		$('title').text('テレビ台セール 対象商品');
+	if (params.tag == 'sale20240725-20240808') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240725-20240808_1184x240.jpg" alt="Summer SALE 第1弾 対象商品">');
+		$('#fs_ProductSearch h1').html('Summer SALE 第1弾 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('Summer SALE 第1弾 対象商品');
+		$('title').text('Summer SALE 第1弾 対象商品');
+	} else if (params.tag == 'sale20240725-20240822') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240725-20240822_1184x240.jpg" alt="ポルターレセール 対象商品">');
+		$('#fs_ProductSearch h1').html('ポルターレセール 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('ポルターレセール 対象商品');
+		$('title').text('ポルターレセール 対象商品');
 	} else if (params.tag == 'feature20240216') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-feature20240216-2_1184x240.jpg" alt="入園入学特集">');
 		$('#fs_ProductSearch h1').html('入園入学特集');
