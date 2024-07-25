@@ -1106,19 +1106,19 @@ function searchTagTitle() {
 	} else if (params.tag == 'sale20240725-20240822-1') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240725-20240822_1184x240.jpg" alt="ポルターレセール 対象商品">');
 		$('#fs_ProductSearch h1').html('ポルターレセール 対象商品');
-		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li class="active">リビング壁面収納</li><li><a href="/p/search?tag=sale20240725-20240822-2">エントランス収納</a></li><li><a href="/p/search?tag=sale20240725-20240822-3">クローゼット収納</a></li></ul>');
+		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li class="active">リビング壁面収納</li><li><a href="/p/search?tag=sale20240725-20240822-2">玄関収納</a></li><li><a href="/p/search?tag=sale20240725-20240822-3">クローゼット収納</a></li></ul>');
 		$('.fs-c-breadcrumb__listItem:last-child').text('ポルターレセール 対象商品');
 		$('title').text('ポルターレセール 対象商品');
 	} else if (params.tag == 'sale20240725-20240822-2') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240725-20240822_1184x240.jpg" alt="ポルターレセール 対象商品">');
 		$('#fs_ProductSearch h1').html('ポルターレセール 対象商品');
-		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li><a href="/p/search?tag=sale20240725-20240822-1">リビング壁面収納</a></li><li class="active">エントランス収納</li><li><a href="/p/search?tag=sale20240725-20240822-3">クローゼット収納</a></li></ul>');
+		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li><a href="/p/search?tag=sale20240725-20240822-1">リビング壁面収納</a></li><li class="active">玄関収納</li><li><a href="/p/search?tag=sale20240725-20240822-3">クローゼット収納</a></li></ul>');
 		$('.fs-c-breadcrumb__listItem:last-child').text('ポルターレセール 対象商品');
 		$('title').text('ポルターレセール 対象商品');
 	} else if (params.tag == 'sale20240725-20240822-3') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240725-20240822_1184x240.jpg" alt="ポルターレセール 対象商品">');
 		$('#fs_ProductSearch h1').html('ポルターレセール 対象商品');
-		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li><a href="/p/search?tag=sale20240725-20240822-1">リビング壁面収納</a></li><li><a href="/p/search?tag=sale20240725-20240822-2">エントランス収納</a></li><li  class="active">クローゼット収納</li></ul>');
+		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li><a href="/p/search?tag=sale20240725-20240822-1">リビング壁面収納</a></li><li><a href="/p/search?tag=sale20240725-20240822-2">玄関収納</a></li><li  class="active">クローゼット収納</li></ul>');
 		$('.fs-c-breadcrumb__listItem:last-child').text('ポルターレセール 対象商品');
 		$('title').text('ポルターレセール 対象商品');
 	} else if (params.tag == 'feature20240216') {
