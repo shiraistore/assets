@@ -1103,9 +1103,22 @@ function searchTagTitle() {
 		$('#fs_ProductSearch h1').html('Summer SALE 第1弾 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('Summer SALE 第1弾 対象商品');
 		$('title').text('Summer SALE 第1弾 対象商品');
-	} else if (params.tag == 'sale20240725-20240822') {
+	} else if (params.tag == 'sale20240725-20240822-1') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240725-20240822_1184x240.jpg" alt="ポルターレセール 対象商品">');
 		$('#fs_ProductSearch h1').html('ポルターレセール 対象商品');
+		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li class="active">リビング壁面収納</li><li><a href="/p/search?tag=sale20240725-20240822-2">エントランス収納</a></li><li><a href="/p/search?tag=sale20240725-20240822-3">クローゼット収納</a></li></ul>');
+		$('.fs-c-breadcrumb__listItem:last-child').text('ポルターレセール 対象商品');
+		$('title').text('ポルターレセール 対象商品');
+	} else if (params.tag == 'sale20240725-20240822-2') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240725-20240822_1184x240.jpg" alt="ポルターレセール 対象商品">');
+		$('#fs_ProductSearch h1').html('ポルターレセール 対象商品');
+		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li><a href="/p/search?tag=sale20240725-20240822-1">リビング壁面収納</a></li><li class="active">エントランス収納</li><li><a href="/p/search?tag=sale20240725-20240822-3">クローゼット収納</a></li></ul>');
+		$('.fs-c-breadcrumb__listItem:last-child').text('ポルターレセール 対象商品');
+		$('title').text('ポルターレセール 対象商品');
+	} else if (params.tag == 'sale20240725-20240822-3') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240725-20240822_1184x240.jpg" alt="ポルターレセール 対象商品">');
+		$('#fs_ProductSearch h1').html('ポルターレセール 対象商品');
+		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li><a href="/p/search?tag=sale20240725-20240822-1">リビング壁面収納</a></li><li><a href="/p/search?tag=sale20240725-20240822-2">エントランス収納</a></li><li  class="active">クローゼット収納</li></ul>');
 		$('.fs-c-breadcrumb__listItem:last-child').text('ポルターレセール 対象商品');
 		$('title').text('ポルターレセール 対象商品');
 	} else if (params.tag == 'feature20240216') {
@@ -4759,6 +4772,7 @@ var productDetail_top10Slider;
 var productsAffinity_top10Slider;
 var newLife_top10Slider1, newLife_top10Slider2, newLife_top10Slider3, newLife_top10Slider4, newLife_top10Slider5, newLife_top10Slider6, newLife_top10Slider7, newLife_top10Slider8, newLife_top10Slider9, newLife_top10Slider10, newLife_top10Slider11, newLife_top10Slider12, newLife_top10Slider13;
 var feature_slider;
+var series_slider;
 
 var top10Slider_option1 = {
 	infiniteLoop: false,
@@ -4780,6 +4794,29 @@ var top10Slider_option2 = {
 	maxSlides: 5,
 	slideWidth: 203,
 	slideMargin: 8,
+};
+var series_slider_option1 = {
+	infiniteLoop: false,
+	pager: false,
+	hideControlOnEnd: true,
+	touchEnabled: false,
+	minSlides: 4,
+	maxSlides: 4,
+	slideWidth: 280,
+	slideMargin: 8,
+	controls: false,
+	adaptiveHeight: true
+};
+var series_slider_option2 = {
+	infiniteLoop: false,
+	pager: false,
+	hideControlOnEnd: true,
+	touchEnabled: false,
+	minSlides: 4,
+	maxSlides: 4,
+	slideWidth: 280,
+	slideMargin: 8,
+	adaptiveHeight: true
 };
 
 if (recommend_top10Slider == null) {
@@ -4835,6 +4872,9 @@ if (newLife_top10Slider13 == null) {
 }
 if (feature_slider == null) {
 	feature_slider = $('#list-feature .bxslider').bxSlider(top10Slider_option1);
+}
+if (series_slider == null) {
+	series_slider = $('#list-series .bxslider').bxSlider(series_slider_option1);
 }
 
 function reviewScoreThreshold(reviewScore) {
@@ -4914,7 +4954,17 @@ function checkScreenSize() {
 			$('#list-feature').addClass('destroy');
 		} else {
 			feature_slider.reloadSlider(top10Slider_option2);
-			$('#plist-feature').removeClass('destroy');
+			$('#list-feature').removeClass('destroy');
+		}
+	}
+	if ($('#list-series').length && series_slider) {
+		var newWindowWidth = $(window).width();
+		if (newWindowWidth <= 1200) {
+			series_slider.destroySlider();
+			$('#list-series').addClass('destroy');
+		} else {
+			series_slider.reloadSlider(series_slider_option2);
+			$('#list-series').removeClass('destroy');
 		}
 	}
 	//newLife
