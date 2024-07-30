@@ -4198,7 +4198,7 @@ function multipleReviewList() {
 ========================================================================== */
 
 function productListAddData() {
-	if ($('#fs_ProductCategory').length || $('#fs_ProductSearch').length) {
+	if ($('#fs_ProductCategory').length || $('#fs_ProductSearch').length || $('#fs_CouponProductList').length) {
 		//$(function () {
 		$.getJSON('https://cdn.shirai-store.net/assets/json/common/dataForProductList_v2_0.json', function (data) {
 			$('.fs-c-productListItem').each(function () {
