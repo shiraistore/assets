@@ -711,90 +711,22 @@ function expectedArrival(optionResult) {
 					var selectedValue = $('#fs_input_expectedArrival_date').val();
 
 					if (stopFlag == 0) {
-						var orderLeadTime = 0, //受注処理までのリードタイム
-							manufactureLeadTime = 0, //サイズオーダー時のリードタイム
-							assemblyLeadTime = 0, //組立サービス時のリードタイム
+						var orderInputLeadTime = 0,
+							orderRequestLeadTime = 0,
+							assemblyLeadTime = 0,
+							manufactureLeadTime = 0,
+							shippingLeadTime = 0,
+							deliveryLeadTime = 0,
+							bankTransferLeadTime = 0,
 							sizeOrderArray = [];
 
+						// var orderLeadTime = 0, //受注処理までのリードタイム
+						// 	manufactureLeadTime = 0, //サイズオーダー時のリードタイム
+						// 	assemblyLeadTime = 0, //組立サービス時のリードタイム
+						// 	deliveryLeadTime = 1, //お届け指定ができる日を指定日数ずらすためのリードタイム
+						// 	sizeOrderArray = [];
+						
 						var operation_holyDay = [
-							'2023-11-04',
-							'2023-11-05',
-							'2023-11-11',
-							'2023-11-12',
-							'2023-11-18',
-							'2023-11-19',
-							'2023-11-25',
-							'2023-11-26',
-							'2023-12-02',
-							'2023-12-03',
-							'2023-12-09',
-							'2023-12-10',
-							'2023-12-16',
-							'2023-12-17',
-							'2023-12-23',
-							'2023-12-24',
-							'2023-12-28',
-							'2023-12-29',
-							'2023-12-30',
-							'2023-12-31',
-							'2024-01-01',
-							'2024-01-02',
-							'2024-01-03',
-							'2024-01-06',
-							'2024-01-07',
-							'2024-01-13',
-							'2024-01-14',
-							'2024-01-20',
-							'2024-01-21',
-							'2024-01-27',
-							'2024-01-28',
-							'2024-02-03',
-							'2024-02-04',
-							'2024-02-10',
-							'2024-02-11',
-							'2024-02-17',
-							'2024-02-18',
-							'2024-02-23',
-							'2024-02-24',
-							'2024-02-25',
-							'2024-03-02',
-							'2024-03-03',
-							'2024-03-09',
-							'2024-03-10',
-							'2024-03-16',
-							'2024-03-17',
-							'2024-03-23',
-							'2024-03-24',
-							'2024-03-30',
-							'2024-03-31',
-							'2024-04-06',
-							'2024-04-07',
-							'2024-04-13',
-							'2024-04-14',
-							'2024-04-20',
-							'2024-04-21',
-							'2024-04-27',
-							'2024-04-28',
-							'2024-05-03',
-							'2024-05-04',
-							'2024-05-05',
-							'2024-05-06',
-							'2024-05-11',
-							'2024-05-12',
-							'2024-05-18',
-							'2024-05-19',
-							'2024-05-25',
-							'2024-05-26',
-							'2024-06-01',
-							'2024-06-02',
-							'2024-06-08',
-							'2024-06-09',
-							'2024-06-15',
-							'2024-06-16',
-							'2024-06-22',
-							'2024-06-23',
-							'2024-06-29',
-							'2024-06-30',
 							'2024-07-06',
 							'2024-07-07',
 							'2024-07-13',
@@ -855,87 +787,10 @@ function expectedArrival(optionResult) {
 							'2024-12-28',
 							'2024-12-29',
 							'2024-12-30',
-							'2024-12-31',
+							'2024-12-31'
 						];
 
 						var factory_holyDay = [
-							'2023-11-04',
-							'2023-11-05',
-							'2023-11-11',
-							'2023-11-12',
-							'2023-11-18',
-							'2023-11-19',
-							'2023-11-23',
-							'2023-11-24',
-							'2023-11-25',
-							'2023-11-26',
-							'2023-12-02',
-							'2023-12-03',
-							'2023-12-09',
-							'2023-12-10',
-							'2023-12-16',
-							'2023-12-17',
-							'2023-12-23',
-							'2023-12-24',
-							'2023-12-29',
-							'2023-12-30',
-							'2023-12-31',
-							'2024-01-01',
-							'2024-01-02',
-							'2024-01-03',
-							'2024-01-06',
-							'2024-01-07',
-							'2024-01-13',
-							'2024-01-14',
-							'2024-01-20',
-							'2024-01-21',
-							'2024-01-27',
-							'2024-01-28',
-							'2024-02-03',
-							'2024-02-04',
-							'2024-02-10',
-							'2024-02-11',
-							'2024-02-17',
-							'2024-02-18',
-							'2024-02-24',
-							'2024-02-25',
-							'2024-03-02',
-							'2024-03-03',
-							'2024-03-09',
-							'2024-03-10',
-							'2024-03-16',
-							'2024-03-17',
-							'2024-03-23',
-							'2024-03-24',
-							'2024-03-30',
-							'2024-03-31',
-							'2024-04-06',
-							'2024-04-07',
-							'2024-04-13',
-							'2024-04-14',
-							'2024-04-20',
-							'2024-04-21',
-							'2024-04-27',
-							'2024-04-28',
-							'2024-05-03',
-							'2024-05-04',
-							'2024-05-05',
-							'2024-05-06',
-							'2024-05-12',
-							'2024-05-18',
-							'2024-05-19',
-							'2024-05-25',
-							'2024-05-26',
-							'2024-06-01',
-							'2024-06-02',
-							'2024-06-08',
-							'2024-06-09',
-							'2024-06-15',
-							'2024-06-16',
-							'2024-06-22',
-							'2024-06-23',
-							'2024-06-29',
-							'2024-06-30',
 							'2024-07-06',
 							'2024-07-07',
 							'2024-07-13',
@@ -997,7 +852,7 @@ function expectedArrival(optionResult) {
 							'2024-12-28',
 							'2024-12-29',
 							'2024-12-30',
-							'2024-12-31',
+							'2024-12-31'
 						];
 
 						var arrivalDate_ary = [];
@@ -1008,18 +863,20 @@ function expectedArrival(optionResult) {
 
 						arrivalDate_ary.splice(0, 1);
 
+						console.log(arrivalDate_ary);
+
 						function checkHolyDay(arrivalDate_ary, leadTime, holyDay, status) {
 							for (let i = 0; i < leadTime; i++) {
-								// console.log(leadTime);
+								console.log(leadTime);
 								if ($.inArray(arrivalDate_ary[i], holyDay) > -1) {
-									// console.log(arrivalDate_ary[i] + 'は' + status + 'が休業日');
+									console.log(arrivalDate_ary[i] + 'は' + status + 'が休業日');
 									arrivalDate_ary[i] = '';
 									leadTime++;
 								} else {
 									if (status == '生産' && i == leadTime) {
 										break;
 									} else {
-										// console.log(arrivalDate_ary[i] + 'を削除（' + status + 'リードタイム）');
+										console.log(arrivalDate_ary[i] + 'を削除（' + status + 'リードタイム）');
 										arrivalDate_ary[i] = '';
 									}
 								}
@@ -1038,34 +895,61 @@ function expectedArrival(optionResult) {
 
 						if (sizeOrderArray.find((value) => value.match(/(サイズオーダー|受注生産)/g)) != undefined) {
 							//console.log('サイズオーダー');
-							orderLeadTime += 3;
-							//console.log('サイズオーダー:', orderLeadTime);
-							arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderLeadTime, operation_holyDay, '事務処理');
-							manufactureLeadTime += 10; //通常10日
-							arrivalDate_ary = checkHolyDay(arrivalDate_ary, manufactureLeadTime, factory_holyDay, '生産');
 
-							if ($.inArray(arrivalDate_ary[0], operation_holyDay) > -1) {
-								// 運営が休業日
-								// console.log(arrivalDate_ary[0] + 'は運営が休業日');
-								deliveryReadyLeadTime = 1;
-							}
+							// orderLeadTime += 3;
+							//console.log('サイズオーダー:', orderLeadTime);
+							// arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderLeadTime, operation_holyDay, '事務処理');
+							// manufactureLeadTime += 10; //通常10日
+							// arrivalDate_ary = checkHolyDay(arrivalDate_ary, manufactureLeadTime, factory_holyDay, '生産');
+							// arrivalDate_ary = checkHolyDay(arrivalDate_ary, deliveryLeadTime, operation_holyDay, '発送');
+
+							orderInputLeadTime += 1; //通常1日
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderInputLeadTime, operation_holyDay, '注文取込');
+
+							orderRequestLeadTime += 1; //通常1日
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '組立依頼');
+
+							manufactureLeadTime += 11; //通常10日
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, manufactureLeadTime, factory_holyDay, '製造');
+
+							shippingLeadTime += 1; //通常1日
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingLeadTime, operation_holyDay, '出荷準備');
+
+							deliveryLeadTime += 1; //通常1日
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, deliveryLeadTime, operation_holyDay, '出荷');
+
+							// if ($.inArray(arrivalDate_ary[0], operation_holyDay) > -1) {
+							// 	// 運営が休業日
+							// 	// console.log(arrivalDate_ary[0] + 'は運営が休業日');
+							// 	deliveryReadyLeadTime = 1;
+							// }
 						} else {
 							//console.log('サイズオーダー以外');
-
 							//組立サービスがありなら指定した日数のリードタイムを追加
 
 							if (optionResult.result1 >= 0 || optionResult.result2 >= 0) {
 								//console.log('組立サービスあり')
-								orderLeadTime += 3;
-								arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderLeadTime, operation_holyDay, '事務処理');
-								assemblyLeadTime += 5;
+								orderInputLeadTime += 1; //通常1日
+								arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderInputLeadTime, operation_holyDay, '注文取込');
+
+								orderRequestLeadTime += 1; //通常1日
+								arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '組立依頼');
+
+								assemblyLeadTime += 5; //通常5日
 								arrivalDate_ary = checkHolyDay(arrivalDate_ary, assemblyLeadTime, operation_holyDay, '組立');
+
+								shippingLeadTime += 1; //通常1日
+								arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingLeadTime, operation_holyDay, '出荷準備');
+
+								deliveryLeadTime += 1; //通常1日
+								arrivalDate_ary = checkHolyDay(arrivalDate_ary, deliveryLeadTime, operation_holyDay, '出荷');
+								
 							} else {
 								//console.log('組立サービスなし');
 								if ($('#fs_input_payment_bankTransfer').prop('checked')) {
-									orderLeadTime += 1;
+									bankTransferLeadTime += 1; //通常1日
 									// console.log('銀行振込:', orderLeadTime);
-									arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderLeadTime, operation_holyDay, '事務処理');
+									arrivalDate_ary = checkHolyDay(arrivalDate_ary, bankTransferLeadTime, operation_holyDay, '銀行振込');
 								}
 							}
 						}
@@ -1074,7 +958,7 @@ function expectedArrival(optionResult) {
 							if ($.inArray(arrivalDate_ary[i], operation_holyDay) > -1) {
 								// console.log(arrivalDate_ary[i] + 'は運営が休業日');
 								arrivalDate_ary[i] = '';
-								deliveryReadyLeadTime++;
+								deliveryReadyLeadTime += 1;
 							} else {
 								// console.log(arrivalDate_ary[i] + 'は運営が営業日だから発送');
 								arrivalDate_ary[i] = '';
