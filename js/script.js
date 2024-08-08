@@ -259,7 +259,7 @@ function transfer() {
 	// 		window.location.href = 'https://shirai-store.net/c/preSale/mhp-8090p-iv';
 	// 	}
 	// }
-	
+
 	if ($('#fs_ProductSearch').length) {
 		var productURL = location.href;
 
@@ -789,6 +789,8 @@ function productDetailSeriesLink() {
 			series[0] = series[0].slice(0, 2);
 		} else if (series[0] == 'ona') {
 			series[0] = 'of2';
+		} else if (series[0] == 'gbp') {
+			series[0] = 'gbt';
 		}
 
 		var categoryURL = $('nav .fs-c-breadcrumb__list li:nth-last-child(2) a').attr('href');
@@ -1331,6 +1333,8 @@ function productVariation() {
 					seriesCode = 'tl';
 				} else if (seriesCode == 'ona') {
 					seriesCode = 'of2';
+				} else if (seriesCode == 'gbp') {
+					seriesCode = 'gbt';
 				}
 				htmlSource = htmlSource + '<li data-productcode="' + productCode + '" class="' + activeFlag + '"><a href="/c/series/' + seriesCode + '/' + productCode + '"><img src="https://shiraistore.itembox.design/item/src/product_variation/' + productCode + '.jpg" alt=""><span>' + colorName + '</span></a></li>';
 			}
@@ -1384,6 +1388,8 @@ function productSizeVariation() {
 					seriesCode = 'tl';
 				} else if (seriesCode == 'ona') {
 					seriesCode = 'of2';
+				} else if (seriesCode == 'gbp') {
+					seriesCode = 'gbt';
 				}
 				htmlSource = htmlSource + '<li data-productcode="' + productCode + '" class="' + activeFlag + '"><a href="/c/series/' + seriesCode + '/' + productCode + '" class="variationItem"><span>' + colorName + '</span></a></li>';
 			}
@@ -1422,6 +1428,13 @@ function productCompatibleList() {
 				var productCode = compatible_ary[i][0];
 				var productName = compatible_ary[i][1];
 				var seriesCode = productCode.substr(0, 3);
+				if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
+					seriesCode = 'tl';
+				} else if (seriesCode == 'ona') {
+					seriesCode = 'of2';
+				} else if (seriesCode == 'gbp') {
+					seriesCode = 'gbt';
+				}
 
 				if (productCode.indexOf('tnl-em') == -1) {
 					htmlSource = htmlSource + '<li><a  href="/c/series/' + seriesCode + '/' + productCode + '" class="compatibleItem"><img src="https://shiraistore.itembox.design/item/src/product_variation/' + productCode + '.jpg"><span>' + productName + '</span></a></li>';
@@ -1755,6 +1768,8 @@ function multipleRankingTop10() {
 						seriesCode = 'tl';
 					} else if (seriesCode == 'ona') {
 						seriesCode = 'of2';
+					} else if (seriesCode == 'gbp') {
+						seriesCode = 'gbt';
 					}
 
 					if (sellingPrice < normalPrice) {
@@ -1918,6 +1933,8 @@ function rankingTop10_forFanplayr(category) {
 				seriesCode = 'tl';
 			} else if (seriesCode == 'ona') {
 				seriesCode = 'of2';
+			} else if (seriesCode == 'gbp') {
+				seriesCode = 'gbt';
 			}
 
 			if (sellingPrice < normalPrice) {
@@ -2073,326 +2090,350 @@ function rankingTop10_forFanplayr(category) {
 /* hitItemCategory_forFanplayr
 ========================================================================== */
 function hitItemCategory_forFanplayr(hitItemType) {
-			var pathName = location.pathname;
-			// console.log(pathName);
-			var catURL = '';
-			if (hitItemType != undefined) {
-				catURL = pathName.split('/').pop();
-			} else {
-				hitItemType = 'ranking';
+	var pathName = location.pathname;
+	// console.log(pathName);
+	var catURL = '';
+	if (hitItemType != undefined) {
+		catURL = pathName.split('/').pop();
+	} else {
+		hitItemType = 'ranking';
+	}
+
+	var cookieKey = 'is_hititem_clicked_' + catURL;
+	var isCookieSet = $.cookie(cookieKey);
+
+	if (isCookieSet) {
+		$('#hitItemCategory_forFanplayr-inner').hide();
+	} else {
+		var jsonurl = 'https://cdn.shirai-store.net/assets/json/ranking/' + hitItemType + catURL + '_v2_0.json';
+		//console.log(jsonurl);
+		$.getJSON(jsonurl, function (rankingList) {
+			var firstData = rankingList[0];
+			var productUrl = firstData.productUrl,
+				seriesCode = productUrl.slice(0, 3),
+				productId = firstData.productId,
+				productName = firstData.productName,
+				productId_12Len = zeroPadding(productId, 12),
+				product_image_group = Math.floor(productId / 100),
+				sellingPrice = Number(firstData.sellingPrice),
+				normalPrice = Number(firstData.normalPrice),
+				icon = firstData.icon,
+				size = firstData.size,
+				reviewScore = Number(firstData.averageRating).toFixed(1),
+				reviewCount = Number(firstData.reviewCount),
+				thumbnail = firstData.thumbNumber;
+
+			thumbnail = ('00' + thumbnail).slice(-2);
+
+			if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
+				seriesCode = 'tl';
+			} else if (seriesCode == 'ona') {
+				seriesCode = 'of2';
+			} else if (seriesCode == 'gbp') {
+				seriesCode = 'gbt';
 			}
 
-			var cookieKey = 'is_hititem_clicked_' + catURL;
-			var isCookieSet = $.cookie(cookieKey);
-
-			if(isCookieSet){
-				$('#hitItemCategory_forFanplayr-inner').hide();
+			if (sellingPrice < normalPrice) {
+				sellingPrice = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normalPrice.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
 			} else {
-			var jsonurl = 'https://cdn.shirai-store.net/assets/json/ranking/' + hitItemType + catURL + '_v2_0.json';
-			//console.log(jsonurl);
-			$.getJSON(jsonurl, function (rankingList) {
-					var firstData = rankingList[0];
-					var productUrl = firstData.productUrl,
-						seriesCode = productUrl.slice(0, 3),
-						productId = firstData.productId,
-						productName = firstData.productName,
-						productId_12Len = zeroPadding(productId, 12),
-						product_image_group = Math.floor(productId / 100),
-						sellingPrice = Number(firstData.sellingPrice),
-						normalPrice = Number(firstData.normalPrice),
-						icon = firstData.icon,
-						size = firstData.size,
-						reviewScore = Number(firstData.averageRating).toFixed(1),
-						reviewCount = Number(firstData.reviewCount),
-						thumbnail = firstData.thumbNumber;
+				sellingPrice = '<p class="priceBox"><span class="price">¥ ' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
+			}
 
-					thumbnail = ('00' + thumbnail).slice(-2);
+			var icon_ary = icon.split(',');
 
-					if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
-						seriesCode = 'tl';
-					} else if (seriesCode == 'ona') {
-						seriesCode = 'of2';
+			var iconHtml = '';
+			for (var j = 0; j < icon_ary.length; j++) {
+				if (icon_ary[j] != '') {
+					icon_ary[j] = icon_ary[j].split(':');
+
+					if (icon_ary[j][0] == 'mark-rank' && catURL == '') {
+						//categoryName = categoryNameShorter(categoryName);
+						iconHtml += '<span class="mark-rank">ランキング' + icon_ary[j][1] + '位</span>';
 					}
 
-					if (sellingPrice < normalPrice) {
-						sellingPrice = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normalPrice.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
-					} else {
-						sellingPrice = '<p class="priceBox"><span class="price">¥ ' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
+					if (icon_ary[j][0] == 'mark-categoryRank' && catURL != '') {
+						//categoryName = categoryNameShorter(categoryName);
+						iconHtml += '<span class="mark-rank">ランキング' + icon_ary[j][1] + '位</span>';
 					}
 
-					var icon_ary = icon.split(',');
-
-					var iconHtml = '';
-					for (var j = 0; j < icon_ary.length; j++) {
-						if (icon_ary[j] != '') {
-							icon_ary[j] = icon_ary[j].split(':');
-
-							if (icon_ary[j][0] == 'mark-rank' && catURL == '') {
-								//categoryName = categoryNameShorter(categoryName);
-								iconHtml += '<span class="mark-rank">ランキング' + icon_ary[j][1] + '位</span>';
-							}
-
-							if (icon_ary[j][0] == 'mark-categoryRank' && catURL != '') {
-								//categoryName = categoryNameShorter(categoryName);
-								iconHtml += '<span class="mark-rank">ランキング' + icon_ary[j][1] + '位</span>';
-							}
-
-							if (icon_ary[j][0] == 'mark-new') {
-								iconHtml += '<span class="mark-new">新着</span>';
-							}
-
-							if (icon_ary[j][0] == 'mark-longseller') {
-								iconHtml += '<span class="mark-longseller">ロングセラー</span>';
-							}
-
-							if (icon_ary[j][0] == 'mark-limitedProduct') {
-								iconHtml += '<span class="mark-limitedProduct">当店限定商品</span>';
-							}
-
-							if (icon_ary[j][0] == 'mark-sale') {
-								iconHtml += '<span class="mark-sale">SALE</span>';
-							}
-						}
+					if (icon_ary[j][0] == 'mark-new') {
+						iconHtml += '<span class="mark-new">新着</span>';
 					}
 
-					if (reviewScore < 0.5) {
-						reviewScore = '0';
-					} else if (reviewScore < 1.0) {
-						reviewScore = '0.5';
-					} else if (reviewScore < 1.5) {
-						reviewScore = '1.0';
-					} else if (reviewScore < 2.0) {
-						reviewScore = '1.5';
-					} else if (reviewScore < 2.5) {
-						reviewScore = '2.0';
-					} else if (reviewScore < 3.0) {
-						reviewScore = '2.5';
-					} else if (reviewScore < 3.5) {
-						reviewScore = '3.0';
-					} else if (reviewScore < 4.0) {
-						reviewScore = '3.5';
-					} else if (reviewScore < 4.5) {
-						reviewScore = '4.0';
-					} else if (reviewScore < 5) {
-						reviewScore = '4.5';
-					} else if (reviewScore == 5) {
-						reviewScore = '5.0';
+					if (icon_ary[j][0] == 'mark-longseller') {
+						iconHtml += '<span class="mark-longseller">ロングセラー</span>';
 					}
 
-					var reviewHTML = '';
-
-					if (reviewScore != 0) {
-						reviewHTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '">（' + reviewCount + '）</div>';
-					} else {
-						reviewHTML = '';
+					if (icon_ary[j][0] == 'mark-limitedProduct') {
+						iconHtml += '<span class="mark-limitedProduct">当店限定商品</span>';
 					}
 
-					var h =
-						'<a href="/c/series/' + seriesCode + '/' + productUrl + '?fp=' +  catURL + 'HitItem"><div class="hitItemCategory_forFanplayr-inner-left"><img src="https://shiraistore.itembox.design/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '-s.jpg" alt="' + productName + '" ></div><div class="hitItemCategory_forFanplayr-inner-right"><h4>HIT ITEM</h4><p>' + productName + '</p>' + '<div class="productMarks">' + iconHtml + '</div>' + reviewHTML + sellingPrice + '</div></a>';
+					if (icon_ary[j][0] == 'mark-sale') {
+						iconHtml += '<span class="mark-sale">SALE</span>';
+					}
+				}
+			}
 
-					//console.log(h);
+			if (reviewScore < 0.5) {
+				reviewScore = '0';
+			} else if (reviewScore < 1.0) {
+				reviewScore = '0.5';
+			} else if (reviewScore < 1.5) {
+				reviewScore = '1.0';
+			} else if (reviewScore < 2.0) {
+				reviewScore = '1.5';
+			} else if (reviewScore < 2.5) {
+				reviewScore = '2.0';
+			} else if (reviewScore < 3.0) {
+				reviewScore = '2.5';
+			} else if (reviewScore < 3.5) {
+				reviewScore = '3.0';
+			} else if (reviewScore < 4.0) {
+				reviewScore = '3.5';
+			} else if (reviewScore < 4.5) {
+				reviewScore = '4.0';
+			} else if (reviewScore < 5) {
+				reviewScore = '4.5';
+			} else if (reviewScore == 5) {
+				reviewScore = '5.0';
+			}
 
-					$('#hitItemCategory_forFanplayr-inner').append(h);
-			});
+			var reviewHTML = '';
 
-			$('#hitItemCategory_forFanplayr-outer').css('display', 'block');
+			if (reviewScore != 0) {
+				reviewHTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '">（' + reviewCount + '）</div>';
+			} else {
+				reviewHTML = '';
+			}
 
-			$(document).on('click', '#hitItemCategory_forFanplayr-inner a', function() {
-				$.cookie(cookieKey, '1', {path: '/' });
-			});
-		}
+			var h =
+				'<a href="/c/series/' +
+				seriesCode +
+				'/' +
+				productUrl +
+				'?fp=' +
+				catURL +
+				'HitItem"><div class="hitItemCategory_forFanplayr-inner-left"><img src="https://shiraistore.itembox.design/product/' +
+				zeroPadding(product_image_group, 3) +
+				'/' +
+				productId_12Len +
+				'/' +
+				productId_12Len +
+				'-' +
+				thumbnail +
+				'-s.jpg" alt="' +
+				productName +
+				'" ></div><div class="hitItemCategory_forFanplayr-inner-right"><h4>HIT ITEM</h4><p>' +
+				productName +
+				'</p>' +
+				'<div class="productMarks">' +
+				iconHtml +
+				'</div>' +
+				reviewHTML +
+				sellingPrice +
+				'</div></a>';
+
+			//console.log(h);
+
+			$('#hitItemCategory_forFanplayr-inner').append(h);
+		});
+
+		$('#hitItemCategory_forFanplayr-outer').css('display', 'block');
+
+		$(document).on('click', '#hitItemCategory_forFanplayr-inner a', function () {
+			$.cookie(cookieKey, '1', { path: '/' });
+		});
+	}
 }
 
 /* hitItemProduct_forFanplayr
 ========================================================================== */
 function hitItemProduct_forFanplayr() {
-			var url = location.pathname;
-			var modelCode = url.split('/').pop();
-			var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/get_data_for_product_detail';
-			var params = { product_number: modelCode };
-			//console.log(JSON.stringify(params));
+	var url = location.pathname;
+	var modelCode = url.split('/').pop();
+	var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/get_data_for_product_detail';
+	var params = { product_number: modelCode };
+	//console.log(JSON.stringify(params));
 
-		
-			var response = $.ajax({
-				type: 'post',
-				url: url,
-				async: false,
-				data: JSON.stringify(params),
-				contentType: 'application/json',
-				dataType: 'json',
-				scriptCharset: 'utf-8',
-				success: function (response) {
-					// Success
-					// console.log(JSON.stringify(response));
-				},
-				error: function (response) {
-					// Error
-					// console.log(JSON.stringify(response));
-				},
-			}).responseText;
+	var response = $.ajax({
+		type: 'post',
+		url: url,
+		async: false,
+		data: JSON.stringify(params),
+		contentType: 'application/json',
+		dataType: 'json',
+		scriptCharset: 'utf-8',
+		success: function (response) {
+			// Success
+			// console.log(JSON.stringify(response));
+		},
+		error: function (response) {
+			// Error
+			// console.log(JSON.stringify(response));
+		},
+	}).responseText;
 
-			response = JSON.parse(response);
+	response = JSON.parse(response);
 
-			//console.log(response);
+	//console.log(response);
 
-			data = response.result;
-			// console.log(dataForProductDetailUrl);
+	data = response.result;
+	// console.log(dataForProductDetailUrl);
 
-			if (data.rankingTop10 != undefined && data.rankingTop10 != '') {
-				var rankingList = data.rankingTop10;
-					var firstData = rankingList[0];
-					var productUrl = firstData.productUrl,
-						seriesCode = productUrl.slice(0, 3),
-						productId = firstData.productId,
-						productName = firstData.productName,
-						productId_12Len = zeroPadding(productId, 12),
-						product_image_group = Math.floor(productId / 100),
-						sellingPrice = Number(firstData.sellingPrice),
-						normalPrice = Number(firstData.normalPrice),
-						icon = firstData.icon,
-						size = firstData.size,
-						reviewScore = Number(firstData.averageRating).toFixed(1),
-						reviewCount = Number(firstData.reviewCount),
-						thumbnail = firstData.thumbNumber,
-						categoryName = firstData.categoryLv1,
-						categoryUrl = firstData.categoryUrl;
-		
-					thumbnail = ('00' + thumbnail).slice(-2);
+	if (data.rankingTop10 != undefined && data.rankingTop10 != '') {
+		var rankingList = data.rankingTop10;
+		var firstData = rankingList[0];
+		var productUrl = firstData.productUrl,
+			seriesCode = productUrl.slice(0, 3),
+			productId = firstData.productId,
+			productName = firstData.productName,
+			productId_12Len = zeroPadding(productId, 12),
+			product_image_group = Math.floor(productId / 100),
+			sellingPrice = Number(firstData.sellingPrice),
+			normalPrice = Number(firstData.normalPrice),
+			icon = firstData.icon,
+			size = firstData.size,
+			reviewScore = Number(firstData.averageRating).toFixed(1),
+			reviewCount = Number(firstData.reviewCount),
+			thumbnail = firstData.thumbNumber,
+			categoryName = firstData.categoryLv1,
+			categoryUrl = firstData.categoryUrl;
 
-					var cookieKey = 'is_hititem_clicked_' + categoryUrl;
-					//console.log(cookieKey);
-					var isCookieSet = $.cookie(cookieKey);
-				
-					if(isCookieSet){
-						$('#hitItemProduct_forFanplayr-inner').hide();
-					} else {
-		
-						if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
-							seriesCode = 'tl';
-						} else if (seriesCode == 'ona') {
-							seriesCode = 'of2';
-						}
-			
-						if (sellingPrice < normalPrice) {
-							sellingPrice = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normalPrice.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
-						} else {
-							sellingPrice = '<p class="priceBox"><span class="price">¥ ' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
-						}
-			
-						var icon_ary = icon.split(',');
-			
-						var iconHtml = '';
-						for (var j = 0; j < icon_ary.length; j++) {
-							if (icon_ary[j] != '') {
-								icon_ary[j] = icon_ary[j].split(':');
-			
-								if (icon_ary[j][0] == 'mark-categoryRank' && categoryUrl != '') {
-									//categoryName = categoryNameShorter(categoryName);
-									iconHtml += '<span class="mark-rank">ランキング' + icon_ary[j][1] + '位</span>';
-								}
-			
-								if (icon_ary[j][0] == 'mark-new') {
-									iconHtml += '<span class="mark-new">新着</span>';
-								}
-			
-								if (icon_ary[j][0] == 'mark-longseller') {
-									iconHtml += '<span class="mark-longseller">ロングセラー</span>';
-								}
-			
-								if (icon_ary[j][0] == 'mark-limitedProduct') {
-									iconHtml += '<span class="mark-limitedProduct">当店限定商品</span>';
-								}
-			
-								if (icon_ary[j][0] == 'mark-sale') {
-									iconHtml += '<span class="mark-sale">SALE</span>';
-								}
-			
-								if (icon_ary[j][0] == 'mark-outlet') {
-									iconHtml += '<span class="mark-outlet">OUTLET</span>';
-								}
-							}
-						}
-			
-						if (reviewScore < 0.5) {
-							reviewScore = '0';
-						} else if (reviewScore < 1.0) {
-							reviewScore = '0.5';
-						} else if (reviewScore < 1.5) {
-							reviewScore = '1.0';
-						} else if (reviewScore < 2.0) {
-							reviewScore = '1.5';
-						} else if (reviewScore < 2.5) {
-							reviewScore = '2.0';
-						} else if (reviewScore < 3.0) {
-							reviewScore = '2.5';
-						} else if (reviewScore < 3.5) {
-							reviewScore = '3.0';
-						} else if (reviewScore < 4.0) {
-							reviewScore = '3.5';
-						} else if (reviewScore < 4.5) {
-							reviewScore = '4.0';
-						} else if (reviewScore < 5) {
-							reviewScore = '4.5';
-						} else if (reviewScore == 5) {
-							reviewScore = '5.0';
-						}
-			
-						var reviewHTML = '';
-			
-						if (reviewScore != 0) {
-							reviewHTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + productUrl + '&fp=' + categoryName + 'ranking">（' + reviewCount + '）</a></div>';
-						} else {
-							reviewHTML = '';
-						}
+		thumbnail = ('00' + thumbnail).slice(-2);
 
-			
-						var h =
-						'<div class="hitItemProduct_forFanplayr-inner-left"><a href="/c/series/' +
-						seriesCode +
-						'/' +
-						productUrl +
-						'?fp=' + 
-						categoryUrl + 
-						'HitItem"><img src="https://shiraistore.itembox.design/product/' +
-						zeroPadding(product_image_group, 3) +
-						'/' +
-						productId_12Len +
-						'/' +
-						productId_12Len +
-						'-' +
-						thumbnail +
-						'-s.jpg" alt="' +
-						productName +
-						'" >' +
-						'</a></div><div class="hitItemProduct_forFanplayr-inner-right">' +
-						'<a href="/c/series/' +
-						seriesCode +
-						'/' +
-						productUrl +
-						'?fp=' + 
-						categoryUrl +
-						'HitItem"><h4>HIT ITEM</h4><p>' +
-						productName +
-						'</p><div class="productMarks">' +
-						iconHtml +
-						'</div>' +
-						reviewHTML +
-						sellingPrice +
-						'</a></div>';
-			
-						//console.log(h);
-			
-						$('#hitItemProduct_forFanplayr-inner').append(h);
-			
-						$('#hitItemProduct_forFanplayr-outer').css('display', 'block');
+		var cookieKey = 'is_hititem_clicked_' + categoryUrl;
+		//console.log(cookieKey);
+		var isCookieSet = $.cookie(cookieKey);
 
-						$(document).on('click', '#hitItemProduct_forFanplayr-inner a', function() {
-							$.cookie(cookieKey, '1', {path: '/' });
-						});
+		if (isCookieSet) {
+			$('#hitItemProduct_forFanplayr-inner').hide();
+		} else {
+			if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
+				seriesCode = 'tl';
+			} else if (seriesCode == 'ona') {
+				seriesCode = 'of2';
+			} else if (seriesCode == 'gbp') {
+				seriesCode = 'gbt';
 			}
+
+			if (sellingPrice < normalPrice) {
+				sellingPrice = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normalPrice.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
+			} else {
+				sellingPrice = '<p class="priceBox"><span class="price">¥ ' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
+			}
+
+			var icon_ary = icon.split(',');
+
+			var iconHtml = '';
+			for (var j = 0; j < icon_ary.length; j++) {
+				if (icon_ary[j] != '') {
+					icon_ary[j] = icon_ary[j].split(':');
+
+					if (icon_ary[j][0] == 'mark-categoryRank' && categoryUrl != '') {
+						//categoryName = categoryNameShorter(categoryName);
+						iconHtml += '<span class="mark-rank">ランキング' + icon_ary[j][1] + '位</span>';
+					}
+
+					if (icon_ary[j][0] == 'mark-new') {
+						iconHtml += '<span class="mark-new">新着</span>';
+					}
+
+					if (icon_ary[j][0] == 'mark-longseller') {
+						iconHtml += '<span class="mark-longseller">ロングセラー</span>';
+					}
+
+					if (icon_ary[j][0] == 'mark-limitedProduct') {
+						iconHtml += '<span class="mark-limitedProduct">当店限定商品</span>';
+					}
+
+					if (icon_ary[j][0] == 'mark-sale') {
+						iconHtml += '<span class="mark-sale">SALE</span>';
+					}
+
+					if (icon_ary[j][0] == 'mark-outlet') {
+						iconHtml += '<span class="mark-outlet">OUTLET</span>';
+					}
+				}
+			}
+
+			if (reviewScore < 0.5) {
+				reviewScore = '0';
+			} else if (reviewScore < 1.0) {
+				reviewScore = '0.5';
+			} else if (reviewScore < 1.5) {
+				reviewScore = '1.0';
+			} else if (reviewScore < 2.0) {
+				reviewScore = '1.5';
+			} else if (reviewScore < 2.5) {
+				reviewScore = '2.0';
+			} else if (reviewScore < 3.0) {
+				reviewScore = '2.5';
+			} else if (reviewScore < 3.5) {
+				reviewScore = '3.0';
+			} else if (reviewScore < 4.0) {
+				reviewScore = '3.5';
+			} else if (reviewScore < 4.5) {
+				reviewScore = '4.0';
+			} else if (reviewScore < 5) {
+				reviewScore = '4.5';
+			} else if (reviewScore == 5) {
+				reviewScore = '5.0';
+			}
+
+			var reviewHTML = '';
+
+			if (reviewScore != 0) {
+				reviewHTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + productUrl + '&fp=' + categoryName + 'ranking">（' + reviewCount + '）</a></div>';
+			} else {
+				reviewHTML = '';
+			}
+
+			var h =
+				'<div class="hitItemProduct_forFanplayr-inner-left"><a href="/c/series/' +
+				seriesCode +
+				'/' +
+				productUrl +
+				'?fp=' +
+				categoryUrl +
+				'HitItem"><img src="https://shiraistore.itembox.design/product/' +
+				zeroPadding(product_image_group, 3) +
+				'/' +
+				productId_12Len +
+				'/' +
+				productId_12Len +
+				'-' +
+				thumbnail +
+				'-s.jpg" alt="' +
+				productName +
+				'" >' +
+				'</a></div><div class="hitItemProduct_forFanplayr-inner-right">' +
+				'<a href="/c/series/' +
+				seriesCode +
+				'/' +
+				productUrl +
+				'?fp=' +
+				categoryUrl +
+				'HitItem"><h4>HIT ITEM</h4><p>' +
+				productName +
+				'</p><div class="productMarks">' +
+				iconHtml +
+				'</div>' +
+				reviewHTML +
+				sellingPrice +
+				'</a></div>';
+
+			//console.log(h);
+
+			$('#hitItemProduct_forFanplayr-inner').append(h);
+
+			$('#hitItemProduct_forFanplayr-outer').css('display', 'block');
+
+			$(document).on('click', '#hitItemProduct_forFanplayr-inner a', function () {
+				$.cookie(cookieKey, '1', { path: '/' });
+			});
 		}
 	}
-
+}
 
 /* getTopRanking
 ========================================================================== */
@@ -2400,7 +2441,7 @@ function getTopRanking() {
 	if ($('#fs_Top').length) {
 		var url = location.pathname;
 		var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/get_data';
-		var params = { "url": "top" };
+		var params = { url: 'top' };
 		//console.log(JSON.stringify(params));
 
 		var response = $.ajax({
@@ -2432,10 +2473,10 @@ function getTopRanking() {
 		var isMobile = window.matchMedia('only screen and (max-width: 1024px)').matches;
 
 		if (data != undefined && data != '') {
-			$.each(data, function(category, products) {
+			$.each(data, function (category, products) {
 				var html = '';
 				//var itemsToShow = isMobile ? 10 : 9;
-				$.each(products.slice(0, 10), function(index, product) {
+				$.each(products.slice(0, 10), function (index, product) {
 					var sku_no = product.sku_no.toLowerCase(),
 						id = product.id,
 						productId_12Len = zeroPadding(id, 12),
@@ -2452,95 +2493,96 @@ function getTopRanking() {
 						thumbnail_number = product.thumbnail_number,
 						ranking = index + 1;
 
-						thumbnail = ('00' + thumbnail_number).slice(-2);
-						seriesCode = sku_no.slice(0, 3);
+					thumbnail = ('00' + thumbnail_number).slice(-2);
+					seriesCode = sku_no.slice(0, 3);
 
-						if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
-							seriesCode = 'tl';
-						} else if (seriesCode == 'ona') {
-							seriesCode = 'of2';
-						}
+					if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
+						seriesCode = 'tl';
+					} else if (seriesCode == 'ona') {
+						seriesCode = 'of2';
+					} else if (seriesCode == 'gbp') {
+						seriesCode = 'gbt';
+					}
 
-						if (selling_price < normal_price) {
-							selling_price = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normal_price.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + selling_price.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
-						} else {
-							selling_price = '<p class="priceBox"><span class="price">¥ ' + selling_price.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
-						}
+					if (selling_price < normal_price) {
+						selling_price = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normal_price.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + selling_price.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
+					} else {
+						selling_price = '<p class="priceBox"><span class="price">¥ ' + selling_price.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
+					}
 
-						var icon_ary = icon.split(',');
-						//console.log(icon_ary);
-		
-						var iconHtml = '';
-						for (var j = 0; j < icon_ary.length; j++) {
-							if (icon_ary[j] != '') {
-								icon_ary[j] = icon_ary[j].split(':');
-		
-								if (icon_ary[j][0] == 'mark-rank') {
-								    categoryName = categoryNameShorter(category_name);
-								    iconHtml += '<span class="mark-rank">' + ranking + '位</span>';
-								}
-		
-								// if (icon_ary[j][0] == 'mark-categoryRank' && category_url != '') {
-								// 	categoryName = categoryNameShorter(category_name);
-								// 	iconHtml += '<span class="mark-rank">' + icon_ary[j][1] + '位</span>';
-								// }
-		
-								if (icon_ary[j][0] == 'mark-new') {
-									iconHtml += '<span class="mark-new">新着</span>';
-								}
-		
-								if (icon_ary[j][0] == 'mark-longseller') {
-									iconHtml += '<span class="mark-longseller">ロングセラー</span>';
-								}
-		
-								if (icon_ary[j][0] == 'mark-limitedProduct') {
-									iconHtml += '<span class="mark-limitedProduct">当店限定商品</span>';
-								}
-		
-								if (icon_ary[j][0] == 'mark-sale') {
-									iconHtml += '<span class="mark-sale">SALE</span>';
-								}
-		
-								if (icon_ary[j][0] == 'mark-outlet') {
-									iconHtml += '<span class="mark-outlet">OUTLET</span>';
-								}
+					var icon_ary = icon.split(',');
+					//console.log(icon_ary);
+
+					var iconHtml = '';
+					for (var j = 0; j < icon_ary.length; j++) {
+						if (icon_ary[j] != '') {
+							icon_ary[j] = icon_ary[j].split(':');
+
+							if (icon_ary[j][0] == 'mark-rank') {
+								categoryName = categoryNameShorter(category_name);
+								iconHtml += '<span class="mark-rank">' + ranking + '位</span>';
+							}
+
+							// if (icon_ary[j][0] == 'mark-categoryRank' && category_url != '') {
+							// 	categoryName = categoryNameShorter(category_name);
+							// 	iconHtml += '<span class="mark-rank">' + icon_ary[j][1] + '位</span>';
+							// }
+
+							if (icon_ary[j][0] == 'mark-new') {
+								iconHtml += '<span class="mark-new">新着</span>';
+							}
+
+							if (icon_ary[j][0] == 'mark-longseller') {
+								iconHtml += '<span class="mark-longseller">ロングセラー</span>';
+							}
+
+							if (icon_ary[j][0] == 'mark-limitedProduct') {
+								iconHtml += '<span class="mark-limitedProduct">当店限定商品</span>';
+							}
+
+							if (icon_ary[j][0] == 'mark-sale') {
+								iconHtml += '<span class="mark-sale">SALE</span>';
+							}
+
+							if (icon_ary[j][0] == 'mark-outlet') {
+								iconHtml += '<span class="mark-outlet">OUTLET</span>';
 							}
 						}
+					}
 
-						if (average_rating < 0.5) {
-							average_rating = '0';
-						} else if (average_rating < 1.0) {
-							average_rating = '0.5';
-						} else if (average_rating < 1.5) {
-							average_rating = '1.0';
-						} else if (average_rating < 2.0) {
-							reviewaverage_ratingScore = '1.5';
-						} else if (average_rating < 2.5) {
-							average_rating = '2.0';
-						} else if (average_rating < 3.0) {
-							average_rating = '2.5';
-						} else if (average_rating < 3.5) {
-							average_rating = '3.0';
-						} else if (average_rating < 4.0) {
-							average_rating = '3.5';
-						} else if (average_rating < 4.5) {
-							average_rating = '4.0';
-						} else if (average_rating < 5) {
-							average_rating = '4.5';
-						} else if (average_rating == 5) {
-							average_rating = '5.0';
-						}
-			
-						var reviewHTML = '';
-			
-						if (average_rating != 0) {
-							reviewHTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + average_rating + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + sku_no + '">（' + number_review + '）</a></div>';
-						} else {
-							reviewHTML = '';
-						}
+					if (average_rating < 0.5) {
+						average_rating = '0';
+					} else if (average_rating < 1.0) {
+						average_rating = '0.5';
+					} else if (average_rating < 1.5) {
+						average_rating = '1.0';
+					} else if (average_rating < 2.0) {
+						reviewaverage_ratingScore = '1.5';
+					} else if (average_rating < 2.5) {
+						average_rating = '2.0';
+					} else if (average_rating < 3.0) {
+						average_rating = '2.5';
+					} else if (average_rating < 3.5) {
+						average_rating = '3.0';
+					} else if (average_rating < 4.0) {
+						average_rating = '3.5';
+					} else if (average_rating < 4.5) {
+						average_rating = '4.0';
+					} else if (average_rating < 5) {
+						average_rating = '4.5';
+					} else if (average_rating == 5) {
+						average_rating = '5.0';
+					}
 
+					var reviewHTML = '';
 
-						html +=
+					if (average_rating != 0) {
+						reviewHTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + average_rating + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + sku_no + '">（' + number_review + '）</a></div>';
+					} else {
+						reviewHTML = '';
+					}
+
+					html +=
 						'<li><a href="/c/series/' +
 						seriesCode +
 						'/' +
@@ -2581,28 +2623,30 @@ function getTopRanking() {
 				} else if (category !== 'all' && category !== 'dresser') {
 					$(".tabcontent[data-category='" + category + "'] ul").after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking-' + category + '" class="fs-c-button--standard">もっと見る</a></div>');
 				}
-			  });
-			}
-
-			$('#topPage-ranking-categories').css('display', 'block');
-
-			$(document).on('click', '.tablink', function() {
-				var category = $(this).data('category');
-				$('.tabcontent').removeClass('active').hide();
-				$('.tabcontent[data-category="' + category + '"]').addClass('active').show();
-				$('.tablink').removeClass('active');
-				$(this).addClass('active');
 			});
+		}
+
+		$('#topPage-ranking-categories').css('display', 'block');
+
+		$(document).on('click', '.tablink', function () {
+			var category = $(this).data('category');
+			$('.tabcontent').removeClass('active').hide();
+			$('.tabcontent[data-category="' + category + '"]')
+				.addClass('active')
+				.show();
+			$('.tablink').removeClass('active');
+			$(this).addClass('active');
+		});
 	}
 }
-
 
 /* getCouponItems
 ========================================================================== */
 function getCouponItems() {
+	if ($('.couponItemsSlider.couponItems').length) {
 		var url = location.pathname;
 		var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/get_data_v2';
-		var params = { "items": "coupon_item_10" };
+		var params = { items: 'coupon_item_10' };
 		//console.log(JSON.stringify(params));
 
 		var response = $.ajax({
@@ -2646,100 +2690,100 @@ function getCouponItems() {
 					category_url = data[i].category_url,
 					category_name = data[i].category_name,
 					thumbnail_number = data[i].thumbnail_number,
-
 					thumbnail = ('00' + thumbnail_number).slice(-2);
-					series_code = sku_no.slice(0, 3);
+				series_code = sku_no.slice(0, 3);
 
-					if (series_code == 'tl1' || series_code == 'tl2' || series_code == 'tl3') {
-						series_code = 'tl';
-					} else if (series_code == 'ona') {
-						series_code = 'of2';
-					}
+				if (series_code == 'tl1' || series_code == 'tl2' || series_code == 'tl3') {
+					series_code = 'tl';
+				} else if (series_code == 'ona') {
+					series_code = 'of2';
+				} else if (series_code == 'gbp') {
+					series_code = 'gbt';
+				}
 
-					if (selling_price < normal_price) {
-						selling_price = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normal_price.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + selling_price.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
-					} else {
-						selling_price = '<p class="priceBox"><span class="price">¥ ' + selling_price.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
-					}
+				if (selling_price < normal_price) {
+					selling_price = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normal_price.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + selling_price.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
+				} else {
+					selling_price = '<p class="priceBox"><span class="price">¥ ' + selling_price.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
+				}
 
-					var icon_ary = icon.split(',');
-					//console.log(icon_ary);
-	
-					var icon_html = '';
-					for (var j = 0; j < icon_ary.length; j++) {
-						if (icon_ary[j] != '') {
-							icon_ary[j] = icon_ary[j].split(':');
-	
-							// if (icon_ary[j][0] == 'mark-rank') {
-							// 	categoryName = categoryNameShorter(category_name);
-							// 	icon_html += '<span class="mark-rank">' + ranking + '位</span>';
-							// }
-	
-							// if (icon_ary[j][0] == 'mark-categoryRank' && category_url != '') {
-							// 	categoryName = categoryNameShorter(category_name);
-							// 	icon_html += '<span class="mark-rank">' + icon_ary[j][1] + '位</span>';
-							// }
-	
-							if (icon_ary[j][0] == 'mark-new') {
-								icon_html += '<span class="mark-new">新着</span>';
-							}
-	
-							if (icon_ary[j][0] == 'mark-longseller') {
-								icon_html += '<span class="mark-longseller">ロングセラー</span>';
-							}
-	
-							if (icon_ary[j][0] == 'mark-limitedProduct') {
-								icon_html += '<span class="mark-limitedProduct">当店限定商品</span>';
-							}
-	
-							if (icon_ary[j][0] == 'mark-sale') {
-								icon_html += '<span class="mark-sale">SALE</span>';
-							}
-	
-							if (icon_ary[j][0] == 'mark-outlet') {
-								icon_html += '<span class="mark-outlet">OUTLET</span>';
-							}
+				var icon_ary = icon.split(',');
+				//console.log(icon_ary);
 
-							if (icon_ary[j][0] == 'mark-coupon') {
-								icon_html += '<span class="mark-coupon">' + icon_ary[j][1] + '</span>';
-							}
+				var icon_html = '';
+				for (var j = 0; j < icon_ary.length; j++) {
+					if (icon_ary[j] != '') {
+						icon_ary[j] = icon_ary[j].split(':');
+
+						// if (icon_ary[j][0] == 'mark-rank') {
+						// 	categoryName = categoryNameShorter(category_name);
+						// 	icon_html += '<span class="mark-rank">' + ranking + '位</span>';
+						// }
+
+						// if (icon_ary[j][0] == 'mark-categoryRank' && category_url != '') {
+						// 	categoryName = categoryNameShorter(category_name);
+						// 	icon_html += '<span class="mark-rank">' + icon_ary[j][1] + '位</span>';
+						// }
+
+						if (icon_ary[j][0] == 'mark-new') {
+							icon_html += '<span class="mark-new">新着</span>';
+						}
+
+						if (icon_ary[j][0] == 'mark-longseller') {
+							icon_html += '<span class="mark-longseller">ロングセラー</span>';
+						}
+
+						if (icon_ary[j][0] == 'mark-limitedProduct') {
+							icon_html += '<span class="mark-limitedProduct">当店限定商品</span>';
+						}
+
+						if (icon_ary[j][0] == 'mark-sale') {
+							icon_html += '<span class="mark-sale">SALE</span>';
+						}
+
+						if (icon_ary[j][0] == 'mark-outlet') {
+							icon_html += '<span class="mark-outlet">OUTLET</span>';
+						}
+
+						if (icon_ary[j][0] == 'mark-coupon') {
+							icon_html += '<span class="mark-coupon">' + icon_ary[j][1] + '</span>';
 						}
 					}
+				}
 
-					if (average_rating < 0.5) {
-						average_rating = '0';
-					} else if (average_rating < 1.0) {
-						average_rating = '0.5';
-					} else if (average_rating < 1.5) {
-						average_rating = '1.0';
-					} else if (average_rating < 2.0) {
-						reviewaverage_ratingScore = '1.5';
-					} else if (average_rating < 2.5) {
-						average_rating = '2.0';
-					} else if (average_rating < 3.0) {
-						average_rating = '2.5';
-					} else if (average_rating < 3.5) {
-						average_rating = '3.0';
-					} else if (average_rating < 4.0) {
-						average_rating = '3.5';
-					} else if (average_rating < 4.5) {
-						average_rating = '4.0';
-					} else if (average_rating < 5) {
-						average_rating = '4.5';
-					} else if (average_rating == 5) {
-						average_rating = '5.0';
-					}
-		
-					var review_HTML = '';
-		
-					if (average_rating != 0) {
-						review_HTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + average_rating + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + sku_no + '">（' + number_review + '）</a></div>';
-					} else {
-						review_HTML = '';
-					}
+				if (average_rating < 0.5) {
+					average_rating = '0';
+				} else if (average_rating < 1.0) {
+					average_rating = '0.5';
+				} else if (average_rating < 1.5) {
+					average_rating = '1.0';
+				} else if (average_rating < 2.0) {
+					reviewaverage_ratingScore = '1.5';
+				} else if (average_rating < 2.5) {
+					average_rating = '2.0';
+				} else if (average_rating < 3.0) {
+					average_rating = '2.5';
+				} else if (average_rating < 3.5) {
+					average_rating = '3.0';
+				} else if (average_rating < 4.0) {
+					average_rating = '3.5';
+				} else if (average_rating < 4.5) {
+					average_rating = '4.0';
+				} else if (average_rating < 5) {
+					average_rating = '4.5';
+				} else if (average_rating == 5) {
+					average_rating = '5.0';
+				}
 
+				var review_HTML = '';
 
-					html =
+				if (average_rating != 0) {
+					review_HTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + average_rating + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + sku_no + '">（' + number_review + '）</a></div>';
+				} else {
+					review_HTML = '';
+				}
+
+				html =
 					'<li><a href="/c/series/' +
 					series_code +
 					'/' +
@@ -2771,84 +2815,86 @@ function getCouponItems() {
 					'">' +
 					selling_price +
 					'</a></li>';
-				
-					$('.couponItemsSlider.couponItems ul').append(html);
 
-					var urlPath = location.pathname;
-					//console.log(urlPath);
-					if (urlPath == '/c/category/table' && i == 8) {
-						checkScreenSize();
-						break;
-					}
+				$('.couponItemsSlider.couponItems ul').append(html);
 
-					if (i == 9) {
-						checkScreenSize();
-						break;
-					}
+				var urlPath = location.pathname;
+				//console.log(urlPath);
+				if (urlPath == '/c/category/table' && i == 8) {
+					checkScreenSize();
+					break;
 				}
 
-				$('.couponItemsSlider.couponItems').after('<div class="fs-c-buttonContainer more-button"><a href="/p/search?tag=20%25OFF%E3%82%AF%E3%83%BC%E3%83%9D%E3%83%B3%E3%81%82%E3%82%8A" class="fs-c-button--standard">もっと見る</a></div>');
+				if (i == 9) {
+					checkScreenSize();
+					break;
+				}
 			}
-	}
 
+			$('.couponItemsSlider.couponItems').after('<div class="fs-c-buttonContainer more-button"><a href="/p/search?tag=20%25OFF%E3%82%AF%E3%83%BC%E3%83%9D%E3%83%B3%E3%81%82%E3%82%8A" class="fs-c-button--standard">もっと見る</a></div>');
+		}
+	}
+}
 
 /* getNewItems
 ========================================================================== */
 function getNewItems() {
-	var url = location.pathname;
-	var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/get_data_v2';
-	var params = { "items": "new_item_10" };
-	//console.log(JSON.stringify(params));
+	if ($('.newItemsSlider.newItems').length) {
+		var url = location.pathname;
+		var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/get_data_v2';
+		var params = { items: 'new_item_10' };
+		//console.log(JSON.stringify(params));
 
-	var response = $.ajax({
-		type: 'post',
-		url: url,
-		async: false,
-		data: JSON.stringify(params),
-		contentType: 'application/json',
-		dataType: 'json',
-		scriptCharset: 'utf-8',
-		success: function (response) {
-			// Success
-			//console.log(JSON.stringify(response));
-		},
-		error: function (response) {
-			// Error
-			// console.log(JSON.stringify(response));
-		},
-	}).responseText;
+		var response = $.ajax({
+			type: 'post',
+			url: url,
+			async: false,
+			data: JSON.stringify(params),
+			contentType: 'application/json',
+			dataType: 'json',
+			scriptCharset: 'utf-8',
+			success: function (response) {
+				// Success
+				//console.log(JSON.stringify(response));
+			},
+			error: function (response) {
+				// Error
+				// console.log(JSON.stringify(response));
+			},
+		}).responseText;
 
-	response = JSON.parse(response);
-	//console.log(response);
+		response = JSON.parse(response);
+		//console.log(response);
 
-	data = response.data;
-	//console.log(data);
+		data = response.data;
+		//console.log(data);
 
-	if (data != undefined && data != '') {
-		var html = '';
-		for (var i in data) {
-			var sku_no = data[i].sku_no.toLowerCase(),
-				id = data[i].id,
-				product_id_12Len = zeroPadding(id, 12),
-				name = data[i].name,
-				selling_price = data[i].selling_price,
-				normal_price = data[i].normal_price,
-				icon = data[i].icon,
-				size = data[i].size,
-				product_image_group = Math.floor(id / 100),
-				average_rating = data[i].average_rating,
-				number_review = data[i].number_review,
-				category_url = data[i].category_url,
-				category_name = data[i].category_name,
-				thumbnail_number = data[i].thumbnail_number,
-
-				thumbnail = ('00' + thumbnail_number).slice(-2);
+		if (data != undefined && data != '') {
+			var html = '';
+			for (var i in data) {
+				var sku_no = data[i].sku_no.toLowerCase(),
+					id = data[i].id,
+					product_id_12Len = zeroPadding(id, 12),
+					name = data[i].name,
+					selling_price = data[i].selling_price,
+					normal_price = data[i].normal_price,
+					icon = data[i].icon,
+					size = data[i].size,
+					product_image_group = Math.floor(id / 100),
+					average_rating = data[i].average_rating,
+					number_review = data[i].number_review,
+					category_url = data[i].category_url,
+					category_name = data[i].category_name,
+					thumbnail_number = data[i].thumbnail_number,
+					thumbnail = ('00' + thumbnail_number).slice(-2);
 				series_code = sku_no.slice(0, 3);
 
 				if (series_code == 'tl1' || series_code == 'tl2' || series_code == 'tl3') {
 					series_code = 'tl';
 				} else if (series_code == 'ona') {
 					series_code = 'of2';
+				} else if (series_code == 'gbp') {
+					series_code = 'gbt';
 				}
 
 				if (selling_price < normal_price) {
@@ -2924,49 +2970,48 @@ function getNewItems() {
 				} else if (average_rating == 5) {
 					average_rating = '5.0';
 				}
-	
+
 				var review_HTML = '';
-	
+
 				if (average_rating != 0) {
 					review_HTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + average_rating + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + sku_no + '">（' + number_review + '）</a></div>';
 				} else {
 					review_HTML = '';
 				}
 
-
 				html =
-				'<li><a href="/c/series/' +
-				series_code +
-				'/' +
-				sku_no +
-				'"><img src="https://shiraistore.itembox.design/product/' +
-				zeroPadding(product_image_group, 3) +
-				'/' +
-				product_id_12Len +
-				'/' +
-				product_id_12Len +
-				'-' +
-				thumbnail +
-				'-m.jpg" alt="' +
-				name +
-				'" ><h3>' +
-				name +
-				'</h3></a>' +
-				'<div class="productMarks">' +
-				icon_html +
-				'</div>' +
-				'<div class="productSize">' +
-				size +
-				'</div>' +
-				review_HTML +
-				'<a href="/c/series/' +
-				series_code +
-				'/' +
-				sku_no +
-				'">' +
-				selling_price +
-				'</a></li>';
-			
+					'<li><a href="/c/series/' +
+					series_code +
+					'/' +
+					sku_no +
+					'"><img src="https://shiraistore.itembox.design/product/' +
+					zeroPadding(product_image_group, 3) +
+					'/' +
+					product_id_12Len +
+					'/' +
+					product_id_12Len +
+					'-' +
+					thumbnail +
+					'-m.jpg" alt="' +
+					name +
+					'" ><h3>' +
+					name +
+					'</h3></a>' +
+					'<div class="productMarks">' +
+					icon_html +
+					'</div>' +
+					'<div class="productSize">' +
+					size +
+					'</div>' +
+					review_HTML +
+					'<a href="/c/series/' +
+					series_code +
+					'/' +
+					sku_no +
+					'">' +
+					selling_price +
+					'</a></li>';
+
 				$('.newItemsSlider.newItems ul').append(html);
 
 				var urlPath = location.pathname;
@@ -2984,65 +3029,68 @@ function getNewItems() {
 
 			$('.newItemsSlider.newItems').after('<div class="fs-c-buttonContainer more-button"><a href="https://shirai-store.net/p/search?tag=%E6%96%B0%E7%9D%80&sort=latest" class="fs-c-button--standard">もっと見る</a></div>');
 		}
+	}
 }
 
 /* get_outlet_items
 ========================================================================== */
 function get_outlet_items() {
-	var url = location.pathname;
-	var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/get_data_v2';
-	var params = { "items": "outlet_item_10" };
-	//console.log(JSON.stringify(params));
+	if ($('.outlet_items_slider.outlet_items').length) {
+		var url = location.pathname;
+		var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/get_data_v2';
+		var params = { items: 'outlet_item_10' };
+		//console.log(JSON.stringify(params));
 
-	var response = $.ajax({
-		type: 'post',
-		url: url,
-		async: false,
-		data: JSON.stringify(params),
-		contentType: 'application/json',
-		dataType: 'json',
-		scriptCharset: 'utf-8',
-		success: function (response) {
-			// Success
-			//console.log(JSON.stringify(response));
-		},
-		error: function (response) {
-			// Error
-			// console.log(JSON.stringify(response));
-		},
-	}).responseText;
+		var response = $.ajax({
+			type: 'post',
+			url: url,
+			async: false,
+			data: JSON.stringify(params),
+			contentType: 'application/json',
+			dataType: 'json',
+			scriptCharset: 'utf-8',
+			success: function (response) {
+				// Success
+				//console.log(JSON.stringify(response));
+			},
+			error: function (response) {
+				// Error
+				// console.log(JSON.stringify(response));
+			},
+		}).responseText;
 
-	response = JSON.parse(response);
-	console.log(response);
+		response = JSON.parse(response);
+		// console.log(response);
 
-	data = response.data;
-	//console.log(data);
+		data = response.data;
+		//console.log(data);
 
-	if (data != undefined && data != '') {
-		var html = '';
-		for (var i in data) {
-			var sku_no = data[i].sku_no.toLowerCase(),
-				id = data[i].id,
-				product_id_12Len = zeroPadding(id, 12),
-				name = data[i].name,
-				selling_price = data[i].selling_price,
-				normal_price = data[i].normal_price,
-				icon = data[i].icon,
-				size = data[i].size,
-				product_image_group = Math.floor(id / 100),
-				average_rating = data[i].average_rating,
-				number_review = data[i].number_review,
-				category_url = data[i].category_url,
-				category_name = data[i].category_name,
-				thumbnail_number = data[i].thumbnail_number,
-
-				thumbnail = ('00' + thumbnail_number).slice(-2);
+		if (data != undefined && data != '') {
+			var html = '';
+			for (var i in data) {
+				var sku_no = data[i].sku_no.toLowerCase(),
+					id = data[i].id,
+					product_id_12Len = zeroPadding(id, 12),
+					name = data[i].name,
+					selling_price = data[i].selling_price,
+					normal_price = data[i].normal_price,
+					icon = data[i].icon,
+					size = data[i].size,
+					product_image_group = Math.floor(id / 100),
+					average_rating = data[i].average_rating,
+					number_review = data[i].number_review,
+					category_url = data[i].category_url,
+					category_name = data[i].category_name,
+					thumbnail_number = data[i].thumbnail_number,
+					thumbnail = ('00' + thumbnail_number).slice(-2);
 				series_code = sku_no.slice(0, 3);
 
 				if (series_code == 'tl1' || series_code == 'tl2' || series_code == 'tl3') {
 					series_code = 'tl';
 				} else if (series_code == 'ona') {
 					series_code = 'of2';
+				} else if (series_code == 'gbp') {
+					series_code = 'gbt';
 				}
 
 				if (selling_price < normal_price) {
@@ -3118,49 +3166,48 @@ function get_outlet_items() {
 				} else if (average_rating == 5) {
 					average_rating = '5.0';
 				}
-	
+
 				var review_HTML = '';
-	
+
 				if (average_rating != 0) {
 					review_HTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + average_rating + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + sku_no + '">（' + number_review + '）</a></div>';
 				} else {
 					review_HTML = '';
 				}
 
-
 				html =
-				'<li><a href="/c/series/' +
-				series_code +
-				'/' +
-				sku_no +
-				'"><img src="https://shiraistore.itembox.design/product/' +
-				zeroPadding(product_image_group, 3) +
-				'/' +
-				product_id_12Len +
-				'/' +
-				product_id_12Len +
-				'-' +
-				thumbnail +
-				'-m.jpg" alt="' +
-				name +
-				'" ><h3>' +
-				name +
-				'</h3></a>' +
-				'<div class="productMarks">' +
-				icon_html +
-				'</div>' +
-				'<div class="productSize">' +
-				size +
-				'</div>' +
-				review_HTML +
-				'<a href="/c/series/' +
-				series_code +
-				'/' +
-				sku_no +
-				'">' +
-				selling_price +
-				'</a></li>';
-			
+					'<li><a href="/c/series/' +
+					series_code +
+					'/' +
+					sku_no +
+					'"><img src="https://shiraistore.itembox.design/product/' +
+					zeroPadding(product_image_group, 3) +
+					'/' +
+					product_id_12Len +
+					'/' +
+					product_id_12Len +
+					'-' +
+					thumbnail +
+					'-m.jpg" alt="' +
+					name +
+					'" ><h3>' +
+					name +
+					'</h3></a>' +
+					'<div class="productMarks">' +
+					icon_html +
+					'</div>' +
+					'<div class="productSize">' +
+					size +
+					'</div>' +
+					review_HTML +
+					'<a href="/c/series/' +
+					series_code +
+					'/' +
+					sku_no +
+					'">' +
+					selling_price +
+					'</a></li>';
+
 				$('.outlet_items_slider.outlet_items ul').append(html);
 
 				var urlPath = location.pathname;
@@ -3178,8 +3225,8 @@ function get_outlet_items() {
 
 			$('.outlet_items_slider.outlet_items').after('<div class="fs-c-buttonContainer more-button"><a href="/c/outlet" class="fs-c-button--standard">もっと見る</a></div>');
 		}
+	}
 }
-
 
 /* getTopFaq
 ========================================================================== */
@@ -3189,7 +3236,7 @@ function getTopFaq() {
 		var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/get_data';
 		//console.log("Request URL:", url);
 
-		var params = { "url": "top" };
+		var params = { url: 'top' };
 		//console.log(JSON.stringify(params));
 
 		var response = $.ajax({
@@ -3232,7 +3279,6 @@ function getTopFaq() {
 		// });
 	}
 }
-
 
 /* modal
 ========================================================================== */
@@ -3421,7 +3467,7 @@ function rewriteDOM() {
 			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-8545-iv.png">');
 		} else if (location.href.match('lge-8545-dk')) {
 			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-8545-dk.png">');
-		 }else if (location.href.match('lge-8585-na')) {
+		} else if (location.href.match('lge-8585-na')) {
 			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-8585-na.png">');
 		} else if (location.href.match('lge-8585-iv')) {
 			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-8585-iv.png">');
@@ -3496,9 +3542,7 @@ function rewriteDOM() {
 			// $('.fs-c-productPostage').after(
 			// 	'<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div><span class="mark-sale fs-c-productMark__mark--0 fs-c-productMark__mark"><span class="fs-c-productMark__label">サイズオーダー 10%OFF SALE</span></span><br>ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-em-introduction">横幅1cm単位でご注文はこちら</a><a href="/f/sizeOrder/tnl-emu">上置きのご注文はこちら</a></span></div></div>'
 			// );
-			$('.fs-c-productPostage').after(
-				'<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div>ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-em-introduction">横幅1cm単位でご注文はこちら</a><a href="/f/sizeOrder/tnl-emu">上置きのご注文はこちら</a></span></div></div>'
-			);
+			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div>ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-em-introduction">横幅1cm単位でご注文はこちら</a><a href="/f/sizeOrder/tnl-emu">上置きのご注文はこちら</a></span></div></div>');
 		} else if (seriseCode.indexOf('tnl-') != -1) {
 			// $('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div><span class="mark-sale fs-c-productMark__mark--0 fs-c-productMark__mark"><span class="fs-c-productMark__label">サイズオーダー 10%OFF SALE</span></span><br>ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-em-introduction">横幅1cm単位でご注文はこちら</a></div></div>');
 			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div>ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-em-introduction">横幅1cm単位でご注文はこちら</a></div></div>');
@@ -3512,24 +3556,22 @@ function rewriteDOM() {
 
 		// console.log('match:', seriseCode.match(/.*sep-[0-9]{4}?-.*/));
 
-
 		//ルチカクーポン施策
 		// if (seriseCode.indexOf('ltk') != -1) {
 		// 	$('.fs-c-productPostage').after('<div id="ltkCoupon"><div class="ltkCouponLeft"><div class="ltkSeries"><span class="ltkSeriesTitle">ルチカシリーズ</span></div><div class="ltkDiscout">30%OFFクーポン</div><div class="ltkCouponCode"><div class="ltkCouponCodeText">クーポンコード：LTK1000</div><div class="ltkCouponCodeCopy">コピー</div></div><p class="ltkCaution">※有効期限…2024/2/15（何度でもお使いいただけます）<br>※ご利用には会員登録が必要です。</p></div><div class="ltkCouponRight"></div><div class="success-msg">クリップボードにコピーしました</div></div>');
 
 		// 	$('#ltkCoupon').click(function () {
 		// 		var code = 'LTK1000';
-		
+
 		// 		// クリップボードにコピー
 		// 		navigator.clipboard.writeText(code);
-		
+
 		// 		// メッセージ表示
 		// 		$('.success-msg').fadeIn('slow', function () {
 		// 			$(this).delay(2000).fadeOut('slow');
 		// 		});
 		// 	});
 		// }
-
 	}
 
 	if ($('#fs_ShoppingCart').length) {
@@ -3539,7 +3581,7 @@ function rewriteDOM() {
 		var modelNumber = '';
 
 		// 該当するmodelNumberを配列に格納する
-		var optionHasProducts = ['por-1830d-na', 'por-1830d-wh', 'por-1830d-dk', 'por-5530du-na', 'por-5530du-wh', 'por-5530du-dk', 'hnb-4540d', 'adl-4013dh-na', 'adl-4013dh-wh', 'adl-4013dh-dk' ,'sep-1690ar-na' ,'sep-1690ar-dk'];
+		var optionHasProducts = ['por-1830d-na', 'por-1830d-wh', 'por-1830d-dk', 'por-5530du-na', 'por-5530du-wh', 'por-5530du-dk', 'hnb-4540d', 'adl-4013dh-na', 'adl-4013dh-wh', 'adl-4013dh-dk', 'sep-1690ar-na', 'sep-1690ar-dk'];
 
 		$('.fs-c-cartTable__productName__name').each(function () {
 			// 商品のリンクを取得する
@@ -4126,6 +4168,8 @@ function multipleReviewList() {
 					seriesCode = 'tl';
 				} else if (seriesCode == 'ona') {
 					seriesCode = 'of2';
+				} else if (seriesCode == 'gbp') {
+					seriesCode = 'gbt';
 				}
 
 				var reviewScoreToFixed = multipleReviewList[i].rating;
@@ -4502,7 +4546,6 @@ function productDetailAddData() {
 		});
 
 		$(window).on('load', function () {
-
 			// 変数に要素を入れる
 			var open = $('.modal-open'),
 				close = $('.modal-close'),
@@ -4604,6 +4647,8 @@ function productDetailAddData() {
 					seriesCode = 'tl';
 				} else if (seriesCode == 'ona') {
 					seriesCode = 'of2';
+				} else if (seriesCode == 'gbp') {
+					seriesCode = 'gbt';
 				}
 
 				if (sellingPrice < normalPrice) {
@@ -5082,6 +5127,8 @@ function productDetailAddData() {
 					seriesCode = 'tl';
 				} else if (seriesCode == 'ona') {
 					seriesCode = 'of2';
+				} else if (seriesCode == 'gbp') {
+					seriesCode = 'gbt';
 				}
 
 				if (sellingPrice < normalPrice) {
@@ -5207,6 +5254,8 @@ function productDetailAddData() {
 					seriesCode = 'tl';
 				} else if (seriesCode == 'ona') {
 					seriesCode = 'of2';
+				} else if (seriesCode == 'gbp') {
+					seriesCode = 'gbt';
 				}
 
 				if (sellingPrice < normalPrice) {
@@ -5285,16 +5334,15 @@ function productDetailAddData() {
 					seriesCode +
 					'/' +
 					productUrl +
-					'">' + 
+					'">' +
 					sellingPrice +
 					'</a></li>';
-					//console.log(h);
+				//console.log(h);
 				$('.productTop10Slider.productsAffinity ul').append(h);
 			}
 			checkScreenSize();
 			$('#productDetail-productsAffinity').css('display', 'block');
 		}
-
 
 		$.getJSON('https://cdn.shirai-store.net/assets/json/common/instagramDisplayPhoto_v1_0.json', function (instagramPostData) {
 			//console.log(instagramPostData);
@@ -5401,7 +5449,7 @@ var series_slider_option1 = {
 	slideWidth: 280,
 	slideMargin: 8,
 	controls: false,
-	adaptiveHeight: true
+	adaptiveHeight: true,
 };
 var series_slider_option2 = {
 	infiniteLoop: false,
@@ -5411,7 +5459,7 @@ var series_slider_option2 = {
 	minSlides: 4,
 	maxSlides: 4,
 	slideWidth: 280,
-	slideMargin: 8
+	slideMargin: 8,
 };
 
 if (recommend_top10Slider == null) {
@@ -5685,6 +5733,8 @@ function recommendTop10() {
 				seriesCode = 'tl';
 			} else if (seriesCode == 'ona') {
 				seriesCode = 'of2';
+			} else if (seriesCode == 'gbp') {
+				seriesCode = 'gbt';
 			}
 
 			//console.log(thumb);
@@ -5832,6 +5882,8 @@ function rankingTop10(rakingTop10Type) {
 				seriesCode = 'tl';
 			} else if (seriesCode == 'ona') {
 				seriesCode = 'of2';
+			} else if (seriesCode == 'gbp') {
+				seriesCode = 'gbt';
 			}
 
 			if (sellingPrice < normalPrice) {
@@ -5962,7 +6014,6 @@ function rankingTop10(rakingTop10Type) {
 		// console.log(titleName);
 		$('.productTop10Slider h2').html(titleName + 'のランキング');
 	}
-	
 }
 
 function recommendList() {
@@ -5990,6 +6041,8 @@ function recommendList() {
 				seriesCode = 'tl';
 			} else if (seriesCode == 'ona') {
 				seriesCode = 'of2';
+			} else if (seriesCode == 'gbp') {
+				seriesCode = 'gbt';
 			}
 
 			//console.log(thumb);
@@ -6129,6 +6182,8 @@ function rankingList(jsonfile) {
 				seriesCode = 'tl';
 			} else if (seriesCode == 'ona') {
 				seriesCode = 'of2';
+			} else if (seriesCode == 'gbp') {
+				seriesCode = 'gbt';
 			}
 
 			if (sellingPrice < normalPrice) {
@@ -6673,7 +6728,7 @@ function globalNavi() {
 				$('#globalNavi-overlay').stop().fadeOut(200);
 			}
 		);
-	}else if (windowWidth <= 480) {
+	} else if (windowWidth <= 480) {
 		$(document).on('click', '.dropDownloginBox', function () {
 			if ($('#loginBox').css('display') == 'none') {
 				$('#loginBox').slideDown();
