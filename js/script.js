@@ -11,6 +11,7 @@ $(function () {
 	imageChange(); //javaScriptParts
 	cartRegistBranch(); //javaScriptParts
 	cartADISCaution();
+	coupon_reference();
 	ADIS_discriptionOpenClose(); //OK
 	magazineImageChange(); //OK
 	faqAnswerOpen(); //OK
@@ -6919,7 +6920,7 @@ function windowWidthprocessingChange() {
 	});
 }
 
-/* cartRegistBranch
+/* cartADISCaution
 ========================================================================== */
 function cartADISCaution() {
 	if ($('#fs_ShoppingCart').length) {
@@ -6978,5 +6979,13 @@ function ie11_compulsionScroll() {
 	var userAgent = window.navigator.userAgent.toLowerCase();
 	if (userAgent.indexOf('trident') != -1) {
 		$('html,body').animate({ scrollTop: $('body').offset().top + 1 });
+	}
+}
+
+/* coupon_reference
+========================================================================== */
+function coupon_reference() {
+	if ($('#fs_ProductDetails').length) {
+				$('.fs-c-inquiryAboutProduct').before('<p class="coupon_reference">クーポンは注文手続き画面にてご利用いただけます</p>');
 	}
 }
