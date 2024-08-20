@@ -6986,6 +6986,8 @@ function ie11_compulsionScroll() {
 ========================================================================== */
 function coupon_reference() {
 	if ($('#fs_ProductDetails').length) {
+		if ($('.fs-c-button--addToCart--detail').length) {
 				$('.fs-c-inquiryAboutProduct').before('<p class="coupon_reference">クーポンは注文手続き画面にてご利用いただけます</p>');
+		}
 	}
 }
