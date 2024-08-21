@@ -6013,7 +6013,7 @@ function rankingTop10(rakingTop10Type) {
 	if ($('#fs_ProductCategory').length) {
 		const titleName = $('h1').html();
 		// console.log(titleName);
-		$('.productTop10Slider h2').html(titleName + 'のランキング');
+		$('.productTop10Slider.ranking h2').html(titleName + 'のランキング');
 	}
 }
 
