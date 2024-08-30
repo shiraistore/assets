@@ -68,7 +68,8 @@ function addCart() {
 					normalPrice = result.normalPrice,
 					adis_ary,
 					imgSrc,
-					url = '/c/series/' + productUrl.slice(0, 3) + '/' + productUrl;
+					url = '/c/series/' + productUrl.slice(0, 3) + '/' + productUrl,
+					series = productUrl.slice(0, 3);
 
 				if (result.adis !== undefined) {
 					adis_ary = result.adis.sort();
@@ -117,28 +118,45 @@ function addCart() {
 					adis = adis + '</select>';
 				}
 
-				$(this)
-					.find('.addToCartImage')
-					.prepend('<img src="' + imgSrc + '">');
-				$(this)
-					.find('.addToCartInner')
-					.prepend(
-						'<form action="https://shirai-store.net/p/cart/add" method="post"><h5 class="productName">' +
-							productName +
-							'</h5><p class="productPrice"><span>price</span>' +
-							priceText +
-							'</p><input type="hidden" name="products[' +
-							productNumber +
-							'].productNo" value="' +
-							productNumber +
-							'">' +
-							adis +
-							'<h6>数量</h6><div class="cartBlock"><select name="products[' +
-							productNumber +
-							'].quantity"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select><button type="submit">カートに入れる</button></div></form><div class=""><a href="' +
-							url +
-							'">商品詳細を見る</a></div>'
+				if (series != 'lge') {				
+					$(this)
+						.find('.addToCartImage')
+						.prepend('<img src="' + imgSrc + '">');
+					$(this)
+						.find('.addToCartInner')
+						.prepend(
+							'<form action="https://shirai-store.net/p/cart/add" method="post"><h5 class="productName">' +
+								productName +
+								'</h5><p class="productPrice"><span>price</span>' +
+								priceText +
+								'</p><input type="hidden" name="products[' +
+								productNumber +
+								'].productNo" value="' +
+								productNumber +
+								'">' +
+								adis +
+								'<h6>数量</h6><div class="cartBlock"><select name="products[' +
+								productNumber +
+								'].quantity"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select><button type="submit">カートに入れる</button></div></form><div class=""><a href="' +
+								url +
+								'">商品詳細を見る</a></div>'
 					);
+				} else {
+						$(this)
+							.find('.addToCartImage')
+							.prepend('<img src="' + imgSrc + '">');
+						$(this)
+							.find('.addToCartInner')
+							.prepend(
+								'<form action="https://shirai-store.net/p/cart/add" method="post"><h5 class="productName">' +
+									productName +
+									'</h5><p class="productPrice"><span>price</span>' +
+									priceText +
+									'</p><div class=""><a href="' +
+									url +
+									'">商品詳細を見る</a></div>'
+						);
+					}
 			} else {
 				// データが存在しなかった時の処理
 			}
