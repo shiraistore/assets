@@ -39,12 +39,14 @@ $(function () {
 	searchTagsTitleDescriptionChange();
 	putMemberIdOptInPolicy();
 	getTopRanking();
+	//get_top_ranking();
 	getTopFaq();
 	getCouponItems();
 	getNewItems();
 	get_outlet_items();
 	get_sale_items();
 	sale_list();
+	//ranking_list();
 
 	reviewSlideDown('#fs_ProductDetails', '240'); //OK
 	instagramPostList(); //OK
@@ -1106,29 +1108,11 @@ function productSortSelect() {
 //セール会場用バナー表示
 function searchTagTitle() {
 	var params = parameterToArray();
-	if (params.tag == 'sale20240725-20240808') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240725-20240808_1184x240.jpg" alt="Summer SALE 第1弾 対象商品">');
-		$('#fs_ProductSearch h1').html('Summer SALE 第1弾 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('Summer SALE 第1弾 対象商品');
-		$('title').text('Summer SALE 第1弾 対象商品');
-	} else if (params.tag == 'sale20240725-20240822-1') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240725-20240822_1184x240.jpg" alt="ポルターレセール 対象商品">');
-		$('#fs_ProductSearch h1').html('ポルターレセール 対象商品');
-		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li class="active">リビング壁面収納</li><li><a href="/p/search?tag=sale20240725-20240822-2">玄関収納</a></li><li><a href="/p/search?tag=sale20240725-20240822-3">クローゼット収納</a></li></ul>');
-		$('.fs-c-breadcrumb__listItem:last-child').text('ポルターレセール 対象商品');
-		$('title').text('ポルターレセール 対象商品');
-	} else if (params.tag == 'sale20240725-20240822-2') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240725-20240822_1184x240.jpg" alt="ポルターレセール 対象商品">');
-		$('#fs_ProductSearch h1').html('ポルターレセール 対象商品');
-		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li><a href="/p/search?tag=sale20240725-20240822-1">リビング壁面収納</a></li><li class="active">玄関収納</li><li><a href="/p/search?tag=sale20240725-20240822-3">クローゼット収納</a></li></ul>');
-		$('.fs-c-breadcrumb__listItem:last-child').text('ポルターレセール 対象商品');
-		$('title').text('ポルターレセール 対象商品');
-	} else if (params.tag == 'sale20240725-20240822-3') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240725-20240822_1184x240.jpg" alt="ポルターレセール 対象商品">');
-		$('#fs_ProductSearch h1').html('ポルターレセール 対象商品');
-		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li><a href="/p/search?tag=sale20240725-20240822-1">リビング壁面収納</a></li><li><a href="/p/search?tag=sale20240725-20240822-2">玄関収納</a></li><li  class="active">クローゼット収納</li></ul>');
-		$('.fs-c-breadcrumb__listItem:last-child').text('ポルターレセール 対象商品');
-		$('title').text('ポルターレセール 対象商品');
+	if (params.tag == 'sale20240919-20241003') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240919-20241003_1184x240.jpg" alt="レジェルノセール 対象商品">');
+		$('#fs_ProductSearch h1').html('レジェルノセール 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('レジェルノセール 対象商品');
+		$('title').text('レジェルノセール 対象商品');
 	} else if (params.tag == 'sale20240808-20240822') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240808-20240822_1184x240.jpg" alt="Summer SALE 第2弾 対象商品">');
 		$('#fs_ProductSearch h1').html('Summer SALE 第2弾 対象商品');
@@ -2643,6 +2627,216 @@ function getTopRanking() {
 	}
 }
 
+/* get_top_ranking (トップページランキング v2)
+========================================================================== */
+function get_top_ranking() {
+	if ($('#test').length) {
+		var url = location.pathname;
+		var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/get_data_v2';
+
+		$(document).on('click', '.tablink', function() {
+			var category = $(this).data('category');
+			var category_param = 'ranking_items_10_' + category;
+					
+			// 他のタブを非アクティブにし、このタブをアクティブにする
+			$('.tablink').removeClass('active');
+			$(this).addClass('active');
+
+			// タブの内容を非表示にして、選択されたタブのコンテンツを表示
+			$('.tabcontent').removeClass('active').hide();
+			$('.tabcontent[data-category="' + category + '"]').addClass('active').show();
+
+			var params = { items : category_param };
+
+			var response = $.ajax({
+				type: 'post',
+				url: url,
+				async: false,
+				data: JSON.stringify(params),
+				contentType: 'application/json',
+				dataType: 'json',
+				scriptCharset: 'utf-8',
+				success: function (response) {
+					// Success
+					//console.log(JSON.stringify(response));
+				},
+				error: function (response) {
+					// Error
+					// console.log(JSON.stringify(response));
+				},
+			}).responseText;
+
+			response = JSON.parse(response);
+			//console.log(response);
+
+			var data = response.data;
+			//console.log(data);
+
+			if (data != undefined && data != '') {
+				var html = '';
+				$.each(data.slice(0, 10), function (index, product) {
+						var sku_no = product.sku_no.toLowerCase(),
+							id = product.id,
+							productId_12Len = zeroPadding(id, 12),
+							name = product.name,
+							selling_price = product.selling_price,
+							normal_price = product.normal_price,
+							icon = product.icon,
+							size = product.size,
+							product_image_group = Math.floor(id / 100),
+							average_rating = product.average_rating,
+							number_review = product.number_review,
+							category_url = product.category_url,
+							category_name = product.category_name,
+							thumbnail_number = product.thumbnail_number,
+							ranking = index + 1;
+
+						thumbnail = ('00' + thumbnail_number).slice(-2);
+						seriesCode = sku_no.slice(0, 3);
+
+						if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
+							seriesCode = 'tl';
+						} else if (seriesCode == 'ona') {
+							seriesCode = 'of2';
+						} else if (seriesCode == 'gbp') {
+							seriesCode = 'gbt';
+						}
+
+						if (selling_price < normal_price) {
+							selling_price = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normal_price.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + selling_price.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
+						} else {
+							selling_price = '<p class="priceBox"><span class="price">¥ ' + selling_price.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
+						}
+
+						var icon_ary = icon.split(',');
+						//console.log(icon_ary);
+
+						var iconHtml = '';
+						for (var j = 0; j < icon_ary.length; j++) {
+							if (icon_ary[j] != '') {
+								icon_ary[j] = icon_ary[j].split(':');
+
+								if (icon_ary[j][0] == 'mark-rank') {
+									categoryName = categoryNameShorter(category_name);
+									iconHtml += '<span class="mark-rank">' + ranking + '位</span>';
+								}
+
+								// if (icon_ary[j][0] == 'mark-categoryRank' && category_url != '') {
+								// 	categoryName = categoryNameShorter(category_name);
+								// 	iconHtml += '<span class="mark-rank">' + icon_ary[j][1] + '位</span>';
+								// }
+
+								if (icon_ary[j][0] == 'mark-new') {
+									iconHtml += '<span class="mark-new">新着</span>';
+								}
+
+								if (icon_ary[j][0] == 'mark-longseller') {
+									iconHtml += '<span class="mark-longseller">ロングセラー</span>';
+								}
+
+								if (icon_ary[j][0] == 'mark-limitedProduct') {
+									iconHtml += '<span class="mark-limitedProduct">当店限定商品</span>';
+								}
+
+								if (icon_ary[j][0] == 'mark-sale') {
+									iconHtml += '<span class="mark-sale">SALE</span>';
+								}
+
+								if (icon_ary[j][0] == 'mark-outlet') {
+									iconHtml += '<span class="mark-outlet">OUTLET</span>';
+								}
+							}
+						}
+
+						if (average_rating < 0.5) {
+							average_rating = '0';
+						} else if (average_rating < 1.0) {
+							average_rating = '0.5';
+						} else if (average_rating < 1.5) {
+							average_rating = '1.0';
+						} else if (average_rating < 2.0) {
+							reviewaverage_ratingScore = '1.5';
+						} else if (average_rating < 2.5) {
+							average_rating = '2.0';
+						} else if (average_rating < 3.0) {
+							average_rating = '2.5';
+						} else if (average_rating < 3.5) {
+							average_rating = '3.0';
+						} else if (average_rating < 4.0) {
+							average_rating = '3.5';
+						} else if (average_rating < 4.5) {
+							average_rating = '4.0';
+						} else if (average_rating < 5) {
+							average_rating = '4.5';
+						} else if (average_rating == 5) {
+							average_rating = '5.0';
+						}
+
+						var reviewHTML = '';
+
+						if (average_rating != 0) {
+							reviewHTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + average_rating + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + sku_no + '">（' + number_review + '）</a></div>';
+						} else {
+							reviewHTML = '';
+						}
+
+						html +=
+							'<li><a href="/c/series/' +
+							seriesCode +
+							'/' +
+							sku_no +
+							'"><img src="https://shiraistore.itembox.design/product/' +
+							zeroPadding(product_image_group, 3) +
+							'/' +
+							productId_12Len +
+							'/' +
+							productId_12Len +
+							'-' +
+							thumbnail +
+							'-m.jpg" alt="' +
+							name +
+							'" ><h3>' +
+							name +
+							'</h3></a>' +
+							'<div class="productMarks">' +
+							iconHtml +
+							'</div>' +
+							'<div class="productSize">' +
+							size +
+							'</div>' +
+							reviewHTML +
+							'<a href="/c/series/' +
+							seriesCode +
+							'/' +
+							sku_no +
+							'">' +
+							selling_price +
+							'</a></li>';
+							//console.log(html);
+				});
+					$(".tabcontent[data-category='" + category + "'] ul").html(html);
+				}
+
+				$('#topPage_ranking_categories').css('display', 'block');
+
+				// if (category == 'overall') {
+				// 	if ($(".tabcontent[data-category='overall'] .fs-c-buttonContainer").length === 0) {
+				// 		$(".tabcontent[data-category='overall'] ul").after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking_list_test?category=overall" class="fs-c-button--standard">もっと見る</a></div>');
+				// 		$(".tabcontent[data-category='overall']").addClass('active').show();
+				// 	}
+				// } else 
+				if (category !== 'dresser') {
+					if ($(".tabcontent[data-category='" + category + "'] .fs-c-buttonContainer").length === 0) {
+						$(".tabcontent[data-category='" + category + "'] ul").after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking_list_test?category=' + category + '" class="fs-c-button--standard">もっと見る</a></div>');
+					}
+				}
+				
+			});
+
+			$('.tablink[data-category="overall"]').trigger('click');
+	}
+}
+
 /* getCouponItems
 ========================================================================== */
 function getCouponItems() {
@@ -3431,7 +3625,7 @@ function get_sale_items() {
 /* sale_list
 ========================================================================== */
 function sale_list() {
-	if ($('#item_list').length) {
+	if ($('#item_list.sale_list').length) {
 		var url = location.pathname;
 		var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/get_data_v2';
 		var params = { items: 'sale_item_100' };
@@ -3604,7 +3798,7 @@ function sale_list() {
 					selling_price +
 					'</a></li>';
 
-				$('#item_list ul').append(html);
+				$('#item_list.sale_list ul').append(html);
 
 				var urlPath = location.pathname;
 				//console.log(urlPath);
@@ -3619,6 +3813,275 @@ function sale_list() {
 				}
 			}
 		}
+	}
+}
+
+/* ranking_list
+========================================================================== */
+function ranking_list() {
+	if ($('#item_list.ranking_list').length) {
+		var currentPath = location.pathname;
+		var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/get_data_v2';
+		//console.log(JSON.stringify(params));
+
+        function getQueryParam(param) {
+            var urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        var category = getQueryParam('category') || 'overall'; 
+
+        $('#select_top, #select_bottom').val(category);
+
+		var select1 = document.getElementById('select_top');
+		var select2 = document.getElementById('select_bottom');
+
+		select1.addEventListener('change', function () {
+			select2.value = select1.value;
+		});
+
+		select2.addEventListener('change', function () {
+		select1.value = select2.value;
+		});
+
+		$('.category_ranking_select').on('change', function () {
+			// 選択された値を取得
+			var selected_category = $(this).val();
+			var title_text = '';
+			
+			// paramsを動的に変更
+			var params = {};
+			if (selected_category === 'overall') {
+				params = { items: 'ranking_items_50_overall' };
+				title_text = 'Ranking<span>総合ランキング</span>';
+			} else if (selected_category === 'rack') {
+				params = { items: 'ranking_items_50_rack' };
+				title_text = 'Rack Ranking<span>本棚・ラックランキング</span>';
+			} else if (selected_category === 'tv-stand') {
+				params = { items: 'ranking_items_50_tv-stand' };
+				title_text = 'TV Stand Ranking<span>テレビ台 ランキング</span>';
+			} else if (selected_category === 'kitchen') {
+				params = { items: 'ranking_items_50_kitchen' };
+				title_text = 'Kitchen Ranking<span>キッチン収納 ランキング</span>';
+			} else if (selected_category === 'clothing') {
+				params = { items: 'ranking_items_50_clothing' };
+				title_text = 'Clothing Ranking<span>衣類収納 ランキング</span>';
+			} else if (selected_category === 'entrance') {
+				params = { items: 'ranking_items_50_entrance' };
+				title_text = 'Entrance Ranking<span>玄関収納 ランキング</span>';
+			} else if (selected_category === 'cabinet') {
+				params = { items: 'ranking_items_50_cabinet' };
+				title_text = 'Cabinet Ranking<span>キャビネット・収納庫 ランキング</span>';
+			} else if (selected_category === 'wall-unit-storage') {
+				params = { items: 'ranking_items_50_wall-unit-storage' };
+				title_text = 'Wall Unit Storage Ranking<span>壁面収納・システム収納 ランキング</span>';
+			} else if (selected_category === 'table') {
+				params = { items: 'ranking_items_50_table' };
+				title_text = 'Table Ranking<span>テーブル ランキング</span>';
+			} else if (selected_category === 'desk') {
+				params = { items: 'ranking_items_50_desk' };
+				title_text = 'Desk Ranking<span>デスク ランキング</span>';
+			} else if (selected_category === 'kids') {
+				params = { items: 'ranking_items_50_kids' };
+				title_text = 'Kids Ranking<span>キッズ収納 ランキング</span>';
+			} else if (selected_category === 'office-furniture') {
+				params = { items: 'ranking_items_50_office-furniture' };
+				title_text = 'Office Ranking<span>オフィス家具 ランキング</span>';
+			}
+
+			$('#item_list_title').html(title_text);
+
+		var response = $.ajax({
+			type: 'post',
+			url: url,
+			async: false,
+			data: JSON.stringify(params),
+			contentType: 'application/json',
+			dataType: 'json',
+			scriptCharset: 'utf-8',
+			success: function (response) {
+				// Success
+				// console.log(JSON.stringify(response));
+
+				// response = JSON.parse(response);
+				// console.log(response);
+
+				$('#item_list.ranking_list ul').empty();
+
+				data = response.data;
+				//console.log(data);
+
+				if (data != undefined && data != '') {
+					var html = '';
+					for (var i in data) {
+						var sku_no = data[i].sku_no.toLowerCase(),
+							id = data[i].id,
+							product_id_12Len = zeroPadding(id, 12),
+							name = data[i].name,
+							selling_price = data[i].selling_price,
+							normal_price = data[i].normal_price,
+							icon = data[i].icon,
+							size = data[i].size,
+							product_image_group = Math.floor(id / 100),
+							average_rating = data[i].average_rating,
+							number_review = data[i].number_review,
+							category_url = data[i].category_url,
+							category_name = data[i].category_name,
+							thumbnail_number = data[i].thumbnail_number,
+							thumbnail = ('00' + thumbnail_number).slice(-2);
+						series_code = sku_no.slice(0, 3);
+
+						if (series_code == 'tl1' || series_code == 'tl2' || series_code == 'tl3') {
+							series_code = 'tl';
+						} else if (series_code == 'ona') {
+							series_code = 'of2';
+						} else if (series_code == 'gbp') {
+							series_code = 'gbt';
+						}
+
+						if (selling_price < normal_price) {
+							selling_price = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normal_price.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + selling_price.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
+						} else {
+							selling_price = '<p class="priceBox"><span class="price">¥ ' + selling_price.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
+						}
+
+						var icon_ary = icon.split(',');
+						//console.log(icon_ary);
+						var rank = null;
+
+						var icon_html = '';
+						for (var j = 0; j < icon_ary.length; j++) {
+							if (icon_ary[j] != '') {
+								icon_ary[j] = icon_ary[j].split(':');
+
+								if (icon_ary[j][0] == 'mark-rank' && selected_category == 'overall') {
+									categoryName = categoryNameShorter(category_name);
+									icon_html += '<span class="mark-rank">' + icon_ary[j][1] + '位</span>';
+									rank = parseInt(icon_ary[j][1], 10);
+									break;
+								}
+
+								if (icon_ary[j][0] == 'mark-categoryRank' && category_url != '') {
+									categoryName = categoryNameShorter(category_name);
+									icon_html += '<span class="mark-rank">' + icon_ary[j][1] + '位</span>';
+									rank = parseInt(icon_ary[j][1], 10);
+									break;
+								}
+
+								if (icon_ary[j][0] == 'mark-new') {
+									icon_html += '<span class="mark-new">新着</span>';
+								}
+
+								if (icon_ary[j][0] == 'mark-longseller') {
+									icon_html += '<span class="mark-longseller">ロングセラー</span>';
+								}
+
+								if (icon_ary[j][0] == 'mark-limitedProduct') {
+									icon_html += '<span class="mark-limitedProduct">当店限定商品</span>';
+								}
+
+								if (icon_ary[j][0] == 'mark-sale') {
+									icon_html += '<span class="mark-sale">SALE</span>';
+								}
+
+								if (icon_ary[j][0] == 'mark-outlet') {
+									icon_html += '<span class="mark-outlet">OUTLET</span>';
+								}
+
+								if (icon_ary[j][0] == 'mark-coupon') {
+									icon_html += '<span class="mark-coupon">' + icon_ary[j][1] + '</span>';
+								}
+							}
+						}
+
+						if (average_rating < 0.5) {
+							average_rating = '0';
+						} else if (average_rating < 1.0) {
+							average_rating = '0.5';
+						} else if (average_rating < 1.5) {
+							average_rating = '1.0';
+						} else if (average_rating < 2.0) {
+							reviewaverage_ratingScore = '1.5';
+						} else if (average_rating < 2.5) {
+							average_rating = '2.0';
+						} else if (average_rating < 3.0) {
+							average_rating = '2.5';
+						} else if (average_rating < 3.5) {
+							average_rating = '3.0';
+						} else if (average_rating < 4.0) {
+							average_rating = '3.5';
+						} else if (average_rating < 4.5) {
+							average_rating = '4.0';
+						} else if (average_rating < 5) {
+							average_rating = '4.5';
+						} else if (average_rating == 5) {
+							average_rating = '5.0';
+						}
+
+						var review_HTML = '';
+
+						if (average_rating != 0) {
+							review_HTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + average_rating + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + sku_no + '">（' + number_review + '）</a></div>';
+						} else {
+							review_HTML = '';
+						}
+
+						html =
+							'<li data-rank="' +
+							rank +
+							'""><a href="/c/series/' +
+							series_code +
+							'/' +
+							sku_no +
+							'"><img src="https://shiraistore.itembox.design/product/' +
+							zeroPadding(product_image_group, 3) +
+							'/' +
+							product_id_12Len +
+							'/' +
+							product_id_12Len +
+							'-' +
+							thumbnail +
+							'-m.jpg" alt="' +
+							name +
+							'" ><h2>' +
+							name +
+							'</h2></a>' +
+							'<div class="productMarks">' +
+							icon_html +
+							'</div>' +
+							'<div class="productSize">' +
+							size +
+							'</div>' +
+							review_HTML +
+							'<a href="/c/series/' +
+							series_code +
+							'/' +
+							sku_no +
+							'">' +
+							selling_price +
+							'</a></li>';
+
+						$('#item_list.ranking_list ul').append(html);
+					}
+					// li要素を順位でソート
+					var $li = $('#item_list.ranking_list ul li');
+
+					$li.sort(function(a, b) {
+						return $(a).data('rank') - $(b).data('rank');
+					});
+					// ソート後のliを再配置
+					$('#item_list.ranking_list ul').html($li);
+
+					window.scrollTo({ top: 0, behavior: 'smooth' });
+				}
+			},
+			error: function (response) {
+					// Error
+					// console.log(JSON.stringify(response));
+				},
+			}).responseText;
+		});
+		$('.category_ranking_select').trigger('change');
 	}
 }
 
