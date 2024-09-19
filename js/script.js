@@ -3799,18 +3799,6 @@ function sale_list() {
 					'</a></li>';
 
 				$('#item_list.sale_list ul').append(html);
-
-				var urlPath = location.pathname;
-				//console.log(urlPath);
-				if (urlPath == '/c/category/table' && i == 8) {
-					checkScreenSize();
-					break;
-				}
-
-				if (i == 9) {
-					checkScreenSize();
-					break;
-				}
 			}
 		}
 	}
