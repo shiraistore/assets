@@ -1721,7 +1721,7 @@ function modal_addContent_instagram(instagramPostData, thumbnail_url, element) {
 	}
 }
 
-/* sns_post_list（開発中）
+/* sns_post_list
 ========================================================================== */
 function sns_post_list() {
 	if ($('#content_shirai_fan.pickup_posts').length) {
@@ -1760,7 +1760,7 @@ function sns_post_list() {
 
             list_html += '<li class="modal-open" data-target="post_modal" data-postid="' + post_id + '"><img src="' + thumbnail_url + '" style="width:' + size_adjustment + '%;height:' + size_adjustment + '%;" alt="sns_post_' + post_id + '"></li>';
 
-            if (i == 9 && $('#test').length) {
+            if (i == 9 && $('#fs_Top').length) {
                 break;
             }
         }
@@ -1976,7 +1976,7 @@ function modal_content(data, thumbnail_url, element) {
 
 
 
-/* sns_post_list_all（開発中）
+/* sns_post_list_all
 ========================================================================== */
 function sns_post_list_all() {
 	if ($('#content_shirai_fan.all_posts').length) {
