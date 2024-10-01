@@ -1115,11 +1115,16 @@ function searchTagTitle() {
 		$('#fs_ProductSearch h1').html('レジェルノセール 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('レジェルノセール 対象商品');
 		$('title').text('レジェルノセール 対象商品');
-	} else if (params.tag == 'sale20240808-20240822') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240808-20240822_1184x240.jpg" alt="Summer SALE 第2弾 対象商品">');
-		$('#fs_ProductSearch h1').html('Summer SALE 第2弾 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('Summer SALE 第2弾 対象商品');
-		$('title').text('Summer SALE 第2弾 対象商品');
+	} else if (params.tag == 'sale20241003-20241024-1') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20241003-20241024-1_1184x240.jpg" alt="Autumn SALE 対象商品">');
+		$('#fs_ProductSearch h1').html('Autumn SALE 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('Autumn SALE 対象商品');
+		$('title').text('Autumn SALE 対象商品');
+	} else if (params.tag == 'sale20241003-20241024-2') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20241003-20241024-2_1184x240.jpg" alt="タナリオセール 対象商品">');
+		$('#fs_ProductSearch h1').html('タナリオセール 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('タナリオセール 対象商品');
+		$('title').text('タナリオセール 対象商品');
 	} else if (params.tag == 'feature20240216') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-feature20240216-2_1184x240.jpg" alt="入園入学特集">');
 		$('#fs_ProductSearch h1').html('入園入学特集');
@@ -3329,15 +3334,14 @@ function get_top_ranking() {
 
 				$('#topPage_ranking_categories').css('display', 'block');
 
-				// if (category == 'overall') {
-				// 	if ($(".tabcontent[data-category='overall'] .fs-c-buttonContainer").length === 0) {
-				// 		$(".tabcontent[data-category='overall'] ul").after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking_list_test?category=overall" class="fs-c-button--standard">ランキングを見る</a></div>');
-				// 		$(".tabcontent[data-category='overall']").addClass('active').show();
-				// 	}
-				// } else 
-				if (category !== 'dresser') {
+				if (category == 'overall') {
+					if ($(".tabcontent[data-category='overall'] .fs-c-buttonContainer").length === 0) {
+						$(".tabcontent[data-category='overall'] ul").after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking_test" class="fs-c-button--standard">ランキングを見る</a></div>');
+						$(".tabcontent[data-category='overall']").addClass('active').show();
+					}
+				} else if (category !== 'dresser') {
 					if ($(".tabcontent[data-category='" + category + "'] .fs-c-buttonContainer").length === 0) {
-						$(".tabcontent[data-category='" + category + "'] ul").after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking_list_test?category=' + category + '" class="fs-c-button--standard">ランキングを見る</a></div>');
+						$(".tabcontent[data-category='" + category + "'] ul").after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking_test-' + category + '" class="fs-c-button--standard">ランキングを見る</a></div>');
 					}
 				}
 			});
@@ -4321,7 +4325,7 @@ function ranking_list() {
 
         function get_category_from_url() {
             var path_parts = window.location.pathname.split('/');
-            return path_parts[path_parts.length - 1] || 'overall';
+            return path_parts[path_parts.length - 1] === 'ranking_test' ? 'overall' : path_parts[path_parts.length - 1];
         }
 
         function update_ranking_list(category) {
@@ -4516,7 +4520,7 @@ function ranking_list() {
 						
 						$('#item_list.ranking_list ul').html($li);
 
-						window.scrollTo({ top: 0, behavior: 'smooth' });
+						// window.scrollTo({ top: 0, behavior: 'smooth' });
 					}
 				},
                 error: function () {
@@ -4524,9 +4528,10 @@ function ranking_list() {
             });
         }
 
-        var category = get_category_from_url();
-		//console.log(category);
+        var category = get_category_from_url().split('-').pop();
         update_ranking_list(category);
+
+		$('#select_top, #select_bottom').val(category);
 
         $('.category_ranking_select').on('change', function () {
             var selected_category = $(this).val();
