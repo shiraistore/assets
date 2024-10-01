@@ -50,8 +50,8 @@ $(function () {
 
 	reviewSlideDown('#fs_ProductDetails', '240'); //OK
 	instagramPostList(); //OK
-	//sns_post_list();
-	//sns_post_list_all();
+	sns_post_list();
+	sns_post_list_all();
 	soldOut(); //OK
 	transfer();
 	preSale_displayPassWordForm();
@@ -1724,7 +1724,7 @@ function modal_addContent_instagram(instagramPostData, thumbnail_url, element) {
 /* sns_post_list（開発中）
 ========================================================================== */
 function sns_post_list() {
-	if ($('#content_shirai_fan').length) {
+	if ($('#content_shirai_fan.pickup_posts').length) {
         var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/get_data_v2';
 		var params = { items : 'shirai_fan_posts_10' };
 
@@ -1782,7 +1782,13 @@ function sns_post_list() {
 }
 
 function modal_content(data, thumbnail_url, element) {
+	function escape_selector(selector) {
+		return selector.replace(/([ #;?%&,.+*~\':"!^$[\]()=>|\/@])/g, '\\$1');
+	}
+
 	var id = element.data('postid');
+
+	var escaped_id = escape_selector(id);
 
 	var target = data.filter(function (object) {
 			return object.post_id == id;
@@ -1790,7 +1796,11 @@ function modal_content(data, thumbnail_url, element) {
 
 	var thumbnail_url = target.thumbnail_url;
 	var author_name = target.author_name;
-	var modal_html =
+	var sns_name = target.sns_name;
+	var user_id = target.user_id;
+	var modal_html = '';
+	if(sns_name == 'instagram'){
+		modal_html =
 		'<div id="imageBox"><a href="https://www.instagram.com/p/' +
 		id +
 		'/" target="_blank"><img width="320" data-src="' +
@@ -1802,6 +1812,20 @@ function modal_content(data, thumbnail_url, element) {
 		' target="_blank">' +
 		author_name +
 		'</a></span></div>';
+	} else if (sns_name == 'roomclip'){
+		modal_html =
+		'<div id="imageBox"><a href="https://roomclip.jp/photo/' +
+		id +
+		'/" target="_blank"><img width="320" data-src="' +
+		thumbnail_url +
+		'" src="https://shiraistore.itembox.design/item/src/loading.svg" id="thumbnail" class="lazyload" alt="sns_post_' +
+		id +
+		'"></a><span id="author"><img src="https://shiraistore.itembox.design/item/src/icon-roomclip-gr.svg" width="16"><span>Photo by</span><a href=https://roomclip.jp/myroom/' +
+		user_id +
+		' target="_blank">' +
+		author_name +
+		'</a></span></div>';
+	}
 
 	var modal_product_html = '';
 	for (var i = 0; target.related_product.length > i; i++) {
@@ -2009,7 +2033,13 @@ function sns_post_list_all() {
 }
 
 function modal_content_all(data, thumbnail_url, element) {
+	function escape_selector(selector) {
+		return selector.replace(/([ #;?%&,.+*~\':"!^$[\]()=>|\/@])/g, '\\$1');
+	}
+
 	var id = element.data('postid');
+
+	var escaped_id = escape_selector(id);
 
 	var target = data.filter(function (object) {
 			return object.post_id == id;
@@ -2017,7 +2047,11 @@ function modal_content_all(data, thumbnail_url, element) {
 
 	var thumbnail_url = target.thumbnail_url;
 	var author_name = target.author_name;
-	var modal_html =
+	var sns_name = target.sns_name;
+	var user_id = target.user_id;
+	var modal_html = '';
+	if(sns_name == 'instagram'){
+		modal_html =
 		'<div id="imageBox"><a href="https://www.instagram.com/p/' +
 		id +
 		'/" target="_blank"><img width="320" data-src="' +
@@ -2029,6 +2063,20 @@ function modal_content_all(data, thumbnail_url, element) {
 		' target="_blank">' +
 		author_name +
 		'</a></span></div>';
+	} else if (sns_name == 'roomclip'){
+		modal_html =
+		'<div id="imageBox"><a href="https://roomclip.jp/photo/' +
+		id +
+		'/" target="_blank"><img width="320" data-src="' +
+		thumbnail_url +
+		'" src="https://shiraistore.itembox.design/item/src/loading.svg" id="thumbnail" class="lazyload" alt="sns_post_' +
+		id +
+		'"></a><span id="author"><img src="https://shiraistore.itembox.design/item/src/icon-roomclip-gr.svg" width="16"><span>Photo by</span><a href=https://roomclip.jp/myroom/' +
+		user_id +
+		' target="_blank">' +
+		author_name +
+		'</a></span></div>';
+	}
 
 	var modal_product_html = '';
 	for (var i = 0; target.related_product.length > i; i++) {
@@ -2147,11 +2195,11 @@ function modal_content_all(data, thumbnail_url, element) {
 	$('.modal-content_inner').fadeIn(300);
 
 	var prevPost = $('#posted_list')
-		.children('[data-postid=' + id + ']')
+		.children('[data-postid=' + escaped_id + ']')
 		.prev('li')
 		.data('postid');
 	var nextPost = $('#posted_list')
-		.children('[data-postid=' + id + ']')
+		.children('[data-postid=' + escaped_id + ']')
 		.next('li')
 		.data('postid');
 
@@ -4268,271 +4316,233 @@ function sale_list() {
 /* ranking_list
 ========================================================================== */
 function ranking_list() {
-	if ($('#item_list.ranking_list').length) {
-		var currentPath = location.pathname;
-		var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/get_data_v2';
-		//console.log(JSON.stringify(params));
+    if ($('#item_list.ranking_list').length) {
+        var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/get_data_v2';
 
-        function getQueryParam(param) {
-            var urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param);
+        function get_category_from_url() {
+            var path_parts = window.location.pathname.split('/');
+            return path_parts[path_parts.length - 1] || 'overall';
         }
 
-        var category = getQueryParam('category') || 'overall'; 
+        function update_ranking_list(category) {
+            var category_map = {
+                'overall': { items: 'ranking_items_50_overall', title: 'Ranking<span>総合ランキング</span>' },
+                'rack': { items: 'ranking_items_50_rack', title: 'Rack Ranking<span>本棚・ラックランキング</span>' },
+                'tv-stand': { items: 'ranking_items_50_tv-stand', title: 'TV Stand Ranking<span>テレビ台 ランキング</span>' },
+                'kitchen': { items: 'ranking_items_50_kitchen', title: 'Kitchen Ranking<span>キッチン収納 ランキング</span>' },
+                'clothing': { items: 'ranking_items_50_clothing', title: 'Clothing Ranking<span>衣類収納 ランキング</span>' },
+				'entrance': { items: 'ranking_items_50_entrance', title: 'Entrance Ranking<span>玄関収納 ランキング</span>' },
+				'cabinet': { items: 'ranking_items_50_cabinet', title: 'Cabinet Ranking<span>キャビネット・収納庫 ランキング</span>' },
+				'wall-unit-storage': { items: 'ranking_items_50_wall-unit-storage', title: 'Wall Unit Storage Ranking<span>キャビネット・収納庫 ランキング</span>' },
+				'table': { items: 'ranking_items_50_table', title: 'Table Ranking<span>テーブル ランキング</span>' },
+				'desk': { items: 'ranking_items_50_desk', title: 'Desk Ranking<span>デスク ランキング</span>' },
+				'kids': { items: 'ranking_items_50_kids', title: 'Kids Ranking<span>キッズ収納 ランキング</span>' },
+				'office-furniture': { items: 'ranking_items_50_office-furniture', title: 'Office Furniture Ranking<span>オフィス家具 ランキング</span>' }
+            };
 
-        $('#select_top, #select_bottom').val(category);
+            var params = category_map[category] || category_map['overall'];
 
-		var select1 = document.getElementById('select_top');
-		var select2 = document.getElementById('select_bottom');
+            $('#item_list_title').html(params.title);
 
-		select1.addEventListener('change', function () {
-			select2.value = select1.value;
-		});
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: JSON.stringify(params),
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (response) {
+                    $('#item_list.ranking_list ul').empty();
+					data = response.data;
+					//console.log(data);
 
-		select2.addEventListener('change', function () {
-		select1.value = select2.value;
-		});
+					if (data != undefined && data != '') {
+						var html = '';
+						for (var i in data) {
+							var sku_no = data[i].sku_no.toLowerCase(),
+								id = data[i].id,
+								product_id_12Len = zeroPadding(id, 12),
+								name = data[i].name,
+								selling_price = data[i].selling_price,
+								normal_price = data[i].normal_price,
+								icon = data[i].icon,
+								size = data[i].size,
+								product_image_group = Math.floor(id / 100),
+								average_rating = data[i].average_rating,
+								number_review = data[i].number_review,
+								category_url = data[i].category_url,
+								category_name = data[i].category_name,
+								thumbnail_number = data[i].thumbnail_number,
+								thumbnail = ('00' + thumbnail_number).slice(-2);
+							series_code = sku_no.slice(0, 3);
 
-		$('.category_ranking_select').on('change', function () {
-			// 選択された値を取得
-			var selected_category = $(this).val();
-			var title_text = '';
-			
-			// paramsを動的に変更
-			var params = {};
-			if (selected_category === 'overall') {
-				params = { items: 'ranking_items_50_overall' };
-				title_text = 'Ranking<span>総合ランキング</span>';
-			} else if (selected_category === 'rack') {
-				params = { items: 'ranking_items_50_rack' };
-				title_text = 'Rack Ranking<span>本棚・ラックランキング</span>';
-			} else if (selected_category === 'tv-stand') {
-				params = { items: 'ranking_items_50_tv-stand' };
-				title_text = 'TV Stand Ranking<span>テレビ台 ランキング</span>';
-			} else if (selected_category === 'kitchen') {
-				params = { items: 'ranking_items_50_kitchen' };
-				title_text = 'Kitchen Ranking<span>キッチン収納 ランキング</span>';
-			} else if (selected_category === 'clothing') {
-				params = { items: 'ranking_items_50_clothing' };
-				title_text = 'Clothing Ranking<span>衣類収納 ランキング</span>';
-			} else if (selected_category === 'entrance') {
-				params = { items: 'ranking_items_50_entrance' };
-				title_text = 'Entrance Ranking<span>玄関収納 ランキング</span>';
-			} else if (selected_category === 'cabinet') {
-				params = { items: 'ranking_items_50_cabinet' };
-				title_text = 'Cabinet Ranking<span>キャビネット・収納庫 ランキング</span>';
-			} else if (selected_category === 'wall-unit-storage') {
-				params = { items: 'ranking_items_50_wall-unit-storage' };
-				title_text = 'Wall Unit Storage Ranking<span>壁面収納・システム収納 ランキング</span>';
-			} else if (selected_category === 'table') {
-				params = { items: 'ranking_items_50_table' };
-				title_text = 'Table Ranking<span>テーブル ランキング</span>';
-			} else if (selected_category === 'desk') {
-				params = { items: 'ranking_items_50_desk' };
-				title_text = 'Desk Ranking<span>デスク ランキング</span>';
-			} else if (selected_category === 'kids') {
-				params = { items: 'ranking_items_50_kids' };
-				title_text = 'Kids Ranking<span>キッズ収納 ランキング</span>';
-			} else if (selected_category === 'office-furniture') {
-				params = { items: 'ranking_items_50_office-furniture' };
-				title_text = 'Office Ranking<span>オフィス家具 ランキング</span>';
-			}
+							if (series_code == 'tl1' || series_code == 'tl2' || series_code == 'tl3') {
+								series_code = 'tl';
+							} else if (series_code == 'ona') {
+								series_code = 'of2';
+							} else if (series_code == 'gbp') {
+								series_code = 'gbt';
+							}
 
-			$('#item_list_title').html(title_text);
+							if (selling_price < normal_price) {
+								selling_price = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normal_price.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + selling_price.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
+							} else {
+								selling_price = '<p class="priceBox"><span class="price">¥ ' + selling_price.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
+							}
 
-		var response = $.ajax({
-			type: 'post',
-			url: url,
-			async: false,
-			data: JSON.stringify(params),
-			contentType: 'application/json',
-			dataType: 'json',
-			scriptCharset: 'utf-8',
-			success: function (response) {
-				// Success
-				// console.log(JSON.stringify(response));
+							var icon_ary = icon.split(',');
+							//console.log(icon_ary);
+							var rank = null;
 
-				// response = JSON.parse(response);
-				// console.log(response);
+							var icon_html = '';
+							var current_path_category = window.location.pathname.split('/');
+							for (var j = 0; j < icon_ary.length; j++) {
+								if (icon_ary[j] != '') {
+									icon_ary[j] = icon_ary[j].split(':');
 
-				$('#item_list.ranking_list ul').empty();
+									if (icon_ary[j][0] == 'mark-rank' && current_path_category[2] == 'ranking_test') {
+										categoryName = categoryNameShorter(category_name);
+										icon_html += '<span class="mark-rank">' + icon_ary[j][1] + '位</span>';
+										rank = parseInt(icon_ary[j][1], 10);
+										break;
+									}
 
-				data = response.data;
-				//console.log(data);
+									if (icon_ary[j][0] == 'mark-categoryRank' && current_path_category[2] != 'ranking_test') {
+										categoryName = categoryNameShorter(category_name);
+										icon_html += '<span class="mark-rank">' + icon_ary[j][1] + '位</span>';
+										rank = parseInt(icon_ary[j][1], 10);
+										break;
+									}
 
-				if (data != undefined && data != '') {
-					var html = '';
-					for (var i in data) {
-						var sku_no = data[i].sku_no.toLowerCase(),
-							id = data[i].id,
-							product_id_12Len = zeroPadding(id, 12),
-							name = data[i].name,
-							selling_price = data[i].selling_price,
-							normal_price = data[i].normal_price,
-							icon = data[i].icon,
-							size = data[i].size,
-							product_image_group = Math.floor(id / 100),
-							average_rating = data[i].average_rating,
-							number_review = data[i].number_review,
-							category_url = data[i].category_url,
-							category_name = data[i].category_name,
-							thumbnail_number = data[i].thumbnail_number,
-							thumbnail = ('00' + thumbnail_number).slice(-2);
-						series_code = sku_no.slice(0, 3);
+									if (icon_ary[j][0] == 'mark-new') {
+										icon_html += '<span class="mark-new">新着</span>';
+									}
 
-						if (series_code == 'tl1' || series_code == 'tl2' || series_code == 'tl3') {
-							series_code = 'tl';
-						} else if (series_code == 'ona') {
-							series_code = 'of2';
-						} else if (series_code == 'gbp') {
-							series_code = 'gbt';
-						}
+									if (icon_ary[j][0] == 'mark-longseller') {
+										icon_html += '<span class="mark-longseller">ロングセラー</span>';
+									}
 
-						if (selling_price < normal_price) {
-							selling_price = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normal_price.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + selling_price.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
-						} else {
-							selling_price = '<p class="priceBox"><span class="price">¥ ' + selling_price.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
-						}
+									if (icon_ary[j][0] == 'mark-limitedProduct') {
+										icon_html += '<span class="mark-limitedProduct">当店限定商品</span>';
+									}
 
-						var icon_ary = icon.split(',');
-						//console.log(icon_ary);
-						var rank = null;
+									if (icon_ary[j][0] == 'mark-sale') {
+										icon_html += '<span class="mark-sale">SALE</span>';
+									}
 
-						var icon_html = '';
-						for (var j = 0; j < icon_ary.length; j++) {
-							if (icon_ary[j] != '') {
-								icon_ary[j] = icon_ary[j].split(':');
+									if (icon_ary[j][0] == 'mark-outlet') {
+										icon_html += '<span class="mark-outlet">OUTLET</span>';
+									}
 
-								if (icon_ary[j][0] == 'mark-rank' && selected_category == 'overall') {
-									categoryName = categoryNameShorter(category_name);
-									icon_html += '<span class="mark-rank">' + icon_ary[j][1] + '位</span>';
-									rank = parseInt(icon_ary[j][1], 10);
-									break;
-								}
-
-								if (icon_ary[j][0] == 'mark-categoryRank' && category_url != '') {
-									categoryName = categoryNameShorter(category_name);
-									icon_html += '<span class="mark-rank">' + icon_ary[j][1] + '位</span>';
-									rank = parseInt(icon_ary[j][1], 10);
-									break;
-								}
-
-								if (icon_ary[j][0] == 'mark-new') {
-									icon_html += '<span class="mark-new">新着</span>';
-								}
-
-								if (icon_ary[j][0] == 'mark-longseller') {
-									icon_html += '<span class="mark-longseller">ロングセラー</span>';
-								}
-
-								if (icon_ary[j][0] == 'mark-limitedProduct') {
-									icon_html += '<span class="mark-limitedProduct">当店限定商品</span>';
-								}
-
-								if (icon_ary[j][0] == 'mark-sale') {
-									icon_html += '<span class="mark-sale">SALE</span>';
-								}
-
-								if (icon_ary[j][0] == 'mark-outlet') {
-									icon_html += '<span class="mark-outlet">OUTLET</span>';
-								}
-
-								if (icon_ary[j][0] == 'mark-coupon') {
-									icon_html += '<span class="mark-coupon">' + icon_ary[j][1] + '</span>';
+									if (icon_ary[j][0] == 'mark-coupon') {
+										icon_html += '<span class="mark-coupon">' + icon_ary[j][1] + '</span>';
+									}
 								}
 							}
+
+							if (average_rating < 0.5) {
+								average_rating = '0';
+							} else if (average_rating < 1.0) {
+								average_rating = '0.5';
+							} else if (average_rating < 1.5) {
+								average_rating = '1.0';
+							} else if (average_rating < 2.0) {
+								reviewaverage_ratingScore = '1.5';
+							} else if (average_rating < 2.5) {
+								average_rating = '2.0';
+							} else if (average_rating < 3.0) {
+								average_rating = '2.5';
+							} else if (average_rating < 3.5) {
+								average_rating = '3.0';
+							} else if (average_rating < 4.0) {
+								average_rating = '3.5';
+							} else if (average_rating < 4.5) {
+								average_rating = '4.0';
+							} else if (average_rating < 5) {
+								average_rating = '4.5';
+							} else if (average_rating == 5) {
+								average_rating = '5.0';
+							}
+
+							var review_HTML = '';
+
+							if (average_rating != 0) {
+								review_HTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + average_rating + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + sku_no + '">（' + number_review + '）</a></div>';
+							} else {
+								review_HTML = '';
+							}
+
+							html =
+								'<li data-rank="' +
+								rank +
+								'""><a href="/c/series/' +
+								series_code +
+								'/' +
+								sku_no +
+								'"><img src="https://shiraistore.itembox.design/product/' +
+								zeroPadding(product_image_group, 3) +
+								'/' +
+								product_id_12Len +
+								'/' +
+								product_id_12Len +
+								'-' +
+								thumbnail +
+								'-m.jpg" alt="' +
+								name +
+								'" ><h2>' +
+								name +
+								'</h2></a>' +
+								'<div class="productMarks">' +
+								icon_html +
+								'</div>' +
+								'<div class="productSize">' +
+								size +
+								'</div>' +
+								review_HTML +
+								'<a href="/c/series/' +
+								series_code +
+								'/' +
+								sku_no +
+								'">' +
+								selling_price +
+								'</a></li>';
+
+							$('#item_list.ranking_list ul').append(html);
 						}
+						var $li = $('#item_list.ranking_list ul li');
 
-						if (average_rating < 0.5) {
-							average_rating = '0';
-						} else if (average_rating < 1.0) {
-							average_rating = '0.5';
-						} else if (average_rating < 1.5) {
-							average_rating = '1.0';
-						} else if (average_rating < 2.0) {
-							reviewaverage_ratingScore = '1.5';
-						} else if (average_rating < 2.5) {
-							average_rating = '2.0';
-						} else if (average_rating < 3.0) {
-							average_rating = '2.5';
-						} else if (average_rating < 3.5) {
-							average_rating = '3.0';
-						} else if (average_rating < 4.0) {
-							average_rating = '3.5';
-						} else if (average_rating < 4.5) {
-							average_rating = '4.0';
-						} else if (average_rating < 5) {
-							average_rating = '4.5';
-						} else if (average_rating == 5) {
-							average_rating = '5.0';
-						}
+						$li.sort(function(a, b) {
+							return $(a).data('rank') - $(b).data('rank');
+						});
+						
+						$('#item_list.ranking_list ul').html($li);
 
-						var review_HTML = '';
-
-						if (average_rating != 0) {
-							review_HTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + average_rating + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + sku_no + '">（' + number_review + '）</a></div>';
-						} else {
-							review_HTML = '';
-						}
-
-						html =
-							'<li data-rank="' +
-							rank +
-							'""><a href="/c/series/' +
-							series_code +
-							'/' +
-							sku_no +
-							'"><img src="https://shiraistore.itembox.design/product/' +
-							zeroPadding(product_image_group, 3) +
-							'/' +
-							product_id_12Len +
-							'/' +
-							product_id_12Len +
-							'-' +
-							thumbnail +
-							'-m.jpg" alt="' +
-							name +
-							'" ><h2>' +
-							name +
-							'</h2></a>' +
-							'<div class="productMarks">' +
-							icon_html +
-							'</div>' +
-							'<div class="productSize">' +
-							size +
-							'</div>' +
-							review_HTML +
-							'<a href="/c/series/' +
-							series_code +
-							'/' +
-							sku_no +
-							'">' +
-							selling_price +
-							'</a></li>';
-
-						$('#item_list.ranking_list ul').append(html);
+						window.scrollTo({ top: 0, behavior: 'smooth' });
 					}
-					// li要素を順位でソート
-					var $li = $('#item_list.ranking_list ul li');
-
-					$li.sort(function(a, b) {
-						return $(a).data('rank') - $(b).data('rank');
-					});
-					// ソート後のliを再配置
-					$('#item_list.ranking_list ul').html($li);
-
-					window.scrollTo({ top: 0, behavior: 'smooth' });
-				}
-			},
-			error: function (response) {
-					// Error
-					// console.log(JSON.stringify(response));
 				},
-			}).responseText;
-		});
-		$('.category_ranking_select').trigger('change');
-	}
+                error: function () {
+                }
+            });
+        }
+
+        var category = get_category_from_url();
+		//console.log(category);
+        update_ranking_list(category);
+
+        $('.category_ranking_select').on('change', function () {
+            var selected_category = $(this).val();
+            var new_url;
+
+            if (selected_category == 'overall') {
+                new_url = 'https://shirai-store.net/f/ranking_test';
+            } else {
+                new_url = '/f/ranking_test-' + selected_category;
+            }
+
+            window.location.href = new_url;
+        });
+    }
 }
+
 
 /* getTopFaq
 ========================================================================== */
