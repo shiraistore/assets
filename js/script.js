@@ -11,7 +11,7 @@ $(function () {
 	imageChange(); //javaScriptParts
 	cartRegistBranch(); //javaScriptParts
 	cartADISCaution();
-	// cart_coupon_conflict_caution();
+	cart_coupon_conflict_caution();
 	coupon_reference();
 	ADIS_discriptionOpenClose(); //OK
 	magazineImageChange(); //OK
@@ -8304,33 +8304,49 @@ function cartADISCaution() {
 
 /* cart_coupon_conflict_caution
 ========================================================================== */
-// function cart_coupon_conflict_caution() {
-	// if ($('#fs_ShoppingCart').length) {
-	// 	// 対象となる商品IDのリスト
-	// 	const targetItems = ['lge-8545', 'lge-8585', 'lge-1285', 'lge-1212', 'lge-1612', 'chi-5540', 'lge-2112', 'chi-6040w', 'chi-5040', 'chi-5045h'];
-	// 	const foundItems = new Set(); // 発見した商品IDを格納するSet
+function cart_coupon_conflict_caution() {
+	if ($('#fs_ShoppingCart').length) {
+		// 対象となる商品IDと対応するクーポン情報のリスト
+		const couponInfo = {
+			'lge-8545': '2000円OFFクーポンあり',
+			'lge-8585': '1000円OFFクーポンあり',
+			'lge-1285': '3000円OFFクーポンあり',
+			'lge-1212': '3000円OFFクーポンあり',
+			'lge-1612': '2000円OFFクーポンあり',
+			'lge-2112': '2000円OFFクーポンあり'
+		};
+		const foundItems = new Set(); // 発見した商品IDを格納するSet
 	
-	// 	// カートの商品のhrefを取得
-	// 	$('.fs-c-cartTable__productName__name a').each(function () {
-	// 		const href = $(this).attr('href');
-	// 		const regex = /lge-\d{4}/g; // lge-XXXX形式を抽出する正規表現
-	// 		const match = href.match(regex);
+		// カートの商品のhrefを取得
+		$('.fs-c-cartTable__productName__name a').each(function () {
+			const href = $(this).attr('href');
+			const regex = /\/([^\/]+)-[^-]+$/; // 最後のハイフンの前の部分をキャプチャ
+			const match = href.match(regex);
+			console.log(match); // デバッグ用に出力
 	
-	// 		if (match && match.length > 0) {
-	// 			const itemCode = match[0];
-	// 			if (targetItems.includes(itemCode)) {
-	// 				foundItems.add(itemCode);
-	// 			}
-	// 		}
-	// 	});
+			if (match && match.length > 1) {
+				const itemCode = match[1]; // match[1] にキャプチャされた商品IDが入っている
+				if (itemCode in couponInfo) {
+					foundItems.add(itemCode);
+
+					// クーポンメッセージを挿入
+					const couponMessage = `<span class="mark-coupon fs-c-productMark__mark--0 fs-c-productMark__mark"><span class="fs-c-productMark__label">${couponInfo[itemCode]}</span></span><br>`;
+					$(this).closest('.fs-c-listedProductName .fs-c-cartTable__productName__name').prepend(couponMessage);
+				}
+			}
+		});
+
+		console.log(foundItems); // デバッグ用に出力
 	
-	// 	// 条件に合致する商品が2つ以上見つかった場合
-	// 	if (foundItems.size >= 2) {
-	// 		const alertHtml = '<div>クーポンの併用ができない商品が含まれています。分けてご注文ください。</div>';
-	// 		$('#fs-checkout-payHere-container').before(alertHtml);
-	// 	}
-	// }
-// }
+		// 条件に合致する商品が2つ以上見つかった場合
+		if (foundItems.size >= 2) {
+			const alertHtml = '<div style="margin: 16px 0;color: red;">レジェルノシリーズ割引クーポンを併用いただけない商品がカートに入っています。<br>例えば[1000円OFFクーポン]と[2000円OFFクーポン]は併用いただけません。<strong><u>2回以上に分けてご注文ください。</u></strong></div>';
+			$('#fs-checkout-payHere-container').before(alertHtml);
+		}
+	}
+}
+
+
 
 /* cartRegistBranch
 ========================================================================== */
