@@ -11,6 +11,7 @@ $(function () {
 	imageChange(); //javaScriptParts
 	cartRegistBranch(); //javaScriptParts
 	cartADISCaution();
+	// cart_coupon_conflict_caution();
 	coupon_reference();
 	ADIS_discriptionOpenClose(); //OK
 	magazineImageChange(); //OK
@@ -27,6 +28,7 @@ $(function () {
 	productCompatibleList();
 	productDetailSeriesLink(); //OK
 	productDetail_tnlListTableLink();
+	//product_detail_series_caption();
 	productDetail_mhpContentsBanner();
 	productDetail_ptsContentsBanner();
 	productDetail_bookShelfContentsBanner();
@@ -39,14 +41,14 @@ $(function () {
 	searchTagsTitleDescriptionChange();
 	putMemberIdOptInPolicy();
 	getTopRanking();
-	//get_top_ranking();
+	get_top_ranking();
 	//getTopFaq();
 	getCouponItems();
 	getNewItems();
 	get_outlet_items();
 	get_sale_items();
 	sale_list();
-	//ranking_list();
+	ranking_list();
 
 	reviewSlideDown('#fs_ProductDetails', '240'); //OK
 	instagramPostList(); //OK
@@ -832,6 +834,37 @@ function productDetail_tnlListTableLink() {
 		}
 	}
 }
+
+/* product_detail_series_caption
+========================================================================== */
+function product_detail_series_caption() {
+    if ($('#fs_ProductDetails').length) {
+        var pathParts = window.location.pathname.split('/');
+        var seriesName = pathParts[pathParts.length - 1].split('-')[0];
+
+        var html = `
+            <div>
+                <div class="serise-left">
+                    <a href="/c/series/${seriesName}">
+                        <img data-src="https://shiraistore.itembox.design/item/src/series/thum-${seriesName}.jpg"
+                             src="https://shiraistore.itembox.design/item/src/series/thum-${seriesName}.jpg"
+                             class="lazyloaded" alt="">
+                    </a>
+                </div>
+                <div class="serise-right"></div>
+            </div>`;
+        $('#product-comment_2').before(html);
+
+        $('.serise-right').load('/c/series .seriseList-right a', function() {
+            $('.seriseList-right a').each(function() {
+                if (!this.href.includes(seriesName)) {
+                    $(this).parent().hide();
+                }
+            });
+        });
+    }
+}
+
 
 /* productDetail_mhpContentsBanner
 ========================================================================== */
@@ -3541,7 +3574,7 @@ function getCouponItems() {
 				}
 			}
 
-			$('.couponItemsSlider.couponItems').after('<div class="fs-c-buttonContainer more-button"><a href="/p/search?tag=20%25OFF%E3%82%AF%E3%83%BC%E3%83%9D%E3%83%B3%E3%81%82%E3%82%8A" class="fs-c-button--standard">お得な商品を見る</a></div>');
+			$('.couponItemsSlider.couponItems').after('<div class="fs-c-buttonContainer more-button"><a href="/p/search?tag=割引クーポンが使える商品" class="fs-c-button--standard">お得な商品を見る</a></div>');
 		}
 	}
 }
@@ -4528,10 +4561,14 @@ function ranking_list() {
             });
         }
 
-        var category = get_category_from_url().split('-').pop();
+        var category = get_category_from_url().slice(13);
         update_ranking_list(category);
 
-		$('#select_top, #select_bottom').val(category);
+		if (category == '') {
+			$('#select_top, #select_bottom').val('overall');
+		} else {
+			$('#select_top, #select_bottom').val(category);
+		}
 
         $('.category_ranking_select').on('change', function () {
             var selected_category = $(this).val();
@@ -8264,6 +8301,36 @@ function cartADISCaution() {
 		});
 	}
 }
+
+/* cart_coupon_conflict_caution
+========================================================================== */
+// function cart_coupon_conflict_caution() {
+	// if ($('#fs_ShoppingCart').length) {
+	// 	// 対象となる商品IDのリスト
+	// 	const targetItems = ['lge-8545', 'lge-8585', 'lge-1285', 'lge-1212', 'lge-1612', 'chi-5540', 'lge-2112', 'chi-6040w', 'chi-5040', 'chi-5045h'];
+	// 	const foundItems = new Set(); // 発見した商品IDを格納するSet
+	
+	// 	// カートの商品のhrefを取得
+	// 	$('.fs-c-cartTable__productName__name a').each(function () {
+	// 		const href = $(this).attr('href');
+	// 		const regex = /lge-\d{4}/g; // lge-XXXX形式を抽出する正規表現
+	// 		const match = href.match(regex);
+	
+	// 		if (match && match.length > 0) {
+	// 			const itemCode = match[0];
+	// 			if (targetItems.includes(itemCode)) {
+	// 				foundItems.add(itemCode);
+	// 			}
+	// 		}
+	// 	});
+	
+	// 	// 条件に合致する商品が2つ以上見つかった場合
+	// 	if (foundItems.size >= 2) {
+	// 		const alertHtml = '<div>クーポンの併用ができない商品が含まれています。分けてご注文ください。</div>';
+	// 		$('#fs-checkout-payHere-container').before(alertHtml);
+	// 	}
+	// }
+// }
 
 /* cartRegistBranch
 ========================================================================== */
