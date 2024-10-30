@@ -4561,7 +4561,8 @@ function ranking_list() {
             });
         }
 
-        var category = get_category_from_url().slice(13);
+        var category = get_category_from_url().slice(8);
+		console.log(category);
         update_ranking_list(category);
 
 		if (category == '') {
