@@ -4358,7 +4358,7 @@ function ranking_list() {
 
         function get_category_from_url() {
             var path_parts = window.location.pathname.split('/');
-            return path_parts[path_parts.length - 1] === 'ranking_test' ? 'overall' : path_parts[path_parts.length - 1];
+            return path_parts[path_parts.length - 1] === 'ranking' ? 'overall' : path_parts[path_parts.length - 1];
         }
 
         function update_ranking_list(category) {
@@ -4436,14 +4436,14 @@ function ranking_list() {
 								if (icon_ary[j] != '') {
 									icon_ary[j] = icon_ary[j].split(':');
 
-									if (icon_ary[j][0] == 'mark-rank' && current_path_category[2] == 'ranking_test') {
+									if (icon_ary[j][0] == 'mark-rank' && current_path_category[2] == 'ranking') {
 										categoryName = categoryNameShorter(category_name);
 										icon_html += '<span class="mark-rank">' + icon_ary[j][1] + '位</span>';
 										rank = parseInt(icon_ary[j][1], 10);
 										break;
 									}
 
-									if (icon_ary[j][0] == 'mark-categoryRank' && current_path_category[2] != 'ranking_test') {
+									if (icon_ary[j][0] == 'mark-categoryRank' && current_path_category[2] != 'ranking') {
 										categoryName = categoryNameShorter(category_name);
 										icon_html += '<span class="mark-rank">' + icon_ary[j][1] + '位</span>';
 										rank = parseInt(icon_ary[j][1], 10);
@@ -4575,9 +4575,9 @@ function ranking_list() {
             var new_url;
 
             if (selected_category == 'overall') {
-                new_url = 'https://shirai-store.net/f/ranking_test';
+                new_url = 'https://shirai-store.net/f/ranking';
             } else {
-                new_url = '/f/ranking_test-' + selected_category;
+                new_url = '/f/ranking-' + selected_category;
             }
 
             window.location.href = new_url;
