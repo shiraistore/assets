@@ -7740,6 +7740,31 @@ function calendar() {
 	calObj[0].daysClass['2024/11/4'] = 'Holyday';
 	calObj[0].daysClass['2024/12/30'] = 'Holyday';
 	calObj[0].daysClass['2024/12/31'] = 'Holyday';
+	calObj[0].daysClass['2025/1/1'] = 'Holyday';
+	calObj[0].daysClass['2025/1/2'] = 'Holyday';
+	calObj[0].daysClass['2025/1/3'] = 'Holyday';
+	calObj[0].daysClass['2025/1/13'] = 'Holyday';
+	calObj[0].daysClass['2025/2/11'] = 'Holyday';
+	calObj[0].daysClass['2025/2/24'] = 'Holyday';
+	calObj[0].daysClass['2025/3/20'] = 'Holyday';
+	calObj[0].daysClass['2025/4/29'] = 'Holyday';
+	calObj[0].daysClass['2025/5/5'] = 'Holyday';
+	calObj[0].daysClass['2025/5/6'] = 'Holyday';
+	calObj[0].daysClass['2025/7/21'] = 'Holyday';
+	calObj[0].daysClass['2025/8/11'] = 'Holyday';
+	calObj[0].daysClass['2025/8/13'] = 'Holyday';
+	calObj[0].daysClass['2025/8/14'] = 'Holyday';
+	calObj[0].daysClass['2025/8/15'] = 'Holyday';
+	calObj[0].daysClass['2025/9/15'] = 'Holyday';
+	calObj[0].daysClass['2025/9/23'] = 'Holyday';
+	calObj[0].daysClass['2025/10/13'] = 'Holyday';
+	calObj[0].daysClass['2025/11/3'] = 'Holyday';
+	calObj[0].daysClass['2025/11/24'] = 'Holyday';
+	calObj[0].daysClass['2025/12/29'] = 'Holyday';
+	calObj[0].daysClass['2025/12/30'] = 'Holyday';
+	calObj[0].daysClass['2025/12/31'] = 'Holyday';
+	calObj[0].daysClass['2026/1/1'] = 'Holyday';
+	calObj[0].daysClass['2026/1/2'] = 'Holyday';
 	//calObj[0].daysClass["2012/6/9"] = 'Birthday;テキストテキストテキスト<br />テキストテキストテキスト;http://weblogs.trancedive.com';
 	// 2012/6/9にBirthdayクラスを指定ってことね(和田の誕生日です)。
 	// セミコロンで区切ると説明コメント、URLを付けることができます(全クラス指定共通)。
