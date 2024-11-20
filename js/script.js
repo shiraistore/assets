@@ -1143,11 +1143,11 @@ function productSortSelect() {
 //セール会場用バナー表示
 function searchTagTitle() {
 	var params = parameterToArray();
-	if (params.tag == 'sale20240919-20241003') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20240919-20241003_1184x240.jpg" alt="レジェルノセール 対象商品">');
-		$('#fs_ProductSearch h1').html('レジェルノセール 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('レジェルノセール 対象商品');
-		$('title').text('レジェルノセール 対象商品');
+	if (params.tag == 'sale20241121-20241205') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20241121-20241205_1184x240.jpg" alt="BLACK FRIDAY 対象商品">');
+		$('#fs_ProductSearch h1').html('BLACK FRIDAY 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('BLACK FRIDAY 対象商品');
+		$('title').text('BLACK FRIDAY 対象商品');
 	} else if (params.tag == 'sale20241003-20241024-1') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20241003-20241024-1_1184x240.jpg?v=20241003" alt="Autumn SALE 対象商品">');
 		$('#fs_ProductSearch h1').html('Autumn SALE 対象商品');
