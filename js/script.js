@@ -2681,12 +2681,7 @@ function hitItemCategory_forFanplayr(hitItemType) {
 				if (icon_ary[j] != '') {
 					icon_ary[j] = icon_ary[j].split(':');
 
-					if (icon_ary[j][0] == 'mark-rank' && catURL == '') {
-						//categoryName = categoryNameShorter(categoryName);
-						iconHtml += '<span class="mark-rank">ランキング' + icon_ary[j][1] + '位</span>';
-					}
-
-					if (icon_ary[j][0] == 'mark-categoryRank' && catURL != '') {
+					if (icon_ary[j][0] == 'mark-categoryRank' && categoryUrl != '') {
 						//categoryName = categoryNameShorter(categoryName);
 						iconHtml += '<span class="mark-rank">ランキング' + icon_ary[j][1] + '位</span>';
 					}
@@ -2705,6 +2700,10 @@ function hitItemCategory_forFanplayr(hitItemType) {
 
 					if (icon_ary[j][0] == 'mark-sale') {
 						iconHtml += '<span class="mark-sale">SALE</span>';
+					}
+
+					if (icon_ary[j][0] == 'mark-outlet') {
+						iconHtml += '<span class="mark-outlet">OUTLET</span>';
 					}
 				}
 			}
@@ -2747,8 +2746,8 @@ function hitItemCategory_forFanplayr(hitItemType) {
 				'/' +
 				productUrl +
 				'?fp=' +
-				catURL +
-				'HitItem"><div class="hitItemCategory_forFanplayr-inner-left"><img src="https://shiraistore.itembox.design/product/' +
+				categoryUrl +
+				'HitItem"><div class="hitItemProduct_forFanplayr-inner-left"><img src="https://shiraistore.itembox.design/product/' +
 				zeroPadding(product_image_group, 3) +
 				'/' +
 				productId_12Len +
@@ -2758,10 +2757,10 @@ function hitItemCategory_forFanplayr(hitItemType) {
 				thumbnail +
 				'-s.jpg" alt="' +
 				productName +
-				'" ></div><div class="hitItemCategory_forFanplayr-inner-right"><h4>HIT ITEM</h4><p>' +
+				'" >' +
+				'</div><div class="hitItemProduct_forFanplayr-inner-right"><h4>HIT ITEM</h4><h5>' +
 				productName +
-				'</p>' +
-				'<div class="productMarks">' +
+				'</h5><div class="productMarks">' +
 				iconHtml +
 				'</div>' +
 				reviewHTML +
@@ -2852,9 +2851,9 @@ function hitItemProduct_forFanplayr() {
 			}
 
 			if (sellingPrice < normalPrice) {
-				sellingPrice = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normalPrice.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
+				sellingPrice = '<div class="priceBox salePriceBox"><span class="price">¥ ' + normalPrice.toLocaleString() + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></div>';
 			} else {
-				sellingPrice = '<p class="priceBox"><span class="price">¥ ' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
+				sellingPrice = '<div class="priceBox"><span class="price">¥ ' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></div>';
 			}
 
 			var icon_ary = icon.split(',');
@@ -2918,19 +2917,19 @@ function hitItemProduct_forFanplayr() {
 			var reviewHTML = '';
 
 			if (reviewScore != 0) {
-				reviewHTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + productUrl + '&fp=' + categoryName + 'ranking">（' + reviewCount + '）</a></div>';
+				reviewHTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '">（' + reviewCount + '）</div>';
 			} else {
 				reviewHTML = '';
 			}
 
 			var h =
-				'<div class="hitItemProduct_forFanplayr-inner-left"><a href="/c/series/' +
+				'<a href="/c/series/' +
 				seriesCode +
 				'/' +
 				productUrl +
 				'?fp=' +
 				categoryUrl +
-				'HitItem"><img src="https://shiraistore.itembox.design/product/' +
+				'HitItem"><div class="hitItemProduct_forFanplayr-inner-left"><img src="https://shiraistore.itembox.design/product/' +
 				zeroPadding(product_image_group, 3) +
 				'/' +
 				productId_12Len +
@@ -2941,21 +2940,14 @@ function hitItemProduct_forFanplayr() {
 				'-s.jpg" alt="' +
 				productName +
 				'" >' +
-				'</a></div><div class="hitItemProduct_forFanplayr-inner-right">' +
-				'<a href="/c/series/' +
-				seriesCode +
-				'/' +
-				productUrl +
-				'?fp=' +
-				categoryUrl +
-				'HitItem"><h4>HIT ITEM</h4><p>' +
+				'</div><div class="hitItemProduct_forFanplayr-inner-right"><h4>HIT ITEM</h4><h5>' +
 				productName +
-				'</p><div class="productMarks">' +
+				'</h5><div class="productMarks">' +
 				iconHtml +
 				'</div>' +
 				reviewHTML +
 				sellingPrice +
-				'</a></div>';
+				'</div></a>';
 
 			//console.log(h);
 
