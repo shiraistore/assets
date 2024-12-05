@@ -1791,7 +1791,7 @@ function sns_post_list() {
 		//console.log(data);
 
         var list_html = '';
-        for (var i in data.reverse()) {
+        for (var i in data) {
             var post_id = data[i].post_id,
                 thumbnail_url = data[i].thumbnail_url,
                 size_adjustment = data[i].size_adjustment;
@@ -2046,7 +2046,7 @@ function sns_post_list_all() {
 		//console.log(data);
 
         var list_html = '';
-        for (var i in data.reverse()) {
+        for (var i in data) {
             var post_id = data[i].post_id,
                 thumbnail_url = data[i].thumbnail_url,
                 size_adjustment = data[i].size_adjustment;
