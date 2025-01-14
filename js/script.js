@@ -4844,8 +4844,16 @@ function rewriteDOM() {
 		});
 
 		//搬入経路表示
-		var deliveryCaution =
-			'<div class="deliveryCaution mt-8"><p style="font-size: 1.2rem;">【お願い】<br>輸送破損の恐れがあるため、移動棚・取っ手・フット・キャスター・引戸ガラスはお客様にお取り付けをお願いしております。また、[組立済+搬入]サービスは<u>商品同士の連結や扉の調節など工具が必要な作業はサービスに含まれておりません</u>のでご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合があります。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下、階段の折り返しスペースの幅と天井までの高さ<br>・玄関などの出入り口の幅と高さ<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.design/item/src/product_detail/detail-deliveryRoute.png?v=20231023" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>';
+		if (location.href.match('lmd-2085d')) {
+			// console.log('match!');
+			var deliveryCaution = 
+				'<div class="deliveryCaution mt-8" style=""><p style="font-size: 1.2rem;" class="red">【ご注意】<br>この商品は、上部と下部をそれぞれ工場にて組み立て、梱包を2つに分けて発送いたします。<u>配送業者がお客様指定の場所に運び入れ、上部と下部の連結作業を行います。</u>作業時間が10〜20分程度を要しますのでご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合があります。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■この商品の梱包サイズ<br>上部：幅92cm 高さ132cm 奥行44cm<br>下部：幅92cm 高さ81cm 奥行44cm</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下、階段の折り返しスペースの幅と天井までの高さ<br>・玄関などの出入り口の幅と高さ<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.design/item/src/product_detail/detail-deliveryRoute.png" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>'
+		} else {
+			// console.log('not match...');
+			var deliveryCaution =
+				'<div class="deliveryCaution mt-8"><p style="font-size: 1.2rem;">【お願い】<br>輸送破損の恐れがあるため、移動棚・取っ手・フット・キャスター・引戸ガラスはお客様にお取り付けをお願いしております。また、[組立済+搬入]サービスは<u>商品同士の連結や扉の調節など工具が必要な作業はサービスに含まれておりません</u>のでご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合があります。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下、階段の折り返しスペースの幅と天井までの高さ<br>・玄関などの出入り口の幅と高さ<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.design/item/src/product_detail/detail-deliveryRoute.png" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>';
+		}
+
 		$(deliveryCaution).insertAfter('.fs-c-productOption__comment');
 		//組立サービスが選択されていない場合
 		if (optionName != 'ADIS-01' && optionName != 'ADIS-02') {
