@@ -5498,7 +5498,7 @@ function multipleReviewList() {
 	var url_ary = url.split('?');
 	if (url_ary[0] == 'https://shirai-store.net/f/reviewList') {
 		var modelCode = getParam('modelCode');
-		var rewviewListURL = 'https://cdn.shirai-store.net/assets/json/reviewList/reviewList_' + modelCode + '_v2_00.json';
+		var rewviewListURL = 'https://cdn.shirai-store.net/assets/json/reviewList/reviewList_' + modelCode + '_v2_0.json';
 		var reviewScore_ary = [];
 
 		$.getJSON(rewviewListURL, function (multipleReviewList) {
