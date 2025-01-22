@@ -1148,11 +1148,11 @@ function searchTagTitle() {
 		$('#fs_ProductSearch h1').html('歳末&新春SALE 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('歳末&新春SALE 対象商品');
 		$('title').text('歳末&新春SALE 対象商品');
-	} else if (params.tag == 'sale20241205-20241226') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20241205-20241226_1184x240.jpg?v=20241003" alt="Winter SALE 対象商品">');
-		$('#fs_ProductSearch h1').html('Winter SALE 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('Winter SALE 対象商品');
-		$('title').text('Winter SALE 対象商品');
+	} else if (params.tag == 'sale20250123-20240206') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250123-20240206_1184x240.jpg" alt="FLASH SALE 対象商品">');
+		$('#fs_ProductSearch h1').html('FLASH SALE 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('FLASH SALE 対象商品');
+		$('title').text('FLASH SALE 対象商品');
 	} else if (params.tag == 'sale20241003-20241024-2') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20241003-20241024-2_1184x240.jpg" alt="タナリオセール 対象商品">');
 		$('#fs_ProductSearch h1').html('タナリオセール 対象商品');
@@ -5498,7 +5498,7 @@ function multipleReviewList() {
 	var url_ary = url.split('?');
 	if (url_ary[0] == 'https://shirai-store.net/f/reviewList') {
 		var modelCode = getParam('modelCode');
-		var rewviewListURL = 'https://cdn.shirai-store.net/assets/json/reviewList/reviewList_' + modelCode + '_v2_0.json';
+		var rewviewListURL = 'https://cdn.shirai-store.net/assets/json/reviewList/reviewList_' + modelCode + '_v2_00.json';
 		var reviewScore_ary = [];
 
 		$.getJSON(rewviewListURL, function (multipleReviewList) {
