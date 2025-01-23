@@ -51,9 +51,9 @@ $(function () {
 	ranking_list();
 
 	reviewSlideDown('#fs_ProductDetails', '240'); //OK
-	instagramPostList(); //OK
-	sns_post_list();
-	sns_post_list_all();
+	//instagramPostList(); //OK
+	//sns_post_list();
+	//sns_post_list_all();
 	soldOut(); //OK
 	transfer();
 	preSale_displayPassWordForm();
@@ -68,7 +68,7 @@ $(function () {
 	recommendTop10(); //OK
 	searchFilterTnl(); //OK
 	reviewsDisplayForSearchResults();
-	instagramPostDisplayForSearchResults();
+	//instagramPostDisplayForSearchResults();
 
 	var global_rakingTop10Type = $('.productTop10Slider.ranking').data('ranking');
 	if (global_rakingTop10Type) {
