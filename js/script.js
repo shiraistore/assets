@@ -1148,8 +1148,8 @@ function searchTagTitle() {
 		$('#fs_ProductSearch h1').html('歳末&新春SALE 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('歳末&新春SALE 対象商品');
 		$('title').text('歳末&新春SALE 対象商品');
-	} else if (params.tag == 'sale20250123-20240206') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250123-20240206_1184x240.jpg" alt="FLASH SALE 対象商品">');
+	} else if (params.tag == 'sale20250123-20250206') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250123-20250206_1184x240.jpg" alt="FLASH SALE 対象商品">');
 		$('#fs_ProductSearch h1').html('FLASH SALE 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('FLASH SALE 対象商品');
 		$('title').text('FLASH SALE 対象商品');
@@ -6702,65 +6702,65 @@ function productDetailAddData() {
 			$('#productDetail-productsAffinity').css('display', 'block');
 		}
 
-		$.getJSON('https://cdn.shirai-store.net/assets/json/common/instagramDisplayPhoto_v1_0.json', function (instagramPostData) {
-			//console.log(instagramPostData);
-			var productNumbers = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
-			//console.log(productNumbers);
-			var listHtml = '';
-			$('#product-comment_5 li,#product-comment_9 li').each(function () {
-				productNumbers += $(this).data('productcode');
-			});
+		// $.getJSON('https://cdn.shirai-store.net/assets/json/common/instagramDisplayPhoto_v1_0.json', function (instagramPostData) {
+		// 	//console.log(instagramPostData);
+		// 	var productNumbers = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
+		// 	//console.log(productNumbers);
+		// 	var listHtml = '';
+		// 	$('#product-comment_5 li,#product-comment_9 li').each(function () {
+		// 		productNumbers += $(this).data('productcode');
+		// 	});
 
-			//console.log(productNumbers);
+		// 	//console.log(productNumbers);
 
-			var count = 0;
+		// 	var count = 0;
 
-			instagramPostData = instagramPostData.reverse();
+		// 	instagramPostData = instagramPostData.reverse();
 
-			for (var i in instagramPostData) {
-				for (var j in instagramPostData[i].relatedProduct) {
-					var checkProductNumber = instagramPostData[i].relatedProduct[j].productUrl;
-					//console.log('checkProductNumber:' + productNumber);
-					//console.log('checkProductNumber:' + checkProductNumber);
-					if (count >= 10) {
-						break;
-					}
+		// 	for (var i in instagramPostData) {
+		// 		for (var j in instagramPostData[i].relatedProduct) {
+		// 			var checkProductNumber = instagramPostData[i].relatedProduct[j].productUrl;
+		// 			//console.log('checkProductNumber:' + productNumber);
+		// 			//console.log('checkProductNumber:' + checkProductNumber);
+		// 			if (count >= 10) {
+		// 				break;
+		// 			}
 
-					if (productNumbers.indexOf(checkProductNumber) > -1) {
-						var postId = instagramPostData[i].postId,
-							thumbnail_url = instagramPostData[i].thumbnail_url,
-							sizeAdjustment = instagramPostData[i].sizeAdjustment;
+		// 			if (productNumbers.indexOf(checkProductNumber) > -1) {
+		// 				var postId = instagramPostData[i].postId,
+		// 					thumbnail_url = instagramPostData[i].thumbnail_url,
+		// 					sizeAdjustment = instagramPostData[i].sizeAdjustment;
 
-						listHtml += '<li class="modal-open-instagram" data-target="instagramPost-modal" data-postid="' + postId + '"><img src="' + thumbnail_url + '" style="width:' + sizeAdjustment + '%;height:' + sizeAdjustment + '%;" alt="instagramPost_' + postId + '"></li>';
-						// $('#postedList').append(listHtml);
-						//console.log(listHtml);
-						count++;
-						break;
-					}
-				}
-			}
+		// 				listHtml += '<li class="modal-open-instagram" data-target="instagramPost-modal" data-postid="' + postId + '"><img src="' + thumbnail_url + '" style="width:' + sizeAdjustment + '%;height:' + sizeAdjustment + '%;" alt="instagramPost_' + postId + '"></li>';
+		// 				// $('#postedList').append(listHtml);
+		// 				//console.log(listHtml);
+		// 				count++;
+		// 				break;
+		// 			}
+		// 		}
+		// 	}
 
-			if (listHtml != '') {
-				$('#feature').before(
-					'<div id="shirai_fan"><h2 class="productDescriptionTitle">みんなの投稿写真<span>#shirai_fan</span></h2><p class="text-center">Instagramでみなさんに投稿していただいた写真をご紹介しています。</p><ul id="postedList">' +
-						listHtml +
-						'</ul><div class="fs-c-buttonContainer more-button"><a href="/f/shirai-fan" class="fs-c-button--standard">その他の投稿を見る</a></div><div id="instagramPost-modal" class="modal"><div class="modal-bg modal-close"></div><div id="instagramPost-modal_outer" class="modal-close"><div class="modal-content"><div class="modal-content_inner"></div><a class="modal-close_btn modal-close" href=""><img src="https://shiraistore.itembox.design/item/src/icon-close.svg" alt="閉じる" title="閉じる"></a><ul id="modal-control"><li class="modal-ctr-open prev" data-target="instagramPost-modal" data-postid=""></li><li class="modal-ctr-open next" data-target="instagramPost-modal" data-postid=""></li></ul></div></div></div></div></div>'
-				);
-			}
+		// 	if (listHtml != '') {
+		// 		$('#feature').before(
+		// 			'<div id="shirai_fan"><h2 class="productDescriptionTitle">みんなの投稿写真<span>#shirai_fan</span></h2><p class="text-center">Instagramでみなさんに投稿していただいた写真をご紹介しています。</p><ul id="postedList">' +
+		// 				listHtml +
+		// 				'</ul><div class="fs-c-buttonContainer more-button"><a href="/f/shirai-fan" class="fs-c-button--standard">その他の投稿を見る</a></div><div id="instagramPost-modal" class="modal"><div class="modal-bg modal-close"></div><div id="instagramPost-modal_outer" class="modal-close"><div class="modal-content"><div class="modal-content_inner"></div><a class="modal-close_btn modal-close" href=""><img src="https://shiraistore.itembox.design/item/src/icon-close.svg" alt="閉じる" title="閉じる"></a><ul id="modal-control"><li class="modal-ctr-open prev" data-target="instagramPost-modal" data-postid=""></li><li class="modal-ctr-open next" data-target="instagramPost-modal" data-postid=""></li></ul></div></div></div></div></div>'
+		// 		);
+		// 	}
 
-			$('.modal-open-instagram').on('click', function () {
-				modal_addContent_instagram(instagramPostData, thumbnail_url, $(this));
-			});
+		// 	$('.modal-open-instagram').on('click', function () {
+		// 		modal_addContent_instagram(instagramPostData, thumbnail_url, $(this));
+		// 	});
 
-			$('.modal-ctr-open').on('click', function () {
-				if (!$(this).hasClass('disable')) {
-					$('.modal-content_inner').fadeOut(0);
-					modal_addContent_instagram(instagramPostData, thumbnail_url, $(this));
-					$('.modal-content_inner').fadeIn(300);
-				}
-			});
-			modal();
-		});
+		// 	$('.modal-ctr-open').on('click', function () {
+		// 		if (!$(this).hasClass('disable')) {
+		// 			$('.modal-content_inner').fadeOut(0);
+		// 			modal_addContent_instagram(instagramPostData, thumbnail_url, $(this));
+		// 			$('.modal-content_inner').fadeIn(300);
+		// 		}
+		// 	});
+		// 	modal();
+		// });
 	}
 }
 
