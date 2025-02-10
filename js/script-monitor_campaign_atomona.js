@@ -37,12 +37,12 @@ function monitor_campaign_atomona_validate() {
             });
         }
 
-    $("input[name='field_5134815']").on("change", function () {
-        if ($("input[name='field_5134815']:checked").length > 3) {
-            alert("最大3つまで選択可能です");
-            this.checked = false;
-        }
-    });
+    // $("input[name='field_5134815']").on("change", function () {
+    //     if ($("input[name='field_5134815']:checked").length > 3) {
+    //         alert("最大3つまで選択可能です");
+    //         this.checked = false;
+    //     }
+    // });
 
     $('#monitor_campaign_atomona form').validate({
         rules: {
@@ -67,7 +67,7 @@ function monitor_campaign_atomona_validate() {
             field_5134806: { required: '選択してください' },
             field_5134807: { required: '選択してください' },
             field_5134808: { required: '選択してください' },
-            field_5134815: { required: '選択してください（最大3つ）' },
+            field_5134815: { required: '選択してください' },
             field_5134816: { required: '選択してください' },
             field_5134790: {
                 required: 'メールアドレスを入力してください',
