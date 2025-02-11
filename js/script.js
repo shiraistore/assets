@@ -38,6 +38,7 @@ $(function () {
 	productDetail_amrContentsBanner();
 	productDetail_ntuContentsBanner();
 	productDetail_howToStoreKidsBooksContentsBanner();
+	product_detail_amn_campaign_banner();
 	searchTagsTitleDescriptionChange();
 	putMemberIdOptInPolicy();
 	getTopRanking();
@@ -67,7 +68,7 @@ $(function () {
 	multipleReviewList(); //OK
 	recommendTop10(); //OK
 	searchFilterTnl(); //OK
-	reviewsDisplayForSearchResults();
+	// reviewsDisplayForSearchResults();
 	//instagramPostDisplayForSearchResults();
 
 	var global_rakingTop10Type = $('.productTop10Slider.ranking').data('ranking');
@@ -1011,6 +1012,21 @@ function productDetail_ntuContentsBanner() {
 		var series = url[url.length - 1].split('-');
 		if (series[0] == 'ntu') {
 			var html = '<ul id="contents-banner"><li><a href="/f/feature/naturica-coordinate"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-naturica-coordinate.jpg"></a></li></ul>';
+
+			$('#productActionBox').after(html);
+		}
+	}
+}
+
+/* product_detail_amn_campaign_banner
+========================================================================== */
+function product_detail_amn_campaign_banner() {
+	if ($('#fs_ProductDetails').length) {
+		var url = window.location.pathname.substring(1);
+		url = url.split('/');
+		var series = url[url.length - 1].split('-');
+		if (series[0] == 'amn') {
+			var html = '<ul id="contents-banner"><li><a href="/f/monitor_campaign_atomona"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-campaign20250211-20250217.jpg"></a></li></ul>';
 
 			$('#productActionBox').after(html);
 		}
