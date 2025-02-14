@@ -5989,7 +5989,7 @@ function productDetailAddData() {
 
 		response = JSON.parse(response);
 
-		//console.log(response);
+		console.log(response);
 
 		data = response.result;
 		// console.log(dataForProductDetailUrl);
@@ -6849,45 +6849,45 @@ if (productDetail_top10Slider == null) {
 if (productsAffinity_top10Slider == null) {
 	productsAffinity_top10Slider = $('.productTop10Slider.productsAffinity .bxslider').bxSlider(top10Slider_option1);
 }
-if (newLife_top10Slider1 == null) {
-	newLife_top10Slider1 = $('#newLife2022 .bxslider1').bxSlider(top10Slider_option1);
-}
-if (newLife_top10Slider2 == null) {
-	newLife_top10Slider2 = $('#newLife2022 .bxslider2').bxSlider(top10Slider_option1);
-}
-if (newLife_top10Slider3 == null) {
-	newLife_top10Slider3 = $('#newLife2022 .bxslider3').bxSlider(top10Slider_option1);
-}
-if (newLife_top10Slider4 == null) {
-	newLife_top10Slider4 = $('#newLife2022 .bxslider4').bxSlider(top10Slider_option1);
-}
-if (newLife_top10Slider5 == null) {
-	newLife_top10Slider5 = $('#newLife2022 .bxslider5').bxSlider(top10Slider_option1);
-}
-if (newLife_top10Slider6 == null) {
-	newLife_top10Slider6 = $('#newLife2022 .bxslider6').bxSlider(top10Slider_option1);
-}
-if (newLife_top10Slider7 == null) {
-	newLife_top10Slider7 = $('#newLife2022 .bxslider7').bxSlider(top10Slider_option1);
-}
-if (newLife_top10Slider8 == null) {
-	newLife_top10Slider8 = $('#newLife2022 .bxslider8').bxSlider(top10Slider_option1);
-}
-if (newLife_top10Slider9 == null) {
-	newLife_top10Slider9 = $('#newLife2022 .bxslider9').bxSlider(top10Slider_option1);
-}
-if (newLife_top10Slider10 == null) {
-	newLife_top10Slider10 = $('#newLife2022 .bxslider10').bxSlider(top10Slider_option1);
-}
-if (newLife_top10Slider11 == null) {
-	newLife_top10Slider11 = $('#newLife2022 .bxslider11').bxSlider(top10Slider_option1);
-}
-if (newLife_top10Slider12 == null) {
-	newLife_top10Slider12 = $('#newLife2022 .bxslider12').bxSlider(top10Slider_option1);
-}
-if (newLife_top10Slider13 == null) {
-	newLife_top10Slider13 = $('#newLife2022 .bxslider13').bxSlider(top10Slider_option1);
-}
+// if (newLife_top10Slider1 == null) {
+// 	newLife_top10Slider1 = $('#newLife2022 .bxslider1').bxSlider(top10Slider_option1);
+// }
+// if (newLife_top10Slider2 == null) {
+// 	newLife_top10Slider2 = $('#newLife2022 .bxslider2').bxSlider(top10Slider_option1);
+// }
+// if (newLife_top10Slider3 == null) {
+// 	newLife_top10Slider3 = $('#newLife2022 .bxslider3').bxSlider(top10Slider_option1);
+// }
+// if (newLife_top10Slider4 == null) {
+// 	newLife_top10Slider4 = $('#newLife2022 .bxslider4').bxSlider(top10Slider_option1);
+// }
+// if (newLife_top10Slider5 == null) {
+// 	newLife_top10Slider5 = $('#newLife2022 .bxslider5').bxSlider(top10Slider_option1);
+// }
+// if (newLife_top10Slider6 == null) {
+// 	newLife_top10Slider6 = $('#newLife2022 .bxslider6').bxSlider(top10Slider_option1);
+// }
+// if (newLife_top10Slider7 == null) {
+// 	newLife_top10Slider7 = $('#newLife2022 .bxslider7').bxSlider(top10Slider_option1);
+// }
+// if (newLife_top10Slider8 == null) {
+// 	newLife_top10Slider8 = $('#newLife2022 .bxslider8').bxSlider(top10Slider_option1);
+// }
+// if (newLife_top10Slider9 == null) {
+// 	newLife_top10Slider9 = $('#newLife2022 .bxslider9').bxSlider(top10Slider_option1);
+// }
+// if (newLife_top10Slider10 == null) {
+// 	newLife_top10Slider10 = $('#newLife2022 .bxslider10').bxSlider(top10Slider_option1);
+// }
+// if (newLife_top10Slider11 == null) {
+// 	newLife_top10Slider11 = $('#newLife2022 .bxslider11').bxSlider(top10Slider_option1);
+// }
+// if (newLife_top10Slider12 == null) {
+// 	newLife_top10Slider12 = $('#newLife2022 .bxslider12').bxSlider(top10Slider_option1);
+// }
+// if (newLife_top10Slider13 == null) {
+// 	newLife_top10Slider13 = $('#newLife2022 .bxslider13').bxSlider(top10Slider_option1);
+// }
 if (feature_slider == null) {
 	feature_slider = $('#list-feature .bxslider').bxSlider(top10Slider_option1);
 }
