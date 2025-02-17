@@ -38,7 +38,7 @@ $(function () {
 	productDetail_amrContentsBanner();
 	productDetail_ntuContentsBanner();
 	productDetail_howToStoreKidsBooksContentsBanner();
-	product_detail_amn_campaign_banner();
+	//product_detail_amn_campaign_banner();
 	searchTagsTitleDescriptionChange();
 	putMemberIdOptInPolicy();
 	getTopRanking();
