@@ -1159,11 +1159,18 @@ function productSortSelect() {
 //セール会場用バナー表示
 function searchTagTitle() {
 	var params = parameterToArray();
-	if (params.tag == 'sale20241226-20250114') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20241226-20250114_1184x240.jpg" alt="歳末&新春SALE 対象商品">');
-		$('#fs_ProductSearch h1').html('歳末&新春SALE 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('歳末&新春SALE 対象商品');
-		$('title').text('歳末&新春SALE 対象商品');
+	if (params.tag == 'sale20250220-20250320-1') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250220-20250320_1184x240.jpg" alt="新生活応援SALE 第1弾 対象商品">');
+		$('#fs_ProductSearch h1').html('新生活応援SALE 第1弾 対象商品');
+		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li class="active">一人暮らし</li><li><a href="/p/search?tag=sale20250220-20250320-2">ファミリー</a></li></ul>');
+		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援SALE 第1弾 対象商品');
+		$('title').text('新生活応援SALE 第1弾 対象商品');
+	}  else if (params.tag == 'sale20250220-20250320-2') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250220-20250320_1184x240.jpg" alt="新生活応援SALE 第1弾 対象商品">');
+		$('#fs_ProductSearch h1').html('新生活応援SALE 第1弾 対象商品');
+		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li><a href="/p/search?tag=sale20250220-20250320-1">一人暮らし</a></li><li class="active">ファミリー</li></ul>');
+		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援SALE 第1弾 対象商品');
+		$('title').text('新生活応援SALE 第1弾 対象商品 | 家具インテリア通販のSHIRAI STORE(白井産業)');
 	} else if (params.tag == 'sale20250123-20250206') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250123-20250206_1184x240.jpg" alt="FLASH SALE 対象商品">');
 		$('#fs_ProductSearch h1').html('FLASH SALE 対象商品');
