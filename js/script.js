@@ -1165,7 +1165,7 @@ function searchTagTitle() {
 		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li class="active">一人暮らし</li><li><a href="/p/search?tag=sale20250220-20250320-2">ファミリー</a></li></ul>');
 		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援SALE 第1弾 対象商品');
 		$('title').text('新生活応援SALE 第1弾 対象商品');
-	}  else if (params.tag == 'sale20250220-20250320-2') {
+	} else if (params.tag == 'sale20250220-20250320-2') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250220-20250320_1184x240.jpg" alt="新生活応援SALE 第1弾 対象商品">');
 		$('#fs_ProductSearch h1').html('新生活応援SALE 第1弾 対象商品');
 		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li><a href="/p/search?tag=sale20250220-20250320-1">一人暮らし</a></li><li class="active">ファミリー</li></ul>');
@@ -1181,11 +1181,18 @@ function searchTagTitle() {
 		$('#fs_ProductSearch h1').html('タナリオセール 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('タナリオセール 対象商品');
 		$('title').text('タナリオセール 対象商品');
-	} else if (params.tag == 'feature20240216') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-feature20240216-2_1184x240.jpg" alt="入園入学特集">');
-		$('#fs_ProductSearch h1').html('入園入学特集');
-		$('.fs-c-breadcrumb__listItem:last-child').text('入園入学特集');
-		$('title').text('入園入学特集');
+	} else if (params.tag == 'feature20250228-1') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-feature20250228.jpg" alt="入園・入学準備 キッズ家具特集">');
+		$('#fs_ProductSearch h1').html('入園・入学準備 キッズ家具特集');
+		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li class="active">入園</li><li><a href="/p/search?tag=feature20250228-2">入学</a></li></ul>');
+		$('.fs-c-breadcrumb__listItem:last-child').text('入園・入学準備 キッズ家具特集');
+		$('title').text('入園・入学準備 キッズ家具特集');
+	} else if (params.tag == 'feature20250228-2') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-feature20250228.jpg" alt="入園・入学準備 キッズ家具特集">');
+		$('#fs_ProductSearch h1').html('入園・入学準備 キッズ家具特集');
+		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li><a href="/p/search?tag=feature20250228-1">入園</a></li><li class="active">入学</li></ul>');
+		$('.fs-c-breadcrumb__listItem:last-child').text('入園・入学準備 キッズ家具特集');
+		$('title').text('入園・入学準備 キッズ家具特集');
 	} else if (params.tag == 'outlet') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-outlet_1184x240.jpg" alt="アウトレット家具 対象商品">');
 		$('#fs_ProductSearch h1').html('アウトレット家具 対象商品');
