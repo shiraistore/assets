@@ -5878,7 +5878,7 @@ function multipleReviewList() {
 			}
 		};
 
-		console.log(params_review)
+		// console.log(params_review)
 
 		let currentPage = 1; // 現在のページ番号
 		let startKeyAry = [];
@@ -5934,7 +5934,7 @@ function multipleReviewList() {
 				currentPage++; // ページを進める
 
 				nextStartKey = startKeyAry[currentPage - 1];
-				console.log('nextStartKey:',nextStartKey);
+				// console.log('nextStartKey:',nextStartKey);
 
 
 				params_review["queryStringParameters"]["exclusive_start_key"] = nextStartKey;
@@ -5970,9 +5970,9 @@ function multipleReviewList() {
 		$('#selectScore').change(function () {
 			let select_score = $(this).val();
 			rating = parseInt(select_score.charAt(select_score.length - 1));
-			console.log('rating:',rating)
+			// console.log('rating:',rating)
 			if (rating){
-				console.log('true')
+				// console.log('true')
 				params_review = {
 					"queryStringParameters": {
 						"sku_no": review_combination,
@@ -5980,7 +5980,7 @@ function multipleReviewList() {
 					}
 				};
 			} else {
-				console.log('false')
+				// console.log('false')
 				params_review = {
 					"queryStringParameters": {
 						"sku_no": review_combination,
@@ -6011,8 +6011,8 @@ function multipleReviewList() {
 			// API新バージョン
 			url = 'https://h15yyu8zof.execute-api.ap-northeast-1.amazonaws.com/prod/get_review_v3';
 
-			console.log(JSON.stringify(params_review))
-			console.log('params_review:',params_review)
+			// console.log(JSON.stringify(params_review))
+			// console.log('params_review:',params_review)
 			  
 
 			// Ajaxリクエストを非同期に実行
@@ -6044,7 +6044,7 @@ function multipleReviewList() {
 			// console.log(reviews)
 			let reviews_json = JSON.parse(reviews);
 
-			console.log('reviews_json.items.length:',reviews_json.items.length)
+			// console.log('reviews_json.items.length:',reviews_json.items.length)
 			// console.log(reviews_json)
 
 			if (reviews_json.items.length > 0){
@@ -6064,7 +6064,8 @@ function multipleReviewList() {
 						productId_12Len = zeroPadding(productId, 12),
 						product_image_group = Math.floor(productId / 100),
 						thumbnail = ('00' + item.thumbnail_number).slice(-2),
-						color = item.review_product_caption;
+						color = item.review_product_caption,
+						is_monitor = item.is_monitor;
 	
 						if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 							seriesCode = 'tl';
@@ -6120,8 +6121,14 @@ function multipleReviewList() {
 						profHTML = '<div class="fs-c-reviewer__profile">' + profHTML + '</div></div>';
 		
 						var reviewerHTML = '<div class="fs-c-reviewList__item__info fs-c-reviewInfo"><div class="fs-c-reviewInfo__reviewer fs-c-reviewer"><div class="fs-c-reviewer__name"><span class="fs-c-reviewer__name__nickname">' + nickname + '</span></div><div class="fs-c-reviewer__status"><span class="fs-c-reviewerStatus">購入者</span></div>';
+
+						if (is_monitor == 1) {
+							var mark_monitor = '<span class="mark-monitor">モニターレビュー</span>';
+						} else {
+							var mark_monitor = '';
+						}
 		
-						var dateHTML = '<dl class="fs-c-reviewInfo__date"><dt>投稿/更新日</dt><dd><time datetime="' + datetime + '" class="fs-c-time">' + datetime + '</time></dd></dl><div class="fs-c-reviewRating"><div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"></div></div></div>';
+						var dateHTML = '<dl class="fs-c-reviewInfo__date"><dt>投稿/更新日</dt><dd><time datetime="' + datetime + '" class="fs-c-time">' + datetime + '</time></dd></dl><div class="fs-c-reviewRating"><div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + reviewScore + '"></div></div>' + mark_monitor +'</div>';
 		
 						var colorHTML = '<div class="color">' + color + '</div>';
 	
@@ -6195,7 +6202,7 @@ function multipleReviewList() {
 					])
 				);
 
-				console.log(JSON.stringify(nextStartKey))
+				// console.log(JSON.stringify(nextStartKey))
 			}
 			
 			// console.log('///////////////////////')
@@ -6233,7 +6240,7 @@ function multipleReviewList() {
 
 
 
-			console.log('startKeyAry:',startKeyAry)
+			// console.log('startKeyAry:',startKeyAry)
 			// console.log('prevStartKey:',prevStartKey);
 
 			// ボタンの表示・非表示を管理
