@@ -433,9 +433,39 @@ function optionJudgment() {
 		var memberId;
 		var execution = function () {
 			if (optionResult == false) {
-				optionResult = checkOption();
+				// optionResult = checkOption();
+				optionResult = check_option();
 			}
-			if (optionResult != false) {
+
+			if (optionResult == 10) {
+				// console.log('通常品 + オプションなし');
+				$.cookie('is_option', 1);
+				$.cookie('is_specifyDate', 1);
+
+			} else if (optionResult == 11) {
+				// console.log('通常品 + 組立済+玄関渡し');
+				options_available();
+
+			} else if (optionResult == 12) {
+				// console.log('通常品 + 組立済+搬入');
+				options_available();
+
+			} else if (optionResult == 20) {
+				// console.log('オーダー品 + オプションなし');
+				options_available();
+				$.cookie('is_option', 1);
+				$.cookie('is_specifyDate', 1);
+
+			} else if (optionResult == 21) {
+				// console.log('オーダー品 + 組立済+玄関渡し');
+				options_available();
+
+			} else if (optionResult == 22) {
+				// console.log('オーダー品 + 組立済+搬入');
+				options_available();
+			}
+
+			function options_available() {
 				// console.log('オプションあり');
 				var zipCode = $('.fs-c-checkout-destination__address .fs-c-checkout-destination__address__zipCode').text().replace('-', '');
 
@@ -635,11 +665,16 @@ function optionJudgment() {
 						});
 					}
 				}
-			} else {
-				// console.log('オプションなし');
-				$.cookie('is_option', 1);
-				$.cookie('is_specifyDate', 1);
 			}
+
+			
+			// if (optionResult >= 11) {
+				
+			// } else {
+			// 	// console.log('オプションなし');
+			// 	$.cookie('is_option', 1);
+			// 	$.cookie('is_specifyDate', 1);
+			// }
 
 			couponUseCheck();
 			memberId = checkMemberIdOptInPolicy();
@@ -681,9 +716,12 @@ function orderEnabled() {
 function expectedArrival(optionResult) {
 	if ($('#fs_Checkout, #fs_CheckoutWithAmazon').length) {
 		var execution = function () {
+
 			if (optionResult == false) {
-				optionResult = checkOption();
+				// optionResult = checkOption();
+				optionResult = check_option();
 			}
+
 			if ($('.fs-c-checkout-delivery__method__deliveryDate').next('dd').text() != '') {
 				if (($('.fs-c-checkout-delivery__method__deliveryTime').next('dd').text() != '指定なし' || $('.fs-c-checkout-delivery__method__deliveryDate').next('dd').text() != '指定なし') && stopFlag_load == 0) {
 					// お届け希望日をリセットする
@@ -1068,18 +1106,53 @@ function expectedArrival(optionResult) {
 
 						var deliveryReadyLeadTime = 1;
 
-						//組立サービスがありなら指定した日数のリードタイムを追加
+						if (optionResult == 10) {
+							// console.log('通常品 + オプションなし');
+							if ($('#fs_input_payment_bankTransfer').prop('checked')) {
+								bankTransferLeadTime += 1; //通常1日
+								// console.log('銀行振込:', orderLeadTime);
+								arrivalDate_ary = checkHolyDay(arrivalDate_ary, bankTransferLeadTime, operation_holyDay, '銀行振込');
+							}
 
-						if (sizeOrderArray.find((value) => value.match(/(サイズオーダー|受注生産)/g)) != undefined) {
-							//console.log('サイズオーダー');
+							shippingLeadTime += 2; //通常2日
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingLeadTime, operation_holyDay, '出荷準備');
+			
+						} else if (optionResult == 11) {
+							// console.log('通常品 + 組立済+玄関渡し');
+							orderInputLeadTime += 1; //通常1日
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderInputLeadTime, operation_holyDay, '注文取込');
 
-							// orderLeadTime += 3;
-							//console.log('サイズオーダー:', orderLeadTime);
-							// arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderLeadTime, operation_holyDay, '事務処理');
-							// manufactureLeadTime += 10; //通常10日
-							// arrivalDate_ary = checkHolyDay(arrivalDate_ary, manufactureLeadTime, factory_holyDay, '生産');
-							// arrivalDate_ary = checkHolyDay(arrivalDate_ary, deliveryLeadTime, operation_holyDay, '発送');
+							orderRequestLeadTime += 1; //通常1日
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '組立依頼');
 
+							assemblyLeadTime += 4; //通常4日
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, assemblyLeadTime, operation_holyDay, '組立');
+
+							shippingLeadTime += 1; //通常1日
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingLeadTime, operation_holyDay, '出荷準備');
+
+							deliveryLeadTime += 1; //通常1日
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, deliveryLeadTime, operation_holyDay, '出荷');
+			
+						} else if (optionResult == 12) {
+							// console.log('通常品 + 組立済+搬入');
+							orderInputLeadTime += 1; //通常1日
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderInputLeadTime, operation_holyDay, '注文取込');
+
+							orderRequestLeadTime += 1; //通常1日
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '組立依頼');
+
+							assemblyLeadTime += 5; //通常5日
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, assemblyLeadTime, operation_holyDay, '組立');
+
+							shippingLeadTime += 1; //通常1日
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingLeadTime, operation_holyDay, '出荷準備');
+
+							deliveryLeadTime += 1; //通常1日
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, deliveryLeadTime, operation_holyDay, '出荷');
+			
+						} else if (optionResult == 20) {
+							// console.log('オーダー品 + オプションなし');
 							orderInputLeadTime += 1; //通常1日
 							arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderInputLeadTime, operation_holyDay, '注文取込');
 
@@ -1094,45 +1167,133 @@ function expectedArrival(optionResult) {
 
 							deliveryLeadTime += 1; //通常1日
 							arrivalDate_ary = checkHolyDay(arrivalDate_ary, deliveryLeadTime, operation_holyDay, '出荷');
+			
+						} else if (optionResult == 21) {
+							// console.log('オーダー品 + 組立済+玄関渡し');
+							orderInputLeadTime += 1; //通常1日
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderInputLeadTime, operation_holyDay, '注文取込');
 
-							// if ($.inArray(arrivalDate_ary[0], operation_holyDay) > -1) {
-							// 	// 運営が休業日
-							// 	// console.log(arrivalDate_ary[0] + 'は運営が休業日');
-							// 	deliveryReadyLeadTime = 1;
-							// }
-						} else {
-							//console.log('サイズオーダー以外');
-							//組立サービスがありなら指定した日数のリードタイムを追加
+							orderRequestLeadTime += 1; //通常1日
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '組立依頼');
 
-							if (optionResult.result1 >= 0 || optionResult.result2 >= 0) {
-								//console.log('組立サービスあり')
-								orderInputLeadTime += 1; //通常1日
-								arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderInputLeadTime, operation_holyDay, '注文取込');
+							manufactureLeadTime += 9; //通常9日
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, manufactureLeadTime, factory_holyDay, '製造');
 
-								orderRequestLeadTime += 1; //通常1日
-								arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '組立依頼');
+							assemblyLeadTime += 2;
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, assemblyLeadTime, operation_holyDay, '組立');
 
-								assemblyLeadTime += 4; //通常4日
-								arrivalDate_ary = checkHolyDay(arrivalDate_ary, assemblyLeadTime, operation_holyDay, '組立');
+							shippingLeadTime += 1; //通常1日
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingLeadTime, operation_holyDay, '出荷準備');
 
-								shippingLeadTime += 1; //通常1日
-								arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingLeadTime, operation_holyDay, '出荷準備');
+							deliveryLeadTime += 1; //通常1日
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, deliveryLeadTime, operation_holyDay, '出荷');
+			
+						} else if (optionResult == 22) {
+							// console.log('オーダー品 + 組立済+搬入');
+							orderInputLeadTime += 1; //通常1日
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderInputLeadTime, operation_holyDay, '注文取込');
 
-								deliveryLeadTime += 1; //通常1日
-								arrivalDate_ary = checkHolyDay(arrivalDate_ary, deliveryLeadTime, operation_holyDay, '出荷');
-								
-							} else {
-								//console.log('組立サービスなし');
-								if ($('#fs_input_payment_bankTransfer').prop('checked')) {
-									bankTransferLeadTime += 1; //通常1日
-									// console.log('銀行振込:', orderLeadTime);
-									arrivalDate_ary = checkHolyDay(arrivalDate_ary, bankTransferLeadTime, operation_holyDay, '銀行振込');
-								}
+							orderRequestLeadTime += 1; //通常1日
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '組立依頼');
 
-								shippingLeadTime += 2; //通常2日
-								arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingLeadTime, operation_holyDay, '出荷準備');
-							}
+							manufactureLeadTime += 9; //通常9日
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, manufactureLeadTime, factory_holyDay, '製造');
+
+							assemblyLeadTime += 3;
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, assemblyLeadTime, operation_holyDay, '組立');
+
+							shippingLeadTime += 1; //通常1日
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingLeadTime, operation_holyDay, '出荷準備');
+
+							deliveryLeadTime += 1; //通常1日
+							arrivalDate_ary = checkHolyDay(arrivalDate_ary, deliveryLeadTime, operation_holyDay, '出荷');
+							
 						}
+
+
+						//組立サービスがありなら指定した日数のリードタイムを追加
+
+						// if (sizeOrderArray.find((value) => value.match(/(サイズオーダー|受注生産)/g)) != undefined) {
+						// 	//console.log('サイズオーダー');
+
+						// 	// orderLeadTime += 3;
+						// 	//console.log('サイズオーダー:', orderLeadTime);
+						// 	// arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderLeadTime, operation_holyDay, '事務処理');
+						// 	// manufactureLeadTime += 10; //通常10日
+						// 	// arrivalDate_ary = checkHolyDay(arrivalDate_ary, manufactureLeadTime, factory_holyDay, '生産');
+						// 	// arrivalDate_ary = checkHolyDay(arrivalDate_ary, deliveryLeadTime, operation_holyDay, '発送');
+
+						// 	// orderInputLeadTime += 1; //通常1日
+						// 	// arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderInputLeadTime, operation_holyDay, '注文取込');
+
+						// 	// orderRequestLeadTime += 1; //通常1日
+						// 	// arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '組立依頼');
+
+						// 	// manufactureLeadTime += 9; //通常9日
+						// 	// arrivalDate_ary = checkHolyDay(arrivalDate_ary, manufactureLeadTime, factory_holyDay, '製造');
+
+						// 	// console.log('optionResult.result1:',optionResult.result1)
+						// 	// console.log('optionResult.result2:',optionResult.result2)
+
+							
+
+
+						// 	// if(optionResult.result2 >= 0){
+						// 	// 	// console.log('組立設置');
+						// 	// 	assemblyLeadTime += 3; //通常3日
+						// 	// } else if (optionResult.result1 >= 0) {
+						// 	// 	// console.log('組立宅配');
+						// 	// 	assemblyLeadTime += 2; //通常2日
+						// 	// }
+
+							
+						// 	// arrivalDate_ary = checkHolyDay(arrivalDate_ary, assemblyLeadTime, operation_holyDay, '組立');
+
+						// 	// shippingLeadTime += 1; //通常1日
+						// 	// arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingLeadTime, operation_holyDay, '出荷準備');
+
+						// 	// deliveryLeadTime += 1; //通常1日
+						// 	// arrivalDate_ary = checkHolyDay(arrivalDate_ary, deliveryLeadTime, operation_holyDay, '出荷');
+
+						// 	// if ($.inArray(arrivalDate_ary[0], operation_holyDay) > -1) {
+						// 	// 	// 運営が休業日
+						// 	// 	// console.log(arrivalDate_ary[0] + 'は運営が休業日');
+						// 	// 	deliveryReadyLeadTime = 1;
+						// 	// }
+						// } else {
+						// 	//console.log('サイズオーダー以外');
+						// 	//組立サービスがありなら指定した日数のリードタイムを追加
+							
+
+						// 	// if (optionResult.result1 >= 0 || optionResult.result2 >= 0) {
+						// 	// 	//console.log('組立サービスあり')
+						// 	// 	orderInputLeadTime += 1; //通常1日
+						// 	// 	arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderInputLeadTime, operation_holyDay, '注文取込');
+
+						// 	// 	orderRequestLeadTime += 1; //通常1日
+						// 	// 	arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '組立依頼');
+
+						// 	// 	assemblyLeadTime += 4; //通常4日
+						// 	// 	arrivalDate_ary = checkHolyDay(arrivalDate_ary, assemblyLeadTime, operation_holyDay, '組立');
+
+						// 	// 	shippingLeadTime += 1; //通常1日
+						// 	// 	arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingLeadTime, operation_holyDay, '出荷準備');
+
+						// 	// 	deliveryLeadTime += 1; //通常1日
+						// 	// 	arrivalDate_ary = checkHolyDay(arrivalDate_ary, deliveryLeadTime, operation_holyDay, '出荷');
+								
+						// 	// } else {
+						// 	// 	//console.log('組立サービスなし');
+						// 	// 	if ($('#fs_input_payment_bankTransfer').prop('checked')) {
+						// 	// 		bankTransferLeadTime += 1; //通常1日
+						// 	// 		// console.log('銀行振込:', orderLeadTime);
+						// 	// 		arrivalDate_ary = checkHolyDay(arrivalDate_ary, bankTransferLeadTime, operation_holyDay, '銀行振込');
+						// 	// 	}
+
+						// 	// 	shippingLeadTime += 2; //通常2日
+						// 	// 	arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingLeadTime, operation_holyDay, '出荷準備');
+						// 	// }
+						// }
 
 						for (let i = 0; i < deliveryReadyLeadTime; i++) {
 							if ($.inArray(arrivalDate_ary[i], operation_holyDay) > -1) {
@@ -1375,6 +1536,7 @@ function expectedArrival(optionResult) {
 								$('.fs-c-listedProductName__name').each(function () {
 									sizeOrderArray.push($(this).text());
 								});
+								console.log('sizeOrderArray:',sizeOrderArray)
 								var checkSizeOrder = sizeOrderArray.find((value) => value.match(/(サイズオーダー|受注生産)/g));
 								// console.log('checkSizeOrder', checkSizeOrder);
 								if (checkPaymentRetention != checkPayment) {
@@ -1458,17 +1620,74 @@ function expectedArrivalTime_YHC(checkZipCodeResult) {
 	return checkZipCodeResult;
 }
 
-function checkOption() {
-	var optionArray = [];
-	$('.fs-c-listedOptionPrice__option__value').each(function () {
-		optionArray.push($(this).text());
+// function checkOption() {
+// 	var optionArray = [];
+// 	$('.fs-c-listedOptionPrice__option__value').each(function () {
+// 		optionArray.push($(this).text());
+// 	});
+// 	// console.log(optionArray);
+// 	if (optionArray.length == 0) {
+// 		return false;
+// 	} else {
+// 		var result1 = $.inArray('組立済+玄関渡し', optionArray);
+// 		var result2 = $.inArray('組立済+搬入', optionArray);
+// 		return { result1: result1, result2: result2 };
+// 	}
+// }
+
+var check_option_result = [];
+
+function check_option() {
+	$('.fs-c-cartTable__productInfo').each(function () {
+		// 商品名のテキストを取得
+		var product_name = $(this).find('.fs-c-listedProductName__name').text();
+
+		// 判定
+		if (product_name.match(/サイズオーダー|受注生産/)) {
+			// console.log('キーワードを含む商品名:', product_name);
+			// ここに該当する商品への処理を書く
+
+			$(this).find('.fs-c-listedOptionPrice__option__value').each(function () {
+				var option_name = $(this).text().trim();
+				// console.log('option_name:',option_name)
+				if (option_name.includes('組立済+玄関渡し')) {
+					// console.log('玄関渡し：', option_name);
+					check_option_result.push('21');
+				} else if (option_name.includes('組立済+搬入')) {
+					// console.log('搬入：', option_name);
+					check_option_result.push('22');
+				} else {
+					check_option_result.push('20');
+				}
+			});
+
+		} else {
+			// console.log('対象外:', product_name);
+			if($('.fs-c-listedOptionPrice__option__value').length){
+				$(this).find('.fs-c-listedOptionPrice__option__value').each(function () {
+					var option_name = $(this).text().trim();
+					// console.log('option_name:',option_name)
+					if (option_name.includes('組立済+玄関渡し')) {
+						// console.log('玄関渡し：', option_name);
+						check_option_result.push('11');
+					} else if (option_name.includes('組立済+搬入')) {
+						// console.log('搬入：', option_name);
+						check_option_result.push('12');
+					} else {
+						check_option_result.push('10');
+					}
+				});
+			} else {
+				check_option_result.push('10');
+			}
+		}
 	});
-	// console.log(optionArray);
-	if (optionArray.length == 0) {
-		return false;
-	} else {
-		var result1 = $.inArray('組立済+玄関渡し', optionArray);
-		var result2 = $.inArray('組立済+搬入', optionArray);
-		return { result1: result1, result2: result2 };
-	}
+
+	// console.log('check_option_result:',check_option_result)
+
+	const check_result = Math.max(...check_option_result)
+	// console.log('check_result:',check_result);
+
+	return check_result;
 }
+
