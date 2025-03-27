@@ -5239,6 +5239,14 @@ function rewriteDOM() {
 			orderColor = '';
 
 		$('.sizeOrder').each(function () {
+
+			$('.fs-c-listedOptionPrice__option__label').each(function () {
+				console.log($(this).text())
+				if ($(this).text() == 'カラー'){
+					$(this).parent('.fs-c-listedOptionPrice__option').next('.fs-c-listedOptionPrice__price').css('visibility','hidden');
+				}
+			});
+
 			orderDetails = $(this).find('.fs-c-listedOptionPrice__option__value').html();
 			//console.log(orderDetails);
 			var href = $(this).find('.fs-c-listedProductName__name').attr('href');
