@@ -438,6 +438,8 @@ function optionJudgment() {
 				optionResult = check_option();
 				check_adis_result = check_adis();
 			}
+			
+			console.log(optionResult)
 
 			if (optionResult == 10) {
 				// console.log('通常品 + オプションなし');
