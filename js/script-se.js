@@ -430,15 +430,18 @@ function sizeOrderDisplayThumb() {
 function optionJudgment() {
 	if ($('#fs_Checkout,#fs_CheckoutWithAmazon').length) {
 		var optionResult = false;
+		var check_adis_result = 0;
 		var memberId;
 		var execution = function () {
 			if (optionResult == false) {
 				// optionResult = checkOption();
 				optionResult = check_option();
+				check_adis_result = check_adis();
 			}
 
 			if (optionResult == 10) {
 				// console.log('通常品 + オプションなし');
+				options_available();
 				$.cookie('is_option', 1);
 				$.cookie('is_specifyDate', 1);
 
@@ -466,7 +469,6 @@ function optionJudgment() {
 			}
 
 			function options_available() {
-				// console.log('オプションあり');
 				var zipCode = $('.fs-c-checkout-destination__address .fs-c-checkout-destination__address__zipCode').text().replace('-', '');
 
 				if (zipCode != undefined) {
@@ -500,7 +502,7 @@ function optionJudgment() {
 						var deliveryDate = $('.fs-c-checkout-delivery__method__deliveryDate').next('dd').text();
 						var deliveryTime = $('.fs-c-checkout-delivery__method__deliveryTime').next('dd').text();
 
-						if (optionResult.result2 >= 0) {
+						if (check_adis_result.result2 >= 0) {
 							if (checkZipCodeResult.is_yhc_service_type_4 == 1 || checkZipCodeResult.is_yhc_service_type_3 == 1) {
 								if (deliveryDate == '指定なし' || deliveryTime == '指定なし') {
 									//組立済+搬入サービスは日時指定が必須
@@ -534,7 +536,7 @@ function optionJudgment() {
 
 						if (deliveryTime != '指定なし') {
 							//通常配送と組立済+玄関渡しサービスの時間指定対応判定
-							if (optionResult.result2 == undefined || optionResult.result2 == -1) {
+							if (check_adis_result.result2 == undefined || check_adis_result.result2 == -1) {
 								if (checkZipCodeResult.is_sgw_time_specified == 0) {
 									// お届け希望日をリセットする
 									$('#fs_button_changeDeliveryMethod button.fs-c-button--change--small').trigger('click');
@@ -553,7 +555,7 @@ function optionJudgment() {
 										$('#confirmOrderAlert').remove();
 									});
 								}
-							} else if (optionResult.result2 >= 0) {
+							} else if (check_adis_result.result2 >= 0) {
 							}
 						}
 
@@ -561,7 +563,7 @@ function optionJudgment() {
 							//離島の場合
 							//組立サービス利用は沖縄・離島不可
 
-							if (optionResult.result1 >= 0 || optionResult.result2 >= 0) {
+							if (check_adis_result.result1 >= 0 || check_adis_result.result2 >= 0) {
 								// orderDisabled();
 								$.cookie('is_option', 0);
 								if (!$('.deliveryAlert').length) {
@@ -584,7 +586,7 @@ function optionJudgment() {
 							$('.fs-c-listedProductName__name').each(function () {
 								sizeOrderArray.push($(this).text());
 							});
-							if (sizeOrderArray.find((value) => value.match(/(サイズオーダー|受注生産)/g)) != undefined || optionResult.result1 >= 0 || optionResult.result2 >= 0) {
+							if (sizeOrderArray.find((value) => value.match(/(サイズオーダー|受注生産)/g)) != undefined || check_adis_result.result1 >= 0 || check_adis_result.result2 >= 0) {
 								$('#fs_button_placeOrder').before('<p class="deliveryMethodAlert2 mt-16"><span>お願い</span>サイズオーダーや組立サービスは、キャンセルや変更を承ることができません。ご注文内容に誤りがないかご確認ください。</p>');
 							}
 
@@ -595,7 +597,7 @@ function optionJudgment() {
 						}
 
 						// 組立サービス利用は代引不可
-						if (optionResult.result1 >= 0 || optionResult.result2 >= 0) {
+						if (check_adis_result.result1 >= 0 || check_adis_result.result2 >= 0) {
 							$('#fs_input_payment_cashOnDelivery').prop('disabled', true);
 							$('.fs-c-checkout-paymentMethod--cashOnDelivery').css('opacity', '0.5');
 							$('.fs-c-checkout-paymentMethod--cashOnDelivery .fs-c-radio__radioLabelText').html('代金引換<span class="red paymentCaution">（組立サービスをお申し込みの場合はご利用いただけません）</span>');
@@ -716,10 +718,12 @@ function orderEnabled() {
 function expectedArrival(optionResult) {
 	if ($('#fs_Checkout, #fs_CheckoutWithAmazon').length) {
 		var execution = function () {
+			var check_adis_result = 0;
 
 			if (optionResult == false) {
 				// optionResult = checkOption();
 				optionResult = check_option();
+				check_adis_result = check_adis();
 			}
 
 			if ($('.fs-c-checkout-delivery__method__deliveryDate').next('dd').text() != '') {
@@ -1420,7 +1424,7 @@ function expectedArrival(optionResult) {
 								$('.fs-c-checkout-deliveryMethod__deliveryTime label').html('お届け時間帯 <span class="red">このお届け先は時間をご指定いただけません</span>');
 								$('#fs_input_expectedArrival_time option[value="none"]').prop('selected', true);
 							}
-						} else if (optionResult.result2 >= 0) {
+						} else if (check_adis_result.result2 >= 0) {
 							// console.log('組立済+搬入');
 							var prefArray = prefArray_YHC;
 							expectedArrivalTime_YHC(checkZipCodeResult);
@@ -1430,7 +1434,7 @@ function expectedArrival(optionResult) {
 								$('.fs-c-checkout-deliveryMethod__deliveryTime label').html('お届け時間帯 <span class="red">このお届け先は時間をご指定いただけません</span>');
 								$('#fs_input_expectedArrival_time option[value="none"]').prop('selected', true);
 							}
-						} else if (optionResult.result1 >= 0) {
+						} else if (check_adis_result.result1 >= 0) {
 							// console.log('組立済+玄関渡し');
 							expectedArrivalTime_SGW(expectedArrival_time_selected);
 							var prefArray = prefArray_SGW;
@@ -1542,7 +1546,7 @@ function expectedArrival(optionResult) {
 								if (checkPaymentRetention != checkPayment) {
 									// お届け希望日をリセットする
 									if (checkSizeOrder == undefined) {
-										if ((optionResult.result1 == -1 && optionResult.result2 == -1) || optionResult.result1 == undefined || optionResult.result2 == undefined) {
+										if ((check_adis_result.result1 == -1 && check_adis_result.result2 == -1) || check_adis_result.result1 == undefined || check_adis_result.result2 == undefined) {
 											$('#fs_button_changeDeliveryMethod button.fs-c-button--change--small').trigger('click');
 											const resetArrivalDate = setInterval(function () {
 												if ($('#__fs_modal_delivery button.fs-c-button--settings').length) {
@@ -1691,3 +1695,17 @@ function check_option() {
 	return check_result;
 }
 
+function check_adis() {
+	var optionArray = [];
+	$('.fs-c-listedOptionPrice__option__value').each(function () {
+		optionArray.push($(this).text());
+	});
+	// console.log(optionArray);
+	if (optionArray.length == 0) {
+		return false;
+	} else {
+		var result1 = $.inArray('組立済+玄関渡し', optionArray);
+		var result2 = $.inArray('組立済+搬入', optionArray);
+		return { result1: result1, result2: result2 };
+	}
+}
