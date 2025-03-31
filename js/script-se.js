@@ -718,10 +718,12 @@ function orderEnabled() {
 function expectedArrival(optionResult) {
 	if ($('#fs_Checkout, #fs_CheckoutWithAmazon').length) {
 		var execution = function () {
+			var check_adis_result = 0;
 
 			if (optionResult == false) {
 				// optionResult = checkOption();
 				optionResult = check_option();
+				check_adis_result = check_adis();
 			}
 
 			if ($('.fs-c-checkout-delivery__method__deliveryDate').next('dd').text() != '') {
