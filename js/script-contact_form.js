@@ -11,24 +11,25 @@ function inputValue(){
 
 $(document).ready(function() {
     var params = getParameter();
-    $("#select_case").val('modalshift');
-    if(params['value'] !== ""){
+    if (params['value'] && params['value'] !== "") {
         $("#select_case").val(params['value']);
     }
-    
+
     function getParameter(){
         var paramsObj = {};
         var url = location.href;
         var parameters = url.split("#");
-        if(parameters.length > 1){
+        if (parameters.length > 1) {
             url = parameters[0];
         }
         parameters = url.split("?");
-        if(parameters.length > 1){
+        if (parameters.length > 1) {
             var params = parameters[1].split("&");
-            for(var i = 0; i < params.length; i++){
+            for (var i = 0; i < params.length; i++) {
                 var paramItem = params[i].split("=");
-                paramsObj[paramItem[0]] = paramItem[1];
+                var key = decodeURIComponent(paramItem[0]);
+                var value = paramItem[1] ? decodeURIComponent(paramItem[1]) : "";
+                paramsObj[key] = value;
             }
         }
         return paramsObj;
