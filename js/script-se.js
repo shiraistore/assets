@@ -13,15 +13,39 @@ FS側のJSによるAjaxで処理をしているため、コールバックや同
 let checkZipCodeResult = undefined; //郵便番号のチェック結果初期値設定
 let is_apiOptIn, is_optIn, is_option, is_specifyDate; // Cookieに書き込む判定変数の宣言
 
-$(window).on('load', function () {
-	//読み込み時Cookieの値を初期化する
-	$.removeCookie('is_optIn');
-	$.removeCookie('is_option');
-	$.removeCookie('is_specifyDate');
+if ($('#fs_Checkout').length) {
+	// 通常決済手続き画面の場合
+	$(window).on('load', function () {
+		//読み込み時Cookieの値を初期化する
+		$.removeCookie('is_optIn');
+		$.removeCookie('is_option');
+		$.removeCookie('is_specifyDate');
 
-	//組立オプションの判定
-	optionJudgment();
-});
+		//組立オプションの判定
+		optionJudgment();
+
+	});
+}
+
+let amazon_pay_flag = 1;
+
+if ($('#fs_CheckoutWithAmazon').length) {
+	// AmazonPay決済手続き画面の場合
+	// なぜか「$(window).on('load'」が動作しない
+	setInterval(function () {
+		if ($('.fs-c-cartTable__productInfo').length > 0 && amazon_pay_flag == 1) {
+
+			//処理
+			$.removeCookie('is_optIn');
+			$.removeCookie('is_option');
+			$.removeCookie('is_specifyDate');
+
+			//組立オプションの判定
+			optionJudgment();
+			amazon_pay_flag = 0;
+		}
+	}, 300);
+}
 
 /* checkOrderEnabled
 // 注文ができるか状態かどうか判定して注文ボタンをEnableもしくはDisableにする関数
@@ -54,62 +78,60 @@ function checkOrderEnabled(memberId) {
 // プライバシーポリシーに同意しているかどうか判定し、同意していなければ同意するための表示をする関数
 ========================================================================== */
 function checkMemberIdOptInPolicy() {
-	if ($('#fs_Checkout,#fs_CheckoutWithAmazon').length) {
-		const memberId = $('#memberId').text();
-		// 会員かどうか判定（会員であればmemberIdに整数が入る）
-		if (memberId != 'guest') {
-			// 会員の場合の処理
-			// Cookieにis_optInのKEYがない場合にオプトイン状況をAPIで取得する
-			if (is_apiOptIn == undefined) {
-				const checkUrl = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/checkMemberOptInPolicy';
-				const checkParams = { member_id: memberId };
-				is_apiOptIn = apiOptInPolicy(checkUrl, checkParams);
-				if (is_apiOptIn['result'] == false) {
-					// プライバシーポリシーに同意していない場合の処理
-					is_apiOptIn = 'none';
-				} else {
-					// プライバシーポリシーに同意している場合の処理
-					is_apiOptIn = is_apiOptIn['is_opt_in'];
-				}
-			}
-
-			//プライバシーポリシーのオプトイン状態が1（すでに同意している）であれば表示しない
-			if (is_apiOptIn == 0) {
-				//同意していない場合の処理
-				if (!$('#optInPolicy').length) {
-					const policyOptInHtml = '<a href="/p/about/privacy-policy" target="_blank" class="text-link-color">プライバシーポリシー</a>に同意する<br><span class="xsmall-text">*別タブで開きます</span>';
-					//同意状況をCookieから取得する
-					is_optIn = $.cookie('is_optIn');
-
-					//同意状況により適宜処理をする
-					if (is_optIn == 1) {
-						//同意済の処理
-						//チェックボックスにチェックを入れた状態する
-						$('#fs_button_placeOrder').before(`<div id="optInPolicy"><p>プライバシーポリシーの改訂に伴い、同意をお願いいたします。</p><input type="checkbox" checked>${policyOptInHtml}</div>`);
-					} else {
-						//未同意の処理
-						//チェックボックスにチェックを入れていない状態する
-						$('#fs_button_placeOrder').before(`<div id="optInPolicy"><p>プライバシーポリシーの改訂に伴い、同意をお願いいたします。</p><input type="checkbox">${policyOptInHtml}</div>`);
-					}
-
-					// プライバシーポリシーの同意チェックボックスを変更するとオプトイン状況をAPIで書き込む
-					$('#optInPolicy input').change(function () {
-						if ($(this).prop('checked')) {
-							//同意する場合の処理
-							$.cookie('is_optIn', 1);
-						} else {
-							//同意しない場合の処理
-							$.cookie('is_optIn', 0);
-						}
-					});
-				}
+	const memberId = $('#memberId').text();
+	// 会員かどうか判定（会員であればmemberIdに整数が入る）
+	if (memberId != 'guest') {
+		// 会員の場合の処理
+		// Cookieにis_optInのKEYがない場合にオプトイン状況をAPIで取得する
+		if (is_apiOptIn == undefined) {
+			const checkUrl = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/checkMemberOptInPolicy';
+			const checkParams = { member_id: memberId };
+			is_apiOptIn = apiOptInPolicy(checkUrl, checkParams);
+			if (is_apiOptIn['result'] == false) {
+				// プライバシーポリシーに同意していない場合の処理
+				is_apiOptIn = 'none';
 			} else {
-				//同意している場合の処理
-				$.cookie('is_optIn', 1);
+				// プライバシーポリシーに同意している場合の処理
+				is_apiOptIn = is_apiOptIn['is_opt_in'];
+			}
+		}
+
+		//プライバシーポリシーのオプトイン状態が1（すでに同意している）であれば表示しない
+		if (is_apiOptIn == 0) {
+			//同意していない場合の処理
+			if (!$('#optInPolicy').length) {
+				const policyOptInHtml = '<a href="/p/about/privacy-policy" target="_blank" class="text-link-color">プライバシーポリシー</a>に同意する<br><span class="xsmall-text">*別タブで開きます</span>';
+				//同意状況をCookieから取得する
+				is_optIn = $.cookie('is_optIn');
+
+				//同意状況により適宜処理をする
+				if (is_optIn == 1) {
+					//同意済の処理
+					//チェックボックスにチェックを入れた状態する
+					$('#fs_button_placeOrder').before(`<div id="optInPolicy"><p>プライバシーポリシーの改訂に伴い、同意をお願いいたします。</p><input type="checkbox" checked>${policyOptInHtml}</div>`);
+				} else {
+					//未同意の処理
+					//チェックボックスにチェックを入れていない状態する
+					$('#fs_button_placeOrder').before(`<div id="optInPolicy"><p>プライバシーポリシーの改訂に伴い、同意をお願いいたします。</p><input type="checkbox">${policyOptInHtml}</div>`);
+				}
+
+				// プライバシーポリシーの同意チェックボックスを変更するとオプトイン状況をAPIで書き込む
+				$('#optInPolicy input').change(function () {
+					if ($(this).prop('checked')) {
+						//同意する場合の処理
+						$.cookie('is_optIn', 1);
+					} else {
+						//同意しない場合の処理
+						$.cookie('is_optIn', 0);
+					}
+				});
 			}
 		} else {
-			return memberId;
+			//同意している場合の処理
+			$.cookie('is_optIn', 1);
 		}
+	} else {
+		return memberId;
 	}
 }
 
@@ -143,80 +165,78 @@ function apiOptInPolicy(url, params) {
 // 組立オプションで右開きなど組立方法に指定がある商品のオプション名を変更する関数
 ========================================================================== */
 function optionNameChange() {
-	if ($('#fs_Checkout,#fs_CheckoutWithAmazon').length) {
-		if (!$('.optionNameChanged').length) {
-			// 組立オプション指定があった場合のカート内表示変更
-			var productUrl = '';
-			var productUrl_ary = '';
-			var modelNumber = '';
+	if (!$('.optionNameChanged').length) {
+		// 組立オプション指定があった場合のカート内表示変更
+		var productUrl = '';
+		var productUrl_ary = '';
+		var modelNumber = '';
 
-			// 該当するmodelNumberを配列に格納する
-			var optionHasProducts = [
-				'por-1830d-na',
-				'por-1830d-wh',
-				'por-1830d-dk',
-				'por-5530du-na',
-				'por-5530du-wh',
-				'por-5530du-dk',
-				'hnb-4540d',
-				'adl-4013dh-na',
-				'adl-4013dh-wh',
-				'adl-4013dh-dk',
-				'sep-1690ar-na',
-				'sep-1690ar-dk',
-				'',
-				'lge-1285-dk',
-				'lge-1285-na',
-				'lge-1285-iv',
-				'lge-1212-na',
-				'lge-1212-dk',
-				'lge-1212-iv',
-				'lge-1612-na',
-				'lge-1612-dk',
-				'lge-1612-iv',
-				'lge-8545-na',
-				'lge-8545-dk',
-				'lge-8545-iv',
-				'lge-8585-na',
-				'lge-8585-dk',
-				'lge-8585-iv',
-			];
+		// 該当するmodelNumberを配列に格納する
+		var optionHasProducts = [
+			'por-1830d-na',
+			'por-1830d-wh',
+			'por-1830d-dk',
+			'por-5530du-na',
+			'por-5530du-wh',
+			'por-5530du-dk',
+			'hnb-4540d',
+			'adl-4013dh-na',
+			'adl-4013dh-wh',
+			'adl-4013dh-dk',
+			'sep-1690ar-na',
+			'sep-1690ar-dk',
+			'',
+			'lge-1285-dk',
+			'lge-1285-na',
+			'lge-1285-iv',
+			'lge-1212-na',
+			'lge-1212-dk',
+			'lge-1212-iv',
+			'lge-1612-na',
+			'lge-1612-dk',
+			'lge-1612-iv',
+			'lge-8545-na',
+			'lge-8545-dk',
+			'lge-8545-iv',
+			'lge-8585-na',
+			'lge-8585-dk',
+			'lge-8585-iv',
+		];
 
-			//CAUTION:カートのスクリプトと指定しているClassが異なる fs-c-cartTable__productName__name -> fs-c-listedProductName__name
-			$('.fs-c-listedProductName__name').each(function () {
-				// 商品のリンクを取得する
-				productUrl = $(this).attr('href');
+		//CAUTION:カートのスクリプトと指定しているClassが異なる fs-c-cartTable__productName__name -> fs-c-listedProductName__name
+		$('.fs-c-listedProductName__name').each(function () {
+			// 商品のリンクを取得する
+			productUrl = $(this).attr('href');
 
-				// 配列にする
-				productUrl_ary = productUrl.split('/');
+			// 配列にする
+			productUrl_ary = productUrl.split('/');
 
-				// リンクの最後の部分(型番)を取得
-				modelNumber = productUrl_ary[productUrl_ary.length - 1];
-				//optionHasProductsにmodelNumberがあるか判定する
-				var optionValue = '';
-				if (optionHasProducts.indexOf(modelNumber) != -1) {
-					//modelNumberが該当商品であるか判定し処理を分岐
-					// //あるのであれば.fs-c-listedProductName__selection__choiceの値を取得する
-					if (modelNumber.match(/por-5530du|hnb-4540d|por-1830d/)) {
-						//扉の開き方の組立オプションがある場合の処理
-						optionValue = $(this).next('.fs-c-listedProductName__selection').find('.fs-c-listedProductName__selection__choice').text();
-						optionValue = `（扉の開き方：${optionValue})`;
-						$(this).next('.fs-c-listedProductName__selection').find('.fs-c-listedProductName__selection__choice').text(optionValue);
-					} else if (modelNumber.match(/adl-4013dh|sep-1690ar/)) {
-						//組立の向きの組立オプションがある場合の処理
-						optionValue = $(this).next('.fs-c-listedProductName__selection').find('.fs-c-listedProductName__selection__choice').text();
-						optionValue = `（組立の向き：${optionValue})`;
-						$(this).next('.fs-c-listedProductName__selection').find('.fs-c-listedProductName__selection__choice').text(optionValue);
-					} else if (modelNumber.match(/lge-/)) {
-						//背板の柄の組立オプションがある場合の処理
-						optionValue = $(this).next('.fs-c-listedProductName__selection').find('.fs-c-listedProductName__selection__choice').text();
-						optionValue = `（背板の柄：${optionValue})`;
-						$(this).next('.fs-c-listedProductName__selection').find('.fs-c-listedProductName__selection__choice').text(optionValue);
-					}
-					$(this).addClass('optionNameChanged');
+			// リンクの最後の部分(型番)を取得
+			modelNumber = productUrl_ary[productUrl_ary.length - 1];
+			//optionHasProductsにmodelNumberがあるか判定する
+			var optionValue = '';
+			if (optionHasProducts.indexOf(modelNumber) != -1) {
+				//modelNumberが該当商品であるか判定し処理を分岐
+				// //あるのであれば.fs-c-listedProductName__selection__choiceの値を取得する
+				if (modelNumber.match(/por-5530du|hnb-4540d|por-1830d/)) {
+					//扉の開き方の組立オプションがある場合の処理
+					optionValue = $(this).next('.fs-c-listedProductName__selection').find('.fs-c-listedProductName__selection__choice').text();
+					optionValue = `（扉の開き方：${optionValue})`;
+					$(this).next('.fs-c-listedProductName__selection').find('.fs-c-listedProductName__selection__choice').text(optionValue);
+				} else if (modelNumber.match(/adl-4013dh|sep-1690ar/)) {
+					//組立の向きの組立オプションがある場合の処理
+					optionValue = $(this).next('.fs-c-listedProductName__selection').find('.fs-c-listedProductName__selection__choice').text();
+					optionValue = `（組立の向き：${optionValue})`;
+					$(this).next('.fs-c-listedProductName__selection').find('.fs-c-listedProductName__selection__choice').text(optionValue);
+				} else if (modelNumber.match(/lge-/)) {
+					//背板の柄の組立オプションがある場合の処理
+					optionValue = $(this).next('.fs-c-listedProductName__selection').find('.fs-c-listedProductName__selection__choice').text();
+					optionValue = `（背板の柄：${optionValue})`;
+					$(this).next('.fs-c-listedProductName__selection').find('.fs-c-listedProductName__selection__choice').text(optionValue);
 				}
-			});
-		}
+				$(this).addClass('optionNameChanged');
+			}
+		});
 	}
 }
 
@@ -252,11 +272,9 @@ function checkZipCodes(zipCode) {
 // クーポンがつけ忘れている可能性がある場合に注意表示する関数
 ========================================================================== */
 function couponUseCheck() {
-	if ($('#fs_Checkout,#fs_CheckoutWithAmazon').length) {
-		if (!$('.couponUseCheck').length) {
-			//クーポンが適用されていない場合の処理
-			$('#fs_button_placeOrder').before('<p class="couponUseCheck text-center mt-24 mb-24"><a href="#fs-couponInfo-container" class="text-link-color">クーポンの付け忘れはございませんか？</a></p>');
-		}
+	if (!$('.couponUseCheck').length) {
+		//クーポンが適用されていない場合の処理
+		$('#fs_button_placeOrder').before('<p class="couponUseCheck text-center mt-24 mb-24"><a href="#fs-couponInfo-container" class="text-link-color">クーポンの付け忘れはございませんか？</a></p>');
 	}
 }
 
@@ -264,12 +282,10 @@ function couponUseCheck() {
 // お届け希望日時の表示部分にタイトルを表示する関数（お届け希望日時をどこで指定するかわからない人が多いため目立たせるための処置）
 ========================================================================== */
 function addDeliveryMethodTitle(optionResult) {
-	if ($('#fs_Checkout,#fs_CheckoutWithAmazon').length) {
-		if (optionResult != false) {
-			//optionResultの値がある場合の処理
-			if (!$('.addDeliveryDateTimeTitle').length) {
-				$('.fs-c-checkout-delivery__method__deliveryDateTime').before('<h4 class="fs-c-checkout-delivery__method__title addDeliveryDateTimeTitle mt-48">お届け希望日時</h4>');
-			}
+	if (optionResult != false) {
+		//optionResultの値がある場合の処理
+		if (!$('.addDeliveryDateTimeTitle').length) {
+			$('.fs-c-checkout-delivery__method__deliveryDateTime').before('<h4 class="fs-c-checkout-delivery__method__title addDeliveryDateTimeTitle mt-48">お届け希望日時</h4>');
 		}
 	}
 }
@@ -462,7 +478,6 @@ function sizeOrderDisplayThumb() {
 // 組立オプションの有無を判定する関数
 ========================================================================== */
 function optionJudgment() {
-	//if ($('#fs_Checkout,#fs_CheckoutWithAmazon').length) {
 	var optionResult = false;
 	var check_adis_result = 0;
 	var memberId;
@@ -773,7 +788,6 @@ function orderEnabled() {
 ========================================================================== */
 function expectedArrival(optionResult) {
 	var execution = function () {
-
 		//初回の処理
 		if (optionResult == false) {
 			optionResult = check_option();
@@ -1585,7 +1599,7 @@ function expectedArrival(optionResult) {
 // 佐川急便やYHCそれぞれのお届け時間帯を表示するための関数
 ========================================================================== */
 function expectedArrivalTime_SGW(selected) {
-	var expectedArrival_time_html ='<option value="2">12:00～14:00</option><option value="3">14:00～16:00</option><option value="4">16:00～18:00</option><option value="5">18:00～21:00</option>';
+	var expectedArrival_time_html = '<option value="2">12:00～14:00</option><option value="3">14:00～16:00</option><option value="4">16:00～18:00</option><option value="5">18:00～21:00</option>';
 	$('#fs_input_expectedArrival_time').replaceWith('<select name="time" id="fs_input_expectedArrival_time" class="fs-c-dropdown__menu"><option value="none" selected="selected">指定なし</option><option value="1">午前中</option>' + expectedArrival_time_html + '</select>');
 	$('#fs_input_expectedArrival_time option[value="' + selected + '"]').prop('selected', true);
 }
@@ -1604,7 +1618,6 @@ function expectedArrivalTime_YHC(checkZipCodeResult) {
 		$('#fs_input_expectedArrival_time').replaceWith('<select name="time" id="fs_input_expectedArrival_time" class="fs-c-dropdown__menu"><option value="none" selected="selected">指定なし</option><option value="1">午前中</option>' + expectedArrival_time_type3_html + '</select>');
 		$('#fs_input_expectedArrival_time option[value="' + selected + '"]').prop('selected', true);
 	} else {
-
 		// YHCのお届け指定区分が3と4区分以外の場合の処理
 		$('#fs_input_expectedArrival_time').replaceWith('<select name="time" id="fs_input_expectedArrival_time" class="fs-c-dropdown__menu" disabled><option value="none" selected="selected">指定なし</option></select>');
 		$('.fs-c-checkout-deliveryMethod__deliveryTime label').html('お届け時間帯 <span class="red">このお届け先は時間をご指定いただけません</span>');
@@ -1613,7 +1626,6 @@ function expectedArrivalTime_YHC(checkZipCodeResult) {
 
 	return checkZipCodeResult;
 }
-
 
 /* check_option
 // 商品名からサイズオーダーまたは受注生産品かどうかを判定し、その判定とオプションの有無によってコードを設定する関数
