@@ -1315,7 +1315,7 @@ function expectedArrival(optionResult) {
 						orderRequestLeadTime += 1; //通常1日
 						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '組立依頼日');
 
-						assemblyLeadTime += 4; //通常4日
+						assemblyLeadTime += 5; //通常5日
 						arrivalDate_ary = checkHolyDay(arrivalDate_ary, assemblyLeadTime, operation_holyDay, '組立');
 
 						shippingReadyLeadTime += 1; //通常1日
@@ -1348,7 +1348,7 @@ function expectedArrival(optionResult) {
 						orderRequestLeadTime += 1; //通常1日
 						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '組立依頼日');
 
-						assemblyLeadTime += 4; //通常4日
+						assemblyLeadTime += 5; //通常5日
 						arrivalDate_ary = checkHolyDay(arrivalDate_ary, assemblyLeadTime, operation_holyDay, '組立');
 
 						shippingReadyLeadTime += 1; //通常1日
