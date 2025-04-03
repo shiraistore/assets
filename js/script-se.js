@@ -12,40 +12,24 @@ FS側のJSによるAjaxで処理をしているため、コールバックや同
 // 初期値設定
 let checkZipCodeResult = undefined; //郵便番号のチェック結果初期値設定
 let is_apiOptIn, is_optIn, is_option, is_specifyDate; // Cookieに書き込む判定変数の宣言
+let execute_flag = 1; //実行できる状態のフラグ
 
-if ($('#fs_Checkout').length) {
-	// 通常決済手続き画面の場合
-	$(window).on('load', function () {
-		//読み込み時Cookieの値を初期化する
+// AmazonPay決済手続き画面の場合
+// なぜか「$(window).on('load'」が動作しない
+setInterval(function () {
+	// カート内の商品が読み込みが完了するのを待ち、実行フラグが立っているかどうかを判定
+	if ($('.fs-c-cartTable__productInfo').length > 0 && execute_flag == 1) {
+		// 条件が揃い実行ができる場合の処理
 		$.removeCookie('is_optIn');
 		$.removeCookie('is_option');
 		$.removeCookie('is_specifyDate');
 
 		//組立オプションの判定
 		optionJudgment();
-
-	});
-}
-
-let amazon_pay_flag = 1;
-
-if ($('#fs_CheckoutWithAmazon').length) {
-	// AmazonPay決済手続き画面の場合
-	// なぜか「$(window).on('load'」が動作しない
-	setInterval(function () {
-		if ($('.fs-c-cartTable__productInfo').length > 0 && amazon_pay_flag == 1) {
-
-			//処理
-			$.removeCookie('is_optIn');
-			$.removeCookie('is_option');
-			$.removeCookie('is_specifyDate');
-
-			//組立オプションの判定
-			optionJudgment();
-			amazon_pay_flag = 0;
-		}
-	}, 300);
-}
+		// 実行できる状態から実行しない状態のフラグを立たせる
+		execute_flag = 0;
+	}
+}, 300);
 
 /* checkOrderEnabled
 // 注文ができるか状態かどうか判定して注文ボタンをEnableもしくはDisableにする関数
@@ -535,7 +519,15 @@ function optionJudgment() {
 					setTimeout(function () {
 						//モーダルウインドウを起動させる
 						$('#fs_button_changeDeliveryMethod button.fs-c-button--change--small').trigger('click');
+
 						setTimeout(function () {
+							// モーダルウインドウの保存ボタンをクリックして、値の内容を保存する
+							$('#__fs_modal_delivery, .fs-c-loader, .fs-c-loader__items').css('display','none');
+						}, 1);
+
+						setTimeout(function () {
+
+							
 							if (checkZipCodeResult.is_remote_island == 1) {
 								// 離島の場合の処理
 								// 備考の値にお客様への連絡事項を格納する
@@ -831,10 +823,13 @@ function expectedArrival(optionResult) {
 					// 停止フラグが立っていない場合の処理
 					// 変数の初期値を設定する
 					var orderInputLeadTime = 0,
+						requestWaitingLeadTime = 0,
 						orderRequestLeadTime = 0,
 						assemblyLeadTime = 0,
 						manufactureLeadTime = 0,
-						shippingLeadTime = 0,
+						shippingReadyLeadTime = 0,
+						shippingDateLeadTime = 0,
+						deliveryReadyLeadTime = 0,
 						deliveryLeadTime = 0,
 						bankTransferLeadTime = 0,
 						sizeOrderArray = [];
@@ -1146,151 +1141,6 @@ function expectedArrival(optionResult) {
 						'2026-01-31',
 					];
 
-					var arrivalDate_ary = [];
-					// FSが出力するお届け希望を取得する
-					$('#fs_input_expectedArrival_date option').each(function () {
-						arrivalDate_ary.push($(this).val());
-					});
-
-					// 最初の日付は注文日の翌日なので削除する
-					arrivalDate_ary.splice(0, 1);
-
-					// 休日かどうかを削除する関数
-					function checkHolyDay(arrivalDate_ary, leadTime, holyDay, status) {
-						for (let i = 0; i < leadTime; i++) {
-							if ($.inArray(arrivalDate_ary[i], holyDay) > -1) {
-								// 当該日が休業日である場合の処理
-								// console.log(arrivalDate_ary[i] + 'は' + status + 'が休業日');
-								arrivalDate_ary[i] = '';
-								leadTime++;
-							} else {
-								// 当該日が営業日である場合の処理
-								if (status == '生産' && i == leadTime) {
-									//製造部かつリードタイムによる削除が完了したら終了
-									break;
-								} else {
-									//製造部ではなく、リードタイムによる削除が未完了の場合の処理
-									// console.log(arrivalDate_ary[i] + 'を削除（' + status + 'リードタイム）');
-									arrivalDate_ary[i] = '';
-								}
-							}
-						}
-						arrivalDate_ary = arrivalDate_ary.filter(Boolean);
-						return arrivalDate_ary;
-					}
-
-					var deliveryReadyLeadTime = 1;
-
-					if (optionResult == 10) {
-						// console.log('通常品 + オプションなし');
-						if ($('#fs_input_payment_bankTransfer').prop('checked')) {
-							bankTransferLeadTime += 1; //通常1日
-							// console.log('銀行振込:', orderLeadTime);
-							arrivalDate_ary = checkHolyDay(arrivalDate_ary, bankTransferLeadTime, operation_holyDay, '銀行振込');
-						}
-
-						shippingLeadTime += 2; //通常2日
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingLeadTime, operation_holyDay, '出荷準備');
-					} else if (optionResult == 11) {
-						// console.log('通常品 + 組立済+玄関渡し');
-						orderInputLeadTime += 1; //通常1日
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderInputLeadTime, operation_holyDay, '注文取込');
-
-						orderRequestLeadTime += 1; //通常1日
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '組立依頼');
-
-						assemblyLeadTime += 4; //通常4日
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, assemblyLeadTime, operation_holyDay, '組立');
-
-						shippingLeadTime += 1; //通常1日
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingLeadTime, operation_holyDay, '出荷準備');
-
-						deliveryLeadTime += 1; //通常1日
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, deliveryLeadTime, operation_holyDay, '出荷');
-					} else if (optionResult == 12) {
-						// console.log('通常品 + 組立済+搬入');
-						orderInputLeadTime += 1; //通常1日
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderInputLeadTime, operation_holyDay, '注文取込');
-
-						orderRequestLeadTime += 1; //通常1日
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '組立依頼');
-
-						assemblyLeadTime += 5; //通常5日
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, assemblyLeadTime, operation_holyDay, '組立');
-
-						shippingLeadTime += 1; //通常1日
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingLeadTime, operation_holyDay, '出荷準備');
-
-						deliveryLeadTime += 1; //通常1日
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, deliveryLeadTime, operation_holyDay, '出荷');
-					} else if (optionResult == 20) {
-						// console.log('オーダー品 + オプションなし');
-						orderInputLeadTime += 1; //通常1日
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderInputLeadTime, operation_holyDay, '注文取込');
-
-						orderRequestLeadTime += 1; //通常1日
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '組立依頼');
-
-						manufactureLeadTime += 9; //通常9日
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, manufactureLeadTime, factory_holyDay, '製造');
-
-						shippingLeadTime += 1; //通常1日
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingLeadTime, operation_holyDay, '出荷準備');
-
-						deliveryLeadTime += 1; //通常1日
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, deliveryLeadTime, operation_holyDay, '出荷');
-					} else if (optionResult == 21) {
-						// console.log('オーダー品 + 組立済+玄関渡し');
-						orderInputLeadTime += 1; //通常1日
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderInputLeadTime, operation_holyDay, '注文取込');
-
-						orderRequestLeadTime += 1; //通常1日
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '組立依頼');
-
-						manufactureLeadTime += 9; //通常9日
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, manufactureLeadTime, factory_holyDay, '製造');
-
-						assemblyLeadTime += 2;
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, assemblyLeadTime, operation_holyDay, '組立');
-
-						shippingLeadTime += 1; //通常1日
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingLeadTime, operation_holyDay, '出荷準備');
-
-						deliveryLeadTime += 1; //通常1日
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, deliveryLeadTime, operation_holyDay, '出荷');
-					} else if (optionResult == 22) {
-						// console.log('オーダー品 + 組立済+搬入');
-						orderInputLeadTime += 1; //通常1日
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderInputLeadTime, operation_holyDay, '注文取込');
-
-						orderRequestLeadTime += 1; //通常1日
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '組立依頼');
-
-						manufactureLeadTime += 9; //通常9日
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, manufactureLeadTime, factory_holyDay, '製造');
-
-						assemblyLeadTime += 3;
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, assemblyLeadTime, operation_holyDay, '組立');
-
-						shippingLeadTime += 1; //通常1日
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingLeadTime, operation_holyDay, '出荷準備');
-
-						deliveryLeadTime += 1; //通常1日
-						arrivalDate_ary = checkHolyDay(arrivalDate_ary, deliveryLeadTime, operation_holyDay, '出荷');
-					}
-
-					for (let i = 0; i < deliveryReadyLeadTime; i++) {
-						if ($.inArray(arrivalDate_ary[i], operation_holyDay) > -1) {
-							// console.log(arrivalDate_ary[i] + 'は運営が休業日');
-							arrivalDate_ary[i] = '';
-							deliveryReadyLeadTime += 1;
-						} else {
-							// console.log(arrivalDate_ary[i] + 'は運営が営業日だから発送');
-							arrivalDate_ary[i] = '';
-						}
-					}
-					arrivalDate_ary = arrivalDate_ary.filter(Boolean);
-
 					// 佐川急便の都道府県別リードタイムを設定する
 					var prefArray_SGW = [
 							{ pref: '北海道', leadTime: 3 },
@@ -1392,24 +1242,93 @@ function expectedArrival(optionResult) {
 							{ pref: '沖縄県', leadTime: 10 },
 						];
 
-					var destinationAddress = $('.fs-c-checkout-destination__address__address').text().split(/\s+/);
-					var expectedArrival_time_selected = $('#fs_input_expectedArrival_time').val();
-
-					// サイズオーダーの判定のための情報を取得する
-					$('.fs-c-listedProductName__name').each(function () {
-						sizeOrderArray.push($(this).text());
+					var arrivalDate_ary = [];
+					// FSが出力するお届け希望を取得する
+					$('#fs_input_expectedArrival_date option').each(function () {
+						arrivalDate_ary.push($(this).val());
 					});
 
-					if (sizeOrderArray.find((value) => value.match(/(サイズオーダー|受注生産)/g)) != undefined) {
-						// サイズオーダーまたは受注生産品の場合の処理
+					// 最初の日付は注文日の翌日なので削除する
+					// arrivalDate_ary.splice(0, 1);
+
+					// 休日かどうかを削除する関数
+					function checkHolyDay(arrivalDate_ary, leadTime, holyDay, status) {
+						for (let i = 0; i < leadTime; i++) {
+							if ($.inArray(arrivalDate_ary[i], holyDay) > -1) {
+								// 当該日が休業日である場合の処理
+								// console.log(arrivalDate_ary[i] + 'は' + status + 'が休業日');
+								arrivalDate_ary[i] = '';
+								leadTime++;
+							} else {
+								// 当該日が営業日である場合の処理
+								if (status == '生産' && i == leadTime) {
+									//製造部かつリードタイムによる削除が完了したら終了
+									break;
+								} else {
+									//製造部ではなく、リードタイムによる削除が未完了の場合の処理
+									// console.log(arrivalDate_ary[i] + 'を削除（' + status + 'リードタイム）');
+									arrivalDate_ary[i] = '';
+								}
+							}
+						}
+						arrivalDate_ary = arrivalDate_ary.filter(Boolean);
+						return arrivalDate_ary;
+					}
+
+					// お届け先住所を取得する
+					var destinationAddress = $('.fs-c-checkout-destination__address__address').text().split(/\s+/);
+					var expectedArrival_time_selected = $('#fs_input_expectedArrival_time').val();
+					var prefArray;
+
+					// 銀行振込の場合はリードタイムを1日追加
+					if ($('#fs_input_payment_bankTransfer').prop('checked')) {
+						// 支払い方法が銀行振込の場合の処理
+						bankTransferLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, bankTransferLeadTime, operation_holyDay, '銀行振込');
+					}
+
+					if (optionResult == 10) {
+						// console.log('通常品 + オプションなし');
+
+						orderInputLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderInputLeadTime, operation_holyDay, '注文取込日');
+
+						shippingReadyLeadTime += 2; //通常2日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingReadyLeadTime, operation_holyDay, '出荷準備');
+
+						shippingDateLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingDateLeadTime, operation_holyDay, '出荷日');
+
+						// SGWのお届け時間区分を取得する
+						expectedArrivalTime_SGW(expectedArrival_time_selected);
+
 						// 佐川急便の都道府県別リードタイムを格納する
-						var prefArray = prefArray_SGW;
+						prefArray = prefArray_SGW;
+					} else if (optionResult == 11) {
+						// console.log('通常品 + 組立済+玄関渡し');
+						orderInputLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderInputLeadTime, operation_holyDay, '注文取込日');
 
-						// 郵便番号を取得してハイフンを削除する
-						var zipCode = $('.fs-c-checkout-destination__address .fs-c-checkout-destination__address__zipCode').text().replace('-', '');
+						requestWaitingLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, requestWaitingLeadTime, operation_holyDay, '依頼待機日');
 
-						// 佐川急便のお届け時間区分を取得する
-						expectedArrivalTime_SGW(zipCode);
+						orderRequestLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '組立依頼日');
+
+						assemblyLeadTime += 4; //通常4日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, assemblyLeadTime, operation_holyDay, '組立');
+
+						shippingReadyLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingReadyLeadTime, operation_holyDay, '出荷準備');
+
+						shippingDateLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingDateLeadTime, operation_holyDay, '出荷日');
+
+						// SGWのお届け時間区分を取得する
+						expectedArrivalTime_SGW(expectedArrival_time_selected);
+
+						// 佐川急便の都道府県別リードタイムを格納する
+						prefArray = prefArray_SGW;
 
 						if (checkZipCodeResult.is_sgw_time_specified == 0) {
 							// 佐川急便がお届け時間指定の対応できない場合の処理
@@ -1417,12 +1336,32 @@ function expectedArrival(optionResult) {
 							$('.fs-c-checkout-deliveryMethod__deliveryTime label').html('お届け時間帯 <span class="red">このお届け先は時間をご指定いただけません</span>');
 							$('#fs_input_expectedArrival_time option[value="none"]').prop('selected', true);
 						}
-					} else if (check_adis_result.result2 >= 0) {
-						// 組立済+搬入の場合の処理
-						// YHCの都道府県別リードタイムを格納する
-						var prefArray = prefArray_YHC;
+					} else if (optionResult == 12) {
+						// console.log('通常品 + 組立済+搬入');
+
+						orderInputLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderInputLeadTime, operation_holyDay, '注文取込日');
+
+						requestWaitingLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, requestWaitingLeadTime, operation_holyDay, '依頼待機日');
+
+						orderRequestLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '組立依頼日');
+
+						assemblyLeadTime += 4; //通常4日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, assemblyLeadTime, operation_holyDay, '組立');
+
+						shippingReadyLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingReadyLeadTime, operation_holyDay, '出荷準備');
+
+						shippingDateLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingDateLeadTime, operation_holyDay, '出荷日');
+
 						// YHCのお届け時間区分を取得する
 						checkZipCodeResult = expectedArrivalTime_YHC(checkZipCodeResult);
+
+						// YHCの都道府県別リードタイムを格納する
+						prefArray = prefArray_YHC;
 
 						if (checkZipCodeResult.is_yhc_service_type_4 == 0 && checkZipCodeResult.is_yhc_service_type_3 == 0) {
 							// YHCのと届け時間帯指定ができない場合の処理
@@ -1430,12 +1369,59 @@ function expectedArrival(optionResult) {
 							$('.fs-c-checkout-deliveryMethod__deliveryTime label').html('お届け時間帯 <span class="red">このお届け先は時間をご指定いただけません</span>');
 							$('#fs_input_expectedArrival_time option[value="none"]').prop('selected', true);
 						}
-					} else if (check_adis_result.result1 >= 0) {
-						// 組立済+玄関渡しの場合の処理
+					} else if (optionResult == 20) {
+						// console.log('オーダー品 + オプションなし');
+						orderInputLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderInputLeadTime, operation_holyDay, '注文取込');
+
+						requestWaitingLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, requestWaitingLeadTime, operation_holyDay, '依頼待機日');
+
+						orderRequestLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '製造依頼');
+
+						manufactureLeadTime += 10; //通常10日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, manufactureLeadTime, factory_holyDay, '製造');
+
+						shippingReadyLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingReadyLeadTime, operation_holyDay, '出荷準備');
+
+						shippingDateLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingDateLeadTime, operation_holyDay, '出荷日');
+
+						// SGWのお届け時間区分を取得する
 						expectedArrivalTime_SGW(expectedArrival_time_selected);
 
 						// 佐川急便の都道府県別リードタイムを格納する
-						var prefArray = prefArray_SGW;
+						prefArray = prefArray_SGW;
+					} else if (optionResult == 21) {
+						// console.log('オーダー品 + 組立済+玄関渡し');
+						orderInputLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderInputLeadTime, operation_holyDay, '注文取込');
+
+						requestWaitingLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, requestWaitingLeadTime, operation_holyDay, '依頼待機日');
+
+						orderRequestLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '組立依頼');
+
+						manufactureLeadTime += 10; //通常10日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, manufactureLeadTime, factory_holyDay, '製造');
+
+						assemblyLeadTime += 2; //通常2日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, assemblyLeadTime, operation_holyDay, '組立');
+
+						shippingReadyLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingReadyLeadTime, operation_holyDay, '出荷準備');
+
+						shippingDateLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingDateLeadTime, operation_holyDay, '出荷日');
+
+						// SGWのお届け時間区分を取得する
+						expectedArrivalTime_SGW(expectedArrival_time_selected);
+
+						// 佐川急便の都道府県別リードタイムを格納する
+						prefArray = prefArray_SGW;
 
 						if (checkZipCodeResult.is_sgw_time_specified == 0) {
 							// 佐川急便がお届け時間指定の対応できない場合の処理
@@ -1443,26 +1429,57 @@ function expectedArrival(optionResult) {
 							$('.fs-c-checkout-deliveryMethod__deliveryTime label').html('お届け時間帯 <span class="red">このお届け先は時間をご指定いただけません</span>');
 							$('#fs_input_expectedArrival_time option[value="none"]').prop('selected', true);
 						}
-					} else {
-						// 組立サービス以外の場合の処理
-						// 郵便番号を取得してハイフンを削除する
-						var zipCode = $('.fs-c-checkout-destination__address .fs-c-checkout-destination__address__zipCode').text().replace('-', '');
-						checkZipCodeResult = checkZipCodes(zipCode);
+					} else if (optionResult == 22) {
+						// console.log('オーダー品 + 組立済+搬入');
+						orderInputLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderInputLeadTime, operation_holyDay, '注文取込');
 
-						// 佐川急便のお届け時間区分を取得する
-						expectedArrivalTime_SGW(expectedArrival_time_selected);
+						requestWaitingLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, requestWaitingLeadTime, operation_holyDay, '依頼待機日');
 
-						// 佐川急便の都道府県別リードタイムを格納する
-						var prefArray = prefArray_SGW;
+						orderRequestLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '製造依頼');
 
-						if (checkZipCodeResult.is_sgw_time_specified == 0) {
-							// 佐川急便がお届け時間指定の対応できない場合の処理
+						manufactureLeadTime += 10; //通常10日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, manufactureLeadTime, factory_holyDay, '製造');
+
+						assemblyLeadTime += 2; //通常2日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, assemblyLeadTime, operation_holyDay, '組立');
+
+						shippingReadyLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingReadyLeadTime, operation_holyDay, '出荷準備');
+
+						shippingDateLeadTime += 1; //通常1日
+						arrivalDate_ary = checkHolyDay(arrivalDate_ary, shippingDateLeadTime, operation_holyDay, '出荷日');
+
+						// YHCのお届け時間区分を取得する
+						checkZipCodeResult = expectedArrivalTime_YHC(checkZipCodeResult);
+
+						// YHCの都道府県別リードタイムを格納する
+						prefArray = prefArray_YHC;
+
+						if (checkZipCodeResult.is_yhc_service_type_4 == 0 && checkZipCodeResult.is_yhc_service_type_3 == 0) {
+							// YHCのと届け時間帯指定ができない場合の処理
 							$('#fs_input_expectedArrival_time').replaceWith('<select name="time" id="fs_input_expectedArrival_time" class="fs-c-dropdown__menu" disabled><option value="none" selected="selected">指定なし</option></select>');
 							$('.fs-c-checkout-deliveryMethod__deliveryTime label').html('お届け時間帯 <span class="red">このお届け先は時間をご指定いただけません</span>');
 							$('#fs_input_expectedArrival_time option[value="none"]').prop('selected', true);
 						}
 					}
 
+					for (let i = 0; i < deliveryReadyLeadTime; i++) {
+						if ($.inArray(arrivalDate_ary[i], operation_holyDay) > -1) {
+							// console.log(arrivalDate_ary[i] + 'は運営が休業日');
+							arrivalDate_ary[i] = '';
+							deliveryReadyLeadTime += 1;
+						} else {
+							// console.log(arrivalDate_ary[i] + 'は運営が営業日だから発送');
+							arrivalDate_ary[i] = '';
+						}
+					}
+
+					arrivalDate_ary = arrivalDate_ary.filter(Boolean);
+
+					// お届け先都道府県のリードタイムを取得
 					var prefArray_find = prefArray.find((u) => u.pref === destinationAddress[0]);
 					var deliveryLeadTime = prefArray_find.leadTime;
 
@@ -1546,7 +1563,7 @@ function expectedArrival(optionResult) {
 							$('.fs-c-listedProductName__name').each(function () {
 								sizeOrderArray.push($(this).text());
 							});
-							console.log('sizeOrderArray:', sizeOrderArray);
+							// console.log('sizeOrderArray:', sizeOrderArray);
 							var checkSizeOrder = sizeOrderArray.find((value) => value.match(/(サイズオーダー|受注生産)/g));
 							// console.log('checkSizeOrder', checkSizeOrder);
 							if (checkPaymentRetention != checkPayment) {
@@ -1598,10 +1615,10 @@ function expectedArrival(optionResult) {
 /* expectedArrivalTime_control
 // 佐川急便やYHCそれぞれのお届け時間帯を表示するための関数
 ========================================================================== */
-function expectedArrivalTime_SGW(selected) {
+function expectedArrivalTime_SGW(expectedArrival_time_selected) {
 	var expectedArrival_time_html = '<option value="2">12:00～14:00</option><option value="3">14:00～16:00</option><option value="4">16:00～18:00</option><option value="5">18:00～21:00</option>';
 	$('#fs_input_expectedArrival_time').replaceWith('<select name="time" id="fs_input_expectedArrival_time" class="fs-c-dropdown__menu"><option value="none" selected="selected">指定なし</option><option value="1">午前中</option>' + expectedArrival_time_html + '</select>');
-	$('#fs_input_expectedArrival_time option[value="' + selected + '"]').prop('selected', true);
+	$('#fs_input_expectedArrival_time option[value="' + expectedArrival_time_selected + '"]').prop('selected', true);
 }
 
 function expectedArrivalTime_YHC(checkZipCodeResult) {
