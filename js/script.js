@@ -12,6 +12,7 @@ $(function () {
 	cartRegistBranch(); //javaScriptParts
 	cartADISCaution();
 	cart_coupon_conflict_caution();
+	cart_select_quantity();
 	coupon_reference();
 	ADIS_discriptionOpenClose(); //OK
 	magazineImageChange(); //OK
@@ -23,10 +24,10 @@ $(function () {
 	productSortSelect(); //OK
 	productCategoryRankingDisplayNone(); //OK
 	productCategorySubCategoryMenu(); //OK
-	productVariation(); //OK
-	productSizeVariation(); //OK
-	productCompatibleList();
-	productDetailSeriesLink(); //OK
+	// productVariation(); //OK
+	// productSizeVariation(); //OK
+	// productCompatibleList();
+	// productDetailSeriesLink(); //OK
 	productDetail_tnlListTableLink();
 	//product_detail_series_caption();
 	productDetail_mhpContentsBanner();
@@ -5241,7 +5242,7 @@ function rewriteDOM() {
 		$('.sizeOrder').each(function () {
 
 			$('.fs-c-listedOptionPrice__option__label').each(function () {
-				console.log($(this).text())
+				// console.log($(this).text())
 				if ($(this).text() == 'カラー'){
 					$(this).parent('.fs-c-listedOptionPrice__option').next('.fs-c-listedOptionPrice__price').css('visibility','hidden');
 				}
@@ -6506,7 +6507,145 @@ function productDetailAddData() {
 		response = JSON.parse(response);
 
 		data = response.result;
-		// console.log(data);
+
+		if (data.color_variations[0].value != undefined && data.color_variations[0].value != '') {
+				var url = $('link[rel="canonical"]').attr('href');
+				var variation_text = data.color_variations[0].value.split(',');
+				// console.log(variation_text)
+				var variation_ary = [];
+
+				var htmlSource = '';
+				for (i = 0; variation_text.length > i; i++) {
+					variation_ary.push(variation_text[i].split('/'));
+				}
+				var productCode = variation_ary[0][0];
+				var seriesCode = productCode.slice(0, 3);
+				var colorName = variation_ary[0][1];
+				
+				var url_split = url.split('/');
+				url = url.replace(url_split[url_split.length - 1], '');
+				for (i = 0; variation_ary.length > i; i++) {
+					var seriesCode = variation_ary[i][0].slice(0, 3);
+					var productCode = variation_ary[i][0];
+					var colorName = variation_ary[i][1];
+					var activeFlag = '';
+					if (url_split.slice(-1)[0] == productCode) {
+						activeFlag = 'active';
+					}
+					if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
+						seriesCode = 'tl';
+					} else if (seriesCode == 'ona') {
+						seriesCode = 'of2';
+					} else if (seriesCode == 'gbp') {
+						seriesCode = 'gbt';
+					}
+					htmlSource = htmlSource + '<li data-productcode="' + productCode + '" class="' + activeFlag + '"><a href="/c/series/' + seriesCode + '/' + productCode + '"><img src="https://shiraistore.itembox.design/item/src/product_variation/' + productCode + '.jpg" alt=""><span>' + colorName + '</span></a></li>';
+				}
+				$('#product-comment_5').html('<h4>カラー</h4><ul>' + htmlSource + '</ul>');
+	
+				$('#product-comment_5').css('display', 'block');
+		}
+
+		// console.log(data.size_variations[0].value)
+
+		if (data.size_variations[0].value != undefined && data.size_variations[0].value != '') {
+			var url = $('link[rel="canonical"]').attr('href');
+			var variation_text = data.size_variations[0].value.split(',');
+			// console.log(variation_text)
+			var variation_ary = [];
+
+			var htmlSource = '';
+			for (i = 0; variation_text.length > i; i++) {
+				variation_ary.push(variation_text[i].split('/'));
+			}
+			var productCode = variation_ary[0][0];
+			var seriesCode = productCode.slice(0, 3);
+			var sizeName = variation_ary[0][1];
+			
+			var url_split = url.split('/');
+			url = url.replace(url_split[url_split.length - 1], '');
+			for (i = 0; variation_ary.length > i; i++) {
+				var productCode = variation_ary[i][0];
+				var seriesCode = productCode.slice(0, 3);
+				var sizeName = variation_ary[i][1];
+				var activeFlag = '';
+				if (url_split.slice(-1)[0] == productCode) {
+					activeFlag = 'active';
+				}
+				if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
+					seriesCode = 'tl';
+				} else if (seriesCode == 'ona') {
+					seriesCode = 'of2';
+				} else if (seriesCode == 'gbp') {
+					seriesCode = 'gbt';
+				}
+				htmlSource = htmlSource + '<li data-productcode="' + productCode + '" class="' + activeFlag + '"><a href="/c/series/' + seriesCode + '/' + productCode + '" class="variationItem"><span>' + sizeName + '</span></a></li>';
+			}
+			$('#product-comment_9').html('<h4>サイズ</h4><ul>' + htmlSource + '</ul>');
+			$('#product-comment_9').css('display', 'block');
+			var url_split = url.split('/');
+		}
+
+		if (data.compatible_products[0].value != undefined && data.compatible_products[0].value != '') {
+			var url = $('link[rel="canonical"]').attr('href');
+			var compatible_text = data.compatible_products[0].value.split(',');
+			// console.log(compatible_text)
+			var compatible_ary = [];
+
+			var htmlSource = '';
+			for (i = 0; compatible_text.length > i; i++) {
+				compatible_ary.push(compatible_text[i].split('/'));
+			}
+			for (i = 0; compatible_ary.length > i; i++) {
+				var productCode = compatible_ary[i][0];
+				var productName = compatible_ary[i][1];
+				var seriesCode = productCode.substr(0, 3);
+				if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
+					seriesCode = 'tl';
+				} else if (seriesCode == 'ona') {
+					seriesCode = 'of2';
+				} else if (seriesCode == 'gbp') {
+					seriesCode = 'gbt';
+				}
+
+				if (productCode.indexOf('tnl-em') == -1) {
+					htmlSource = htmlSource + '<li><a  href="/c/series/' + seriesCode + '/' + productCode + '" class="compatibleItem"><img src="https://shiraistore.itembox.design/item/src/product_variation/' + productCode + '.jpg"><span>' + productName + '</span></a></li>';
+				} else {
+					var url = $('link[rel="canonical"]').attr('href');
+					// console.log('url:',url);
+					var url_split = url.split('/');
+					// console.log('url_split:',url_split);
+					var activeProductCode = url_split[url_split.length - 1];
+					// console.log('activeProductCode:',activeProductCode);
+					activeProductColor = activeProductCode.replace(/...-.+-/, '');
+					activeProductCode = activeProductCode.replace(/(-[a-z][a-z]$)/, '');
+					// console.log('activeProductCode:',activeProductCode);
+					var activeProductCode_width = activeProductCode.substr(-2, 2);
+					// console.log('activeProductCode_width:',activeProductCode_width);
+					var imageName;
+					switch (activeProductCode_width) {
+						case '31':
+							imageName = 'TNL-EMU015_034M-' + activeProductColor.toUpperCase();
+							break;
+						case '44':
+							imageName = 'TNL-EMU035_044M-' + activeProductColor.toUpperCase();
+							break;
+						case '59':
+							imageName = 'TNL-EMU045_060M-' + activeProductColor.toUpperCase();
+							break;
+						case '87':
+							imageName = 'TNL-EMU081_090M-' + activeProductColor.toUpperCase();
+							break;
+					}
+					productCode = productCode.replace(/(-[a-z][a-z]$)/, '');
+					imageName;
+					htmlSource = htmlSource + '<li><a  href="/f/sizeOrder/' + productCode + '?w=' + activeProductCode_width + '&d=m&c=' + activeProductColor + '" class="compatibleItem"><img src="/assets/img/product/sizeOrder/tnl-em/thum/' + imageName + '_thum.jpg"><span>' + productName + ' オーダーメイド</span></a></li>';
+				}
+			}
+			$('#product-comment_13').html('<h4>対応商品</h4><ul>' + htmlSource + '</ul>');
+			$('#product-comment_13').css('display', 'block');
+		}
+		
 
 		if (data.ranking_top10 != undefined && data.ranking_top10 != '') {
 			var rankingList = data.ranking_top10;
@@ -8918,7 +9057,7 @@ function cart_coupon_conflict_caution() {
 			}
 		});
 
-		console.log(foundItems); // デバッグ用に出力
+		// console.log(foundItems); // デバッグ用に出力
 	
 		// 条件に合致する商品が2つ以上見つかった場合
 		if (foundItems.size >= 2) {
@@ -8957,6 +9096,60 @@ function cartRegistBranch() {
 			$.removeCookie('cartRegistFlag');
 		}
 	}
+}
+
+/* cart_select_quantity （開発中）
+========================================================================== */
+function cart_select_quantity() {
+		// 変更前の合計数量を保持する変数
+		var prev_total = 0;
+		// console.log('prev_total:',prev_total)
+
+		// 数量の合計をチェックして更新する関数
+		function update_quantity_text() {
+			var new_total = 0;
+			
+			// 数量を取得して合計する
+			$('.fs-c-cartTable__row').each(function () {
+				// <select>要素の値
+				var qtySelect = parseInt($(this).find('.fs-c-quantity__select').val(), 10) || 0;
+				// 入力テキスト（fs-c-quantity__number）の値
+				var qtyNumber = parseInt($(this).find('.fs-c-quantity__number').val(), 10) || 0;
+				// 両方の合計
+				var qty = qtySelect + qtyNumber;
+				new_total += qty;
+			});
+			
+			// 合計数量が変わっている場合、各対象行の「.text_select_quantity」を再表示または再追加する
+			if (new_total != prev_total) {
+
+				// 各行の数量セルに対して処理
+				$('.fs-c-cartTable__productName a').each(function () {
+					var href = $(this).attr('href');
+					var series_code = href.split('/');
+					if (series_code[3] === 'pre-emfot') {
+						var row = $(this).closest('tr');
+						// 既にテキストが存在している場合は表示状態に戻す
+						if (row.find('.text_select_quantity').length > 0) {
+							row.find('.text_select_quantity').show();
+						} else {
+							// 存在しない場合は新たに追加
+							row.find('.fs-c-cartTable__quantity').prepend('<span class="text_select_quantity">必要本数を選択</span>');
+
+							// 必要本数を選択を表示させた後にループを抜けるために代入する
+							prev_total = new_total;
+						}
+					}
+				});
+
+			} else {
+				// pre-emfotがカートに入っていない場合にループを抜けるために代入する
+				prev_total = new_total;
+			}
+		}
+
+	// 300ミリ秒ごとに実行
+	setInterval(update_quantity_text, 300);
 }
 
 /* slideToggleButton
