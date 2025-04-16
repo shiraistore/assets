@@ -1363,8 +1363,13 @@ function searchTagTitle() {
 		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li><a href="/p/search?tag=sale20250320-20250417-1">一人暮らし</a></li><li class="active">ファミリー</li></ul>');
 		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援SALE 第2弾 対象商品');
 		$('title').text('新生活応援SALE 第2弾 対象商品 | 家具インテリア通販のSHIRAI STORE(白井産業)');
-	} else if (params.tag == 'sale20241003-20241024-2') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20241003-20241024-2_1184x240.jpg" alt="タナリオセール 対象商品">');
+	} else if (params.tag == 'sale20250417-20250508-1') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250417-20250508-1_1184x240.jpg" alt="5th Anniversary SALE 対象商品">');
+		$('#fs_ProductSearch h1').html('5th Anniversary SALE 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('5th Anniversary SALE 対象商品');
+		$('title').text('5th Anniversary SALE 対象商品');
+	} else if (params.tag == 'sale20250417-20250508-2') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250417-20250508-2_1184x240.jpg" alt="タナリオセール 対象商品">');
 		$('#fs_ProductSearch h1').html('タナリオセール 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('タナリオセール 対象商品');
 		$('title').text('タナリオセール 対象商品');
