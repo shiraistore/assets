@@ -491,7 +491,7 @@ function tnl_em_select() {
 						$('.product_adis').text(adis_name);
 					}
 
-					// selectADISHtml = `<option data-typename="なし" value="ADIS-00" ${adis00_selected}>なし(+¥0 税込)</option><option data-typename="組組立済+玄関渡し" value="ADIS-01" ${adis01_selected}>組立済+玄関渡し(+¥${price.adis01_selling_price} 税込)</option><option data-typename="組立済+搬入" value="ADIS-02" ${adis02_selected}>組立済+搬入(+¥${price.adis02_selling_price} 税込)</option>`;
+					// selectADISHtml = `<option data-typename="なし" value="ADIS-00" ${adis00_selected}>なし(+¥0 税込)</option><option data-typename="組組立済+玄関渡し" value="ADIS-01" ${adis01_selected}>組立済+玄関渡し(+¥${price.adis01_selection_selling_price} 税込)</option><option data-typename="組立済+搬入" value="ADIS-02" ${adis02_selected}>組立済+搬入(+¥${price.adis02_selection_selling_price} 税込)</option>`;
 
 					// $('#tnl_em [name=tnl_em_optionADIS]').html(selectADISHtml);
 
@@ -505,7 +505,7 @@ function tnl_em_select() {
 						selectADISHtml = `<option data-typename="なし" value="ADIS-00" selected>なし(+¥0 税込)</option>`;
 
 					} else if (Number(optionHeight) + 3 > 200) {
-						selectADISHtml = `<option data-typename="なし" value="ADIS-00" ${adis00_selected}>なし(+¥0 税込)</option><option data-typename="組組立済+玄関渡し" value="ADIS-01" ${adis01_selected}>組立済+玄関渡し(+¥${formatNumberWithComma(price.adis01_selling_price)} 税込)</option>`;
+						selectADISHtml = `<option data-typename="なし" value="ADIS-00" ${adis00_selected}>なし(+¥0 税込)</option><option data-typename="組組立済+玄関渡し" value="ADIS-01" ${adis01_selected}>組立済+玄関渡し(+¥${formatNumberWithComma(price.adis01_selection_selling_price)} 税込)</option>`;
 
 						// $('#tnl_em [name=tnl_em_optionADIS] option[value="ADIS-02"]').remove();
 						// if (optionADIS == 'ADIS-02') {
@@ -514,7 +514,7 @@ function tnl_em_select() {
 						// 	$('#tnl_em [name=tnl_em_optionADIS]').val(optionADIS);
 						// }
 					} else if (totalSize > 260) {
-						selectADISHtml = `<option data-typename="なし" value="ADIS-00" ${adis00_selected}>なし(+¥0 税込)</option><option data-typename="組立済+搬入" value="ADIS-02" ${adis02_selected}>組立済+搬入(+¥${formatNumberWithComma(price.adis02_selling_price)} 税込)</option>`;
+						selectADISHtml = `<option data-typename="なし" value="ADIS-00" ${adis00_selected}>なし(+¥0 税込)</option><option data-typename="組立済+搬入" value="ADIS-02" ${adis02_selected}>組立済+搬入(+¥${formatNumberWithComma(price.adis02_selection_selling_price)} 税込)</option>`;
 						
 						// $('#tnl_em [name=tnl_em_optionADIS] option[value="ADIS-01"]').remove();
 						// if (optionADIS == 'ADIS-01') {
@@ -523,7 +523,7 @@ function tnl_em_select() {
 						// 	$('#tnl_em [name=tnl_em_optionADIS]').val(optionADIS);
 						// }
 					} else {
-						selectADISHtml = `<option data-typename="なし" value="ADIS-00" ${adis00_selected}>なし(+¥0 税込)</option><option data-typename="組組立済+玄関渡し" value="ADIS-01" ${adis01_selected}>組立済+玄関渡し(+¥${formatNumberWithComma(price.adis01_selling_price)} 税込)</option><option data-typename="組立済+搬入" value="ADIS-02" ${adis02_selected}>組立済+搬入(+¥${formatNumberWithComma(price.adis02_selling_price)} 税込)</option>`;
+						selectADISHtml = `<option data-typename="なし" value="ADIS-00" ${adis00_selected}>なし(+¥0 税込)</option><option data-typename="組組立済+玄関渡し" value="ADIS-01" ${adis01_selected}>組立済+玄関渡し(+¥${formatNumberWithComma(price.adis01_selection_selling_price)} 税込)</option><option data-typename="組立済+搬入" value="ADIS-02" ${adis02_selected}>組立済+搬入(+¥${formatNumberWithComma(price.adis02_selection_selling_price)} 税込)</option>`;
 					}
 
 					$('#tnl_em [name=tnl_em_optionADIS]').html(selectADISHtml);
@@ -549,7 +549,7 @@ function tnl_em_select() {
 					// 	adis02_selected = "selected";
 					// }
 
-					// selectADISHtml = `<option data-typename="なし" value="ADIS-00" ${adis00_selected}>なし(+¥0 税込)</option><option data-typename="組組立済+玄関渡し" value="ADIS-01" ${adis01_selected}>組立済+玄関渡し(+¥${price.adis01_selling_price} 税込)</option><option data-typename="組立済+搬入" value="ADIS-02" ${adis02_selected}>組立済+搬入(+¥${price.adis02_selling_price} 税込)</option>`;
+					// selectADISHtml = `<option data-typename="なし" value="ADIS-00" ${adis00_selected}>なし(+¥0 税込)</option><option data-typename="組組立済+玄関渡し" value="ADIS-01" ${adis01_selected}>組立済+玄関渡し(+¥${price.adis01_selection_selling_price} 税込)</option><option data-typename="組立済+搬入" value="ADIS-02" ${adis02_selected}>組立済+搬入(+¥${price.adis02_selection_selling_price} 税込)</option>`;
 
 					// $('#tnl_em [name=tnl_em_optionADIS]').html(selectADISHtml);
 
@@ -575,20 +575,20 @@ function tnl_em_select() {
 
 						// var price = priceArray.find((v) => v.productNumber === productURL);
 						//SALE価格かどうか判定し価格を出し分ける
-						if (price.product_selling_price < price.product_normal_price) {
-							var discountRate = ((1 - price.product_selling_price / price.product_normal_price) * 100).toFixed(1);
+						if (price.product_selection_selling_price < price.product_selection_normal_price) {
+							var discountRate = ((1 - price.product_selection_selling_price / price.product_selection_normal_price) * 100).toFixed(1);
 							$('body').addClass('time-sale');
 							$('div.salePrice').remove();
-							$('#productPriceBox .fs-c-productPrice__main__price .fs-c-price__value').text(formatNumberWithComma(price.product_normal_price));
+							$('#productPriceBox .fs-c-productPrice__main__price .fs-c-price__value').text(formatNumberWithComma(price.product_selection_normal_price));
 							$('#productPriceBox .fs-c-productPrice__addon').after(
-								`<div class="fs-c-productPrice fs-c-productPrice--selling salePrice"><span class="fs-c-productPrice__main"><span class="fs-c-productPrice__main__price fs-c-price"><span class="fs-c-price__currencyMark">¥</span><span class="fs-c-price__value">${price.product_selling_price.toLocaleString()}</span></span></span><span class="fs-c-productPrice__addon"><span class="priceOffValue">${discountRate}% OFF</span><span class="fs-c-productPrice__addon__label">税込</span></span></div>`
+								`<div class="fs-c-productPrice fs-c-productPrice--selling salePrice"><span class="fs-c-productPrice__main"><span class="fs-c-productPrice__main__price fs-c-price"><span class="fs-c-price__currencyMark">¥</span><span class="fs-c-price__value">${price.product_selection_selling_price.toLocaleString()}</span></span></span><span class="fs-c-productPrice__addon"><span class="priceOffValue">${discountRate}% OFF</span><span class="fs-c-productPrice__addon__label">税込</span></span></div>`
 							);
 						} else {
 							$('body').removeClass('time-sale');
 							$('div.salePrice').remove();
-							$('#productPriceBox .fs-c-productPrice__main__price .fs-c-price__value').text(formatNumberWithComma(price.product_selling_price));
+							$('#productPriceBox .fs-c-productPrice__main__price .fs-c-price__value').text(formatNumberWithComma(price.product_selection_selling_price));
 						}
-						$('#productPriceBox .fs-c-productPointDisplay__quantity').text(Math.round(price.product_selling_price / 100));
+						$('#productPriceBox .fs-c-productPointDisplay__quantity').text(Math.round(price.product_selection_selling_price / 100));
 
 						//$('.fs-c-productPostage .fs-c-price__value').text(price.postage.toLocaleString());
 
@@ -675,21 +675,22 @@ function tnl_em_select() {
 					
 
 					//SALE価格かどうか判定し価格を出し分ける
-					if (price.product_selling_price < price.product_normal_price) {
-						var discountRate = ((1 - price.product_selling_price / price.product_normal_price) * 100).toFixed(1);
+					
+					if (price.product_selection_selling_price < price.product_selection_normal_price) {
+						var discountRate = ((1 - price.product_selection_selling_price / price.product_selection_normal_price) * 100).toFixed(1);
 						$('body').addClass('time-sale');
 						$('div.salePrice').remove();
-						$('#productPriceBox .fs-c-productPrice__main__price .fs-c-price__value').text(formatNumberWithComma(price.product_normal_price));
+						$('#productPriceBox .fs-c-productPrice__main__price .fs-c-price__value').text(formatNumberWithComma(price.product_selection_normal_price));
 						$('#productPriceBox .fs-c-productPrice__addon').after(
-							`<div class="fs-c-productPrice fs-c-productPrice--selling salePrice"><span class="fs-c-productPrice__main"><span class="fs-c-productPrice__main__price fs-c-price"><span class="fs-c-price__currencyMark">¥</span><span class="fs-c-price__value">${price.product_selling_price.toLocaleString()}</span></span></span><span class="fs-c-productPrice__addon"><span class="priceOffValue">${discountRate}% OFF</span><span class="fs-c-productPrice__addon__label">税込</span></span></div>`
+							`<div class="fs-c-productPrice fs-c-productPrice--selling salePrice"><span class="fs-c-productPrice__main"><span class="fs-c-productPrice__main__price fs-c-price"><span class="fs-c-price__currencyMark">¥</span><span class="fs-c-price__value">${price.product_selection_selling_price.toLocaleString()}</span></span></span><span class="fs-c-productPrice__addon"><span class="priceOffValue">${discountRate}% OFF</span><span class="fs-c-productPrice__addon__label">税込</span></span></div>`
 						);
 					} else {
 						$('body').removeClass('time-sale');
 						$('div.salePrice').remove();
-						$('#productPriceBox .fs-c-productPrice__main__price .fs-c-price__value').text(formatNumberWithComma(price.product_normal_price));
+						$('#productPriceBox .fs-c-productPrice__main__price .fs-c-price__value').text(formatNumberWithComma(price.product_selection_normal_price));
 					}
 
-					$('#productPriceBox .fs-c-productPointDisplay__quantity').text(Math.round(price.product_selling_price / 100));
+					$('#productPriceBox .fs-c-productPointDisplay__quantity').text(Math.round(price.product_selection_selling_price / 100));
 					// console.log('price.postage:',price.postage)
 					$('.fs-c-productPostage .fs-c-price__value').text(formatNumberWithComma(price.postage));
 
@@ -1171,20 +1172,20 @@ function tnl_emu_select() {
 
 					var price = get_price(sku_no);
 					//SALE価格かどうか判定し価格を出し分ける
-					if (price.product_selling_price < price.product_normal_price) {
-						var discountRate = ((1 - price.product_selling_price / price.product_normal_price) * 100).toFixed(1);
+					if (price.product_selection_selling_price < price.product_selection_normal_price) {
+						var discountRate = ((1 - price.product_selection_selling_price / price.product_selection_normal_price) * 100).toFixed(1);
 						$('body').addClass('time-sale');
 						$('div.salePrice').remove();
-						$('#productPriceBox .fs-c-price__value').text(formatNumberWithComma(price.product_normal_price));
+						$('#productPriceBox .fs-c-price__value').text(formatNumberWithComma(price.product_selection_normal_price));
 						$('#productPriceBox .fs-c-productPrice__addon').after(
-							`<div class="fs-c-productPrice fs-c-productPrice--selling salePrice"><span class="fs-c-productPrice__main"><span class="fs-c-productPrice__main__price fs-c-price"><span class="fs-c-price__currencyMark">¥</span><span class="fs-c-price__value">${formatNumberWithComma(price.product_selling_price)}</span></span></span><span class="fs-c-productPrice__addon"><span class="priceOffValue">${discountRate}% OFF</span><span class="fs-c-productPrice__addon__label">税込</span></span></div>`
+							`<div class="fs-c-productPrice fs-c-productPrice--selling salePrice"><span class="fs-c-productPrice__main"><span class="fs-c-productPrice__main__price fs-c-price"><span class="fs-c-price__currencyMark">¥</span><span class="fs-c-price__value">${formatNumberWithComma(price.product_selection_selling_price)}</span></span></span><span class="fs-c-productPrice__addon"><span class="priceOffValue">${discountRate}% OFF</span><span class="fs-c-productPrice__addon__label">税込</span></span></div>`
 						);
 					} else {
 						$('body').removeClass('time-sale');
 						$('div.salePrice').remove();
-						$('#productPriceBox .fs-c-price__value').text(formatNumberWithComma(price.product_selling_price));
+						$('#productPriceBox .fs-c-price__value').text(formatNumberWithComma(price.product_selection_selling_price));
 					}
-					$('#productPriceBox .fs-c-productPointDisplay__quantity').text(Math.round(price.product_selling_price / 100));
+					$('#productPriceBox .fs-c-productPointDisplay__quantity').text(Math.round(price.product_selection_selling_price / 100));
 					$('.fs-c-productPostage .fs-c-price__value').text(formatNumberWithComma(price.postage));
 
 
@@ -1209,7 +1210,7 @@ function tnl_emu_select() {
 						$('.product_adis').text(adis_name);
 					}
 
-					var selectADISHtml = `<option data-typename="なし" value="ADIS-00" ${adis00_selected}>なし(+¥0 税込)</option><option data-typename="組組立済+玄関渡し" value="ADIS-01" ${adis01_selected}>組立済+玄関渡し(+¥${formatNumberWithComma(price.adis01_selling_price)} 税込)</option><option data-typename="組立済+搬入" value="ADIS-02" ${adis02_selected}>組立済+搬入(+¥${formatNumberWithComma(price.adis02_selling_price)} 税込)</option>`;
+					var selectADISHtml = `<option data-typename="なし" value="ADIS-00" ${adis00_selected}>なし(+¥0 税込)</option><option data-typename="組組立済+玄関渡し" value="ADIS-01" ${adis01_selected}>組立済+玄関渡し(+¥${formatNumberWithComma(price.adis01_selection_selling_price)} 税込)</option><option data-typename="組立済+搬入" value="ADIS-02" ${adis02_selected}>組立済+搬入(+¥${formatNumberWithComma(price.adis02_selection_selling_price)} 税込)</option>`;
 
 
 					$('#tnl_emu [name=tnl_emu_optionADIS]').html(selectADISHtml);
@@ -1588,8 +1589,8 @@ function tnl_emts_select() {
 				var price = get_price(sku_no)
 
 				// var price = priceArray.find((v) => v.productNumber === productURL);
-				$('#productPriceBox .fs-c-price__value').text(formatNumberWithComma(price.product_selling_price));
-				$('#productPriceBox .fs-c-productPointDisplay__quantity').text(Math.round(price.product_selling_price / 100));
+				$('#productPriceBox .fs-c-price__value').text(formatNumberWithComma(price.product_selection_selling_price));
+				$('#productPriceBox .fs-c-productPointDisplay__quantity').text(Math.round(price.product_selection_selling_price / 100));
 				$('.fs-c-productPostage .fs-c-price__value').text(formatNumberWithComma(price.postage));
 
 				var html =
@@ -1606,8 +1607,8 @@ function tnl_emts_select() {
 				var optionCode = 'TNL-EM' + optionStrength + optionWidth + optionDepth + optionMaterial;
 
 				// var price = priceArray.find((v) => v.productNumber === optionCode);
-				$('#productPriceBox .fs-c-price__value').text(formatNumberWithComma(price.product_selling_price));
-				$('#productPriceBox .fs-c-productPointDisplay__quantity').text(Math.round(price.product_selling_price / 100));
+				$('#productPriceBox .fs-c-price__value').text(formatNumberWithComma(price.product_selection_selling_price));
+				$('#productPriceBox .fs-c-productPointDisplay__quantity').text(Math.round(price.product_selection_selling_price / 100));
 				$('.fs-c-productPostage .fs-c-price__value').text(formatNumberWithComma(price.postage));
 
 				var html =
@@ -1641,8 +1642,8 @@ function tnl_emts_select() {
 
 function get_price(sku_no){
 	// console.log('sku_no:',sku_no)
-	var url = 'https://h15yyu8zof.execute-api.ap-northeast-1.amazonaws.com/prod/get_product_prices';
-	var params = { "sku_no" : sku_no };
+	var url = 'https://h15yyu8zof.execute-api.ap-northeast-1.amazonaws.com/prod/get_size_order_made_prices';
+	var params = { "selection_sku_no" : sku_no };
 	var response = $.ajax({
 		type: 'post',
 		url: url,
