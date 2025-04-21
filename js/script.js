@@ -1580,7 +1580,7 @@ function productVariation() {
 				}
 				if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 					seriesCode = 'tl';
-				} else if (seriesCode == 'ona') {
+				} else if (seriesCode == 'ona' || seriesCode == 'obk') {
 					seriesCode = 'of2';
 				} else if (seriesCode == 'gbp') {
 					seriesCode = 'gbt';
