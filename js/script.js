@@ -757,217 +757,6 @@ function advancedSearchFormSelected() {
 	}
 }
 
-/* orderChangeCancelForm （旧）
-========================================================================== */
-// function orderChangeCancelForm() {
-// 	if ($('#orderChangeCancel').length) {
-// 		var value = $('[name=case]').val();
-// 		//console.log(value);
-// 		if (value == 0) {
-// 			$('#orderChange').css('display', 'block');
-// 			$('#orderCancel').css('display', 'none');
-// 		} else {
-// 			$('#orderChange').css('display', 'none');
-// 			$('#orderCancel').css('display', 'block');
-// 		}
-// 		$('#selectCase').change(function () {
-// 			value = $(this).val();
-// 			if (value == 0) {
-// 				$('#orderChange').css('display', 'block');
-// 				$('#orderCancel').css('display', 'none');
-// 			} else {
-// 				$('#orderChange').css('display', 'none');
-// 				$('#orderCancel').css('display', 'block');
-// 			}
-// 		});
-
-// 		var orderCode = getParam('orderCode');
-// 		// console.log(orderCode);
-// 		if (orderCode !== '') {
-// 			$('.orderCode').each(function () {
-// 				$(this).val(orderCode);
-// 			});
-// 		}
-// 	}
-// }
-
-/* order_change_cancel_form
-========================================================================== */
-// function order_change_cancel_form() {
-// 	if ($('#orderChangeCancel').length) {
-// 		var value = $('[name=case]').val();
-// 		//console.log(value);
-// 		if (value == 0) {
-// 			$('#orderChange').css('display', 'none');
-// 			$('#orderCancel').css('display', 'block');
-// 			$('#adress_time_change').css('display', 'none');
-// 			$('#adress_time_change').css('display', 'none');
-// 		} else if (value == 1) {
-// 			$('#orderChange').css('display', 'none');
-// 			$('#orderCancel').css('display', 'block');
-// 			$('#adress_time_change').css('display', 'none');
-// 			$('#product_change_caption').css('display', 'block');
-// 		} else if (value == 2) {
-// 			$('#orderChange').css('display', 'none');
-// 			$('#orderCancel').css('display', 'none');
-// 			$('#adress_time_change').css('display', 'block');
-// 			$('#product_change_caption').css('display', 'none');
-// 		} else if (value == 3) {
-// 			$('#orderChange').css('display', 'block');
-// 			$('#orderCancel').css('display', 'none');
-// 			$('#adress_time_change').css('display', 'none');
-// 			$('#product_change_caption').css('display', 'none');
-// 		}
-
-// 		$('#selectCase').change(function () {
-// 			value = $(this).val();
-// 			if (value == 0) {
-// 				$('#orderChange').css('display', 'none');
-// 				$('#orderCancel').css('display', 'block');
-// 				$('#adress_time_change').css('display', 'none');
-// 				$('#adress_time_change').css('display', 'none');
-// 			} else if (value == 1) {
-// 				$('#orderChange').css('display', 'none');
-// 				$('#orderCancel').css('display', 'block');
-// 				$('#adress_time_change').css('display', 'none');
-// 				$('#product_change_caption').css('display', 'block');
-// 			} else if (value == 2) {
-// 				$('#orderChange').css('display', 'none');
-// 				$('#orderCancel').css('display', 'none');
-// 				$('#adress_time_change').css('display', 'block');
-// 				$('#product_change_caption').css('display', 'none');
-// 			} else if (value == 3) {
-// 				$('#orderChange').css('display', 'block');
-// 				$('#orderCancel').css('display', 'none');
-// 				$('#adress_time_change').css('display', 'none');
-// 				$('#product_change_caption').css('display', 'none');
-// 			}
-// 		});
-
-// 		var orderCode = getParam('orderCode');
-// 		// console.log(orderCode);
-// 		if (orderCode !== '') {
-// 			$('.orderCode').each(function () {
-// 				$(this).val(orderCode);
-// 			});
-// 		}
-// 	}
-// }
-
-/* contacts_form
-========================================================================== */
-// function contacts_form() {
-// 	if ($('#contacts_form').length) {
-// 		var value = $('[name=case]').val();
-// 		//console.log(value);
-// 		if (value == 0 | value == 1 | value == 8 | value == 9) {
-// 			$('#contacts_form_input').css('display', 'block');
-// 			$('#orderChange').css('display', 'none');
-// 			$('#orderCancel').css('display', 'none');
-// 			$('#adress_time_change').css('display', 'none');
-// 			$('#receipt_form').css('display', 'none');
-// 			$('#tnl_color_sample_form').css('display', 'none');
-// 		} else if (value == 2) {
-// 			$('#contacts_form_input').css('display', 'none');
-// 			$('#orderChange').css('display', 'none');
-// 			$('#orderCancel').css('display', 'none');
-// 			$('#adress_time_change').css('display', 'none');
-// 			$('#receipt_form').css('display', 'block');
-// 			$('#tnl_color_sample_form').css('display', 'none');
-// 		} else if (value == 3 | value == 4) {
-// 			$('#contacts_form_input').css('display', 'none');
-// 			$('#orderChange').css('display', 'none');
-// 			$('#orderCancel').css('display', 'block');
-// 			$('#adress_time_change').css('display', 'none');
-// 			$('#receipt_form').css('display', 'none');
-// 			$('#tnl_color_sample_form').css('display', 'none');
-// 		} else if (value == 5) {
-// 			$('#contacts_form_input').css('display', 'none');
-// 			$('#orderChange').css('display', 'none');
-// 			$('#orderCancel').css('display', 'none');
-// 			$('#adress_time_change').css('display', 'block');
-// 			$('#receipt_form').css('display', 'none');
-// 			$('#tnl_color_sample_form').css('display', 'none');
-// 		} else if (value == 6) {
-// 			$('#contacts_form_input').css('display', 'none');
-// 			$('#orderChange').css('display', 'block');
-// 			$('#orderCancel').css('display', 'none');
-// 			$('#adress_time_change').css('display', 'none');
-// 			$('#receipt_form').css('display', 'none');
-// 			$('#tnl_color_sample_form').css('display', 'none');
-// 		} else if (value == 7) {
-// 			$('#contacts_form_input').css('display', 'none');
-// 			$('#orderChange').css('display', 'none');
-// 			$('#orderCancel').css('display', 'none');
-// 			$('#adress_time_change').css('display', 'none');
-// 			$('#receipt_form').css('display', 'none');
-// 			$('#tnl_color_sample_form').css('display', 'block');
-// 		}
-
-// 		$('#select_case').change(function () {
-// 			value = $(this).val();
-// 			if (value == 0 | value == 1 | value == 8 | value == 9) {
-// 				$('#contacts_form_input').css('display', 'block');
-// 				$('#orderChange').css('display', 'none');
-// 				$('#orderCancel').css('display', 'none');
-// 				$('#adress_time_change').css('display', 'none');
-// 				$('#receipt_form').css('display', 'none');
-// 				$('#tnl_color_sample_form').css('display', 'none');
-// 			} else if (value == 2) {
-// 				$('#contacts_form_input').css('display', 'none');
-// 				$('#orderChange').css('display', 'none');
-// 				$('#orderCancel').css('display', 'none');
-// 				$('#adress_time_change').css('display', 'none');
-// 				$('#receipt_form').css('display', 'block');
-// 				$('#tnl_color_sample_form').css('display', 'none');
-// 			} else if (value == 3 | value == 4) {
-// 				$('#contacts_form_input').css('display', 'none');
-// 				$('#orderChange').css('display', 'none');
-// 				$('#orderCancel').css('display', 'block');
-// 				$('#adress_time_change').css('display', 'none');
-// 				$('#receipt_form').css('display', 'none');
-// 				$('#tnl_color_sample_form').css('display', 'none');
-// 			} else if (value == 5) {
-// 				$('#contacts_form_input').css('display', 'none');
-// 				$('#orderChange').css('display', 'none');
-// 				$('#orderCancel').css('display', 'none');
-// 				$('#adress_time_change').css('display', 'block');
-// 				$('#receipt_form').css('display', 'none');
-// 				$('#tnl_color_sample_form').css('display', 'none');
-// 			} else if (value == 6) {
-// 				$('#contacts_form_input').css('display', 'none');
-// 				$('#orderChange').css('display', 'block');
-// 				$('#orderCancel').css('display', 'none');
-// 				$('#adress_time_change').css('display', 'none');
-// 				$('#receipt_form').css('display', 'none');
-// 				$('#tnl_color_sample_form').css('display', 'none');
-// 			} else if (value == 7) {
-// 				$('#contacts_form_input').css('display', 'none');
-// 				$('#orderChange').css('display', 'none');
-// 				$('#orderCancel').css('display', 'none');
-// 				$('#adress_time_change').css('display', 'none');
-// 				$('#receipt_form').css('display', 'none');
-// 				$('#tnl_color_sample_form').css('display', 'block');
-// 			}
-// 		});
-
-//         $('li:has(input[type=checkbox])').on('click', function(e){
-//             $(this).find('input[type=checkbox]').click();
-//         });
-//         $('li input[type=checkbox]').on('click', function(e){
-//             e.stopPropagation();
-//         });
-
-// 		var orderCode = getParam('orderCode');
-// 		// console.log(orderCode);
-// 		if (orderCode !== '') {
-// 			$('.orderCode').each(function () {
-// 				$(this).val(orderCode);
-// 			});
-// 		}
-// 	}
-// }
-
 /* productDetailSeriesLink
 ========================================================================== */
 function productDetailSeriesLink() {
@@ -977,7 +766,7 @@ function productDetailSeriesLink() {
 		var series = url[url.length - 1].split('-');
 		if (series[0] == 'tl1' || series[0] == 'tl2' || series[0] == 'tl3') {
 			series[0] = series[0].slice(0, 2);
-		} else if (series[0] == 'ona') {
+		} else if (series[0] == 'ona' || series[0] == 'obk') {
 			series[0] = 'of2';
 		} else if (series[0] == 'gbp') {
 			series[0] = 'gbt';
@@ -1635,7 +1424,7 @@ function productSizeVariation() {
 				}
 				if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 					seriesCode = 'tl';
-				} else if (seriesCode == 'ona') {
+				} else if (seriesCode == 'ona' || seriesCode == 'obk') {
 					seriesCode = 'of2';
 				} else if (seriesCode == 'gbp') {
 					seriesCode = 'gbt';
@@ -1679,7 +1468,7 @@ function productCompatibleList() {
 				var seriesCode = productCode.substr(0, 3);
 				if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 					seriesCode = 'tl';
-				} else if (seriesCode == 'ona') {
+				} else if (seriesCode == 'ona' || seriesCode == 'obk') {
 					seriesCode = 'of2';
 				} else if (seriesCode == 'gbp') {
 					seriesCode = 'gbt';
@@ -2523,7 +2312,7 @@ function multipleRankingTop10() {
 
 					if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 						seriesCode = 'tl';
-					} else if (seriesCode == 'ona') {
+					} else if (seriesCode == 'ona' || seriesCode == 'obk') {
 						seriesCode = 'of2';
 					} else if (seriesCode == 'gbp') {
 						seriesCode = 'gbt';
@@ -2688,7 +2477,7 @@ function rankingTop10_forFanplayr(category) {
 
 			if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 				seriesCode = 'tl';
-			} else if (seriesCode == 'ona') {
+			} else if (seriesCode == 'ona' || seriesCode == 'obk') {
 				seriesCode = 'of2';
 			} else if (seriesCode == 'gbp') {
 				seriesCode = 'gbt';
@@ -2884,7 +2673,7 @@ function hitItemCategory_forFanplayr(hitItemType) {
 
 			if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 				seriesCode = 'tl';
-			} else if (seriesCode == 'ona') {
+			} else if (seriesCode == 'ona' || seriesCode == 'obk') {
 				seriesCode = 'of2';
 			} else if (seriesCode == 'gbp') {
 				seriesCode = 'gbt';
@@ -3066,7 +2855,7 @@ function hitItemProduct_forFanplayr() {
 		} else {
 			if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 				seriesCode = 'tl';
-			} else if (seriesCode == 'ona') {
+			} else if (seriesCode == 'ona' || seriesCode == 'obk') {
 				seriesCode = 'of2';
 			} else if (seriesCode == 'gbp') {
 				seriesCode = 'gbt';
@@ -3247,7 +3036,7 @@ function getTopRanking() {
 
 					if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 						seriesCode = 'tl';
-					} else if (seriesCode == 'ona') {
+					} else if (seriesCode == 'ona' || seriesCode == 'obk') {
 						seriesCode = 'of2';
 					} else if (seriesCode == 'gbp') {
 						seriesCode = 'gbt';
@@ -3458,7 +3247,7 @@ function get_top_ranking() {
 
 						if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 							seriesCode = 'tl';
-						} else if (seriesCode == 'ona') {
+						} else if (seriesCode == 'ona' || seriesCode == 'obk') {
 							seriesCode = 'of2';
 						} else if (seriesCode == 'gbp') {
 							seriesCode = 'gbt';
@@ -3652,7 +3441,7 @@ function getCouponItems() {
 
 				if (series_code == 'tl1' || series_code == 'tl2' || series_code == 'tl3') {
 					series_code = 'tl';
-				} else if (series_code == 'ona') {
+				} else if (series_code == 'ona' || series_code == 'obk') {
 					series_code = 'of2';
 				} else if (series_code == 'gbp') {
 					series_code = 'gbt';
@@ -3848,7 +3637,7 @@ function getNewItems() {
 
 				if (series_code == 'tl1' || series_code == 'tl2' || series_code == 'tl3') {
 					series_code = 'tl';
-				} else if (series_code == 'ona') {
+				} else if (series_code == 'ona' || series_code == 'obk') {
 					series_code = 'of2';
 				} else if (series_code == 'gbp') {
 					series_code = 'gbt';
@@ -4044,7 +3833,7 @@ function get_outlet_items() {
 
 				if (series_code == 'tl1' || series_code == 'tl2' || series_code == 'tl3') {
 					series_code = 'tl';
-				} else if (series_code == 'ona') {
+				} else if (series_code == 'ona' || series_code == 'obk') {
 					series_code = 'of2';
 				} else if (series_code == 'gbp') {
 					series_code = 'gbt';
@@ -4240,7 +4029,7 @@ function get_sale_items() {
 
 				if (series_code == 'tl1' || series_code == 'tl2' || series_code == 'tl3') {
 					series_code = 'tl';
-				} else if (series_code == 'ona') {
+				} else if (series_code == 'ona' || series_code == 'obk') {
 					series_code = 'of2';
 				} else if (series_code == 'gbp') {
 					series_code = 'gbt';
@@ -4437,7 +4226,7 @@ function sale_list() {
 
 				if (series_code == 'tl1' || series_code == 'tl2' || series_code == 'tl3') {
 					series_code = 'tl';
-				} else if (series_code == 'ona') {
+				} else if (series_code == 'ona' || series_code == 'obk') {
 					series_code = 'of2';
 				} else if (series_code == 'gbp') {
 					series_code = 'gbt';
@@ -4628,7 +4417,7 @@ function ranking_list() {
 
 							if (series_code == 'tl1' || series_code == 'tl2' || series_code == 'tl3') {
 								series_code = 'tl';
-							} else if (series_code == 'ona') {
+							} else if (series_code == 'ona' || series_code == 'obk') {
 								series_code = 'of2';
 							} else if (series_code == 'gbp') {
 								series_code = 'gbt';
@@ -6090,7 +5879,7 @@ function multipleReviewList() {
 	
 						if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 							seriesCode = 'tl';
-						} else if (seriesCode == 'ona') {
+						} else if (seriesCode == 'ona' || seriesCode == 'obk') {
 							seriesCode = 'of2';
 						} else if (seriesCode == 'gbp') {
 							seriesCode = 'gbt';
@@ -6539,7 +6328,7 @@ function productDetailAddData() {
 					}
 					if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 						seriesCode = 'tl';
-					} else if (seriesCode == 'ona') {
+					} else if (seriesCode == 'ona' || seriesCode == 'obk') {
 						seriesCode = 'of2';
 					} else if (seriesCode == 'gbp') {
 						seriesCode = 'gbt';
@@ -6579,7 +6368,7 @@ function productDetailAddData() {
 				}
 				if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 					seriesCode = 'tl';
-				} else if (seriesCode == 'ona') {
+				} else if (seriesCode == 'ona' || seriesCode == 'obk') {
 					seriesCode = 'of2';
 				} else if (seriesCode == 'gbp') {
 					seriesCode = 'gbt';
@@ -6676,7 +6465,7 @@ function productDetailAddData() {
 
 				if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 					seriesCode = 'tl';
-				} else if (seriesCode == 'ona') {
+				} else if (seriesCode == 'ona' || seriesCode == 'obk') {
 					seriesCode = 'of2';
 				} else if (seriesCode == 'gbp') {
 					seriesCode = 'gbt';
@@ -6919,7 +6708,7 @@ function productDetailAddData() {
 
 				if (!seriesCode.indexOf('tl')) {
 					seriesCode = 'tl';
-				} else if (seriesCode == 'ona') {
+				} else if (seriesCode == 'ona' || seriesCode == 'obk') {
 					seriesCode = 'of2';
 				} else if (seriesCode == 'gbp') {
 					seriesCode = 'gbt';
@@ -7172,7 +6961,7 @@ function productDetailAddData() {
 
 				if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 					seriesCode = 'tl';
-				} else if (seriesCode == 'ona') {
+				} else if (seriesCode == 'ona' || seriesCode == 'obk') {
 					seriesCode = 'of2';
 				} else if (seriesCode == 'gbp') {
 					seriesCode = 'gbt';
@@ -7306,7 +7095,7 @@ function productDetailAddData() {
 
 				if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 					seriesCode = 'tl';
-				} else if (seriesCode == 'ona') {
+				} else if (seriesCode == 'ona' || seriesCode == 'obk') {
 					seriesCode = 'of2';
 				} else if (seriesCode == 'gbp') {
 					seriesCode = 'gbt';
@@ -7797,7 +7586,7 @@ function recommendTop10() {
 
 			if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 				seriesCode = 'tl';
-			} else if (seriesCode == 'ona') {
+			} else if (seriesCode == 'ona' || seriesCode == 'obk') {
 				seriesCode = 'of2';
 			} else if (seriesCode == 'gbp') {
 				seriesCode = 'gbt';
@@ -7946,7 +7735,7 @@ function rankingTop10(rakingTop10Type) {
 
 			if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 				seriesCode = 'tl';
-			} else if (seriesCode == 'ona') {
+			} else if (seriesCode == 'ona' || seriesCode == 'obk') {
 				seriesCode = 'of2';
 			} else if (seriesCode == 'gbp') {
 				seriesCode = 'gbt';
@@ -8105,7 +7894,7 @@ function recommendList() {
 
 			if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 				seriesCode = 'tl';
-			} else if (seriesCode == 'ona') {
+			} else if (seriesCode == 'ona' || seriesCode == 'obk') {
 				seriesCode = 'of2';
 			} else if (seriesCode == 'gbp') {
 				seriesCode = 'gbt';
@@ -8246,7 +8035,7 @@ function rankingList(jsonfile) {
 
 			if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
 				seriesCode = 'tl';
-			} else if (seriesCode == 'ona') {
+			} else if (seriesCode == 'ona' || seriesCode == 'obk') {
 				seriesCode = 'of2';
 			} else if (seriesCode == 'gbp') {
 				seriesCode = 'gbt';
