@@ -39,6 +39,7 @@ $(function () {
 	productDetail_amrContentsBanner();
 	productDetail_ntuContentsBanner();
 	productDetail_howToStoreKidsBooksContentsBanner();
+	product_detail_ncm_contents_banner();
 	//product_detail_amn_campaign_banner();
 	searchTagsTitleDescriptionChange();
 	putMemberIdOptInPolicy();
@@ -988,6 +989,21 @@ function productDetail_ntuContentsBanner() {
 		var series = url[url.length - 1].split('-');
 		if (series[0] == 'ntu') {
 			var html = '<ul id="contents-banner"><li><a href="/f/feature/naturica-coordinate"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-naturica-coordinate.jpg"></a></li></ul>';
+
+			$('#productActionBox').after(html);
+		}
+	}
+}
+
+/* product_detail_ncm_contents_banner
+========================================================================== */
+function product_detail_ncm_contents_banner() {
+	if ($('#fs_ProductDetails').length) {
+		var url = window.location.pathname.substring(1);
+		url = url.split('/');
+		var series = url[url.length - 1].split('-');
+		if (series[0] == 'ncm') {
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/nyacomo_series"><img src="https://shiraistore.itembox.design/item/src/product_detail_banner_nyacomo_series.jpg"></a></li></ul>';
 
 			$('#productActionBox').after(html);
 		}
