@@ -3395,12 +3395,12 @@ function get_top_ranking() {
 
 				if (category == 'overall') {
 					if ($(".tabcontent[data-category='overall'] .fs-c-buttonContainer").length === 0) {
-						$(".tabcontent[data-category='overall'] ul").after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking_test" class="fs-c-button--standard">ランキングを見る</a></div>');
+						$(".tabcontent[data-category='overall'] ul").after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking" class="fs-c-button--standard">ランキングを見る</a></div>');
 						$(".tabcontent[data-category='overall']").addClass('active').show();
 					}
 				} else if (category !== 'dresser') {
 					if ($(".tabcontent[data-category='" + category + "'] .fs-c-buttonContainer").length === 0) {
-						$(".tabcontent[data-category='" + category + "'] ul").after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking_test-' + category + '" class="fs-c-button--standard">ランキングを見る</a></div>');
+						$(".tabcontent[data-category='" + category + "'] ul").after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking-' + category + '" class="fs-c-button--standard">ランキングを見る</a></div>');
 					}
 				}
 			});
