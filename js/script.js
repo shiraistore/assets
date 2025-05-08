@@ -43,7 +43,7 @@ $(function () {
 	//product_detail_amn_campaign_banner();
 	searchTagsTitleDescriptionChange();
 	putMemberIdOptInPolicy();
-	getTopRanking();
+	// getTopRanking();
 	get_top_ranking();
 	//getTopFaq();
 	getCouponItems();
@@ -336,90 +336,90 @@ function getUrlRedirect() {
 	}
 }
 
-function reviewsDisplayForSearchResults() {
-	if ($('#fs_ProductSearch').length || $('#fs_ProductCategory').length) {
-		if (!$('.fs-body-category-preSale').length) {
-			var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/getReviewsForProductsList';
-			var request = [];
-			var productUrls = [];
-			$('.fs-c-productListItem').each(function () {
-				var productHref = $(this).find('a').attr('href');
-				var productNumbers = productHref.split('/');
-				var productNumber = productNumbers.slice(-1)[0];
-				for (let i = 1; i < 6; i++) {
-					request.push({ product_number: productNumber, review_number: i });
-				}
-				productUrls.push(productHref);
-			});
+// function reviewsDisplayForSearchResults() {
+// 	if ($('#fs_ProductSearch').length || $('#fs_ProductCategory').length) {
+// 		if (!$('.fs-body-category-preSale').length) {
+// 			var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/getReviewsForProductsList';
+// 			var request = [];
+// 			var productUrls = [];
+// 			$('.fs-c-productListItem').each(function () {
+// 				var productHref = $(this).find('a').attr('href');
+// 				var productNumbers = productHref.split('/');
+// 				var productNumber = productNumbers.slice(-1)[0];
+// 				for (let i = 1; i < 6; i++) {
+// 					request.push({ product_number: productNumber, review_number: i });
+// 				}
+// 				productUrls.push(productHref);
+// 			});
 
-			var resutls = $.ajax({
-				type: 'post',
-				url: url,
-				async: false,
-				data: JSON.stringify(request),
-				contentType: 'application/json',
-				dataType: 'json',
-				scriptCharset: 'utf-8',
-				success: function (resutls) {
-					// Success
-					//console.log(JSON.stringify(response));
-				},
-				error: function (resutls) {
-					// Error
-					//console.log(JSON.stringify(response));
-				},
-			}).responseText;
+// 			var resutls = $.ajax({
+// 				type: 'post',
+// 				url: url,
+// 				async: false,
+// 				data: JSON.stringify(request),
+// 				contentType: 'application/json',
+// 				dataType: 'json',
+// 				scriptCharset: 'utf-8',
+// 				success: function (resutls) {
+// 					// Success
+// 					//console.log(JSON.stringify(response));
+// 				},
+// 				error: function (resutls) {
+// 					// Error
+// 					//console.log(JSON.stringify(response));
+// 				},
+// 			}).responseText;
 
-			if (resutls != '[]') {
-				resutls = resutls.replace(/\r?\n/g, '<br>');
+// 			if (resutls != '[]') {
+// 				resutls = resutls.replace(/\r?\n/g, '<br>');
 
-				resutls = JSON.parse(resutls);
+// 				resutls = JSON.parse(resutls);
 
-				var reviewsHtml = '';
-				for (const review of resutls) {
-					const productId12Length = zeroPadding(review.product_id, 12);
-					const productGroup = Math.floor(review.product_id / 100);
-					const productGroup3Length = zeroPadding(productGroup, 3);
-					const productThumbnailNumber2Length = zeroPadding(review.product_thumbnail_number, 2);
+// 				var reviewsHtml = '';
+// 				for (const review of resutls) {
+// 					const productId12Length = zeroPadding(review.product_id, 12);
+// 					const productGroup = Math.floor(review.product_id / 100);
+// 					const productGroup3Length = zeroPadding(productGroup, 3);
+// 					const productThumbnailNumber2Length = zeroPadding(review.product_thumbnail_number, 2);
 
-					//console.log(review.product_number);
-					const productNumber = review.product_number;
-					let productUrl;
+// 					//console.log(review.product_number);
+// 					const productNumber = review.product_number;
+// 					let productUrl;
 
-					for (let i = 0; i < productUrls.length; i++) {
-						if (productUrls[i].indexOf(productNumber) != -1) {
-							//console.log(productUrl.indexOf(productNumber));
-							//console.log(productUrls[i]);
-							productUrl = productUrls[i];
-						}
-					}
+// 					for (let i = 0; i < productUrls.length; i++) {
+// 						if (productUrls[i].indexOf(productNumber) != -1) {
+// 							//console.log(productUrl.indexOf(productNumber));
+// 							//console.log(productUrls[i]);
+// 							productUrl = productUrls[i];
+// 						}
+// 					}
 
-					let upDate = review.created_at.split('T');
-					upDate = upDate[0].replace(/-/g, '/');
+// 					let upDate = review.created_at.split('T');
+// 					upDate = upDate[0].replace(/-/g, '/');
 
-					// console.log('productThumbnailNumber2Length:',productThumbnailNumber2Length);
-					// console.log('productId12Length:',productId12Length);
-					// console.log('productGroup3Length:',productGroup3Length);
-					// console.log('productUrl:',productUrl);
+// 					// console.log('productThumbnailNumber2Length:',productThumbnailNumber2Length);
+// 					// console.log('productId12Length:',productId12Length);
+// 					// console.log('productGroup3Length:',productGroup3Length);
+// 					// console.log('productUrl:',productUrl);
 
-					reviewsHtml += `<li class="fs-c-reviewList__item reviewScore-${review.rating}"><div class="reviewImage"><a href="${productUrl}"><img src="https://shiraistore.itembox.design/product/${productGroup3Length}/${productId12Length}/${productId12Length}-${productThumbnailNumber2Length}-xs.jpg" alt=""></a></div><h3 class="productName">${review.product_name}</h3><div class="reviewContent"><div class="fs-c-reviewList__item__info fs-c-reviewInfo"><div class="fs-c-reviewInfo__reviewer fs-c-reviewer"><div class="fs-c-reviewer__name"><span class="fs-c-reviewer__name__nickname">${review.nickname}</span></div><div class="fs-c-reviewer__status"><span class="fs-c-reviewerStatus">購入者</span></div><div class="fs-c-reviewer__profile"></div></div><dl class="fs-c-reviewInfo__date"><dt>投稿/更新日投稿日</dt><dd><time datetime="${review.created_at}" class="fs-c-time">${upDate}</time></dd></dl><div class="fs-c-reviewRating"><div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="${review.rating}.0"></div></div></div><div class="color">${review.product_color}</div><div class="fs-c-reviewList__item__body fs-c-reviewBody">${review.body}</div><div class="text-right"><a href="${productUrl}" class="text-link-color">商品詳細を見る</a></div></div></li>`;
-				}
+// 					reviewsHtml += `<li class="fs-c-reviewList__item reviewScore-${review.rating}"><div class="reviewImage"><a href="${productUrl}"><img src="https://shiraistore.itembox.design/product/${productGroup3Length}/${productId12Length}/${productId12Length}-${productThumbnailNumber2Length}-xs.jpg" alt=""></a></div><h3 class="productName">${review.product_name}</h3><div class="reviewContent"><div class="fs-c-reviewList__item__info fs-c-reviewInfo"><div class="fs-c-reviewInfo__reviewer fs-c-reviewer"><div class="fs-c-reviewer__name"><span class="fs-c-reviewer__name__nickname">${review.nickname}</span></div><div class="fs-c-reviewer__status"><span class="fs-c-reviewerStatus">購入者</span></div><div class="fs-c-reviewer__profile"></div></div><dl class="fs-c-reviewInfo__date"><dt>投稿/更新日投稿日</dt><dd><time datetime="${review.created_at}" class="fs-c-time">${upDate}</time></dd></dl><div class="fs-c-reviewRating"><div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="${review.rating}.0"></div></div></div><div class="color">${review.product_color}</div><div class="fs-c-reviewList__item__body fs-c-reviewBody">${review.body}</div><div class="text-right"><a href="${productUrl}" class="text-link-color">商品詳細を見る</a></div></div></li>`;
+// 				}
 
-				if ($('.advanceSearchTag').length) {
-					searchTagsCanonicalChange();
-					const tagName = $('.advanceSearchTag').html().replace('#', '');
-					$('.fs-c-productList').after(`<div id="multipleReviewList" class="productList"><h2>${tagName}のレビュー</h2><ul>${reviewsHtml}</ul></div>`);
-				} else {
-					const titleName = $('h1').html();
-					$('.fs-c-productList').after(`<div id="multipleReviewList" class="productList"><h2>${titleName}のレビュー</h2><ul>${reviewsHtml}</ul></div>`);
-				}
-			}
-		} else {
-			$('h1').after('<p class="red text-center">*このページからのみ先行販売商品をご覧いただけます。<br>再度ご覧いただくにはメルマガ、もしくはLINEのリンクからアクセスしてください。</p>');
-			$('.category-subCategory-menu').remove();
-		}
-	}
-}
+// 				if ($('.advanceSearchTag').length) {
+// 					searchTagsCanonicalChange();
+// 					const tagName = $('.advanceSearchTag').html().replace('#', '');
+// 					$('.fs-c-productList').after(`<div id="multipleReviewList" class="productList"><h2>${tagName}のレビュー</h2><ul>${reviewsHtml}</ul></div>`);
+// 				} else {
+// 					const titleName = $('h1').html();
+// 					$('.fs-c-productList').after(`<div id="multipleReviewList" class="productList"><h2>${titleName}のレビュー</h2><ul>${reviewsHtml}</ul></div>`);
+// 				}
+// 			}
+// 		} else {
+// 			$('h1').after('<p class="red text-center">*このページからのみ先行販売商品をご覧いただけます。<br>再度ご覧いただくにはメルマガ、もしくはLINEのリンクからアクセスしてください。</p>');
+// 			$('.category-subCategory-menu').remove();
+// 		}
+// 	}
+// }
 
 function instagramPostDisplayForSearchResults() {
 	if ($('#fs_ProductSearch').length || $('#fs_ProductCategory').length) {
@@ -3204,7 +3204,7 @@ function getTopRanking() {
 /* get_top_ranking (トップページランキング v2)
 ========================================================================== */
 function get_top_ranking() {
-	if ($('#test').length) {
+	if ($('#fs_Top').length) {
 		var url = location.pathname;
 		var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/get_data_v2';
 
@@ -3406,6 +3406,18 @@ function get_top_ranking() {
 			});
 
 			$('.tablink[data-category="overall"]').trigger('click');
+
+			$('#topPage-ranking-categories').css('display', 'block');
+
+			$(document).on('click', '.tablink', function () {
+				var category = $(this).data('category');
+				$('.tabcontent').removeClass('active').hide();
+				$('.tabcontent[data-category="' + category + '"]')
+					.addClass('active')
+					.show();
+				$('.tablink').removeClass('active');
+				$(this).addClass('active');
+			});
 	}
 }
 
