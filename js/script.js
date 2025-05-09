@@ -297,8 +297,8 @@ function getUrlRedirect() {
 	var url = location.href;
 	if (url.indexOf('https://shirai-store.net/f/feature/magazine/newLife2022') > -1) {
 		window.location.href = 'https://shirai-store.net/f/feature/magazine/newLife';
-	} else if (url == 'https://shirai-store.net/f/shirai_fan') {
-		window.location.href = 'https://shirai-store.net/f/shirai-fan';
+	} else if (url == 'https://shirai-store.net/f/shirai-fan') {
+		window.location.href = 'https://shirai-store.net/f/shirai_fan';
 	} else if (url == 'https://shirai-store.net/f/terms_use') {
 		window.location.href = 'https://shirai-store.net/f/terms-use';
 	} else if (url == 'https://shirai-store.net/f/ranking_rack') {
