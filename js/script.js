@@ -1836,11 +1836,12 @@ function sns_post_list() {
 
 /* sns_post_list
 ========================================================================== */
+let sns_modal_data = [];
+
 function sns_post_list_product_detail_10() {
 	if ($('#fs_ProductDetails #content_shirai_fan.product_detail').length) {
 		const lastPart = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
 		const partition_key = 'shirai_fan_posts_' + lastPart + '_10';
-		console.log(partition_key);
 
 		const url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/get_data_v2';
 		const params = { items: partition_key };
@@ -1853,25 +1854,22 @@ function sns_post_list_product_detail_10() {
 			dataType: 'json',
 			scriptCharset: 'utf-8',
 			success: function (response) {
-				let data;
 				try {
 					// 文字列として返ってくる場合を考慮
-					data = typeof response.data === 'string' ? JSON.parse(response.data) : response.data;
+					sns_modal_data = typeof response.data === 'string' ? JSON.parse(response.data) : response.data;
 				} catch (e) {
-					console.error('JSON parse error:', e);
+					// console.error('JSON parse error:', e);
 					return;
 				}
 
-				if (!Array.isArray(data)) {
-					console.error('Invalid data format:', data);
+				if (!Array.isArray(sns_modal_data)) {
+					// console.error('Invalid data format:', sns_modal_data);
 					return;
 				}
-
-				console.log(data.length);
 
 				let list_html = '';
-				for (let i = 0; i < data.length; i++) {
-					const post = data[i];
+				for (let i = 0; i < sns_modal_data.length; i++) {
+					const post = sns_modal_data[i];
 					const post_id = post.post_id;
 					const thumbnail_url = post.thumbnail_url;
 					const size_adjustment = post.size_adjustment;
@@ -1885,7 +1883,7 @@ function sns_post_list_product_detail_10() {
 
 				$('#posted_list').append(list_html);
 
-				if (data.length > 10) {
+				if (sns_modal_data.length > 10) {
 					const button_html = `
 						<div class="fs-c-buttonContainer more-button">
 							<span class="fs-c-button--standard">もっと見る</span>
@@ -1901,13 +1899,13 @@ function sns_post_list_product_detail_10() {
 				$('#fs_ProductDetails #content_shirai_fan.product_detail').show();
 
 				$('.modal-open').on('click', function () {
-					modal_content(data, null, $(this));  // thumbnail_url は関数内で取得されるためnullでOK
+					modal_content(sns_modal_data, null, $(this));  // thumbnail_url は関数内で取得されるためnullでOK
 				});
 
-				$('.modal-ctr-open').on('click', function () {
+				$('.modal-ctr-open').off('click').on('click', function () {
 					if (!$(this).hasClass('disable')) {
 						$('.modal-content_inner').fadeOut(0);
-						modal_content(data, null, $(this));
+						modal_content(sns_modal_data, null, $(this));
 						$('.modal-content_inner').fadeIn(300);
 					}
 				});
@@ -1915,7 +1913,7 @@ function sns_post_list_product_detail_10() {
 				modal();
 			},
 			error: function (xhr, status, error) {
-				console.error('Ajax error:', error);
+				// console.error('Ajax error:', error);
 			}
 		});
 	}
@@ -1930,7 +1928,6 @@ function sns_post_list_product_detail_all() {
 		const lastPart = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
 
 		const partition_key = 'shirai_fan_posts_' + lastPart + '_all'
-		console.log(partition_key)
 
         var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/get_data_v2';
 		var params = { items : partition_key };
@@ -1948,14 +1945,14 @@ function sns_post_list_product_detail_all() {
 				//console.log(JSON.stringify(response));
 				// console.log(response);
 
-				data = response.data;
+				sns_modal_data = response.data;
 
 				var list_html = '';
-				for (var i in data) {
+				for (var i in sns_modal_data) {
 					if(i > 10){
-						var post_id = data[i].post_id,
-						thumbnail_url = data[i].thumbnail_url,
-						size_adjustment = data[i].size_adjustment;
+						var post_id = sns_modal_data[i].post_id,
+						thumbnail_url = sns_modal_data[i].thumbnail_url,
+						size_adjustment = sns_modal_data[i].size_adjustment;
 
 						list_html += '<li class="modal-open" data-target="post_modal" data-postid="' + post_id + '"><img src="' + thumbnail_url + '" style="width:' + size_adjustment + '%;height:' + size_adjustment + '%;" alt="sns_post_' + post_id + '"></li>';
 					}
@@ -1965,13 +1962,13 @@ function sns_post_list_product_detail_all() {
 				$('#fs_ProductDetails #content_shirai_fan.product_detail').css('display','block')
 
 				$('.modal-open').on('click', function () {
-					modal_content(data, thumbnail_url, $(this));
+					modal_content(sns_modal_data, thumbnail_url, $(this));
 				});
 
-				$('.modal-ctr-open').on('click', function () {
+				$('.modal-ctr-open').off('click').on('click', function () {
 					if (!$(this).hasClass('disable')) {
 						$('.modal-content_inner').fadeOut(0);
-						modal_content(data, thumbnail_url, $(this));
+						modal_content(sns_modal_data, thumbnail_url, $(this));
 						$('.modal-content_inner').fadeIn(300);
 					}
 				});
