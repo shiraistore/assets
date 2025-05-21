@@ -80,7 +80,7 @@ function delivery_date_time_sizeorder_enabled() {
 		if (is_sizeorder == 1) {
 			orderDisabled();
 			if (!$('.deliveryMethodAlert').length) {
-				$('#fs_button_placeOrder').after('<p class="deliveryMethodAlert red mt-16">【重要】サイズオーダー品をご注文の方はお届け希望日をご指定ください。<span class="delivery_date_time_check mt-24 mb-24 text-link-color">→お届け希望日時の指定はこちら</span></p>');
+				$('#fs_button_placeOrder').after('<p class="deliveryMethodAlert red mt-16">【重要】サイズオーダー品をご注文の方はお届け希望日をご指定ください。</p>');
 			}
 		} else {
 			//注文ボタンをEnableにする
