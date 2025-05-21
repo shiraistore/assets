@@ -11,11 +11,11 @@ FS側のJSによるAjaxで処理をしているため、コールバックや同
 
 // 初期値設定
 let checkZipCodeResult = undefined; //郵便番号のチェック結果初期値設定
-let is_apiOptIn, is_optIn, is_option, is_specifyDate; // Cookieに書き込む判定変数の宣言
+let is_apiOptIn, is_optIn, is_option, is_specifyDate, is_sizeorder; // Cookieに書き込む判定変数の宣言
 let execute_flag = 1; //実行できる状態のフラグ
 
 // AmazonPay決済手続き画面の場合
-// なぜか「$(window).on('load'」が動作しない
+// AmazonPay決済手続き画面はなぜか「$(window).on('load'」が動作しない
 setInterval(function () {
 	// カート内の商品が読み込みが完了するのを待ち、実行フラグが立っているかどうかを判定
 	if ($('.fs-c-cartTable__productInfo').length > 0 && execute_flag == 1) {
@@ -23,6 +23,7 @@ setInterval(function () {
 		$.removeCookie('is_optIn');
 		$.removeCookie('is_option');
 		$.removeCookie('is_specifyDate');
+		$.removeCookie('is_sizeorder');
 
 		//組立オプションの判定
 		optionJudgment();
@@ -56,6 +57,50 @@ function checkOrderEnabled(memberId) {
 			orderDisabled();
 		}
 	}
+}
+
+/* delivery_date_time_sizeorder_enabled 開発中
+// オーダー品がカートに入っている、かつ、お届け希望日が「指定なし」になっている場合に、「サイズオーダー品をご注文の方はお届け希望日を指定ください。」と表示し、注文できないように注文ボタンをdisabledにする関数
+========================================================================== */
+function delivery_date_time_sizeorder_enabled() {
+	is_sizeorder = $.cookie('is_sizeorder'); //Cookieの情報を取得
+
+	//console.log('is_sizeorder: ' + is_sizeorder);
+
+	var delivery_date = $('.fs-c-checkout-delivery__method__deliveryDate').next('dd').text();
+	//var delivery_time = $('.fs-c-checkout-delivery__method__deliveryTime').next('dd').text();
+	if (is_sizeorder == 1) {
+		if(!$('#delivery_data_size_order_caution').length){
+			$('.addDeliveryDateTimeTitle').append('<span id="delivery_data_size_order_caution" class="red ml-8 small-text">※サイズオーダー品ご注文時必須</span>')
+		}
+	}
+
+	if (delivery_date == '指定なし') {
+		// オーダー品がカートに入っている、かつ、お届け希望日が「指定なし」になっている場合
+		if (is_sizeorder == 1) {
+			orderDisabled();
+			if (!$('.deliveryMethodAlert').length) {
+				$('#fs_button_placeOrder').after('<p class="deliveryMethodAlert red mt-16">【重要】サイズオーダー品をご注文の方はお届け希望日をご指定ください。<span class="delivery_date_time_check mt-24 mb-24 text-link-color">→お届け希望日時の指定はこちら</span></p>');
+			}
+		} else {
+			//注文ボタンをEnableにする
+			orderEnabled();
+		} 
+	}
+
+	$(document).off('click', '.openDeliveryModal').on('click', '.openDeliveryModal', function () {
+		// モーダルを表示できるように制御
+		$('body').removeClass('modal_displayNone');
+
+		// モーダル表示を試行（要素が描画されるまで100msおきに試す）
+		var open_modal = setInterval(function () {
+			var button = $('#fs_button_changeDeliveryMethod button.fs-c-button--change--small');
+			if (button.length && button.is(':visible')) {
+				button.trigger('click');
+				clearInterval(open_modal);
+			}
+		}, 100);
+	});
 }
 
 /* checkMemberIdOptInPolicy
@@ -262,6 +307,24 @@ function couponUseCheck() {
 	}
 }
 
+/* checkout delivery_date_time_check
+// お届け希望日を指定し忘れている可能性がある場合に注意表示する関数
+========================================================================== */
+function delivery_date_time_check() {
+	if (!$('.delivery_date_time_check').length) {
+		$('#fs_button_placeOrder').before('<p class="delivery_date_time_check text-center mt-24 mb-24 text-link-color">お届け希望日時の指定はありませんか？</p>');
+	}
+
+	// クリック時にモーダルを表示
+	$(document).on('click', '.delivery_date_time_check', function () {
+		// bodyに追加されていた非表示クラスを削除
+		$('body').removeClass('modal_displayNone');
+
+		// モーダルを開く（配送方法変更ボタンをトリガー）
+		$('#fs_button_changeDeliveryMethod button.fs-c-button--change--small').trigger('click');
+	});
+}
+
 /* checkout AddDeliveryMethodTitle
 // お届け希望日時の表示部分にタイトルを表示する関数（お届け希望日時をどこで指定するかわからない人が多いため目立たせるための処置）
 ========================================================================== */
@@ -272,6 +335,15 @@ function addDeliveryMethodTitle(optionResult) {
 			$('.fs-c-checkout-delivery__method__deliveryDateTime').before('<h4 class="fs-c-checkout-delivery__method__title addDeliveryDateTimeTitle mt-48">お届け希望日時</h4>');
 		}
 	}
+}
+
+/* checkout add_caution_about_wrong_info
+// お届け先の表示部分にお届け先や電話番号に誤りがないか確認を促すメッセージを表示する関数
+========================================================================== */
+function add_caution_about_wrong_info() {
+		if (!$('.add_caution_about_wrong_info').length) {
+			$('#fs-addressInfo-container').append('<p class="add_caution_about_wrong_info red mt-16">誤った住所・電話番号により商品がお届けできないケースが発生しています。お届け先や電話番号に誤りがないかご確認をお願いします。</p>');
+		}
 }
 
 /* checkout sizeOrderDisplayThumb
@@ -649,6 +721,7 @@ function optionJudgment() {
 
 						$('#fs_couponCode').attr('placeholder', '会員様のみご利用いただけます');
 						addDeliveryMethodTitle(optionResult);
+						add_caution_about_wrong_info();
 						sizeOrderDisplayThumb();
 						optionNameChange();
 					}
@@ -740,6 +813,9 @@ function optionJudgment() {
 		// クーポンが適用されているか判定する
 		couponUseCheck();
 
+		// お届け希望日が指定されているか判定する
+		delivery_date_time_check();
+
 		memberId = checkMemberIdOptInPolicy();
 	};
 
@@ -750,6 +826,7 @@ function optionJudgment() {
 		// 300ms毎に実行する
 		execution(optionResult);
 		checkOrderEnabled(memberId);
+		delivery_date_time_sizeorder_enabled();
 	}, 300);
 
 	expectedArrival(optionResult);
@@ -1074,6 +1151,7 @@ function expectedArrival(optionResult) {
 						'2025-07-13',
 						'2025-07-19',
 						'2025-07-20',
+						'2025-07-21',
 						'2025-07-26',
 						'2025-07-27',
 						'2025-08-02',
@@ -1248,6 +1326,13 @@ function expectedArrival(optionResult) {
 						arrivalDate_ary.push($(this).val());
 					});
 
+					// console.log(arrivalDate_ary);
+
+					let delete_days = 0; // 日付調整用
+					for (let i = 0; i < delete_days; i++) {
+						arrivalDate_ary.splice(1, 1);
+					}
+
 					// 最初の日付は注文日の翌日なので削除する
 					// arrivalDate_ary.splice(0, 1);
 
@@ -1380,7 +1465,7 @@ function expectedArrival(optionResult) {
 						orderRequestLeadTime += 1; //通常1日
 						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '製造依頼');
 
-						manufactureLeadTime += 10; //通常10日
+						manufactureLeadTime += 9; //通常10日
 						arrivalDate_ary = checkHolyDay(arrivalDate_ary, manufactureLeadTime, factory_holyDay, '製造');
 
 						shippingReadyLeadTime += 1; //通常1日
@@ -1405,7 +1490,7 @@ function expectedArrival(optionResult) {
 						orderRequestLeadTime += 1; //通常1日
 						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '組立依頼');
 
-						manufactureLeadTime += 10; //通常10日
+						manufactureLeadTime += 9; //通常10日
 						arrivalDate_ary = checkHolyDay(arrivalDate_ary, manufactureLeadTime, factory_holyDay, '製造');
 
 						assemblyLeadTime += 2; //通常2日
@@ -1440,7 +1525,7 @@ function expectedArrival(optionResult) {
 						orderRequestLeadTime += 1; //通常1日
 						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '製造依頼');
 
-						manufactureLeadTime += 10; //通常10日
+						manufactureLeadTime += 9; //通常10日
 						arrivalDate_ary = checkHolyDay(arrivalDate_ary, manufactureLeadTime, factory_holyDay, '製造');
 
 						assemblyLeadTime += 2; //通常2日
@@ -1656,6 +1741,7 @@ function check_option() {
 		// 判定
 		if (product_name.match(/サイズオーダー|受注生産/)) {
 			// サイズオーダーまたは受注生産品の場合の処理
+			$.cookie('is_sizeorder', 1);
 			$(this)
 				.find('.fs-c-listedOptionPrice__option__value')
 				.each(function () {
