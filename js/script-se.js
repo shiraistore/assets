@@ -1465,7 +1465,7 @@ function expectedArrival(optionResult) {
 						orderRequestLeadTime += 1; //通常1日
 						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '製造依頼');
 
-						manufactureLeadTime += 7; //通常10日
+						manufactureLeadTime += 6; //通常10日
 						arrivalDate_ary = checkHolyDay(arrivalDate_ary, manufactureLeadTime, factory_holyDay, '製造');
 
 						shippingReadyLeadTime += 1; //通常1日
@@ -1490,7 +1490,7 @@ function expectedArrival(optionResult) {
 						orderRequestLeadTime += 1; //通常1日
 						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '組立依頼');
 
-						manufactureLeadTime += 7; //通常10日
+						manufactureLeadTime += 6; //通常10日
 						arrivalDate_ary = checkHolyDay(arrivalDate_ary, manufactureLeadTime, factory_holyDay, '製造');
 
 						assemblyLeadTime += 2; //通常2日
@@ -1525,7 +1525,7 @@ function expectedArrival(optionResult) {
 						orderRequestLeadTime += 1; //通常1日
 						arrivalDate_ary = checkHolyDay(arrivalDate_ary, orderRequestLeadTime, operation_holyDay, '製造依頼');
 
-						manufactureLeadTime += 7; //通常10日
+						manufactureLeadTime += 6; //通常10日
 						arrivalDate_ary = checkHolyDay(arrivalDate_ary, manufactureLeadTime, factory_holyDay, '製造');
 
 						assemblyLeadTime += 2; //通常2日
