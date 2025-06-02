@@ -11,7 +11,7 @@ FS側のJSによるAjaxで処理をしているため、コールバックや同
 
 // 初期値設定
 let checkZipCodeResult = undefined; //郵便番号のチェック結果初期値設定
-let is_apiOptIn, is_optIn, is_option, is_specifyDate, is_sizeorder; // Cookieに書き込む判定変数の宣言
+let is_apiOptIn, is_optIn, is_option, is_specifyDate, is_sizeOrder, is_specifyDateSizeOrder; // Cookieに書き込む判定変数の宣言
 let execute_flag = 1; //実行できる状態のフラグ
 
 // AmazonPay決済手続き画面の場合
@@ -20,10 +20,11 @@ setInterval(function () {
 	// カート内の商品が読み込みが完了するのを待ち、実行フラグが立っているかどうかを判定
 	if ($('.fs-c-cartTable__productInfo').length > 0 && execute_flag == 1) {
 		// 条件が揃い実行ができる場合の処理
-		$.removeCookie('is_optIn');
-		$.removeCookie('is_option');
-		$.removeCookie('is_specifyDate');
-		$.removeCookie('is_sizeorder');
+		$.cookie('is_optIn',0);
+		$.cookie('is_option',0);
+		$.cookie('is_specifyDate',0);
+		$.cookie('is_sizeOrder',0);
+		$.cookie('is_specifyDateSizeOrder',0);
 
 		//組立オプションの判定
 		optionJudgment();
@@ -39,13 +40,23 @@ function checkOrderEnabled(memberId) {
 	is_optIn = $.cookie('is_optIn'); //Cookieの情報を取得
 	is_option = $.cookie('is_option'); //Cookieの情報を取得
 	is_specifyDate = $.cookie('is_specifyDate'); //Cookieの情報を取得
+	is_sizeOrder = $.cookie('is_sizeOrder'); //Cookieの情報を取得
+	is_specifyDateSizeOrder = $.cookie('is_specifyDateSizeOrder'); //Cookieの情報を取得
 
 	//会員かどうか判定する
 	if (memberId != 'guest') {
 		//会員の場合の処理
 		//全ての条件が揃っているのであれば注文ボタンをEnableにする
 		if (is_optIn == 1 && is_option == 1 && is_specifyDate == 1) {
-			orderEnabled();
+			if (is_sizeOrder == 1){
+				if (is_specifyDateSizeOrder == 1){
+					orderEnabled();
+				} else {
+					orderDisabled();
+				}
+			} else {
+				orderEnabled();
+			}
 		} else {
 			orderDisabled();
 		}
@@ -63,44 +74,40 @@ function checkOrderEnabled(memberId) {
 // オーダー品がカートに入っている、かつ、お届け希望日が「指定なし」になっている場合に、「サイズオーダー品をご注文の方はお届け希望日を指定ください。」と表示し、注文できないように注文ボタンをdisabledにする関数
 ========================================================================== */
 function delivery_date_time_sizeorder_enabled() {
-	is_sizeorder = $.cookie('is_sizeorder'); //Cookieの情報を取得
-
-	//console.log('is_sizeorder: ' + is_sizeorder);
-
-	var delivery_date = $('.fs-c-checkout-delivery__method__deliveryDate').next('dd').text();
-	//var delivery_time = $('.fs-c-checkout-delivery__method__deliveryTime').next('dd').text();
-	if (is_sizeorder == 1) {
-		if(!$('#delivery_data_size_order_caution').length){
-			$('.addDeliveryDateTimeTitle').append('<span id="delivery_data_size_order_caution" class="red ml-8 small-text">※サイズオーダー品ご注文時必須</span>')
+	if (!$('.deliveryMethodAlert3').length) {
+		is_sizeOrder = $.cookie('is_sizeOrder'); //Cookieの情報を取得
+		//console.log('is_sizeOrder: ' + is_sizeOrder);
+		//var delivery_time = $('.fs-c-checkout-delivery__method__deliveryTime').next('dd').text();
+		if (is_sizeOrder == 1) {
+			if(!$('#delivery_data_size_order_caution').length){
+				$('.addDeliveryDateTimeTitle').append('<span id="delivery_data_size_order_caution" class="red ml-8 small-text">※サイズオーダー・受注生産品ご注文時必須</span>')
+			}
+			var delivery_date = $('.fs-c-checkout-delivery__method__deliveryDate').next('dd').text();
+			if (delivery_date == '指定なし') {
+				// お届け希望日が「指定なし」になっている場合
+				$('#fs_button_placeOrder').after('<p class="deliveryMethodAlert3 red mt-16">【重要】サイズオーダー・受注生産品をご注文の方はお届け希望日をご指定ください。<span class="delivery_date_time_check mt-24 mb-24 text-link-color">→お届け希望日時の指定はこちら</span></p>');
+				$.cookie('is_specifyDateSizeOrder', 0);
+			} else {
+				$.cookie('is_specifyDateSizeOrder', 1)
+			}
 		}
-	}
 
-	if (delivery_date == '指定なし') {
-		// オーダー品がカートに入っている、かつ、お届け希望日が「指定なし」になっている場合
-		if (is_sizeorder == 1) {
-			orderDisabled();
-			if (!$('.deliveryMethodAlert').length) {
-				$('#fs_button_placeOrder').after('<p class="deliveryMethodAlert red mt-16">【重要】サイズオーダー品をご注文の方はお届け希望日をご指定ください。</p>');
-			}
-		} else {
-			//注文ボタンをEnableにする
-			orderEnabled();
-		} 
-	}
+		$(document).off('click', '.openDeliveryModal').on('click', '.openDeliveryModal', function () {
+			// モーダルを表示できるように制御
+			$('body').removeClass('modal_displayNone');
 
-	$(document).off('click', '.openDeliveryModal').on('click', '.openDeliveryModal', function () {
-		// モーダルを表示できるように制御
-		$('body').removeClass('modal_displayNone');
-
-		// モーダル表示を試行（要素が描画されるまで100msおきに試す）
-		var open_modal = setInterval(function () {
+			// モーダル表示を試行（要素が描画されるまで100msおきに試す）
 			var button = $('#fs_button_changeDeliveryMethod button.fs-c-button--change--small');
-			if (button.length && button.is(':visible')) {
-				button.trigger('click');
-				clearInterval(open_modal);
-			}
-		}, 100);
-	});
+			button.trigger('click');
+			// var open_modal = setInterval(function () {
+			// 	var button = $('#fs_button_changeDeliveryMethod button.fs-c-button--change--small');
+			// 	if (button.length && button.is(':visible')) {
+			// 		button.trigger('click');
+			// 		clearInterval(open_modal);
+			// 	}
+			// }, 100);
+		});
+	}
 }
 
 /* checkMemberIdOptInPolicy
@@ -716,7 +723,7 @@ function optionJudgment() {
 							sizeOrderArray.push($(this).text());
 						});
 						if (sizeOrderArray.find((value) => value.match(/(サイズオーダー|受注生産)/g)) != undefined || check_adis_result.result1 >= 0 || check_adis_result.result2 >= 0) {
-							$('#fs_button_placeOrder').before('<p class="deliveryMethodAlert2 mt-16"><span>お願い</span>サイズオーダーや組立サービスは、キャンセルや変更を承ることができません。ご注文内容に誤りがないかご確認ください。</p>');
+							$('#fs_button_placeOrder').before('<p class="deliveryMethodAlert2 mt-16"><span>お願い</span>サイズオーダー・受注生産品や組立サービスは、キャンセルや変更を承ることができません。ご注文内容に誤りがないかご確認ください。</p>');
 						}
 
 						$('#fs_couponCode').attr('placeholder', '会員様のみご利用いただけます');
@@ -825,8 +832,8 @@ function optionJudgment() {
 	setInterval(function () {
 		// 300ms毎に実行する
 		execution(optionResult);
-		checkOrderEnabled(memberId);
 		delivery_date_time_sizeorder_enabled();
+		checkOrderEnabled(memberId);
 	}, 300);
 
 	expectedArrival(optionResult);
@@ -1741,7 +1748,7 @@ function check_option() {
 		// 判定
 		if (product_name.match(/サイズオーダー|受注生産/)) {
 			// サイズオーダーまたは受注生産品の場合の処理
-			$.cookie('is_sizeorder', 1);
+			$.cookie('is_sizeOrder', 1);
 			$(this)
 				.find('.fs-c-listedOptionPrice__option__value')
 				.each(function () {
