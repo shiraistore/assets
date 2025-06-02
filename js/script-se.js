@@ -85,7 +85,7 @@ function delivery_date_time_sizeorder_enabled() {
 			var delivery_date = $('.fs-c-checkout-delivery__method__deliveryDate').next('dd').text();
 			if (delivery_date == '指定なし') {
 				// お届け希望日が「指定なし」になっている場合
-				$('#fs_button_placeOrder').after('<p class="deliveryMethodAlert3 red mt-16">【重要】サイズオーダー・受注生産品をご注文の方はお届け希望日をご指定ください。<span class="delivery_date_time_check mt-24 mb-24 text-link-color">→お届け希望日時の指定はこちら</span></p>');
+				$('#fs_button_placeOrder').after('<p class="deliveryMethodAlert3 red mt-16">【重要】サイズオーダー・受注生産品をご注文の方は<strong>お届け希望日</strong>をご指定ください。<span class="delivery_date_time_check mt-24 mb-24 text-link-color">→お届け希望日時の指定はこちら</span></p>');
 				$.cookie('is_specifyDateSizeOrder', 0);
 			} else {
 				$.cookie('is_specifyDateSizeOrder', 1)
@@ -640,7 +640,7 @@ function optionJudgment() {
 								// 組立済+搬入サービスは日時指定が必須
 								$.cookie('is_specifyDate', 0);
 								if (!$('.deliveryMethodAlert').length) {
-									$('#fs_button_placeOrder').after('<p class="deliveryMethodAlert red text-center mt-16">このお届け先で「組立済+搬入」サービスをご利用の場合は<strong>お届け希望日と時間帯</strong>をご指定ください。</p>');
+									$('#fs_button_placeOrder').after('<p class="deliveryMethodAlert red text-center mt-16">【重要】ご指定のお届け先で「組立済+搬入」サービスをご利用の場合は<strong>お届け希望日と時間帯</strong>をご指定ください。<span class="delivery_date_time_check mt-24 mb-24 text-link-color">→お届け希望日時の指定はこちら</span></p>');
 								}
 							} else {
 								// 日時指定がされている場合の処理
