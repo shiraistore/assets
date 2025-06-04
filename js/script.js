@@ -6434,18 +6434,18 @@ function productDetailAddData() {
 
 		if ($('.fs-c-productOption #optionWithPrice_1').length) {
 			if (!$('.fs-c-productMarks .mark-soldout').length) {
+				console.log(data)
 				if (data.selection_price != undefined && data.selection_price != '') {
 					let adisSaleHtml = '';
 					let is_adisSale = 0;
 					for (const selectionData of data.selection_price) {
-						// console.log(selectionData.selectionCode);
 						const selection_normal_price = selectionData.selection_normal_price;
 						const selection_selling_price = selectionData.selection_selling_price;
 						const differencePrice = selection_normal_price - selection_selling_price;
 						if (selectionData.selection_normal_price > selectionData.selection_selling_price) {
-							if (selectionData.selectionCode == 'ADIS-01') {
+							if (selectionData.selection_code == 'ADIS-01') {
 								adisSaleHtml += `<li>組立済+玄関渡し：¥<span style="text-decoration:line-through">${selection_normal_price.toLocaleString()}</span> → <span class="adisSalePrice">¥${selection_selling_price.toLocaleString()}</span><span class="differencePrice">¥${differencePrice.toLocaleString()} OFF</span></li>`;
-							} else if (selectionData.selectionCode == 'ADIS-02') {
+							} else if (selectionData.selection_code == 'ADIS-02') {
 								adisSaleHtml += `<li>組立済+搬入：¥<span style="text-decoration:line-through">${selection_normal_price.toLocaleString()}</span> → <span class="adisSalePrice">¥${selection_selling_price.toLocaleString()}</span><span class="differencePrice">¥${differencePrice.toLocaleString()} OFF</span></li>`;
 							}
 							is_adisSale = 1;
