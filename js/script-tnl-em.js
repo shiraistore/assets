@@ -101,7 +101,7 @@ function build_review_summary(sum_review) {
 		average_score_star = '5.0';
 	}
 
-	var average_html = '<h3 id="totalScoreTitle" style="text-align:center;">タナリオシリーズの総合評価<span class="fs-c-reviewInfo__stars fs-c-reviewStars" data-ratingcount="' + average_score_star + '">' + average_score.toFixed(1) + '（'+sum_review.number_review+'）'+'</span></h3>';
+	var average_html = '<h3 id="totalScoreTitle" style="text-align:center;">タナリオシリーズの総合評価<span class="fs-c-reviewInfo__stars fs-c-reviewStars" data-ratingcount="' + average_score_star + '">' + average_score.toFixed(1) + '（' + sum_review.number_review + '）' + '</span></h3>';
 	$('#averageMultipleReview').append(average_html);
 
 	// $('#multipleReviewList').before('<p class="fs-c-listControl__status">' + review_score_ary.length + '件中' + review_score_ary.length + '件表示</p>');
@@ -172,26 +172,25 @@ function build_review_summary(sum_review) {
 				`);
 
 	get_reviews(params_review);
-	display_number_review(currentPage,sum_review);
+	display_number_review(currentPage, sum_review);
 
-	function display_number_review(currentPage,sum_review){
+	function display_number_review(currentPage, sum_review) {
 		const select_score = $('#selectScore').val();
 		const number_review_display = currentPage * 10;
 		let number_review;
-		if (select_score == ''){
-			number_review = sum_review.number_review
+		if (select_score == '') {
+			number_review = sum_review.number_review;
 		} else {
 			const score = select_score.split('-')[1];
 			const key_name = 'number_review' + score;
 			number_review = sum_review[key_name];
 		}
 
-		if (number_review_display > number_review){
-			$('#number_display').html(number_review_display - 9 + '件目から' + number_review +'件目を表示中（全' + number_review +'件）');
+		if (number_review_display > number_review) {
+			$('#number_display').html(number_review_display - 9 + '件目から' + number_review + '件目を表示中（全' + number_review + '件）');
 		} else {
-			$('#number_display').html(number_review_display - 9 + '件目から' + number_review_display +'件目を表示中（全' + number_review +'件）');
+			$('#number_display').html(number_review_display - 9 + '件目から' + number_review_display + '件目を表示中（全' + number_review + '件）');
 		}
-		
 	}
 
 	// 「次へ」ボタンクリックイベント
@@ -206,7 +205,7 @@ function build_review_summary(sum_review) {
 			// console.log(JSON.stringify(params_review));
 			$('#multipleReviewList ul').children().remove();
 			get_reviews(params_review);
-			display_number_review(currentPage,sum_review);
+			display_number_review(currentPage, sum_review);
 
 			// スクロール処理を追加
 			$('html, body').animate(
@@ -227,7 +226,7 @@ function build_review_summary(sum_review) {
 			$('#multipleReviewList ul').children().remove();
 			get_reviews(params_review);
 
-			display_number_review(currentPage,sum_review);
+			display_number_review(currentPage, sum_review);
 
 			// スクロール処理を追加
 			$('html, body').animate(
@@ -242,7 +241,7 @@ function build_review_summary(sum_review) {
 	$('#selectScore').change(function () {
 		let select_score = $(this).val();
 		rating = parseInt(select_score.charAt(select_score.length - 1));
-		
+
 		if (rating) {
 			// console.log('true')
 			params_review = {
@@ -272,7 +271,7 @@ function build_review_summary(sum_review) {
 		$('#multipleReviewList ul').children().remove();
 
 		get_reviews(params_review);
-		display_number_review(currentPage,sum_review);
+		display_number_review(currentPage, sum_review);
 	});
 
 	function get_reviews(params_review) {
@@ -1076,32 +1075,6 @@ function tnl_em_select() {
 					'"></option></select><input name="products[' +
 					productURL +
 					'].quantity" type="text" value="1" size="5"></div><button type="submit">カートに入れる</button></form>';
-
-				// if (Number(optionHeight) < 198) {
-				// 	var html =
-				// 		'<form action="https://shirai-store.net/p/cart/add" method="post"><div style="display:none"><input type="hidden" name="products[' +
-				// 		productURL +
-				// 		'].productNo" value="' +
-				// 		productURL +
-				// 		'"><input type="hidden" name="products[' +
-				// 		productURL +
-				// 		'].productOptionsWithPrice[1].id" value="1"/><select name="products[' +
-				// 		productURL +
-				// 		'].productOptionsWithPrice[1].value"><option value="' +
-				// 		optionADIS +
-				// 		'"></option></select><input name="products[' +
-				// 		productURL +
-				// 		'].quantity" type="text" value="1" size="5"></div><button type="submit">カートに入れる</button></form>';
-				// } else {
-				// 	var html =
-				// 		'<form action="https://shirai-store.net/p/cart/add" method="post"><div style="display:none"><input type="hidden" name="products[' +
-				// 		productURL +
-				// 		'].productNo" value="' +
-				// 		productURL +
-				// 		'"><input name="products[' +
-				// 		productURL +
-				// 		'].quantity" type="text" value="1" size="5"></div><button type="submit">カートに入れる</button></form>';
-				// }
 			} else {
 				// オーダー品の場合の処理
 				$('#readyMadeMessage').text('');
@@ -1193,321 +1166,6 @@ function tnl_em_select() {
 		}
 	}
 }
-
-// function tnl_em_select() {
-// 	if ($('#tnl_em').length) {
-// 		$.getJSON(
-// 			'https://cdn.shirai-store.net/assets/json/common/tnlSizeOrderPrice_v1_1.json',
-// 			//'https://cdn.shirai-store.net/assets/json/common/tnlSizeOrderPrice_sale_v1_1.json',
-// 			function (priceArray) {
-// 				tnl_em_select_write(priceArray);
-// 				$('#tnl_em input[type="radio"],#tnl_em select').change(function () {
-// 					tnl_em_select_write(priceArray);
-// 				});
-
-// 				function tnl_em_select_write(priceArray) {
-// 					var readyMadeFlag_Message = '',
-// 						readyMadeFlag_check,
-// 						readyMadeFlag_width = 0,
-// 						readyMadeFlag_depth = 0,
-// 						readyMadeFlag_strength = 0,
-// 						readyMadeFlag_material = 0,
-// 						readyMadeFlag_color = 0,
-// 						optionHeight = $('#tnl_em [name=tnl_em_optionHeight]').val(),
-// 						optionHeightName = $('#tnl_em [name=tnl_em_optionHeight] option:selected').data('typename'),
-// 						optionWidth = $('#tnl_em [name=tnl_em_optionWidth]').val(),
-// 						optionDepth = $('#tnl_em [name=tnl_em_optionDepth]:checked').val(),
-// 						optionDepthName = $('#tnl_em [name=tnl_em_optionDepth]:checked').data('typename'),
-// 						optionStrength = $('#tnl_em [name=tnl_em_optionStrength]:checked').val(),
-// 						optionStrengthName = $('#tnl_em [name=tnl_em_optionStrength]:checked').data('typename'),
-// 						optionMaterial = $('#tnl_em [name=tnl_em_optionMaterial]:checked').val(),
-// 						optionMaterialName = $('#tnl_em [name=tnl_em_optionMaterial]:checked').data('typename'),
-// 						optionColor = $('#tnl_em [name=tnl_em_optionColor]:checked').val(),
-// 						optionColorName = $('#tnl_em [name=tnl_em_optionColor]:checked').data('colorname'),
-// 						optionColor_length = $('#tnl_em input[name=tnl_em_optionColor]').length,
-// 						optionADIS = $('#tnl_em [name=tnl_em_optionADIS]').val(),
-// 						optionADISName = $('#tnl_em [name=tnl_em_optionADIS] option:selected').data('typename'),
-// 						arraySizeRange = ['015_034', '035_044', '045_060', '061_070', '071_080', '081_090'],
-// 						arraySizeRangeValue = arraySizeRange[$('#tnl_em [name=tnl_em_optionWidth] option:selected').data('digit2') - 1],
-// 						productSizeImage = 0;
-
-// 					if (optionWidth == '031' || optionWidth == '044' || optionWidth == '059' || optionWidth == '087') {
-// 						readyMadeFlag_width = 1;
-// 					}
-
-// 					var optionDepthSize;
-
-// 					switch (optionDepth) {
-// 						case 'A':
-// 							optionDepthSize = 19;
-// 							break;
-// 						case 'M':
-// 							optionDepthSize = 29;
-// 							break;
-// 						case 'F':
-// 							optionDepthSize = 44;
-// 							break;
-// 					}
-// 					var adjustableSize = 9; //梱包サイズの調整（cm）
-// 					var totalSize = Number(optionHeight) + Number(optionWidth) + optionDepthSize + adjustableSize;
-
-// 					var selectADISHtml = '<option data-typename="なし" value="ADIS-00">なし</option><option data-typename="組組立済+玄関渡し" value="ADIS-01">組立済+玄関渡し</option><option data-typename="組立済+搬入" value="ADIS-02">組立済+搬入</option>';
-
-// 					$('#tnl_em [name=tnl_em_optionADIS]').html(selectADISHtml);
-
-// 					if (Number(optionHeight) + 3 > 200 && totalSize > 260) {
-// 						$('#tnl_em [name=tnl_em_optionADIS]').val('ADIS-00');
-// 						$('#tnl_em [name=tnl_em_optionADIS] option[value="ADIS-01"]').remove();
-// 						$('#tnl_em [name=tnl_em_optionADIS] option[value="ADIS-02"]').remove();
-// 					} else if (Number(optionHeight) + 3 > 200) {
-// 						$('#tnl_em [name=tnl_em_optionADIS] option[value="ADIS-02"]').remove();
-// 						if (optionADIS == 'ADIS-02') {
-// 							$('#tnl_em [name=tnl_em_optionADIS]').val('ADIS-00');
-// 						} else {
-// 							$('#tnl_em [name=tnl_em_optionADIS]').val(optionADIS);
-// 						}
-// 					} else if (totalSize > 260) {
-// 						$('#tnl_em [name=tnl_em_optionADIS] option[value="ADIS-01"]').remove();
-// 						if (optionADIS == 'ADIS-01') {
-// 							$('#tnl_em [name=tnl_em_optionADIS]').val('ADIS-00');
-// 						} else {
-// 							$('#tnl_em [name=tnl_em_optionADIS]').val(optionADIS);
-// 						}
-// 					} else {
-// 						$('#tnl_em [name=tnl_em_optionADIS]').val(optionADIS);
-// 					}
-
-// 					optionADIS = $('#tnl_em [name=tnl_em_optionADIS]').val();
-// 					optionADISName = $('#tnl_em [name=tnl_em_optionADIS] option:selected').data('typename');
-
-// 					if (optionDepth == 'M') {
-// 						readyMadeFlag_depth = 1;
-// 						$('#tnl_em input[name=tnl_em_optionColor]').parent('label').css('display', 'block');
-// 					} else {
-// 						readyMadeFlag_depth = 0;
-// 					}
-
-// 					if (optionStrength == 'T') {
-// 						readyMadeFlag_strength = 1;
-// 						$('#tnl_em input[name=tnl_em_optionColor]').parent('label').css('display', 'block');
-// 					} else {
-// 						readyMadeFlag_strength = 0;
-// 					}
-
-// 					if (optionMaterial == 'F2') {
-// 						readyMadeFlag_material = 1;
-// 						$('#tnl_em input[name=tnl_em_optionColor]').parent('label').css('display', 'block');
-// 					} else {
-// 						readyMadeFlag_material = 0;
-// 						for (var i = 0; i <= optionColor_length; i++) {
-// 							if (i == 1 || i == 3 || i == 5) {
-// 								$('#tnl_em input[name=tnl_em_optionColor]').eq(i).parent('label').css('display', 'block');
-// 							} else {
-// 								$('#tnl_em input[name=tnl_em_optionColor]').eq(i).parent('label').css('display', 'none');
-// 							}
-// 						}
-
-// 						$('#tnl_em input[name=tnl_em_optionColor]').each(function () {
-// 							if (optionColor == 'NA' || optionColor == 'DK' || optionColor == 'WH') {
-// 							} else {
-// 								$('#tnl_em input[name=tnl_em_optionColor]:eq(1)').prop('checked', true);
-// 							}
-// 						});
-
-// 						optionColor = $('#tnl_em [name=tnl_em_optionColor]:checked').val();
-// 						optionColorName = $('#tnl_em [name=tnl_em_optionColor]:checked').data('colorname');
-// 					}
-
-// 					if (optionColor == 'NA' || optionColor == 'DK' || optionColor == 'WH') {
-// 						readyMadeFlag_color = 1;
-// 					}
-
-// 					switch (arraySizeRangeValue) {
-// 						case '015_034':
-// 							productSizeImage = 31;
-// 							break;
-// 						case '035_044':
-// 							productSizeImage = 44;
-// 							break;
-// 						case '045_060':
-// 							productSizeImage = 59;
-// 							break;
-// 						case '061_070':
-// 							productSizeImage = 67;
-// 							break;
-// 						case '071_080':
-// 							productSizeImage = 77;
-// 							break;
-// 						case '081_090':
-// 							productSizeImage = 87;
-// 							break;
-// 					}
-
-// 					$('#tnl_em_selectedProductImage').html('<img src="/assets/img/product/sizeOrder/tnl-em/TNL-EM' + optionHeight + arraySizeRangeValue + optionDepth + '-' + optionColor + '.jpg">');
-// 					$('#tnl_em_selectedProductImageText').html('<p>※画像は横幅' + productSizeImage + 'cmです</p>');
-// 					$('#tnl_em_selectedProductHeightImage').html('<img src="/assets/img/product/sizeOrder/tnl-em/' + 'tnl-em_height' + optionHeight + '.png">');
-// 					$('#tnl_em_selectedProductWidthImage').html('<img src="/assets/img/product/sizeOrder/tnl-em/' + 'tnl-em_width' + arraySizeRangeValue + '.png">');
-// 					$('#tnl_em_selectedHeight').text(optionHeightName + 'cm');
-// 					$('#tnl_em_selectedWidth').text(Number(optionWidth) + 'cm');
-// 					$('#tnl_em_selectedDepth').text(optionDepthName);
-// 					$('#tnl_em_selectedStrength').text(optionStrengthName);
-// 					$('#tnl_em_selectedMaterial').text(optionMaterialName);
-// 					$('#tnl_em_selectedADIS').text(optionADISName);
-// 					if (optionColor == 'NA' || optionColor == 'NB' || optionColor == 'WH' || optionColor == 'WT' || optionColor == 'GY' || optionColor == 'LW') {
-// 						var optionTextInversion = 'textColorInversion';
-// 					} else {
-// 						var optionTextInversion = '';
-// 					}
-
-// 					$('#tnl_em_selectedColor').html('<img src="/assets/img/product/sizeOrder/tnl-em/thum/tnl-em_color_' + optionColor.toLowerCase() + '_thum.jpg"><span class="colorName ' + optionTextInversion + '">' + optionColorName + '</span>');
-
-// 					readyMadeFlag_check = readyMadeFlag_width + readyMadeFlag_depth + readyMadeFlag_strength + readyMadeFlag_material + readyMadeFlag_color;
-
-// 					var modelOptionHeight = optionHeight;
-// 					if (readyMadeFlag_check == 5) {
-// 						$('#readyMadeMessage').text('お選びのサイズ・カラーは既製品です。');
-// 						if (Number(optionHeight) > 100 && Number(optionHeight) < 198) {
-// 							modelOptionHeight = optionHeight / 10;
-// 						}
-// 						$('#tnl_em_selectedProduct').text('TNL-' + Number(modelOptionHeight) + Number(optionWidth) + '-' + optionColor);
-
-// 						var productURL = 'TNL-' + Number(modelOptionHeight) + Number(optionWidth) + '-' + optionColor;
-// 						var optionCode = productURL;
-
-// 						$('#tnl_selectedProductButton').html('<a href="/c/series/tnl/' + productURL.toLowerCase() + '">既製品のご注文はこちら</a>');
-// 						$('#tnl_selectedProductButton').css('display', 'block');
-// 						$('#tnl_em_selectedProductButton').css('display', 'none');
-// 						$('.fs-c-productOption.unusable').css('display', 'none');
-
-// 						var price = priceArray.find((v) => v.productNumber === productURL);
-// 						//SALE価格かどうか判定し価格を出し分ける
-// 						if (price.sellingPrice < price.normalPrice) {
-// 							var discountRate = ((1 - price.sellingPrice / price.normalPrice) * 100).toFixed(1);
-// 							$('body').addClass('time-sale');
-// 							$('div.salePrice').remove();
-// 							$('#productPriceBox .fs-c-price__value').text(price.normalPrice.toLocaleString());
-// 							$('#productPriceBox .fs-c-productPrice__addon').after(
-// 								`<div class="fs-c-productPrice fs-c-productPrice--selling salePrice"><span class="fs-c-productPrice__main"><span class="fs-c-productPrice__main__price fs-c-price"><span class="fs-c-price__currencyMark">¥</span><span class="fs-c-price__value">${price.sellingPrice.toLocaleString()}</span></span></span><span class="fs-c-productPrice__addon"><span class="priceOffValue">${discountRate}% OFF</span><span class="fs-c-productPrice__addon__label">税込</span></span></div>`
-// 							);
-// 						} else {
-// 							$('body').removeClass('time-sale');
-// 							$('div.salePrice').remove();
-// 							$('#productPriceBox .fs-c-price__value').text(price.sellingPrice.toLocaleString());
-// 						}
-// 						$('#productPriceBox .fs-c-productPointDisplay__quantity').text(Math.round(price.sellingPrice / 100));
-// 						//$('.fs-c-productPostage .fs-c-price__value').text(price.postage.toLocaleString());
-
-// 						if (Number(optionHeight) < 198) {
-// 							var html =
-// 								'<form action="https://shirai-store.net/p/cart/add" method="post"><div style="display:none"><input type="hidden" name="products[' +
-// 								productURL +
-// 								'].productNo" value="' +
-// 								productURL +
-// 								'"><input type="hidden" name="products[' +
-// 								productURL +
-// 								'].productOptionsWithPrice[1].id" value="1"/><select name="products[' +
-// 								productURL +
-// 								'].productOptionsWithPrice[1].value"><option value="' +
-// 								optionADIS +
-// 								'"></option></select><input name="products[' +
-// 								productURL +
-// 								'].quantity" type="text" value="1" size="5"></div><button type="submit">カートに入れる</button></form>';
-// 						} else {
-// 							var html =
-// 								'<form action="https://shirai-store.net/p/cart/add" method="post"><div style="display:none"><input type="hidden" name="products[' +
-// 								productURL +
-// 								'].productNo" value="' +
-// 								productURL +
-// 								'"><input name="products[' +
-// 								productURL +
-// 								'].quantity" type="text" value="1" size="5"></div><button type="submit">カートに入れる</button></form>';
-// 						}
-// 					} else {
-// 						$('#readyMadeMessage').text('');
-// 						$('#tnl_selectedProductButton').css('display', 'none');
-// 						$('#tnl_em_selectedProductButton').css('display', 'block');
-// 						$('.fs-c-productOption.unusable').css('display', 'block');
-
-// 						var productURL = 'TNL-EM' + optionHeight + optionWidth + optionDepth;
-// 						var optionCode = 'TNL-EM' + optionHeight + optionWidth + optionDepth + optionStrength + optionMaterial;
-
-// 						$('#tnl_em_selectedProduct').text(optionCode + '-' + optionColor);
-// 						var price = priceArray.find((v) => v.productNumber === optionCode);
-
-// 						//SALE価格かどうか判定し価格を出し分ける
-// 						if (price.sellingPrice < price.normalPrice) {
-// 							var discountRate = ((1 - price.sellingPrice / price.normalPrice) * 100).toFixed(1);
-// 							$('body').addClass('time-sale');
-// 							$('div.salePrice').remove();
-// 							$('#productPriceBox .fs-c-price__value').text(price.normalPrice.toLocaleString());
-// 							$('#productPriceBox .fs-c-productPrice__addon').after(
-// 								`<div class="fs-c-productPrice fs-c-productPrice--selling salePrice"><span class="fs-c-productPrice__main"><span class="fs-c-productPrice__main__price fs-c-price"><span class="fs-c-price__currencyMark">¥</span><span class="fs-c-price__value">${price.sellingPrice.toLocaleString()}</span></span></span><span class="fs-c-productPrice__addon"><span class="priceOffValue">${discountRate}% OFF</span><span class="fs-c-productPrice__addon__label">税込</span></span></div>`
-// 							);
-// 						} else {
-// 							$('body').removeClass('time-sale');
-// 							$('div.salePrice').remove();
-// 							$('#productPriceBox .fs-c-price__value').text(price.sellingPrice.toLocaleString());
-// 						}
-
-// 						$('#productPriceBox .fs-c-productPointDisplay__quantity').text(Math.round(price.sellingPrice / 100));
-// 						$('.fs-c-productPostage .fs-c-price__value').text(price.postage.toLocaleString());
-
-// 						var html =
-// 							'<form action="https://shirai-store.net/p/cart/add" method="post"><div style="display:none"><input type="hidden" name="products[' +
-// 							productURL +
-// 							'].productNo" value="' +
-// 							productURL +
-// 							'"><input type="hidden" name="products[' +
-// 							productURL +
-// 							'].productOptionsWithPrice[1].id" value="1"><select name="products[' +
-// 							productURL +
-// 							'].productOptionsWithPrice[1].value"><option value="' +
-// 							optionCode +
-// 							'"></option></select><input type="hidden" name="products[' +
-// 							productURL +
-// 							'].productOptionsWithPrice[2].id" value="2"><select name="products[' +
-// 							productURL +
-// 							'].productOptionsWithPrice[2].value"><option value="' +
-// 							optionColor +
-// 							'"></option></select><input type="hidden" name="products[' +
-// 							productURL +
-// 							'].productOptionsWithPrice[3].id" value="3"><select name="products[' +
-// 							productURL +
-// 							'].productOptionsWithPrice[3].value"><option value="' +
-// 							optionADIS +
-// 							'"></option></select><input name="products[' +
-// 							productURL +
-// 							'].quantity" type="text" value="1" size="5"></div><button type="submit">カートに入れる</button></form>';
-// 					}
-
-// 					$('#tnl_em_selectedProductButton').html(html);
-
-// 					var innerWidth;
-// 					var innerHeight = Number(optionHeight) - 11.1;
-// 					var innerDepth;
-
-// 					if (optionDepth == 'A') {
-// 						innerDepth = '16.7';
-// 					} else if (optionDepth == 'M') {
-// 						innerDepth = '26.7';
-// 					} else if (optionDepth == 'F') {
-// 						innerDepth = '41.7';
-// 					}
-
-// 					if (optionWidth >= 71) {
-// 						innerWidth = (Number(optionWidth) - 5.4) / 2;
-// 						var innerSizeHTML = `【内寸】高さ:${innerHeight}cm　幅左:${innerWidth}cm 幅右:${innerWidth}cm　奥行:${innerDepth}cm`;
-// 					} else {
-// 						innerWidth = Number(optionWidth) - 3.6;
-// 						var innerSizeHTML = `【内寸】高さ:${innerHeight}cm　幅:${innerWidth}cm　奥行:${innerDepth}cm`;
-// 					}
-
-// 					$('#tnl_em_selectedProduct-innerSize').html(innerSizeHTML);
-// 				}
-// 			}
-// 		);
-// 	}
-// }
 
 function tnl_emu_select() {
 	if ($('#tnl_emu').length) {
@@ -1614,33 +1272,6 @@ function tnl_emu_select() {
 
 			var productURL = 'TNL-EMU' + optionWidth + optionDepth;
 			var optionCode = 'TNL-EM035' + optionWidth + 'U' + optionDepth + optionMaterial;
-
-			// var url = 'https://h15yyu8zof.execute-api.ap-northeast-1.amazonaws.com/prod/get_product_prices';
-			// // console.log('sku_no',sku_no)
-			// var params = { "sku_no" : sku_no };
-
-			// // console.log(JSON.stringify(params))
-
-			// // console.log('params', params);
-			// var response = $.ajax({
-			// 	type: 'post',
-			// 	url: url,
-			// 	async: false,
-			// 	data: JSON.stringify(params),
-			// 	contentType: 'application/json',
-			// 	dataType: 'json',
-			// 	scriptCharset: 'utf-8',
-			// 	success: function (response) {
-			// 		// Success
-			// 		// console.log(JSON.stringify(response));
-			// 	},
-			// 	error: function (response) {
-			// 		// Error
-			// 		// console.log(JSON.stringify(response));
-			// 	},
-			// }).responseText;
-
-			// console.log(response)
 
 			var price = get_selection_price(sku_no);
 			//SALE価格かどうか判定し価格を出し分ける
@@ -1944,9 +1575,33 @@ function get_price(sku_no) {
 			// console.log(JSON.stringify(response));
 		},
 	}).responseText;
-	// console.log(response)
+	console.log(response)
 	var price = JSON.parse(response);
+	adis_discount_campaign_display_price(price)
 	return price;
+}
+
+function adis_discount_campaign_display_price(price) {
+	let adisSaleHtml = '';
+	let is_adisSale = 0;
+	if (price.adis01_normal_price > price.adis01_selling_price) {
+		let selection_normal_price = price.adis01_normal_price;
+		let selection_selling_price = price.adis01_selling_price;
+		let differencePrice = selection_normal_price - selection_selling_price;
+		adisSaleHtml += `<li>組立済+玄関渡し：¥<span style="text-decoration:line-through">${selection_normal_price.toLocaleString()}</span> → <span class="adisSalePrice">¥${selection_selling_price.toLocaleString()}</span><span class="differencePrice">¥${differencePrice.toLocaleString()} OFF</span></li>`;
+		is_adisSale = 1;
+	}
+	if (price.adis02_normal_price > price.adis02_selling_price) {
+		let selection_normal_price = price.adis02_normal_price;
+		let selection_selling_price = price.adis02_selling_price;
+		let differencePrice = selection_normal_price - selection_selling_price;
+		adisSaleHtml += `<li>組立済+搬入：¥<span style="text-decoration:line-through">${selection_normal_price.toLocaleString()}</span> → <span class="adisSalePrice">¥${selection_selling_price.toLocaleString()}</span><span class="differencePrice">¥${differencePrice.toLocaleString()} OFF</span></li>`;
+		is_adisSale = 1;
+	}
+	if (is_adisSale == 1){
+		adisSaleHtml = `<div id="adisSale"><h4>組立サービス割引キャンペーン</h4><ul>${adisSaleHtml}</ul></div>`;
+		$('select[name="tnl_em_optionADIS"]').closest('.selectBlock').prev('h2').after(adisSaleHtml);
+	}
 }
 
 function get_selection_price(sku_no) {
@@ -1972,7 +1627,32 @@ function get_selection_price(sku_no) {
 	}).responseText;
 	// console.log(response)
 	var price = JSON.parse(response);
+	adis_discount_campaign_display_price_size_order(price);
 	return price;
+}
+
+function adis_discount_campaign_display_price_size_order(price) {
+	console.log(price)
+	let adisSaleHtml = '';
+	let is_adisSale = 0;
+	if (price.adis01_selection_normal_price > price.adis01_selection_selling_price) {
+		let selection_normal_price = price.adis01_selection_normal_price;
+		let selection_selling_price = price.adis01_selection_selling_price;
+		let differencePrice = selection_normal_price - selection_selling_price;
+		adisSaleHtml += `<li>組立済+玄関渡し：¥<span style="text-decoration:line-through">${selection_normal_price.toLocaleString()}</span> → <span class="adisSalePrice">¥${selection_selling_price.toLocaleString()}</span><span class="differencePrice">¥${differencePrice.toLocaleString()} OFF</span></li>`;
+		is_adisSale = 1;
+	}
+	if (price.adis02_selection_normal_price > price.adis02_selection_selling_price) {
+		let selection_normal_price = price.adis02_selection_normal_price;
+		let selection_selling_price = price.adis02_selection_selling_price;
+		let differencePrice = selection_normal_price - selection_selling_price;
+		adisSaleHtml += `<li>組立済+搬入：¥<span style="text-decoration:line-through">${selection_normal_price.toLocaleString()}</span> → <span class="adisSalePrice">¥${selection_selling_price.toLocaleString()}</span><span class="differencePrice">¥${differencePrice.toLocaleString()} OFF</span></li>`;
+		is_adisSale = 1;
+	}
+	if (is_adisSale == 1){
+		adisSaleHtml = `<div id="adisSale"><h4>組立サービス割引キャンペーン</h4><ul>${adisSaleHtml}</ul></div>`;
+		$('select[name="tnl_em_optionADIS"],select[name="tnl_emu_optionADIS"]').closest('.selectBlock').prev('h2').after(adisSaleHtml);
+	}
 }
 
 function formatNumberWithComma(number) {
