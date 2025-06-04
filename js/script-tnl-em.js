@@ -1575,7 +1575,6 @@ function get_price(sku_no) {
 			// console.log(JSON.stringify(response));
 		},
 	}).responseText;
-	console.log(response)
 	var price = JSON.parse(response);
 	adis_discount_campaign_display_price(price)
 	return price;
@@ -1588,19 +1587,20 @@ function adis_discount_campaign_display_price(price) {
 		let selection_normal_price = price.adis01_normal_price;
 		let selection_selling_price = price.adis01_selling_price;
 		let differencePrice = selection_normal_price - selection_selling_price;
-		adisSaleHtml += `<li>組立済+玄関渡し：¥<span style="text-decoration:line-through">${selection_normal_price.toLocaleString()}</span> → <span class="adisSalePrice">¥${selection_selling_price.toLocaleString()}</span><span class="differencePrice">¥${differencePrice.toLocaleString()} OFF</span></li>`;
+		adisSaleHtml += `<li>組立済+玄関渡し：¥<span style="text-decoration:line-through">${formatNumberWithComma(selection_normal_price)}</span> → <span class="adisSalePrice">¥${formatNumberWithComma(selection_selling_price)}</span><span class="differencePrice">¥${formatNumberWithComma(differencePrice)} OFF</span></li>`;
 		is_adisSale = 1;
 	}
 	if (price.adis02_normal_price > price.adis02_selling_price) {
 		let selection_normal_price = price.adis02_normal_price;
 		let selection_selling_price = price.adis02_selling_price;
 		let differencePrice = selection_normal_price - selection_selling_price;
-		adisSaleHtml += `<li>組立済+搬入：¥<span style="text-decoration:line-through">${selection_normal_price.toLocaleString()}</span> → <span class="adisSalePrice">¥${selection_selling_price.toLocaleString()}</span><span class="differencePrice">¥${differencePrice.toLocaleString()} OFF</span></li>`;
+		adisSaleHtml += `<li>組立済+搬入：¥<span style="text-decoration:line-through">${formatNumberWithComma(selection_normal_price)}</span> → <span class="adisSalePrice">¥${formatNumberWithComma(selection_selling_price)}</span><span class="differencePrice">¥${formatNumberWithComma(differencePrice)} OFF</span></li>`;
 		is_adisSale = 1;
 	}
 	if (is_adisSale == 1){
+		$('#adisSale').remove();
 		adisSaleHtml = `<div id="adisSale"><h4>組立サービス割引キャンペーン</h4><ul>${adisSaleHtml}</ul></div>`;
-		$('select[name="tnl_em_optionADIS"]').closest('.selectBlock').prev('h2').after(adisSaleHtml);
+		$('select[name="tnl_em_optionADIS"],select[name="tnl_emu_optionADIS"]').closest('.selectBlock').prev('h2').after(adisSaleHtml);
 	}
 }
 
@@ -1632,24 +1632,24 @@ function get_selection_price(sku_no) {
 }
 
 function adis_discount_campaign_display_price_size_order(price) {
-	console.log(price)
 	let adisSaleHtml = '';
 	let is_adisSale = 0;
 	if (price.adis01_selection_normal_price > price.adis01_selection_selling_price) {
 		let selection_normal_price = price.adis01_selection_normal_price;
 		let selection_selling_price = price.adis01_selection_selling_price;
 		let differencePrice = selection_normal_price - selection_selling_price;
-		adisSaleHtml += `<li>組立済+玄関渡し：¥<span style="text-decoration:line-through">${selection_normal_price.toLocaleString()}</span> → <span class="adisSalePrice">¥${selection_selling_price.toLocaleString()}</span><span class="differencePrice">¥${differencePrice.toLocaleString()} OFF</span></li>`;
+		adisSaleHtml += `<li>組立済+玄関渡し：¥<span style="text-decoration:line-through">${formatNumberWithComma(selection_normal_price)}</span> → <span class="adisSalePrice">¥${formatNumberWithComma(selection_selling_price)}</span><span class="differencePrice">¥${formatNumberWithComma(differencePrice)} OFF</span></li>`;
 		is_adisSale = 1;
 	}
 	if (price.adis02_selection_normal_price > price.adis02_selection_selling_price) {
 		let selection_normal_price = price.adis02_selection_normal_price;
 		let selection_selling_price = price.adis02_selection_selling_price;
 		let differencePrice = selection_normal_price - selection_selling_price;
-		adisSaleHtml += `<li>組立済+搬入：¥<span style="text-decoration:line-through">${selection_normal_price.toLocaleString()}</span> → <span class="adisSalePrice">¥${selection_selling_price.toLocaleString()}</span><span class="differencePrice">¥${differencePrice.toLocaleString()} OFF</span></li>`;
+		adisSaleHtml += `<li>組立済+搬入：¥<span style="text-decoration:line-through">${formatNumberWithComma(selection_normal_price)}</span> → <span class="adisSalePrice">¥${formatNumberWithComma(selection_selling_price)}</span><span class="differencePrice">¥${formatNumberWithComma(differencePrice)} OFF</span></li>`;
 		is_adisSale = 1;
 	}
 	if (is_adisSale == 1){
+		$('#adisSale').remove();
 		adisSaleHtml = `<div id="adisSale"><h4>組立サービス割引キャンペーン</h4><ul>${adisSaleHtml}</ul></div>`;
 		$('select[name="tnl_em_optionADIS"],select[name="tnl_emu_optionADIS"]').closest('.selectBlock').prev('h2').after(adisSaleHtml);
 	}
