@@ -14,6 +14,7 @@ $(function () {
 	cart_coupon_conflict_caution();
 	cart_select_quantity();
 	coupon_reference();
+	info_assembly_service();
 	ADIS_discriptionOpenClose(); //OK
 	magazineImageChange(); //OK
 	faqAnswerOpen(); //OK
@@ -1151,11 +1152,11 @@ function productSortSelect() {
 //セール会場用バナー表示
 function searchTagTitle() {
 	var params = parameterToArray();
-	if (params.tag == 'sale20250515-20250529') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250515-20250529_1184x240.jpg" alt="ラックセール 対象商品">');
-		$('#fs_ProductSearch h1').html('ラックセール 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('ラックセール 対象商品');
-		$('title').text('ラックセール 対象商品');
+	if (params.tag == 'sale20250605-20250619') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250605-20250619_1184x240.jpg" alt="FLASH SALE 対象商品">');
+		$('#fs_ProductSearch h1').html('FLASH SALE 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('FLASH SALE 対象商品');
+		$('title').text('FLASH SALE 対象商品');
 	} else if (params.tag == 'sale20250417-20250508-1') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250417-20250508-1_1184x240.jpg" alt="5th Anniversary SALE 対象商品">');
 		$('#fs_ProductSearch h1').html('5th Anniversary SALE 対象商品');
@@ -9162,6 +9163,16 @@ function coupon_reference() {
 	if ($('#fs_ProductDetails').length) {
 		if ($('.fs-c-button--addToCart--detail').length) {
 				$('.fs-c-inquiryAboutProduct').before('<p class="coupon_reference">クーポンは注文手続き画面にてご利用いただけます</p>');
+		}
+	}
+}
+
+/* info_assembly_service
+========================================================================== */
+function info_assembly_service() {
+	if ($('#fs_ProductDetails').length) {
+		if ($('.fs-c-productOption').length) {
+				$('.fs-c-productOption__field').before('<img src="https://shiraistore.itembox.design/item/src/option_assembly_service.png" class="mb-8">');
 		}
 	}
 }
