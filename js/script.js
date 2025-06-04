@@ -14,7 +14,6 @@ $(function () {
 	cart_coupon_conflict_caution();
 	cart_select_quantity();
 	coupon_reference();
-	info_assembly_service();
 	ADIS_discriptionOpenClose(); //OK
 	magazineImageChange(); //OK
 	faqAnswerOpen(); //OK
@@ -6432,9 +6431,10 @@ function productDetailAddData() {
 			$('#productDetail-rankingTop10').css('display', 'block');
 		}
 
+		info_assembly_service();
+
 		if ($('.fs-c-productOption #optionWithPrice_1').length) {
 			if (!$('.fs-c-productMarks .mark-soldout').length) {
-				console.log(data)
 				if (data.selection_price != undefined && data.selection_price != '') {
 					let adisSaleHtml = '';
 					let is_adisSale = 0;
@@ -6453,7 +6453,7 @@ function productDetailAddData() {
 					}
 					if (is_adisSale == 1) {
 						adisSaleHtml = `<div id="adisSale"><h4>組立サービス割引キャンペーン</h4><ul>${adisSaleHtml}</ul></div>`;
-						$('.fs-c-productOption__option').prepend(adisSaleHtml);
+						$('#optionWithPrice_1').parents('.fs-c-productOption__field').before(adisSaleHtml);
 					}
 				}
 			}
@@ -9172,7 +9172,7 @@ function coupon_reference() {
 function info_assembly_service() {
 	if ($('#fs_ProductDetails').length) {
 		if ($('.fs-c-productOption').length) {
-				$('.fs-c-productOption__field').before('<img src="https://shiraistore.itembox.design/item/src/option_assembly_service.png" class="mb-8">');
+			$('#optionWithPrice_1').parents('.fs-c-productOption__field').before('<img src="https://shiraistore.itembox.design/item/src/option_assembly_service.png" class="mb-8 option_assembly_service">');
 		}
 	}
 }
