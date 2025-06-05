@@ -9172,7 +9172,7 @@ function coupon_reference() {
 function info_assembly_service() {
 	if ($('#fs_ProductDetails').length) {
 		if ($('.fs-c-productOption').length) {
-			$('#optionWithPrice_1').parents('.fs-c-productOption__field').before('<img src="https://shiraistore.itembox.design/item/src/option_assembly_service.png" class="mb-8 option_assembly_service">');
+			$('#optionWithPrice_1').parents('.fs-c-productOption__field').before('<img src="https://shiraistore.itembox.design/item/src/option_assembly_service.jpg" class="option_assembly_service">');
 		}
 	}
 }
