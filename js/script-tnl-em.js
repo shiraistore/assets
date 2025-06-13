@@ -963,31 +963,39 @@ function tnl_em_select() {
 
 			$('#tnl_em [name=tnl_em_optionADIS]').html(selectADISHtml);
 
-			if (Number(optionHeight) + 3 > 200 && totalSize > 260) {
-				selectADISHtml = `<option data-typename="なし" value="ADIS-00" selected>なし(+¥0 税込)</option>`;
-			} else if (Number(optionHeight) + 3 > 200) {
-				selectADISHtml = `<option data-typename="なし" value="ADIS-00" ${adis00_selected}>なし(+¥0 税込)</option><option data-typename="組組立済+玄関渡し" value="ADIS-01" ${adis01_selected}>組立済+玄関渡し(+¥${formatNumberWithComma(price.adis01_selection_selling_price)} 税込)</option>`;
-
-				// $('#tnl_em [name=tnl_em_optionADIS] option[value="ADIS-02"]').remove();
-				// if (optionADIS == 'ADIS-02') {
-				// 	$('#tnl_em [name=tnl_em_optionADIS]').html(`<option data-typename="なし" value="ADIS-00" selected>なし(+¥0 税込)</option>`);
-				// } else {
-				// 	$('#tnl_em [name=tnl_em_optionADIS]').val(optionADIS);
-				// }
-			} else if (totalSize > 260) {
+			if (totalSize > 260) {
 				selectADISHtml = `<option data-typename="なし" value="ADIS-00" ${adis00_selected}>なし(+¥0 税込)</option><option data-typename="組立済+搬入" value="ADIS-02" ${adis02_selected}>組立済+搬入(+¥${formatNumberWithComma(price.adis02_selection_selling_price)} 税込)</option>`;
-
-				// $('#tnl_em [name=tnl_em_optionADIS] option[value="ADIS-01"]').remove();
-				// if (optionADIS == 'ADIS-01') {
-				// 	$('#tnl_em [name=tnl_em_optionADIS]').val('ADIS-00');
-				// } else {
-				// 	$('#tnl_em [name=tnl_em_optionADIS]').val(optionADIS);
-				// }
 			} else {
 				selectADISHtml = `<option data-typename="なし" value="ADIS-00" ${adis00_selected}>なし(+¥0 税込)</option><option data-typename="組組立済+玄関渡し" value="ADIS-01" ${adis01_selected}>組立済+玄関渡し(+¥${formatNumberWithComma(
 					price.adis01_selection_selling_price
 				)} 税込)</option><option data-typename="組立済+搬入" value="ADIS-02" ${adis02_selected}>組立済+搬入(+¥${formatNumberWithComma(price.adis02_selection_selling_price)} 税込)</option>`;
 			}
+
+			// if (Number(optionHeight) + 3 > 200 && totalSize > 260) {
+			// 	selectADISHtml = `<option data-typename="なし" value="ADIS-00" selected>なし(+¥0 税込)</option>`;
+			// } else if (Number(optionHeight) + 3 > 200) {
+			// 	selectADISHtml = `<option data-typename="なし" value="ADIS-00" ${adis00_selected}>なし(+¥0 税込)</option><option data-typename="組組立済+玄関渡し" value="ADIS-01" ${adis01_selected}>組立済+玄関渡し(+¥${formatNumberWithComma(price.adis01_selection_selling_price)} 税込)</option>`;
+
+			// 	// $('#tnl_em [name=tnl_em_optionADIS] option[value="ADIS-02"]').remove();
+			// 	// if (optionADIS == 'ADIS-02') {
+			// 	// 	$('#tnl_em [name=tnl_em_optionADIS]').html(`<option data-typename="なし" value="ADIS-00" selected>なし(+¥0 税込)</option>`);
+			// 	// } else {
+			// 	// 	$('#tnl_em [name=tnl_em_optionADIS]').val(optionADIS);
+			// 	// }
+			// } else if (totalSize > 260) {
+			// 	selectADISHtml = `<option data-typename="なし" value="ADIS-00" ${adis00_selected}>なし(+¥0 税込)</option><option data-typename="組立済+搬入" value="ADIS-02" ${adis02_selected}>組立済+搬入(+¥${formatNumberWithComma(price.adis02_selection_selling_price)} 税込)</option>`;
+
+			// 	// $('#tnl_em [name=tnl_em_optionADIS] option[value="ADIS-01"]').remove();
+			// 	// if (optionADIS == 'ADIS-01') {
+			// 	// 	$('#tnl_em [name=tnl_em_optionADIS]').val('ADIS-00');
+			// 	// } else {
+			// 	// 	$('#tnl_em [name=tnl_em_optionADIS]').val(optionADIS);
+			// 	// }
+			// } else {
+			// 	selectADISHtml = `<option data-typename="なし" value="ADIS-00" ${adis00_selected}>なし(+¥0 税込)</option><option data-typename="組組立済+玄関渡し" value="ADIS-01" ${adis01_selected}>組立済+玄関渡し(+¥${formatNumberWithComma(
+			// 		price.adis01_selection_selling_price
+			// 	)} 税込)</option><option data-typename="組立済+搬入" value="ADIS-02" ${adis02_selected}>組立済+搬入(+¥${formatNumberWithComma(price.adis02_selection_selling_price)} 税込)</option>`;
+			// }
 
 			$('#tnl_em [name=tnl_em_optionADIS]').html(selectADISHtml);
 			$('#productPriceBox .product_adis').html($('#tnl_em [name=tnl_em_optionADIS] option:selected').text());
