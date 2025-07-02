@@ -1151,11 +1151,11 @@ function productSortSelect() {
 //セール会場用バナー表示
 function searchTagTitle() {
 	var params = parameterToArray();
-	if (params.tag == 'sale20250605-20250619') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250605-20250619_1184x240.jpg" alt="FLASH SALE 対象商品">');
-		$('#fs_ProductSearch h1').html('FLASH SALE 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('FLASH SALE 対象商品');
-		$('title').text('FLASH SALE 対象商品');
+	if (params.tag == 'sale20250703-20250717') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250703-20250717_1184x240.jpg" alt="テレビ台セール 対象商品">');
+		$('#fs_ProductSearch h1').html('テレビ台セール 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('テレビ台セール 対象商品');
+		$('title').text('テレビ台セール 対象商品');
 	} else if (params.tag == 'sale20250417-20250508-1') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250417-20250508-1_1184x240.jpg" alt="5th Anniversary SALE 対象商品">');
 		$('#fs_ProductSearch h1').html('5th Anniversary SALE 対象商品');
@@ -3334,7 +3334,7 @@ function getTopRanking() {
 /* get_top_ranking (トップページランキング v2)
 ========================================================================== */
 function get_top_ranking() {
-	if ($('#fs_Top').length) {
+	//if ($('#fs_Top').length) {
 		get_ranking('overall');
 		$('#topPage-ranking-categories').css('display', 'block');
 
@@ -3552,7 +3552,7 @@ function get_top_ranking() {
 			// $('.tabcontent').removeClass('active').hide();
 			// $('.tabcontent[data-category="' + category + '"]').addClass('active').show();
 		}
-	}
+	//}
 }
 
 
