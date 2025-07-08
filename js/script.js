@@ -52,6 +52,7 @@ $(function () {
 	get_sale_items();
 	sale_list();
 	ranking_list();
+	category_icon_display();
 
 	reviewSlideDown('#fs_ProductDetails', '240'); //OK
 	//instagramPostList(); //OK
@@ -5688,11 +5689,11 @@ function multipleReviewList() {
 				scriptCharset: 'utf-8',
 				success: function (response) {
 					// Success
-					// console.log(response);
+					console.log(response);
 				},
 				error: function (response) {
 					// Error
-					// console.log(JSON.stringify(response));
+					console.log(response);
 				},
 				complete: function() {
 					$("#review_loading").hide(); // ローディングを非表示
@@ -9174,5 +9175,17 @@ function info_assembly_service() {
 		if ($('.fs-c-productOption').length) {
 			$('#optionWithPrice_1').parents('.fs-c-productOption__field').before('<img src="https://shiraistore.itembox.design/item/src/option_assembly_service.jpg" class="option_assembly_service">');
 		}
+	}
+}
+
+/* category_icon_display
+   ========================================================================== */
+
+function category_icon_display() {
+	if ($('#content-category-list-v2').length) {
+		$('.accordion_button').on('click', function () {
+			$('#content-category-list-v2 .display_none').css('display','block');
+			$('#content-category-list-v2 .accordion_button').css('display','none');
+		});
 	}
 }
