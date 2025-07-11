@@ -5,7 +5,7 @@ $(function () {
 function monitor_campaign_validate() {
         // 選択肢の変更時に制御
         $("select[name='field_5274845'], select[name='field_5274846']").on("change", function () {
-            updateSelectOptions();
+            //updateSelectOptions();
             //checkProductSelection();
             $(this).removeClass('error');
         });
