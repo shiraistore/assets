@@ -1166,11 +1166,11 @@ function productSortSelect() {
 //セール会場用バナー表示
 function searchTagTitle() {
 	var params = parameterToArray();
-	if (params.tag == 'sale20250703-20250717') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250703-20250717_1184x240.jpg" alt="テレビ台セール 対象商品">');
-		$('#fs_ProductSearch h1').html('テレビ台セール 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('テレビ台セール 対象商品');
-		$('title').text('テレビ台セール 対象商品');
+	if (params.tag == 'sale20250724-20250807') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250724-20250807_1184x240.jpg" alt="Summer SALE 第1弾 対象商品">');
+		$('#fs_ProductSearch h1').html('Summer SALE 第1弾 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('Summer SALE 第1弾 対象商品');
+		$('title').text('Summer SALE 第1弾 対象商品');
 	} else if (params.tag == 'sale20250417-20250508-1') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250417-20250508-1_1184x240.jpg" alt="5th Anniversary SALE 対象商品">');
 		$('#fs_ProductSearch h1').html('5th Anniversary SALE 対象商品');
