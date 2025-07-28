@@ -199,11 +199,12 @@ function getValidationRules(activeForm) {
             field_5155061_mei: { required: true },
             field_5155062: { required: true, email: true },
             field_5155063: { required: true },
-            field_5155072_zip: { required: true, digits: true, maxlength: 7 },
-            field_5155072_pref: { required: true },
-            field_5155072_city: { required: true },
-            field_5155072_block: { required: true },
-            field_5155105: { required: true }
+            // field_5155072_zip: { required: true, digits: true, maxlength: 7 },
+            // field_5155072_pref: { required: true },
+            // field_5155072_city: { required: true },
+            // field_5155072_block: { required: true },
+            // field_5285899: { required: true },
+            // field_5155105: { required: true }
         };
     } else if (activeForm.is('#orderChange')) {
         return {
@@ -344,26 +345,29 @@ function getValidationMessages(activeForm) {
         field_5155063: {
             required: '注文コードを入力してください'
         },
-        field_5155072_zip: {
-            required: '郵便番号を入力してください',
-            digits: '半角数字のみで入力してください',
-            maxlength: '7桁の半角数字で入力してください'
-        },
-        field_5155072_pref: {
-            required: '都道府県を選択してください'
-        },
-        field_5155072_city: {
-            required: '市町村を入力してください'
-        },
-        field_5155072_block: {
-            required: '番地を入力してください'
-        },
-        field_5155072_building: {
-            required: 'マンション・ビル名を入力してください'
-        },
-        field_5155105: {
-            required: 'お届け時間帯を選択してください'
-        },
+        // field_5155072_zip: {
+        //     required: '郵便番号を入力してください',
+        //     digits: '半角数字のみで入力してください',
+        //     maxlength: '7桁の半角数字で入力してください'
+        // },
+        // field_5155072_pref: {
+        //     required: '都道府県を選択してください'
+        // },
+        // field_5155072_city: {
+        //     required: '市町村を入力してください'
+        // },
+        // field_5155072_block: {
+        //     required: '番地を入力してください'
+        // },
+        // field_5155072_building: {
+        //     required: 'マンション・ビル名を入力してください'
+        // },
+        // field_5285899: {
+        //     required: 'お届け日を選択してください'
+        // },
+        // field_5155105: {
+        //     required: 'お届け時間帯を選択してください'
+        // },
 
         field_5171100_sei: {
             required: '姓を入力してください'
