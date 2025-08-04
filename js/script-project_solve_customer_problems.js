@@ -1,8 +1,17 @@
 $(function () {
     project_solve_customer_problems();
+    restore_answered_questions();
 });
 
 function project_solve_customer_problems() {
+    let q1_initialized = false;
+    let q4_initialized = false;
+
+    // if (document.referrer.includes('https://pro.form-mailer.jp/fm/service/Forms/confirm')) {
+    //   q1_initialized = true;
+    //   q4_initialized = true;
+    // }
+
     // 戻るボタンで戻った場合に質問を表示
     const showAllFlag = sessionStorage.getItem('show_all');
     if (showAllFlag === '1') {
@@ -11,11 +20,11 @@ function project_solve_customer_problems() {
     }
 
     // 箱紙から遷移してきた場合だけ表示
-    const referrer = document.referrer;
-    if (referrer.includes("?from=box_paper")) {
-        $('#special_message').show();
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('from') === 'box_paper') {
+    $('#special_message').show();
     } else {
-        $('#special_message').hide();  //念のため非表示に
+    $('#special_message').hide();  // 念のため非表示に
     }
 
     $('#start_survey').on('click', function () {
@@ -50,6 +59,7 @@ function project_solve_customer_problems() {
 
     $('#project_solve_customer_problems form').validate({
         rules: {
+            field_5286761: { required: true },
             field_5281288: { required: true },
             field_5281289: { required: true },
             field_5281290: { required: true },
@@ -57,7 +67,7 @@ function project_solve_customer_problems() {
             field_5281292: { required: true },
             field_5281294: { required: true },
             field_5281320: { required: true },
-            field_5281321: { required: true },
+            //field_5281321: { required: true },
             field_5281504: { required: true },
             field_5281505: { required: true },
             field_5283232: { required: true }, // Q1：悩んでいる場所
@@ -70,6 +80,7 @@ function project_solve_customer_problems() {
             field_5281563: { required: true, email: true }, // メールアドレス
         },
         messages: {
+            field_5286761: { required: 'チェックを入れてください' },
             field_5281288: { required: '選択してください' },
             field_5281289: { required: '選択してください' },
             field_5281290: { required: '選択してください' },
@@ -77,7 +88,7 @@ function project_solve_customer_problems() {
             field_5281292: { required: '選択してください' },
             field_5281294: { required: '選択してください' },
             field_5281320: { required: '選択してください' },
-            field_5281321: { required: '選択してください' },
+            //field_5281321: { required: '選択してください' },
             field_5281504: { required: '選択してください' },
             field_5281505: { required: '選択してください' },
             field_5283232: { required: '選択してください' },
@@ -94,17 +105,19 @@ function project_solve_customer_problems() {
         },
         errorPlacement: function (error, element) {
             // 特定のラジオやチェックボックスグループにカスタム表示したい場合
-            if (
-            element.attr('name') === 'field_5281559' || // Q4のラジオ
-            element.attr('name') === 'field_5283232'    // Q1のラジオ
+            if (element.attr('name') === 'field_5281559' || // Q4のラジオ
+              element.attr('name') === 'field_5283232'    // Q1のラジオ
             ) {
-            element.closest('td').append(error);
+              element.closest('td').append(error);
+            } else if (element.attr('name') === 'field_5286761') {
+              $('#checkbox_error').css('display', 'block');
             } else {
-            element.closest('td').append(error);
+              element.closest('td').append(error);
             }
         },
         submitHandler: function (form) {
             form.submit();
+            sessionStorage.setItem('from_confirm_page', 'true');
         }
     });
     
@@ -147,74 +160,166 @@ function project_solve_customer_problems() {
     },
   };
 
-    $('input[name="field_5283232"]').on('change', function () {
-        $('tr.display_none input[type="checkbox"]').prop('checked', false);
-        $('tr.display_none').hide(); // Q2〜Q6を非表示
-        $('#submit_button').hide();
+  let q1_prev_val = null; // 初期状態では未選択
+  let previous_q1_val = $('input[name="field_5283232"]:checked').val() || null;
 
-        const selectedVal = $(this).val();
-        const map = mapping[selectedVal];
+  $('input[name="field_5283232"]').on('change', function () {
+    const selected_val = $(this).val();
 
-        if (map) {
-            // タイトル行を表示
-            $(map.titleSelector).css('display', 'table-row').hide().fadeIn(400);
+    const q1_selected = $('input[name="field_5283232"]:checked').val();
 
-            $('.qnum-q4').text('Q4');
-            $('.qnum-q5').text('Q5');
-            $('.qnum-q6').text('Q6');
+    // if (q1_initialized) {
+    //   const confirm_reset = window.confirm('この回答を変更すると、以降の回答がリセットされます。よろしいですか？');
+    //   if (!confirm_reset) {
+    //     // 変更をキャンセルして元の選択状態に戻す
+    //     if (previous_q1_val !== null) {
+    //             $(`input[name="field_5283232"][value="${previous_q1_val}"]`).prop('checked', true);
+    //         } else {
+    //             $('input[name="field_5283232"]').prop('checked', false);
+    //       }
+    //     return;
+    //   }
+    // }
 
-            // Q2・Q3行を表示
-            map.fields.forEach((name, i) => {
-            const targetRow = $(`tr:has([name="${name}"])`);
-            targetRow.css('display', 'table-row').hide().fadeIn(400);
+    previous_q1_val = selected_val;
 
-            // if (i === 0) {
-            //     $('html, body').stop().animate({
-            //          scrollTop: targetRow.offset().top - 100
-            //     }, 1000, 'swing');
-            // }
-            });
-        } else if (selectedVal == '9') {
-            show_Q4_onward();
-        }
+    // Q2〜Q8に関係する質問のname属性リスト
+    const names_to_reset = [
+      'field_5281507', 'field_5281508',
+      'field_5281509', 'field_5281510',
+      'field_5281511', 'field_5281512',
+      'field_5281522', 'field_5281529',
+      'field_5281530', 'field_5281531',
+      'field_5281532', 'field_5281533',
+      'field_5281534', 'field_5281552',
+      'field_5281553', 'field_5281554',
+      'field_5281555', 'field_5281557',
+      'field_5281559',
+      'field_5281560',
+      'field_5281561',
+      'field_5281562',
+      'field_5281563'
+    ];
+
+    names_to_reset.forEach(function(name) {
+      const row = $('tr:has([name="' + name + '"])');
+      row.hide();
+      const input = $('[name="' + name + '"]');
+      if (input.is(':radio') || input.is(':checkbox')) {
+        input.prop('checked', false);
+      } else {
+        input.val('');
+      }
     });
 
-    $('input[name="field_5281559"]').on('change', function () {
-        const selectedVal = $(this).val();
+    $('tr.section-title').hide();
+    $('tr.solution_place').hide();
+    $('tr.recruit_supporter').hide();
+    $('#submit_button').hide();
 
-        const q5 = $('tr:has([name="field_5281560"])');
-        const q6 = $('tr:has([name="field_5281561"])');
-        const title = $('tr.solution_place');
+    //Q1の選択値に応じた表示処理（既存ロジック）
+    const map = mapping[selected_val];
+    if (map) {
+      $(map.titleSelector).css('display', 'table-row').hide().fadeIn(400);
+      $('.qnum-q4').text('Q4');
+      $('.qnum-q5').text('Q5');
+      $('.qnum-q6').text('Q6');
+      map.fields.forEach(function(name, i) {
+        const target_row = $('tr:has([name="' + name + '"])');
+        target_row.css('display', 'table-row').hide().fadeIn(400);
+      });
+    } else if (selected_val === '9') {
+      show_Q4_onward();
+    }
 
-        q5.fadeOut(200);
-        q6.fadeOut(200);
+    q1_initialized = true;
+  });
 
-        if (selectedVal === "0") {
-            // 「はい」が選ばれたときのみ Q5・Q6 を表示
-            q5.css('display', 'table-row').hide().fadeIn(400);
-            q6.css('display', 'table-row').hide().fadeIn(400);
+  let previous_q4_val = $('input[name="field_5281559"]:checked').val();
 
-            const title_solution_place = $('tr.solution_place');
-            title_solution_place.css('display', 'table-row').hide().fadeIn(400);
-            
-            // $('html, body').stop().animate({
-            //     scrollTop: q5.offset().top - 100
-            // }, 1000, 'swing');
-        } else {
-            title.fadeOut(200);
-        }
+  $('input[name="field_5281559"]').on('change', function () {
+      const q4_selected = $('input[name="field_5281559"]:checked').val();
 
-        check_show_Q7_Q8();
-    });
+      // if (q4_initialized) {
+      //   const confirm_reset = window.confirm('この回答を変更すると、以降の回答がリセットされます。よろしいですか？');
+      //   if (!confirm_reset) {
+      //     $(`input[name="field_5281559"][value="${previous_q4_val}"]`).prop('checked', true);
+      //       return;
+      //   }
+      // }
 
-    $('input[name="field_5281560"], textarea[name="field_5281561"]').on('input', function () {
-        check_show_Q7_Q8();
-    });
+      //previous_q4_val = current_val;
 
-    $('#submit_button').on('click', function () {
-        sessionStorage.setItem('show_all', '1');
-        $('#project_solve_customer_problems form').submit();
-    });
+      // 値の初期化
+      $('input[name="field_5281560"]').prop('checked', false); // Q5
+      $('textarea[name="field_5281561"]').val(''); // Q6
+      $('input[name="field_5281562"]').prop('checked', false); // Q7
+      $('input[name="field_5281563"]').val(''); // Q8（メール）
+
+      $('tr:has([name="field_5281560"])').hide();
+      $('tr:has([name="field_5281561"])').hide();
+      $('tr:has([name="field_5281562"])').hide();
+      $('tr:has([name="field_5281563"])').hide();
+      $('tr.recruit_supporter').hide();
+      $('tr.solution_place').hide();
+      $('#submit_button').hide();
+
+      q4_initialized = true;
+
+      const q5 = $('tr:has([name="field_5281560"])');
+      const q6 = $('tr:has([name="field_5281561"])');
+      const title = $('tr.solution_place');
+
+      q5.fadeOut(200);
+      q6.fadeOut(200);
+
+      const current_q4_val = $(this).val();
+
+      if (current_q4_val === "0") {
+          // 「はい」が選ばれたときのみ Q5・Q6 を表示
+          q5.css('display', 'table-row').hide().fadeIn(400);
+          q6.css('display', 'table-row').hide().fadeIn(400);
+
+          const title_solution_place = $('tr.solution_place');
+          title_solution_place.css('display', 'table-row').hide().fadeIn(400);
+          
+          // $('html, body').stop().animate({
+          //     scrollTop: q5.offset().top - 100
+          // }, 1000, 'swing');
+      } else {
+          title.fadeOut(200);
+      }
+
+      check_show_Q7_Q8();
+  });
+
+  $('input[name="field_5281560"], textarea[name="field_5281561"]').on('input', function () {
+      check_show_Q7_Q8();
+  });
+
+  $('#submit_button').on('click', function () {
+      save_answered_questions();
+      //sessionStorage.setItem('show_all', '1');
+      $('#project_solve_customer_problems form').submit();
+  });
+
+  // ページロード時にQ4が選択済みなら後続を表示
+  const q4_checked_val = $('input[name="field_5281559"]:checked').val();
+  if (q4_checked_val) {
+    // Q4が選ばれていたら、Q5〜Q6などを表示ロジックへ
+    const q5_val = $('input[name="field_5281560"]').val();
+    const q6_val = $('textarea[name="field_5281561"]').val();
+    
+    // Q5・Q6表示（Q4が「はい」のとき）
+    if (q4_checked_val === "0") {
+      $('tr.solution_place').css('display', 'table-row');
+      $('tr:has([name="field_5281560"])').css('display', 'table-row');
+      $('tr:has([name="field_5281561"])').css('display', 'table-row');
+    }
+
+    // Q7・Q8の表示チェック
+    check_show_Q7_Q8();
+  }
 }
 
 function checkQ2Q3Answered(selectedVal) {
@@ -303,20 +408,78 @@ function check_show_Q7_Q8() {
   // }
 }
 
-function show_all_questions() {
-   $('.basic_info').show();
+// function show_all_questions() {
+//    $('.basic_info').show();
+//   $('#q1').show();
+//   $('tr.display_none').show();
+//   $('#submit_button').css('display', 'block');
+
+//   const selectedVal = $('input[name="field_5283232"]:checked').val();
+//   if (selectedVal === '9') {
+//     $('.qnum-q4').text('Q2');
+//     $('.qnum-q5').text('Q3');
+//     $('.qnum-q6').text('Q4');
+//   } else {
+//     $('.qnum-q4').text('Q4');
+//     $('.qnum-q5').text('Q5');
+//     $('.qnum-q6').text('Q6');
+//   }
+// }
+
+function save_answered_questions() {
+  const answeredNames = [];
+
+  $('#project_solve_customer_problems')
+    .find('input, textarea, select')
+    .each(function () {
+      const $el = $(this);
+      const name = $el.attr('name');
+
+      if (!name) return;
+
+      // チェックボックス・ラジオボタンの場合
+      if ($el.is(':checkbox') || $el.is(':radio')) {
+        if ($el.is(':checked')) {
+          answeredNames.push(name);
+        }
+      }
+      // その他の入力項目
+      else if ($el.val() && $el.val().trim() !== '') {
+        answeredNames.push(name);
+      }
+    });
+
+  // 重複除去して保存
+  const uniqueNames = [...new Set(answeredNames)];
+  sessionStorage.setItem('answeredFields', JSON.stringify(uniqueNames));
+}
+
+function restore_answered_questions() {
+  const data = sessionStorage.getItem('answeredFields');
+  if (!data) return;
+
+  const names = JSON.parse(data);
+
+  names.forEach(name => {
+    const $row = $(`tr:has([name="${name}"])`);
+    if ($row.length) {
+      $row.css('display', 'table-row');
+    }
+
+    // タイトル行（class名などで判定して表示する場合）
+    if (name === 'field_5281559') {
+      $('tr.mysolution').css('display', 'table-row');
+    }
+    if (name === 'field_5281562' || name === 'field_5281563') {
+      $('tr.recruit_supporter').css('display', 'table-row');
+    }
+  });
+
+  // Q1 や基本情報も表示しておく
+  $('.basic_info').show();
   $('#q1').show();
-  $('tr.display_none').show();
   $('#submit_button').css('display', 'block');
 
-  const selectedVal = $('input[name="field_5283232"]:checked').val();
-  if (selectedVal === '9') {
-    $('.qnum-q4').text('Q2');
-    $('.qnum-q5').text('Q3');
-    $('.qnum-q6').text('Q4');
-  } else {
-    $('.qnum-q4').text('Q4');
-    $('.qnum-q5').text('Q5');
-    $('.qnum-q6').text('Q6');
-  }
+  // 表示後に記録を消す（リロード時の表示防止）
+  sessionStorage.removeItem('answeredFields');
 }
