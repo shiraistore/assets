@@ -1171,11 +1171,11 @@ function searchTagTitle() {
 		$('#fs_ProductSearch h1').html('Summer SALE 第1弾 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('Summer SALE 第1弾 対象商品');
 		$('title').text('Summer SALE 第1弾 対象商品');
-	} else if (params.tag == 'sale20250417-20250508-1') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250417-20250508-1_1184x240.jpg" alt="5th Anniversary SALE 対象商品">');
-		$('#fs_ProductSearch h1').html('5th Anniversary SALE 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('5th Anniversary SALE 対象商品');
-		$('title').text('5th Anniversary SALE 対象商品');
+	} else if (params.tag == 'sale20250807-20250821') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250807-20250821_1184x240.jpg" alt="Summer SALE 第2弾 対象商品">');
+		$('#fs_ProductSearch h1').html('Summer SALE 第2弾 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('Summer SALE 第2弾 対象商品');
+		$('title').text('Summer SALE 第2弾 対象商品');
 	} else if (params.tag == 'sale20250417-20250508-2') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250417-20250508-2_1184x240.jpg" alt="タナリオセール 対象商品">');
 		$('#fs_ProductSearch h1').html('タナリオセール 対象商品');
