@@ -639,11 +639,7 @@ function tnl_em_select() {
 
 			$('#tnl_em [name=tnl_em_optionADIS]').html(selectADISHtml);
 
-<<<<<<< HEAD
 			// console.log(totalSize)
-=======
-			console.log(totalSize)
->>>>>>> 8fe609261867cb06534e5e3d7c75743d86087a3c
 			if (totalSize > 261) {
 				selectADISHtml = `<option data-typename="なし" value="ADIS-00" ${adis00_selected}>なし(+¥0 税込)</option><option data-typename="組立済+搬入" value="ADIS-02" ${adis02_selected}>組立済+搬入(+¥${formatNumberWithComma(price.adis02_selection_selling_price)} 税込)</option>`;
 			} else {
@@ -1269,7 +1265,7 @@ function get_selection_price(sku_no) {
 		scriptCharset: 'utf-8',
 		success: function (response) {
 			// Success
-			console.log(JSON.stringify(response));
+			// console.log(JSON.stringify(response));
 		},
 		error: function (response) {
 			// Error
@@ -1290,17 +1286,10 @@ function adis_discount_campaign_display_price_size_order(price) {
 	let adis02_selection_normal_price = Number(price.adis02_selection_normal_price);
 	let adis02_selection_selling_price = Number(price.adis02_selection_selling_price);
 
-<<<<<<< HEAD
 	// console.log(adis01_selection_normal_price)
 	// console.log(adis01_selection_selling_price)
 	// console.log(adis02_selection_normal_price)
 	// console.log(adis02_selection_selling_price)
-=======
-	console.log(adis01_selection_normal_price)
-	console.log(adis01_selection_selling_price)
-	console.log(adis02_selection_normal_price)
-	console.log(adis02_selection_selling_price)
->>>>>>> 8fe609261867cb06534e5e3d7c75743d86087a3c
 
 	if (adis01_selection_normal_price > adis01_selection_selling_price) {
 		let selection_normal_price = price.adis01_selection_normal_price;
