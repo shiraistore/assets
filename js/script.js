@@ -40,8 +40,7 @@ $(function () {
 	productDetail_ntuContentsBanner();
 	productDetail_howToStoreKidsBooksContentsBanner();
 	product_detail_ncm_contents_banner();
-	//product_detail_amn_campaign_banner();
-	//product_detail_tan_campaign_banner();
+	product_detail_monitor_campaign_banner();
 	searchTagsTitleDescriptionChange();
 	putMemberIdOptInPolicy();
 	get_top_ranking();
@@ -1010,30 +1009,15 @@ function product_detail_ncm_contents_banner() {
 	}
 }
 
-/* product_detail_amn_campaign_banner
+/* product_detail_monitor_campaign_banner
 ========================================================================== */
-function product_detail_amn_campaign_banner() {
+function product_detail_monitor_campaign_banner() {
 	if ($('#fs_ProductDetails').length) {
 		var url = window.location.pathname.substring(1);
 		url = url.split('/');
 		var series = url[url.length - 1].split('-');
-		if (series[0] == 'amn') {
-			var html = '<ul id="contents-banner"><li><a href="/f/monitor_campaign_atomona"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-campaign20250211-20250217.jpg"></a></li></ul>';
-
-			$('#productActionBox').after(html);
-		}
-	}
-}
-
-/* product_detail_tan_campaign_banner
-========================================================================== */
-function product_detail_tan_campaign_banner() {
-	if ($('#fs_ProductDetails').length) {
-		var url = window.location.pathname.substring(1);
-		url = url.split('/');
-		var series = url[url.length - 1].split('-');
-		if (series[0] == 'tan') {
-			var html = '<ul id="contents-banner"><li><a href="/f/monitor_campaign_tan"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-campaign20250711-20250716.jpg"></a></li></ul>';
+		if (series[0] == 'nal') {
+			var html = '<ul id="contents-banner"><li><a href="/f/monitor_campaign_nal"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-campaign20250820-20250826.jpg"></a></li></ul>';
 
 			$('#productActionBox').after(html);
 		}
