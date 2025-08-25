@@ -281,7 +281,8 @@ function optionNameChange() {
 ========================================================================== */
 function checkZipCodes(zipCode) {
 	//配送先の郵便番号から配送対応情報をAPIで取得する
-	var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/check_zip_code_for_delivery';
+	// var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/check_zip_code_for_delivery';
+	var url = 'https://h15yyu8zof.execute-api.ap-northeast-1.amazonaws.com/prod/get_zip_code_delivery';
 	var params = { zip_code: zipCode };
 	var response = $.ajax({
 		type: 'post',
@@ -293,7 +294,7 @@ function checkZipCodes(zipCode) {
 		scriptCharset: 'utf-8',
 		success: function (response) {
 			// Success
-			//console.log(JSON.stringify(response));
+			// console.log(JSON.stringify(response));
 		},
 		error: function (response) {
 			// Error
@@ -672,6 +673,7 @@ function optionJudgment() {
 
 					if (deliveryTime != '指定なし') {
 						//通常配送と組立済+玄関渡しサービスの時間指定対応判定
+						console.log(check_adis_result.result2)
 						if (check_adis_result.result2 == undefined || check_adis_result.result2 == -1) {
 							if (checkZipCodeResult.is_sgw_time_specified == 0) {
 								// お届け希望日をリセットする
