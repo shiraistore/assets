@@ -40,7 +40,7 @@ $(function () {
 	productDetail_ntuContentsBanner();
 	productDetail_howToStoreKidsBooksContentsBanner();
 	product_detail_ncm_contents_banner();
-	product_detail_monitor_campaign_banner();
+	//product_detail_monitor_campaign_banner();
 	searchTagsTitleDescriptionChange();
 	putMemberIdOptInPolicy();
 	get_top_ranking();
@@ -6594,6 +6594,10 @@ function productDetailAddData() {
 
 							if (icon_ary[j][0] == 'mark-soldout') {
 								iconHtml += '<span class="mark-soldout">SOLD OUT</span>';
+							}
+
+							if (icon_ary[j][0] == 'mark-outlet') {
+								iconHtml += '<span class="mark-outlet">OUTLET</span>';
 							}
 						}
 					}
