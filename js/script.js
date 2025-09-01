@@ -36,7 +36,7 @@ $(function () {
 	productDetail_tlfContentsBanner();
 	productDetail_logContentsBanner();
 	productDetail_porContentsBanner();
-	productDetail_amrContentsBanner();
+	product_detail_am2();
 	productDetail_ntuContentsBanner();
 	productDetail_howToStoreKidsBooksContentsBanner();
 	product_detail_ncm_contents_banner();
@@ -947,14 +947,14 @@ function productDetail_howToStoreKidsBooksContentsBanner() {
 	}
 }
 
-/* productDetail_amrContentsBanner
+/* product_detail_am2
 ========================================================================== */
-function productDetail_amrContentsBanner() {
+function product_detail_am2() {
 	if ($('#fs_ProductDetails').length) {
 		var url = window.location.pathname.substring(1);
 		url = url.split('/');
 		var series = url[url.length - 1];
-		if (series.match(/amr-1480ds/)) {
+		if (series.match(/am2-1480ds/)) {
 			var html = '<div class="amr-adis-caution" style="display:none;"><img src="https://shiraistore.itembox.design/item/src/product_detail/detail-amr-adis-caution.png"></div>';
 			$('.fs-c-productOption__comment').after(html);
 			$('#optionWithPrice_1').change(function () {
@@ -972,7 +972,7 @@ function productDetail_amrContentsBanner() {
 		var url = window.location.pathname.substring(1);
 		url = url.split('/');
 		var series = url[url.length - 1].split('-');
-		if (series[0] == 'amr') {
+		if (series[0] == 'am2') {
 			var html = '<ul id="contents-banner"><li><a href="/f/feature/admira-capacity"><img src="https://shiraistore.itembox.design/item/src/banner_admira-capacity_460x96.jpg"></a></li></ul>';
 			$('#productActionBox').after(html);
 		}
