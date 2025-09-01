@@ -280,6 +280,24 @@ function transfer() {
 	// 	}
 	// }
 
+	if ($('#fs_PageNotFound').length) {
+		var productURL = location.href;
+
+		if (productURL == 'https://shirai-store.net/c/series/amr/amr-1480ds-wh') {
+			window.location.href = 'https://shirai-store.net/c/series/am2/am2-1480ds-wh';
+		} else if (productURL == 'https://shirai-store.net/c/series/amr/amr-1480ds-na') {
+			window.location.href = 'https://shirai-store.net/c/series/am2/am2-1480ds-na';
+		} else if (productURL == 'https://shirai-store.net/c/series/amr/amr-5535w-na') {
+			window.location.href = 'https://shirai-store.net/c/series/am2/am2-5535w-na';
+		} else if (productURL == 'https://shirai-store.net/c/series/amr/amr-5535w-wh') {
+			window.location.href = 'https://shirai-store.net/c/series/am2/am2-5535w-wh';
+		} else if (productURL == 'https://shirai-store.net/c/series/amr/amr-4535s-na') {
+			window.location.href = 'https://shirai-store.net/c/series/am2/am2-4535s-na';
+		} else if (productURL == 'https://shirai-store.net/c/series/amr/amr-4535s-wh') {
+			window.location.href = 'https://shirai-store.net/c/series/am2/am2-4535s-wh';
+		}
+	}
+
 	if ($('#fs_ProductSearch').length) {
 		var productURL = location.href;
 
