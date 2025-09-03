@@ -1178,8 +1178,8 @@ function searchTagTitle() {
 		$('#fs_ProductSearch h1').html('Summer SALE 第2弾 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('Summer SALE 第2弾 対象商品');
 		$('title').text('Summer SALE 第2弾 対象商品');
-	} else if (params.tag == 'sale20250417-20250508-2') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250417-20250508-2_1184x240.jpg" alt="タナリオセール 対象商品">');
+	} else if (params.tag == 'sale20250904-20250918') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250904-20250918_1184x240.jpg" alt="タナリオセール 対象商品">');
 		$('#fs_ProductSearch h1').html('タナリオセール 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('タナリオセール 対象商品');
 		$('title').text('タナリオセール 対象商品');
