@@ -1168,11 +1168,11 @@ function productSortSelect() {
 //セール会場用バナー表示
 function searchTagTitle() {
 	var params = parameterToArray();
-	if (params.tag == 'sale20250724-20250807') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250724-20250807_1184x240.jpg" alt="Summer SALE 第1弾 対象商品">');
-		$('#fs_ProductSearch h1').html('Summer SALE 第1弾 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('Summer SALE 第1弾 対象商品');
-		$('title').text('Summer SALE 第1弾 対象商品');
+	if (params.tag == 'sale20250925-20251016') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250925-20251016_1184x240.jpg" alt="Autumn SALE 対象商品">');
+		$('#fs_ProductSearch h1').html('Autumn SALE 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('Autumn SALE 対象商品');
+		$('title').text('Autumn SALE 対象商品');
 	} else if (params.tag == 'sale20250807-20250821') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250807-20250821_1184x240.jpg" alt="Summer SALE 第2弾 対象商品">');
 		$('#fs_ProductSearch h1').html('Summer SALE 第2弾 対象商品');
