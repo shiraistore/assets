@@ -282,7 +282,8 @@ function optionNameChange() {
 function checkZipCodes(zipCode) {
 	//配送先の郵便番号から配送対応情報をAPIで取得する
 	// var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/check_zip_code_for_delivery';
-	var url = 'https://h15yyu8zof.execute-api.ap-northeast-1.amazonaws.com/prod/get_zip_code_delivery';
+	// var url = 'https://h15yyu8zof.execute-api.ap-northeast-1.amazonaws.com/prod/get_zip_code_delivery';
+	var url = 'https://h15yyu8zof.execute-api.ap-northeast-1.amazonaws.com/prod/get_zip_code_delivery/20251001';
 	var params = { zip_code: zipCode };
 	var response = $.ajax({
 		type: 'post',
@@ -592,6 +593,7 @@ function optionJudgment() {
 
 					//郵便番号の配送業者対応情報を取得する
 					checkZipCodeResult = checkZipCodes(zipCode);
+					// console.log(checkZipCodeResult)
 
 					//JSで配送日時指定をリセットする制御のためにFSが表示制御しているモーダルウインドウを強制的に非表示にする
 					$('body').addClass('modal_displayNone');
@@ -673,7 +675,7 @@ function optionJudgment() {
 
 					if (deliveryTime != '指定なし') {
 						//通常配送と組立済+玄関渡しサービスの時間指定対応判定
-						console.log(check_adis_result.result2)
+						// console.log(check_adis_result.result2)
 						if (check_adis_result.result2 == undefined || check_adis_result.result2 == -1) {
 							if (checkZipCodeResult.is_sgw_time_specified == 0) {
 								// お届け希望日をリセットする
@@ -861,6 +863,56 @@ function orderEnabled() {
 	});
 }
 
+// ---- 休日（APIから取得＆キャッシュ） ----
+let operation_holyDay = [];
+let factory_holyDay   = [];
+let _holydayLoaded = false;
+
+function loadHolydayOnce() {
+  if (_holydayLoaded) return;
+
+  try {
+    var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/get_data_v2';
+    var params = { items: 'holyday' };
+
+    // 既存コードと同じノリで同期リクエスト
+    var responseText = $.ajax({
+      type: 'post',
+      url: url,
+      async: false,
+      data: JSON.stringify(params),
+      contentType: 'application/json',
+      dataType: 'text',
+      scriptCharset: 'utf-8'
+    }).responseText;
+
+    var res = JSON.parse(responseText);     // { items: 'holyday', data: ... }
+    var data = res.data;                    // data は JSON文字列 or オブジェクトのどちらでも来る可能性
+
+    // data が文字列ならパース、オブジェクトならそのまま
+    if (typeof data === 'string') {
+      try {
+        data = JSON.parse(data);
+      } catch (e) {
+        // console.log('holyday parse error:', e);
+        data = {};
+      }
+    }
+
+    // 期待形: { operation: [...], factory: [...] }
+    operation_holyDay = Array.isArray(data.operation) ? data.operation : [];
+    factory_holyDay   = Array.isArray(data.factory)   ? data.factory   : [];
+
+    _holydayLoaded = true;
+    // console.log('Loaded holyday from API:', { operation: operation_holyDay.length, factory: factory_holyDay.length });
+  } catch (e) {
+    // console.log('Failed to load holyday from API:', e);
+    // 失敗時は空配列のまま（必要ならここにフォールバック固定値を入れてもOK）
+    _holydayLoaded = true; // 無限リトライ防止
+  }
+}
+
+
 /* expectedArrival
 // お届け希望日の開始日時を制御するための関数
 ========================================================================== */
@@ -920,414 +972,10 @@ function expectedArrival(optionResult) {
 						bankTransferLeadTime = 0,
 						sizeOrderArray = [];
 
-					// 物流業務部の休業日を設定する
-					var operation_holyDay = [
-						'2024-11-02',
-						'2024-11-03',
-						'2024-11-09',
-						'2024-11-10',
-						'2024-11-16',
-						'2024-11-17',
-						'2024-11-23',
-						'2024-11-24',
-						'2024-11-30',
-						'2024-12-01',
-						'2024-12-07',
-						'2024-12-08',
-						'2024-12-14',
-						'2024-12-15',
-						'2024-12-21',
-						'2024-12-22',
-						'2024-12-28',
-						'2024-12-29',
-						'2024-12-30',
-						'2024-12-31',
-						'2025-01-01',
-						'2025-01-02',
-						'2025-01-03',
-						'2025-01-04',
-						'2025-01-05',
-						'2025-01-11',
-						'2025-01-12',
-						'2025-01-18',
-						'2025-01-19',
-						'2025-01-25',
-						'2025-01-26',
-						'2025-02-01',
-						'2025-02-02',
-						'2025-02-08',
-						'2025-02-09',
-						'2025-02-15',
-						'2025-02-16',
-						'2025-02-22',
-						'2025-02-23',
-						'2025-02-24',
-						'2025-03-01',
-						'2025-03-02',
-						'2025-03-08',
-						'2025-03-09',
-						'2025-03-15',
-						'2025-03-16',
-						'2025-03-22',
-						'2025-03-23',
-						'2025-03-29',
-						'2025-03-30',
-						'2025-04-05',
-						'2025-04-06',
-						'2025-04-12',
-						'2025-04-13',
-						'2025-04-19',
-						'2025-04-20',
-						'2025-04-26',
-						'2025-04-27',
-						'2025-05-03',
-						'2025-05-04',
-						'2025-05-05',
-						'2025-05-06',
-						'2025-05-10',
-						'2025-05-11',
-						'2025-05-17',
-						'2025-05-18',
-						'2025-05-24',
-						'2025-05-25',
-						'2025-05-31',
-						'2025-06-01',
-						'2025-06-07',
-						'2025-06-08',
-						'2025-06-14',
-						'2025-06-15',
-						'2025-06-21',
-						'2025-06-22',
-						'2025-06-28',
-						'2025-06-29',
-						'2025-07-05',
-						'2025-07-06',
-						'2025-07-12',
-						'2025-07-13',
-						'2025-07-19',
-						'2025-07-20',
-						'2025-07-26',
-						'2025-07-27',
-						'2025-08-02',
-						'2025-08-03',
-						'2025-08-09',
-						'2025-08-10',
-						'2025-08-13',
-						'2025-08-14',
-						'2025-08-15',
-						'2025-08-16',
-						'2025-08-17',
-						'2025-08-23',
-						'2025-08-24',
-						'2025-08-30',
-						'2025-08-31',
-						'2025-09-06',
-						'2025-09-07',
-						'2025-09-13',
-						'2025-09-14',
-						'2025-09-15',
-						'2025-09-20',
-						'2025-09-21',
-						'2025-09-27',
-						'2025-09-28',
-						'2025-10-04',
-						'2025-10-05',
-						'2025-10-11',
-						'2025-10-12',
-						'2025-10-13',
-						'2025-10-18',
-						'2025-10-19',
-						'2025-10-25',
-						'2025-10-26',
-						'2025-11-01',
-						'2025-11-02',
-						'2025-11-03',
-						'2025-11-08',
-						'2025-11-09',
-						'2025-11-15',
-						'2025-11-16',
-						'2025-11-22',
-						'2025-11-23',
-						'2025-11-29',
-						'2025-11-30',
-						'2025-12-06',
-						'2025-12-07',
-						'2025-12-13',
-						'2025-12-14',
-						'2025-12-20',
-						'2025-12-21',
-						'2025-12-27',
-						'2025-12-28',
-						'2025-12-29',
-						'2025-12-30',
-						'2025-12-31',
-						'2026-01-01',
-						'2026-01-02',
-						'2026-01-03',
-						'2026-01-04',
-						'2026-01-10',
-						'2026-01-11',
-						'2026-01-17',
-						'2026-01-18',
-						'2026-01-24',
-						'2026-01-25',
-						'2026-01-31',
-					];
-					// 製造部の休業日を設定する
-					var factory_holyDay = [
-						'2024-11-02',
-						'2024-11-03',
-						'2024-11-04',
-						'2024-11-09',
-						'2024-11-10',
-						'2024-11-16',
-						'2024-11-17',
-						'2024-11-23',
-						'2024-11-24',
-						'2024-11-30',
-						'2024-12-01',
-						'2024-12-07',
-						'2024-12-08',
-						'2024-12-14',
-						'2024-12-15',
-						'2024-12-21',
-						'2024-12-22',
-						'2024-12-28',
-						'2024-12-29',
-						'2024-12-30',
-						'2024-12-31',
-						'2025-01-01',
-						'2025-01-02',
-						'2025-01-03',
-						'2025-01-04',
-						'2025-01-05',
-						'2025-01-11',
-						'2025-01-12',
-						'2025-01-18',
-						'2025-01-19',
-						'2025-01-25',
-						'2025-01-26',
-						'2025-02-01',
-						'2025-02-02',
-						'2025-02-08',
-						'2025-02-09',
-						'2025-02-15',
-						'2025-02-16',
-						'2025-02-22',
-						'2025-02-23',
-						'2025-02-24',
-						'2025-03-01',
-						'2025-03-02',
-						'2025-03-08',
-						'2025-03-09',
-						'2025-03-15',
-						'2025-03-16',
-						'2025-03-22',
-						'2025-03-23',
-						'2025-03-29',
-						'2025-03-30',
-						'2025-04-05',
-						'2025-04-06',
-						'2025-04-12',
-						'2025-04-13',
-						'2025-04-19',
-						'2025-04-20',
-						'2025-04-26',
-						'2025-04-27',
-						'2025-05-03',
-						'2025-05-04',
-						'2025-05-05',
-						'2025-05-06',
-						'2025-05-10',
-						'2025-05-11',
-						'2025-05-17',
-						'2025-05-18',
-						'2025-05-24',
-						'2025-05-25',
-						'2025-05-31',
-						'2025-06-01',
-						'2025-06-07',
-						'2025-06-08',
-						'2025-06-14',
-						'2025-06-15',
-						'2025-06-21',
-						'2025-06-22',
-						'2025-06-28',
-						'2025-06-29',
-						'2025-07-05',
-						'2025-07-06',
-						'2025-07-12',
-						'2025-07-13',
-						'2025-07-19',
-						'2025-07-20',
-						'2025-07-21',
-						'2025-07-26',
-						'2025-07-27',
-						'2025-08-02',
-						'2025-08-03',
-						'2025-08-09',
-						'2025-08-10',
-						'2025-08-13',
-						'2025-08-14',
-						'2025-08-15',
-						'2025-08-16',
-						'2025-08-17',
-						'2025-08-23',
-						'2025-08-24',
-						'2025-08-30',
-						'2025-08-31',
-						'2025-09-06',
-						'2025-09-07',
-						'2025-09-13',
-						'2025-09-14',
-						'2025-09-15',
-						'2025-09-20',
-						'2025-09-21',
-						'2025-09-27',
-						'2025-09-28',
-						'2025-10-04',
-						'2025-10-05',
-						'2025-10-11',
-						'2025-10-12',
-						'2025-10-13',
-						'2025-10-18',
-						'2025-10-19',
-						'2025-10-25',
-						'2025-10-26',
-						'2025-11-01',
-						'2025-11-02',
-						'2025-11-03',
-						'2025-11-08',
-						'2025-11-09',
-						'2025-11-15',
-						'2025-11-16',
-						'2025-11-22',
-						'2025-11-23',
-						'2025-11-29',
-						'2025-11-30',
-						'2025-12-06',
-						'2025-12-07',
-						'2025-12-13',
-						'2025-12-14',
-						'2025-12-20',
-						'2025-12-21',
-						'2025-12-27',
-						'2025-12-28',
-						'2025-12-30',
-						'2025-12-31',
-						'2026-01-01',
-						'2026-01-02',
-						'2026-01-03',
-						'2026-01-04',
-						'2026-01-10',
-						'2026-01-11',
-						'2026-01-17',
-						'2026-01-18',
-						'2026-01-24',
-						'2026-01-25',
-						'2026-01-31',
-					];
+					loadHolydayOnce();
 
-					// 佐川急便の都道府県別リードタイムを設定する
-					var prefArray_SGW = [
-							{ pref: '北海道', leadTime: 3 },
-							{ pref: '青森県', leadTime: 2 },
-							{ pref: '岩手県', leadTime: 2 },
-							{ pref: '宮城県', leadTime: 2 },
-							{ pref: '秋田県', leadTime: 2 },
-							{ pref: '山形県', leadTime: 2 },
-							{ pref: '福島県', leadTime: 2 },
-							{ pref: '茨城県', leadTime: 1 },
-							{ pref: '栃木県', leadTime: 1 },
-							{ pref: '群馬県', leadTime: 1 },
-							{ pref: '埼玉県', leadTime: 1 },
-							{ pref: '千葉県', leadTime: 1 },
-							{ pref: '東京都', leadTime: 1 },
-							{ pref: '神奈川県', leadTime: 1 },
-							{ pref: '新潟県', leadTime: 1 },
-							{ pref: '富山県', leadTime: 1 },
-							{ pref: '石川県', leadTime: 1 },
-							{ pref: '福井県', leadTime: 1 },
-							{ pref: '山梨県', leadTime: 1 },
-							{ pref: '長野県', leadTime: 1 },
-							{ pref: '岐阜県', leadTime: 1 },
-							{ pref: '静岡県', leadTime: 1 },
-							{ pref: '愛知県', leadTime: 1 },
-							{ pref: '三重県', leadTime: 1 },
-							{ pref: '滋賀県', leadTime: 1 },
-							{ pref: '京都府', leadTime: 1 },
-							{ pref: '大阪府', leadTime: 1 },
-							{ pref: '兵庫県', leadTime: 1 },
-							{ pref: '奈良県', leadTime: 1 },
-							{ pref: '和歌山県', leadTime: 1 },
-							{ pref: '鳥取県', leadTime: 2 },
-							{ pref: '島根県', leadTime: 2 },
-							{ pref: '岡山県', leadTime: 2 },
-							{ pref: '広島県', leadTime: 2 },
-							{ pref: '山口県', leadTime: 2 },
-							{ pref: '徳島県', leadTime: 2 },
-							{ pref: '香川県', leadTime: 2 },
-							{ pref: '愛媛県', leadTime: 2 },
-							{ pref: '高知県', leadTime: 2 },
-							{ pref: '福岡県', leadTime: 3 },
-							{ pref: '佐賀県', leadTime: 3 },
-							{ pref: '長崎県', leadTime: 3 },
-							{ pref: '熊本県', leadTime: 3 },
-							{ pref: '大分県', leadTime: 3 },
-							{ pref: '宮崎県', leadTime: 3 },
-							{ pref: '鹿児島県', leadTime: 3 },
-							{ pref: '沖縄県', leadTime: 7 },
-						],
-						// YHCの都道府県別リードタイムを設定する
-						prefArray_YHC = [
-							{ pref: '北海道', leadTime: 6 },
-							{ pref: '青森県', leadTime: 4 },
-							{ pref: '岩手県', leadTime: 4 },
-							{ pref: '宮城県', leadTime: 3 },
-							{ pref: '秋田県', leadTime: 4 },
-							{ pref: '山形県', leadTime: 4 },
-							{ pref: '福島県', leadTime: 4 },
-							{ pref: '茨城県', leadTime: 3 },
-							{ pref: '栃木県', leadTime: 3 },
-							{ pref: '群馬県', leadTime: 3 },
-							{ pref: '埼玉県', leadTime: 2 },
-							{ pref: '千葉県', leadTime: 3 },
-							{ pref: '東京都', leadTime: 2 },
-							{ pref: '神奈川県', leadTime: 2 },
-							{ pref: '新潟県', leadTime: 4 },
-							{ pref: '富山県', leadTime: 4 },
-							{ pref: '石川県', leadTime: 5 },
-							{ pref: '福井県', leadTime: 5 },
-							{ pref: '山梨県', leadTime: 3 },
-							{ pref: '長野県', leadTime: 4 },
-							{ pref: '岐阜県', leadTime: 4 },
-							{ pref: '静岡県', leadTime: 2 },
-							{ pref: '愛知県', leadTime: 3 },
-							{ pref: '三重県', leadTime: 3 },
-							{ pref: '滋賀県', leadTime: 3 },
-							{ pref: '京都府', leadTime: 3 },
-							{ pref: '大阪府', leadTime: 3 },
-							{ pref: '兵庫県', leadTime: 3 },
-							{ pref: '奈良県', leadTime: 3 },
-							{ pref: '和歌山県', leadTime: 3 },
-							{ pref: '鳥取県', leadTime: 7 },
-							{ pref: '島根県', leadTime: 7 },
-							{ pref: '岡山県', leadTime: 6 },
-							{ pref: '広島県', leadTime: 6 },
-							{ pref: '山口県', leadTime: 5 },
-							{ pref: '徳島県', leadTime: 5 },
-							{ pref: '香川県', leadTime: 5 },
-							{ pref: '愛媛県', leadTime: 5 },
-							{ pref: '高知県', leadTime: 5 },
-							{ pref: '福岡県', leadTime: 4 },
-							{ pref: '佐賀県', leadTime: 5 },
-							{ pref: '長崎県', leadTime: 5 },
-							{ pref: '熊本県', leadTime: 5 },
-							{ pref: '大分県', leadTime: 5 },
-							{ pref: '宮崎県', leadTime: 5 },
-							{ pref: '鹿児島県', leadTime: 5 },
-							{ pref: '沖縄県', leadTime: 10 },
-						];
+					// console.log('operation_holyDay:',operation_holyDay)
+					// console.log('factory_holyDay:',factory_holyDay)
 
 					var arrivalDate_ary = [];
 					// FSが出力するお届け希望を取得する
@@ -1397,7 +1045,8 @@ function expectedArrival(optionResult) {
 						expectedArrivalTime_SGW(expectedArrival_time_selected);
 
 						// 佐川急便の都道府県別リードタイムを格納する
-						prefArray = prefArray_SGW;
+						prefArray = checkZipCodeResult.sgw_prefectures_delivery_lead_time;
+						// console.log('sgw_prefectures_delivery_lead_time:',prefArray)
 					} else if (optionResult == 11) {
 						// console.log('通常品 + 組立済+玄関渡し');
 						orderInputLeadTime += 1; //通常1日
@@ -1422,7 +1071,8 @@ function expectedArrival(optionResult) {
 						expectedArrivalTime_SGW(expectedArrival_time_selected);
 
 						// 佐川急便の都道府県別リードタイムを格納する
-						prefArray = prefArray_SGW;
+						prefArray = checkZipCodeResult.sgw_prefectures_delivery_lead_time;
+						// console.log('sgw_prefectures_delivery_lead_time:',prefArray)
 
 						if (checkZipCodeResult.is_sgw_time_specified == 0) {
 							// 佐川急便がお届け時間指定の対応できない場合の処理
@@ -1455,7 +1105,8 @@ function expectedArrival(optionResult) {
 						checkZipCodeResult = expectedArrivalTime_YHC(checkZipCodeResult);
 
 						// YHCの都道府県別リードタイムを格納する
-						prefArray = prefArray_YHC;
+						prefArray = checkZipCodeResult.yhc_prefectures_delivery_lead_time;
+						// console.log('yhc_prefectures_delivery_lead_time:',prefArray)
 
 						if (checkZipCodeResult.is_yhc_service_type_4 == 0 && checkZipCodeResult.is_yhc_service_type_3 == 0) {
 							// YHCのと届け時間帯指定ができない場合の処理
@@ -1487,7 +1138,7 @@ function expectedArrival(optionResult) {
 						expectedArrivalTime_SGW(expectedArrival_time_selected);
 
 						// 佐川急便の都道府県別リードタイムを格納する
-						prefArray = prefArray_SGW;
+						prefArray = checkZipCodeResult.sgw_prefectures_delivery_lead_time;
 					} else if (optionResult == 21) {
 						// console.log('オーダー品 + 組立済+玄関渡し');
 						orderInputLeadTime += 1; //通常1日
@@ -1515,7 +1166,7 @@ function expectedArrival(optionResult) {
 						expectedArrivalTime_SGW(expectedArrival_time_selected);
 
 						// 佐川急便の都道府県別リードタイムを格納する
-						prefArray = prefArray_SGW;
+						prefArray = checkZipCodeResult.sgw_prefectures_delivery_lead_time;
 
 						if (checkZipCodeResult.is_sgw_time_specified == 0) {
 							// 佐川急便がお届け時間指定の対応できない場合の処理
@@ -1550,10 +1201,11 @@ function expectedArrival(optionResult) {
 						checkZipCodeResult = expectedArrivalTime_YHC(checkZipCodeResult);
 
 						// YHCの都道府県別リードタイムを格納する
-						prefArray = prefArray_YHC;
+						prefArray = checkZipCodeResult.yhc_prefectures_delivery_lead_time;
+						// console.log('yhc_prefectures_delivery_lead_time:',prefArray)
 
 						if (checkZipCodeResult.is_yhc_service_type_4 == 0 && checkZipCodeResult.is_yhc_service_type_3 == 0) {
-							// YHCのと届け時間帯指定ができない場合の処理
+							// YHCのお届け時間帯指定ができない場合の処理
 							$('#fs_input_expectedArrival_time').replaceWith('<select name="time" id="fs_input_expectedArrival_time" class="fs-c-dropdown__menu" disabled><option value="none" selected="selected">指定なし</option></select>');
 							$('.fs-c-checkout-deliveryMethod__deliveryTime label').html('お届け時間帯 <span class="red">このお届け先は時間をご指定いただけません</span>');
 							$('#fs_input_expectedArrival_time option[value="none"]').prop('selected', true);
@@ -1573,9 +1225,13 @@ function expectedArrival(optionResult) {
 
 					arrivalDate_ary = arrivalDate_ary.filter(Boolean);
 
+					// console.log(destinationAddress)
+
 					// お届け先都道府県のリードタイムを取得
-					var prefArray_find = prefArray.find((u) => u.pref === destinationAddress[0]);
-					var deliveryLeadTime = prefArray_find.leadTime;
+					// var prefArray_find = prefArray.find((u) => u.pref === destinationAddress[0]);
+					// console.log('yhc_additional_delivery_lead_time:',checkZipCodeResult.yhc_additional_delivery_lead_time)
+					var deliveryLeadTime = prefArray + checkZipCodeResult.yhc_additional_delivery_lead_time;
+					// console.log('deliveryLeadTime:',deliveryLeadTime)
 
 					for (i = 0; i < deliveryLeadTime; i++) {
 						// 配送リードタイムに該当する日付を削除する
@@ -1584,6 +1240,50 @@ function expectedArrival(optionResult) {
 					}
 
 					arrivalDate_ary = arrivalDate_ary.filter(Boolean);
+					// console.log('arrivalDate_ary:',arrivalDate_ary)
+
+					// console.log("optionResult:",optionResult);
+					if (optionResult == 12 || optionResult == 22) {
+						// 配送不可の曜日（例: "月火水金土"）
+						var unavailableDaysStr = checkZipCodeResult.yhc_delivery_unavailable_days || "";
+
+						// console.log(unavailableDaysStr);
+
+						// 曜日マップ（日=0, 月=1, ... 土=6）
+						var dayMap = { "日":0, "月":1, "火":2, "水":3, "木":4, "金":5, "土":6 };
+
+						// 配送不可曜日のセットを作成（高速判定用）
+						var unavailableSet = {};
+						unavailableDaysStr.split("").forEach(function(ch){
+							if (dayMap.hasOwnProperty(ch)) unavailableSet[ dayMap[ch] ] = true;
+						});
+
+						// 年末年始で除外する月日（文字列 "MM-DD"）
+						var blockedMonthDays = ["12-30","12-31","01-01","01-02","01-03"];
+						// var blockedMonthDays = ["10-16","10-17","10-18","10-19","10-20"];
+
+						// フィルタして **上書き**
+						arrivalDate_ary = $.grep(arrivalDate_ary, function(dateStr){
+							// "YYYY-MM-DD" を安全にパース
+							var p = dateStr.split("-");
+							var d = new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+							var dow = d.getDay(); // 0..6
+
+							// 曜日チェック（配送不可曜日に含まれていないか）
+							if (unavailableSet[dow]) {
+								return false;
+							}
+
+							// 月日チェック（年末年始の日付か）
+							var monthDay = p[1] + "-" + p[2];
+							if ($.inArray(monthDay, blockedMonthDays) !== -1) {
+								return false;
+							}
+
+							return true; // 上記どちらにも該当しなければ残す
+						});
+					}
+
 
 					var optionHtml = '<option value="none">指定なし</option>';
 
