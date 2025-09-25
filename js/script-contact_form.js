@@ -96,6 +96,14 @@ function contacts_form() {
                 break;
         }
 
+		switch (value) {
+            case "0":
+				$('#about_product').css('display', 'block');
+				break;
+			default:
+				$('#about_product').css('display', 'none');
+		}
+
         // **エラー表示をリセット**
         resetValidationErrors();
 
@@ -135,6 +143,40 @@ function contacts_form() {
                 $(this).val(orderCode);
             });
         }
+
+        // Safari検出関数（iOS含む）
+        function is_safari_browser() {
+            var ua = navigator.userAgent;
+            // Chrome, Edge, Operaを除外しつつSafariを検出
+            return /^((?!chrome|android|crios|edg|opera).)*safari/i.test(ua);
+        }
+
+        $(function(){
+            if (is_safari_browser()) {
+                // Safariの場合のみ実行
+
+                // 例: id="custom_date_input"のinputにカレンダーアイコンを追加
+                var date_input = $('#custom_date_input');
+
+                // input[type="date"]をtextに変更（Safariでピッカーが出ないためカスタム化）
+                date_input.attr('type', 'text');
+
+                // input直後にカレンダーアイコンを挿入
+                date_input.after('<img src="https://shiraistore.itembox.design/item/src/icon_calendar.svg" alt="" class="calendar_icon">');
+
+                // ここでflatpickr等のカレンダーピッカーをinputに適用
+                if (typeof flatpickr !== 'undefined') {
+                    date_input.flatpickr({
+                        dateFormat: "Y-m-d"
+                    });
+                }
+
+                // アイコン押下でinputにフォーカス
+                $('.calendar_icon_img').on('click', function(){
+                    date_input.focus();
+                });
+            }
+        });
     }
 }
 

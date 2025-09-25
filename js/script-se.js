@@ -1,3 +1,9 @@
+$(function () {
+	if ($('#fs_Register').length || $('#fs_EditAccountSettings').length) {
+		registerFormDisplayCaution();
+	}
+});
+
 /*
 このJSで行っている処理の概要
 ・新しいプライバシーポリシーに同意しているかどうか判定し、同意していない場合は同意するための表示を行う
@@ -30,6 +36,10 @@ setInterval(function () {
 		optionJudgment();
 		// 実行できる状態から実行しない状態のフラグを立たせる
 		execute_flag = 0;
+	}
+
+	if ($('#fs_label_addressLine3').length) {
+		registerFormDisplayCaution();
 	}
 }, 300);
 
@@ -1511,4 +1521,10 @@ function check_adis() {
 		var result2 = $.inArray('組立済+搬入', optionArray);
 		return { result1: result1, result2: result2 };
 	}
+}
+
+/* registerFormDisplayCaution
+========================================================================== */
+function registerFormDisplayCaution() {
+		$('#fs_label_addressLine3').html('住所３（建物名・部屋番号など）<br><span class="red small-text">*部屋番号だけでなく建物名（マンション名等）もご入力ください。商品をお届けできない場合がございます。</span>');
 }
