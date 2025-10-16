@@ -4781,10 +4781,15 @@ function rewriteDOM() {
 				$('#option_1').val('');
 				$('#option_1 option[value="組立サービスのみ指定可"]').attr('disabled', 'disabled');
 				$('#option_1 option[value="組立サービスのみ指定可"]').remove();
+				$('#option_2').val('');
+				$('#option_2 option[value="組立サービスのみ指定可"]').attr('disabled', 'disabled');
+				$('#option_2 option[value="組立サービスのみ指定可"]').remove();
 			} else {
 				$('.fs-c-productSelection').slideUp();
 				$('#option_1').append($('<option>').html('組立サービスのみ指定可').val('組立サービスのみ指定可'));
 				$('#option_1 option[value="組立サービスのみ指定可"]').removeAttr('disabled').prop('selected', true);
+				$('#option_2').append($('<option>').html('組立サービスのみ指定可').val('組立サービスのみ指定可'));
+				$('#option_2 option[value="組立サービスのみ指定可"]').removeAttr('disabled').prop('selected', true);
 			}
 		});
 
@@ -6196,6 +6201,7 @@ function productDetailAddData() {
 		}
 
 		info_assembly_service();
+		info_get_coupon();
 
 		if ($('.fs-c-productOption #optionWithPrice_1').length) {
 			if (!$('.fs-c-productMarks .mark-soldout').length) {
@@ -8931,6 +8937,36 @@ function coupon_reference() {
 	if ($('#fs_ProductDetails').length) {
 		if ($('.fs-c-button--addToCart--detail').length) {
 				$('.fs-c-inquiryAboutProduct').before('<p class="coupon_reference">クーポンは注文手続き画面にてご利用いただけます</p>');
+		}
+	}
+}
+
+/* info_assembly_service
+========================================================================== */
+function info_get_coupon() {
+	if ($('#fs_ProductDetails').length) {
+		if ($('.fs-c-productMarks .mark-coupon').length) {
+			// クーポン情報を取得してボタンを生成
+			// 「あり」の文字を削除する
+			const coupon_text = $('.fs-c-productMarks .mark-coupon').text().replace('あり', '');
+			// ボタンを挿入し、クリックしたらCookieに保存して「coupon_text 取得済み」に変更する
+			$('.fs-c-productOption').after('<dl class="fs-c-productOption"><dt class="fs-c-productOption__name"><label class="fs-c-productOption__label">クーポン</label></dt><dd class="productOption__coupon"><button type="button" class="fs-c-button--primary"><span class="fs-c-button__label">['+coupon_text+'] を取得する</span></button></dd></dl>');
+			$('.fs-c-productOption button').on('click', function() {
+				// Cookieに保存
+				const d = new Date();
+				// 24時間後に設定
+				d.setTime(d.getTime() + (24*60*60*1000));
+				const expires = "expires="+ d.toUTCString();
+				document.cookie = "getCoupon=1;" + expires + ";path=/";
+				// ボタンのテキストを変更
+				$(this).find('.fs-c-button__label').text('[' + coupon_text +'] 取得済み');
+				$(this).prop('disabled', true);
+			});
+			// Cookieがある場合はボタンのテキストを変更して無効化する
+			if (document.cookie.split('; ').find(row => row.startsWith('getCoupon='))) {
+				$('.fs-c-productOption button').find('.fs-c-button__label').text('[' + coupon_text +'] 取得済み');
+				$('.fs-c-productOption button').prop('disabled', true);
+			}
 		}
 	}
 }
