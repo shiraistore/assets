@@ -32,7 +32,7 @@ jQuery(function($){
 
 function featurePts() {
     $.getJSON('https://cdn.shirai-store.net/assets/json/feature/pitashie-featureAndCombinatio_v1_0.json', function (data) {
-        //console.log(data);
+        console.log(data);
         $('.addToCart').each(function () {
             var product = $(this).data('products');
             var specifiedName = $(this).data('specifiedname');
@@ -50,7 +50,8 @@ function featurePts() {
                     productName = result.productName,
                     sellingPrice = result.sellingPrice,
                     normalPrice = result.normalPrice,
-                    adis_ary = result.adis.sort(),
+                    adis_ary = '',
+                    // adis_ary = result.adis.sort(),
                     imgSrc,
                     url = '/c/series/' + productUrl.slice(0, 3) + '/' + productUrl;
 
@@ -76,10 +77,12 @@ function featurePts() {
                     productName = specifiedName;
                 }
 
+                // var adis = '<h6>組立サービス</h6><input type="hidden" name="products[' + productNumber + '].productOptionsWithPrice[1].id" value="1"/><select name="products[' + productNumber + '].productOptionsWithPrice[1].value"><option value="' + adis_ary[0][0] + '">' + adis_ary[0][1] + '(+' + adis_ary[0][2].toLocaleString() + '円 税込)</option><option value="' + adis_ary[1][0] + '">' + adis_ary[1][1] + '(+' + adis_ary[1][2].toLocaleString() + '円 税込)</option><option value="' + adis_ary[2][0] + '">' + adis_ary[2][1] + '(+' + adis_ary[2][2].toLocaleString() + '円 税込)</select>';
+
                 imgSrc = 'https://shiraistore.itembox.design/product/' + productId_Len3 + '/' + productId_Len12 + '/' + productId_Len12 + '-' + productImageNumber + '-' + productImageSize + '.jpg'
 
                 $(this).find('.addToCartImage').prepend('<img src="' + imgSrc + '">');
-                $(this).find('.addToCartInner').prepend('<form action="https://shirai-store.net/p/cart/add" method="post"><h5 class="productName">' + productName + '</h5><p class="productPrice"><span>price</span>' + priceText + '</p><input type="hidden" name="products[' + productNumber + '].productNo" value="' + productNumber + '"><h6>組立サービス</h6><input type="hidden" name="products[' + productNumber + '].productOptionsWithPrice[1].id" value="1"/><select name="products[' + productNumber + '].productOptionsWithPrice[1].value"><option value="' + adis_ary[0][0] + '">' + adis_ary[0][1] + '(+' + adis_ary[0][2].toLocaleString() + '円 税込)</option><option value="' + adis_ary[1][0] + '">' + adis_ary[1][1] + '(+' + adis_ary[1][2].toLocaleString() + '円 税込)</option><option value="' + adis_ary[2][0] + '">' + adis_ary[2][1] + '(+' + adis_ary[2][2].toLocaleString() + '円 税込)</select><h6>数量</h6><div class="cartBlock"><select name="products[' + productNumber + '].quantity"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select><button type="submit">カートに入れる</button></div></form><div class=""><a href="' + url + '">商品詳細を見る</a></div>');
+                $(this).find('.addToCartInner').prepend('<form action="https://shirai-store.net/p/cart/add" method="post"><h5 class="productName">' + productName + '</h5><p class="productPrice"><span>price</span>' + priceText + '</p><input type="hidden" name="products[' + productNumber + '].productNo" value="' + productNumber + '"><h6>数量</h6><div class="cartBlock"><select name="products[' + productNumber + '].quantity"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select><button type="submit">カートに入れる</button></div></form><div class=""><a href="' + url + '">商品詳細を見る</a></div>');
             } else {
                 // データが存在しなかった時の処理
             }
@@ -116,7 +119,8 @@ function featurePts() {
                         productName = result.productName,
                         sellingPrice = result.sellingPrice,
                         normalPrice = result.normalPrice,
-                        adis_ary = result.adis.sort(),
+                        adis_ary = '',
+                        // adis_ary = result.adis.sort(),
                         priceText,
                         imgSrc;
 
@@ -133,8 +137,8 @@ function featurePts() {
                     console.log(totalSellingPrice);
 
                     //console.log('adis_ary:', adis_ary);
-                    adis01_totalPrice += adis_ary[1][2];
-                    adis02_totalPrice += adis_ary[2][2];
+                    // adis01_totalPrice += adis_ary[1][2];
+                    // adis02_totalPrice += adis_ary[2][2];
 
                     //console.log('adis01_totalPrice:', adis01_totalPrice);
                     //console.log('adis02_totalPrice:', adis02_totalPrice);
@@ -152,7 +156,7 @@ function featurePts() {
 
                     imgSrc = 'https://shiraistore.itembox.design/product/' + productId_Len3 + '/' + productId_Len12 + '/' + productId_Len12 + '-' + productImageNumber + '-' + productImageSize + '.jpg'
 
-                    html += '<input type="hidden" name="products[' + productNumber + '].productNo" value="' + productNumber + '"><input type="hidden" name="products[' + productNumber + '].productOptionsWithPrice[1].id" value="1"/><input class="adisInput" type="hidden" name="products[' + productNumber + '].productOptionsWithPrice[1].value" value=' + adis_ary[0][0] + '><input class="quantityInput" type="hidden" name="products[' + productNumber + '].quantity" value="'+quantity_ary[index]+'" size="5"></select>';
+                    // html += '<input type="hidden" name="products[' + productNumber + '].productNo" value="' + productNumber + '"><input type="hidden" name="products[' + productNumber + '].productOptionsWithPrice[1].id" value="1"/><input class="adisInput" type="hidden" name="products[' + productNumber + '].productOptionsWithPrice[1].value" value=' + adis_ary[0][0] + '><input class="quantityInput" type="hidden" name="products[' + productNumber + '].quantity" value="'+quantity_ary[index]+'" size="5"></select>';
 
 					index++;
                 } else {
@@ -168,10 +172,10 @@ function featurePts() {
 
             console.log(priceText);
 
-
+            // var cart_button = '<h6>組立サービス</h6><select class="adisSelect"><option value="ADIS-00">なし(+0円 税込)</option><option value="ADIS-01">組立済+玄関渡し(+' + adis01_totalPrice.toLocaleString() + '円 税込)</option><option value="ADIS-02">組立済+搬入(+' + adis02_totalPrice.toLocaleString() + '円 税込)</select><h6>数量</h6><div class="cartBlock"><select class="quantitySelect"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select > <form action="https://shirai-store.net/p/cart/add" method="post">' + html + '<button type="submit">カートへ</button></div></form>'
 
             $(this).find('.addToCartImage').prepend('<img src="' + imgSrc + '">');
-            $(this).find('.addToCartInner').prepend(priceText + '<h6>組立サービス</h6><select class="adisSelect"><option value="ADIS-00">なし(+0円 税込)</option><option value="ADIS-01">組立済+玄関渡し(+' + adis01_totalPrice.toLocaleString() + '円 税込)</option><option value="ADIS-02">組立済+搬入(+' + adis02_totalPrice.toLocaleString() + '円 税込)</select><h6>数量</h6><div class="cartBlock"><select class="quantitySelect"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select > <form action="https://shirai-store.net/p/cart/add" method="post">' + html + '<button type="submit">カートへ</button></div></form>');
+            $(this).find('.addToCartInner').prepend(priceText);
 
         });
         $('.adisSelect').change(function () {
