@@ -40,6 +40,7 @@ $(function () {
 	productDetail_ntuContentsBanner();
 	productDetail_howToStoreKidsBooksContentsBanner();
 	product_detail_ncm_contents_banner();
+	product_detail_cma_contents_banner();
 	//product_detail_monitor_campaign_banner();
 	searchTagsTitleDescriptionChange();
 	putMemberIdOptInPolicy();
@@ -1027,6 +1028,21 @@ function product_detail_ncm_contents_banner() {
 	}
 }
 
+/* product_detail_cma_contents_banner
+========================================================================== */
+function product_detail_cma_contents_banner() {
+	if ($('#fs_ProductDetails').length) {
+		var url = window.location.pathname.substring(1);
+		url = url.split('/');
+		var series = url[url.length - 1].split('-');
+		if (series[0] == 'cma') {
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/comopia_idea"><img src="https://shiraistore.itembox.design/item/src/banner_comopia_idea_460x96.jpg"></a></li></ul>';
+
+			$('#productActionBox').after(html);
+		}
+	}
+}
+
 /* product_detail_monitor_campaign_banner
 ========================================================================== */
 function product_detail_monitor_campaign_banner() {
@@ -1173,11 +1189,11 @@ function searchTagTitle() {
 		$('#fs_ProductSearch h1').html('Autumn SALE 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('Autumn SALE 対象商品');
 		$('title').text('Autumn SALE 対象商品');
-	} else if (params.tag == 'sale20250807-20250821') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250807-20250821_1184x240.jpg" alt="Summer SALE 第2弾 対象商品">');
-		$('#fs_ProductSearch h1').html('Summer SALE 第2弾 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('Summer SALE 第2弾 対象商品');
-		$('title').text('Summer SALE 第2弾 対象商品');
+	} else if (params.tag == 'sale20251023-20251030') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20251023-20251030_1184x240.jpg" alt="ノアリスセール 対象商品">');
+		$('#fs_ProductSearch h1').html('ノアリスセール 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('ノアリスセール 対象商品');
+		$('title').text('ノアリスセール 対象商品');
 	} else if (params.tag == 'sale20250904-20250918') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250904-20250918_1184x240.jpg" alt="タナリオセール 対象商品">');
 		$('#fs_ProductSearch h1').html('タナリオセール 対象商品');
