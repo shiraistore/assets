@@ -882,7 +882,7 @@ function loadHolydayOnce() {
   if (_holydayLoaded) return;
 
   try {
-    var url = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/get_data_v2';
+    var url = 'https://h15yyu8zof.execute-api.ap-northeast-1.amazonaws.com/prod/get_add_data_v2';
     var params = { items: 'holyday' };
 
     // 既存コードと同じノリで同期リクエスト
