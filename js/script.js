@@ -6409,7 +6409,7 @@ function productDetailAddData() {
 					reviewHTML = '評価がありません';
 				}
 
-				if (!seriesCode.indexOf('tl')) {
+				if (!seriesCode == ('tl1' || 'tl2' || 'tl3')) {
 					seriesCode = 'tl';
 				} else if (seriesCode == 'ona' || seriesCode == 'obk') {
 					seriesCode = 'of2';
