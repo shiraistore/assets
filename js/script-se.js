@@ -130,7 +130,7 @@ function checkMemberIdOptInPolicy() {
 		// 会員の場合の処理
 		// Cookieにis_optInのKEYがない場合にオプトイン状況をAPIで取得する
 		if (is_apiOptIn == undefined) {
-			const checkUrl = 'https://chf394ul5c.execute-api.ap-northeast-1.amazonaws.com/prod/checkMemberOptInPolicy';
+			const checkUrl = 'https://h15yyu8zof.execute-api.ap-northeast-1.amazonaws.com/prod/get_member_opt_in_policy';
 			const checkParams = { member_id: memberId };
 			is_apiOptIn = apiOptInPolicy(checkUrl, checkParams);
 			if (is_apiOptIn['result'] == false) {
