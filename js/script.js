@@ -42,7 +42,7 @@ $(function () {
 	product_detail_ncm_contents_banner();
 	product_detail_cma_contents_banner();
 	product_detail_monitor_campaign_banner();
-	//product_detail_size_modal();
+	product_detail_size_modal(); //開発中
 	searchTagsTitleDescriptionChange();
 	check_member_opt_in_policy();
 	get_top_ranking();
@@ -8165,51 +8165,6 @@ function calendar() {
 
 	// ["day"] 日付に対してのクラス指定
 	calObj[0].daysClass = new Object();
-	calObj[0].daysClass['2023/11/3'] = 'Holyday';
-	calObj[0].daysClass['2023/11/23'] = 'Holyday';
-	calObj[0].daysClass['2023/12/28'] = 'Holyday';
-	calObj[0].daysClass['2023/12/29'] = 'Holyday';
-	calObj[0].daysClass['2024/1/1'] = 'Holyday';
-	calObj[0].daysClass['2024/1/2'] = 'Holyday';
-	calObj[0].daysClass['2024/1/3'] = 'Holyday';
-	calObj[0].daysClass['2024/1/4'] = 'Holyday';
-	calObj[0].daysClass['2024/1/8'] = 'Holyday';
-	calObj[0].daysClass['2024/2/12'] = 'Holyday';
-	calObj[0].daysClass['2024/2/23'] = 'Holyday';
-	calObj[0].daysClass['2024/3/20'] = 'Holyday';
-	calObj[0].daysClass['2024/4/29'] = 'Holyday';
-	calObj[0].daysClass['2024/5/3'] = 'Holyday';
-	calObj[0].daysClass['2024/5/6'] = 'Holyday';
-	calObj[0].daysClass['2024/7/15'] = 'Holyday';
-	calObj[0].daysClass['2024/8/12'] = 'Holyday';
-	calObj[0].daysClass['2024/8/13'] = 'Holyday';
-	calObj[0].daysClass['2024/8/14'] = 'Holyday';
-	calObj[0].daysClass['2024/8/15'] = 'Holyday';
-	calObj[0].daysClass['2024/8/16'] = 'Holyday';
-	calObj[0].daysClass['2024/9/16'] = 'Holyday';
-	calObj[0].daysClass['2024/9/23'] = 'Holyday';
-	calObj[0].daysClass['2024/10/14'] = 'Holyday';
-	calObj[0].daysClass['2024/11/4'] = 'Holyday';
-	calObj[0].daysClass['2024/12/30'] = 'Holyday';
-	calObj[0].daysClass['2024/12/31'] = 'Holyday';
-	calObj[0].daysClass['2025/1/1'] = 'Holyday';
-	calObj[0].daysClass['2025/1/2'] = 'Holyday';
-	calObj[0].daysClass['2025/1/3'] = 'Holyday';
-	calObj[0].daysClass['2025/1/13'] = 'Holyday';
-	calObj[0].daysClass['2025/2/11'] = 'Holyday';
-	calObj[0].daysClass['2025/2/24'] = 'Holyday';
-	calObj[0].daysClass['2025/3/20'] = 'Holyday';
-	calObj[0].daysClass['2025/4/29'] = 'Holyday';
-	calObj[0].daysClass['2025/5/5'] = 'Holyday';
-	calObj[0].daysClass['2025/5/6'] = 'Holyday';
-	calObj[0].daysClass['2025/7/21'] = 'Holyday';
-	calObj[0].daysClass['2025/8/11'] = 'Holyday';
-	calObj[0].daysClass['2025/8/13'] = 'Holyday';
-	calObj[0].daysClass['2025/8/14'] = 'Holyday';
-	calObj[0].daysClass['2025/8/15'] = 'Holyday';
-	calObj[0].daysClass['2025/9/15'] = 'Holyday';
-	calObj[0].daysClass['2025/9/23'] = 'Holyday';
-	calObj[0].daysClass['2025/10/13'] = 'Holyday';
 	calObj[0].daysClass['2025/11/3'] = 'Holyday';
 	calObj[0].daysClass['2025/11/24'] = 'Holyday';
 	calObj[0].daysClass['2025/12/29'] = 'Holyday';
@@ -8217,6 +8172,31 @@ function calendar() {
 	calObj[0].daysClass['2025/12/31'] = 'Holyday';
 	calObj[0].daysClass['2026/1/1'] = 'Holyday';
 	calObj[0].daysClass['2026/1/2'] = 'Holyday';
+	calObj[0].daysClass['2026/1/12'] = 'Holyday';
+	calObj[0].daysClass['2026/2/11'] = 'Holyday';
+	calObj[0].daysClass['2026/2/23'] = 'Holyday';
+	calObj[0].daysClass['2026/3/20'] = 'Holyday';
+	calObj[0].daysClass['2026/4/29'] = 'Holyday';
+	calObj[0].daysClass['2026/5/4'] = 'Holyday';
+	calObj[0].daysClass['2026/5/5'] = 'Holyday';
+	calObj[0].daysClass['2026/5/6'] = 'Holyday';
+	calObj[0].daysClass['2026/7/20'] = 'Holyday';
+	calObj[0].daysClass['2026/8/11'] = 'Holyday';
+	calObj[0].daysClass['2026/8/12'] = 'Holyday';
+	calObj[0].daysClass['2026/8/13'] = 'Holyday';
+	calObj[0].daysClass['2026/8/14'] = 'Holyday';
+	calObj[0].daysClass['2026/9/21'] = 'Holyday';
+	calObj[0].daysClass['2026/9/22'] = 'Holyday';
+	calObj[0].daysClass['2026/9/23'] = 'Holyday';
+	calObj[0].daysClass['2026/10/12'] = 'Holyday';
+	calObj[0].daysClass['2026/11/3'] = 'Holyday';
+	calObj[0].daysClass['2026/11/23'] = 'Holyday';
+	calObj[0].daysClass['2026/12/29'] = 'Holyday';
+	calObj[0].daysClass['2026/12/30'] = 'Holyday';
+	calObj[0].daysClass['2026/12/31'] = 'Holyday';
+	calObj[0].daysClass['2027/1/1'] = 'Holyday';
+	calObj[0].daysClass['2027/1/2'] = 'Holyday';
+	calObj[0].daysClass['2027/1/3'] = 'Holyday';
 	//calObj[0].daysClass["2012/6/9"] = 'Birthday;テキストテキストテキスト<br />テキストテキストテキスト;http://weblogs.trancedive.com';
 	// 2012/6/9にBirthdayクラスを指定ってことね(和田の誕生日です)。
 	// セミコロンで区切ると説明コメント、URLを付けることができます(全クラス指定共通)。
@@ -9334,6 +9314,12 @@ function category_icon_display() {
 
 /* product_detail_size_modal ※開発中
    ========================================================================== */
-// function product_detail_size_modal(){
-// 	
-// }
+function product_detail_size_modal(){
+	$('.product-spec-table .product_spec_image_size').on('click', function () {
+		// $('header').css('display', 'none');
+		$('#globalNavi-overlay').fadeIn(200);
+	});
+	$('.pswp__button--close').on('click', function () {
+		$('header').css('display', 'block');
+	});
+}

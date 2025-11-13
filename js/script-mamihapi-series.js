@@ -1,5 +1,5 @@
 $(function () {
-	getReviews();
+	// getReviews();
 });
 
 /* getReviews

@@ -1,203 +1,211 @@
 $(function () {
-    featurePts();
+  featurePts();
 });
 
-$(window).on('load', function () {
-
-});
-
-$(window).on('resize', function () {
-
-});
-
-$(window).on('load scroll', function () {
-
-});
-
-/* featurePts
-========================================================================== */
-
-/* タブ作成 */
+/* タブ作成（そのまま） */
 jQuery(function($){
-	$('.tab').click(function(){
-		$('.is-active').removeClass('is-active');
-		$(this).addClass('is-active');
-		$('.is-show').removeClass('is-show');
-        // クリックしたタブからインデックス番号を取得
-		const index = $(this).index();
-        // クリックしたタブと同じインデックス番号をもつコンテンツを表示
-		$('.panel').eq(index).addClass('is-show');
-	});
+  $('.tab').click(function(){
+    $('.is-active').removeClass('is-active');
+    $(this).addClass('is-active');
+    $('.is-show').removeClass('is-show');
+    const index = $(this).index();
+    $('.panel').eq(index).addClass('is-show');
+  });
 });
+
+/* 安全パーサ（BOM/コメント/末尾カンマ対応） */
+function parseApiJson(raw) {
+  if (typeof raw !== 'string') return raw;
+  let s = raw.trim();
+  if (s.charCodeAt(0) === 0xFEFF) s = s.slice(1);
+  s = s.replace(/\/\/[^\n\r]*/g, '').replace(/\/\*[\s\S]*?\*\//g, '');
+  s = s.replace(/,\s*(?=[}\]])/g, '');
+  return JSON.parse(s);
+}
 
 function featurePts() {
-    $.getJSON('https://cdn.shirai-store.net/assets/json/feature/pitashie-featureAndCombinatio_v1_0.json', function (data) {
-        console.log(data);
-        $('.addToCart').each(function () {
-            var product = $(this).data('products');
-            var specifiedName = $(this).data('specifiedname');
-            var productImage = $(this).data('image');
-            var productImageSize = $(this).data('imagesize');
-            var priceText;
-            var result = data.find((u) => u.productUrl === product);
-            if (result) {
-                // データが存在した時の処理
+  // 1) ページ内にあるSKUを全て集めてAPIリクエスト用に整形・重複除去
+  const skuSet = new Set();
 
-                //console.log(result);
-                var productUrl = result.productUrl,
-                    productNumber = result.productUrl.toUpperCase(),
-                    productId = result.productId,
-                    productName = result.productName,
-                    sellingPrice = result.sellingPrice,
-                    normalPrice = result.normalPrice,
-                    adis_ary = '',
-                    // adis_ary = result.adis.sort(),
-                    imgSrc,
-                    url = '/c/series/' + productUrl.slice(0, 3) + '/' + productUrl;
+  $('.addToCart').each(function(){
+    const v = $(this).data('products');
+    if (v != null && String(v).trim() !== '') skuSet.add(String(v).trim().toUpperCase());
+  });
 
-                // console.log('productUrl:', productUrl);
-                // console.log('productNumber:', productNumber);
-                // console.log('productId:', productId);
-                // console.log('productName:', productName);
-                // console.log('sellingPrice:', sellingPrice);
-                // console.log('normalPrice:', normalPrice);
-                // console.log('adis_ary:', adis_ary);
-
-                if (sellingPrice < normalPrice) {
-                    priceText = '<span class="mark-sale">SALE</span><span class="normalPrice">¥' + normalPrice.toLocaleString() + '（税込）</span><span class="sellingPrice">¥' + sellingPrice.toLocaleString() + '<span class="tax">（税込）</span></span>';
-                } else {
-                    priceText = '<span class="sellingPrice">¥' + sellingPrice.toLocaleString() + '<span class="tax">（税込）</span></span>';
-                }
-
-                var productId_Len12 = ('000000000000' + productId).slice(-12);
-                var productId_Len3 = ('000' + Math.floor(productId / 100)).slice(-3);
-                var productImageNumber = ('00' + productImage).slice(-2);
-
-                if(specifiedName != undefined){
-                    productName = specifiedName;
-                }
-
-                // var adis = '<h6>組立サービス</h6><input type="hidden" name="products[' + productNumber + '].productOptionsWithPrice[1].id" value="1"/><select name="products[' + productNumber + '].productOptionsWithPrice[1].value"><option value="' + adis_ary[0][0] + '">' + adis_ary[0][1] + '(+' + adis_ary[0][2].toLocaleString() + '円 税込)</option><option value="' + adis_ary[1][0] + '">' + adis_ary[1][1] + '(+' + adis_ary[1][2].toLocaleString() + '円 税込)</option><option value="' + adis_ary[2][0] + '">' + adis_ary[2][1] + '(+' + adis_ary[2][2].toLocaleString() + '円 税込)</select>';
-
-                imgSrc = 'https://shiraistore.itembox.design/product/' + productId_Len3 + '/' + productId_Len12 + '/' + productId_Len12 + '-' + productImageNumber + '-' + productImageSize + '.jpg'
-
-                $(this).find('.addToCartImage').prepend('<img src="' + imgSrc + '">');
-                $(this).find('.addToCartInner').prepend('<form action="https://shirai-store.net/p/cart/add" method="post"><h5 class="productName">' + productName + '</h5><p class="productPrice"><span>price</span>' + priceText + '</p><input type="hidden" name="products[' + productNumber + '].productNo" value="' + productNumber + '"><h6>数量</h6><div class="cartBlock"><select name="products[' + productNumber + '].quantity"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select><button type="submit">カートに入れる</button></div></form><div class=""><a href="' + url + '">商品詳細を見る</a></div>');
-            } else {
-                // データが存在しなかった時の処理
-            }
-        });
-
-        $('.addToCart-multiple').each(function () {
-            var products = $(this).data('products');
-            var quantity = $(this).data('quantity');
-            var productImage = $(this).data('image');
-            var productImageSize = $(this).data('imagesize');
-            products_ary = products.split(',');
-            quantity_ary = quantity.split(',');
-            console.log(products_ary);
-            console.log(quantity_ary);
-
-            var html = '',
-                totalSellingPrice = 0,
-                totalNormalPrice = 0,
-                adis01_totalPrice = 0,
-                adis02_totalPrice = 0;
-
-			var index = 0;
-            for (product of products_ary) {
-                //console.log(product);
-
-                var result = data.find((u) => u.productUrl === product);
-                if (result) {
-                    // データが存在した時の処理
-
-                    //console.log(result);
-                    var productUrl = result.productUrl,
-                        productNumber = result.productUrl.toUpperCase(),
-                        productId = result.productId,
-                        productName = result.productName,
-                        sellingPrice = result.sellingPrice,
-                        normalPrice = result.normalPrice,
-                        adis_ary = '',
-                        // adis_ary = result.adis.sort(),
-                        priceText,
-                        imgSrc;
-
-                    // console.log('productUrl:', productUrl);
-                    // console.log('productNumber:', productNumber);
-                    // console.log('productId:', productId);
-                    // console.log('productName:', productName);
-                    //console.log('sellingPrice:', sellingPrice);
-                    // console.log('normalPrice:', normalPrice);
-
-                    sellingPrice = sellingPrice * parseInt(quantity_ary[index], 10);
-                    totalSellingPrice += sellingPrice;
-                    totalNormalPrice += normalPrice;
-                    console.log(totalSellingPrice);
-
-                    //console.log('adis_ary:', adis_ary);
-                    // adis01_totalPrice += adis_ary[1][2];
-                    // adis02_totalPrice += adis_ary[2][2];
-
-                    //console.log('adis01_totalPrice:', adis01_totalPrice);
-                    //console.log('adis02_totalPrice:', adis02_totalPrice);
-
-                    if (sellingPrice < normalPrice) {
-                        priceText = '<span class="mark-sale">SALE</span><span class="normalPrice">¥' + normalPrice.toLocaleString() + '<span class="tax">（税込）</span></span><span class="sellingPrice">¥' + sellingPrice.toLocaleString() + '<span class="tax">（税込）</span></span>';
-                    } else {
-                        priceText = '<span class="sellingPrice">¥' + sellingPrice.toLocaleString() + '<span class="tax">（税込）</span></span>';
-                    }
-
-                    var productId_Len12 = ('000000000000' + productId).slice(-12);
-                    var productId_Len3 = ('000' + Math.floor(productId / 100)).slice(-3);
-                    var productImageNumber = ('00' + productImage).slice(-2);
-
-
-                    imgSrc = 'https://shiraistore.itembox.design/product/' + productId_Len3 + '/' + productId_Len12 + '/' + productId_Len12 + '-' + productImageNumber + '-' + productImageSize + '.jpg'
-
-                    // html += '<input type="hidden" name="products[' + productNumber + '].productNo" value="' + productNumber + '"><input type="hidden" name="products[' + productNumber + '].productOptionsWithPrice[1].id" value="1"/><input class="adisInput" type="hidden" name="products[' + productNumber + '].productOptionsWithPrice[1].value" value=' + adis_ary[0][0] + '><input class="quantityInput" type="hidden" name="products[' + productNumber + '].quantity" value="'+quantity_ary[index]+'" size="5"></select>';
-
-					index++;
-                } else {
-                    // データが存在しなかった時の処理
-                }
-            }
-
-            if (totalSellingPrice < totalNormalPrice) {
-                priceText = '<p class="productPrice"><span>price</span><span class="mark-sale">SALE</span><span class="normalPrice">¥' + totalNormalPrice.toLocaleString() + '<span class="tax">（税込）</span></span><span class="sellingPrice">¥' + totalSellingPrice.toLocaleString() + '<span class="tax">（税込）</span></span></p>';
-            } else {
-                priceText = '<p class="productPrice"><span>price</span><span class="sellingPrice">¥' + totalSellingPrice.toLocaleString() + '<span class="tax">（税込）</span></span></p>';
-            }
-
-            console.log(priceText);
-
-            // var cart_button = '<h6>組立サービス</h6><select class="adisSelect"><option value="ADIS-00">なし(+0円 税込)</option><option value="ADIS-01">組立済+玄関渡し(+' + adis01_totalPrice.toLocaleString() + '円 税込)</option><option value="ADIS-02">組立済+搬入(+' + adis02_totalPrice.toLocaleString() + '円 税込)</select><h6>数量</h6><div class="cartBlock"><select class="quantitySelect"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select > <form action="https://shirai-store.net/p/cart/add" method="post">' + html + '<button type="submit">カートへ</button></div></form>'
-
-            $(this).find('.addToCartImage').prepend('<img src="' + imgSrc + '">');
-            $(this).find('.addToCartInner').prepend(priceText);
-
-        });
-        $('.adisSelect').change(function () {
-            var val = $(this).val();
-            //console.log(val);
-            $(this).parents().find('.adisInput').each(function () {
-                $(this).val(val);
-            });
-        });
-        $('.quantitySelect').change(function () {
-            var val = $(this).val();
-            //console.log(val);
-			var index = 0;
-			var quantity = $(this).parents('.addToCart-multiple').data('quantity');
-			quantity_ary = quantity.split(',');
-			//console.log(quantity_ary);
-            $(this).parents('.addToCart-multiple').find('.quantityInput').each(function () {
-				//console.log(quantity_ary[index]);
-				quantityValue = quantity_ary[index];
-                $(this).val(val * quantityValue);
-				index++;
-            });
-        });
+  $('.addToCart-multiple').each(function(){
+    const list = String($(this).data('products') || '').split(',');
+    list.forEach(s => {
+      const v = String(s || '').trim();
+      if (v) skuSet.add(v.toUpperCase());
     });
+  });
+
+  const skuList = Array.from(skuSet);
+  if (skuList.length === 0) return;
+
+  // 2) API呼び出し（POST）
+  $.ajax({
+    url: 'https://h15yyu8zof.execute-api.ap-northeast-1.amazonaws.com/prod/get_product_list_add_data',
+    type: 'POST',
+    contentType: 'application/json',
+    dataType: 'text',
+    processData: false,
+    headers: { 'Accept': 'application/json' },
+    data: JSON.stringify({ skus: skuList })
+  }).done(function(raw){
+    let resp;
+    try {
+      resp = parseApiJson(raw);
+    } catch (e) {
+      console.error('API response JSON parse failed:', e, raw);
+      return;
+    }
+
+    // 3) レスポンス正規化
+    const items = Array.isArray(resp?.items) ? resp.items
+                : Array.isArray(resp?.data)  ? resp.data
+                : Array.isArray(resp?.result)? resp.result
+                : [];
+
+    // sku_no 小文字 → データ のマップ
+    const bySku = {};
+    items.forEach(it => {
+      if (it && it.sku_no) bySku[String(it.sku_no).toLowerCase()] = it;
+    });
+
+    // 4) 単品カートブロックの描画
+    $('.addToCart').each(function(){
+      const $wrap = $(this);
+      const product = $wrap.data('products');                 // 小文字SKU想定の既存HTMLでもOKにする
+      const specifiedName = $wrap.data('specifiedname');
+      const productImage = Number($wrap.data('image')) || 1;
+      const productImageSize = String($wrap.data('imagesize') || 's');
+
+      if (!product) return;
+      const result = bySku[String(product).toLowerCase()];
+      if (!result) return;
+
+      const sku_no = String(result.sku_no || product);
+      const productNumber = sku_no.toUpperCase();
+      const productId = Number(result.id);
+      let productName = String(result.name || '');
+      let sellingPrice = Number(result.selling_price || 0);
+      let normalPrice  = Number(result.normal_price  || 0);
+      const thumbnail  = Number(result.thumbnail_number || productImage);
+      const seriesCode = sku_no.slice(0,3);
+      const url = '/c/series/' + seriesCode.toLowerCase() + '/' + sku_no.toLowerCase();
+
+      if (specifiedName && String(specifiedName).trim() !== '') {
+        productName = String(specifiedName);
+      }
+
+      let priceText = '';
+      if (sellingPrice > 0 && normalPrice > 0 && sellingPrice < normalPrice) {
+        priceText =
+          '<span class="mark-sale">SALE</span>' +
+          '<span class="normalPrice">¥' + normalPrice.toLocaleString() + '（税込）</span>' +
+          '<span class="sellingPrice">¥' + sellingPrice.toLocaleString() + '<span class="tax">（税込）</span></span>';
+      } else if (sellingPrice > 0) {
+        priceText =
+          '<span class="sellingPrice">¥' + sellingPrice.toLocaleString() + '<span class="tax">（税込）</span></span>';
+      }
+
+      if (!Number.isFinite(productId)) return;
+      const productId_Len12 = ('000000000000' + productId).slice(-12);
+      const productId_Len3  = ('000' + Math.floor(productId / 100)).slice(-3);
+      const productImageNumber = ('00' + (thumbnail || productImage)).slice(-2);
+      const imgSrc = 'https://shiraistore.itembox.design/product/' +
+                     productId_Len3 + '/' + productId_Len12 + '/' +
+                     productId_Len12 + '-' + productImageNumber + '-' + productImageSize + '.jpg';
+
+      $wrap.find('.addToCartImage').empty().prepend('<img src="' + imgSrc + '">');
+
+      const inner =
+        '<form action="https://shirai-store.net/p/cart/add" method="post">' +
+          '<h5 class="productName">' + productName + '</h5>' +
+          '<p class="productPrice"><span>price</span>' + priceText + '</p>' +
+          '<input type="hidden" name="products[' + productNumber + '].productNo" value="' + productNumber + '">' +
+          '<h6>数量</h6>' +
+          '<div class="cartBlock">' +
+            '<select name="products[' + productNumber + '].quantity" class="quantitySelect">' +
+              '<option value="1">1</option><option value="2">2</option><option value="3">3</option>' +
+              '<option value="4">4</option><option value="5">5</option><option value="6">6</option>' +
+              '<option value="7">7</option><option value="8">8</option><option value="9">9</option>' +
+              '<option value="10">10</option>' +
+            '</select>' +
+            '<button type="submit">カートに入れる</button>' +
+          '</div>' +
+        '</form>' +
+        '<div class=""><a href="' + url + '">商品詳細を見る</a></div>';
+
+      $wrap.find('.addToCartInner').empty().prepend(inner);
+    });
+
+    // 5) 複数カートブロックの描画（合計金額表示 & 代表画像表示）
+    $('.addToCart-multiple').each(function(){
+      const $wrap = $(this);
+      const products = String($wrap.data('products') || '');
+      const quantity = String($wrap.data('quantity') || '');
+      const productImage = Number($wrap.data('image')) || 1;
+      const productImageSize = String($wrap.data('imagesize') || 's');
+
+      const products_ary = products.split(',').map(s => String(s || '').trim()).filter(Boolean);
+      const quantity_ary = quantity.split(',').map(s => Number(String(s || '1').trim()) || 1);
+
+      let totalSellingPrice = 0;
+      let totalNormalPrice = 0;
+      let representativeImgSrc = '';
+
+      products_ary.forEach((skuRaw, idx) => {
+        const it = bySku[String(skuRaw).toLowerCase()];
+        if (!it) return;
+
+        const q = quantity_ary[idx] ?? 1;
+        const selling = Number(it.selling_price || 0) * q;
+        const normal  = Number(it.normal_price  || 0) * q;
+
+        totalSellingPrice += selling;
+        totalNormalPrice  += normal;
+
+        // 代表画像（最初に見つかった商品を使用）
+        if (!representativeImgSrc && Number.isFinite(Number(it.id))) {
+          const pid = Number(it.id);
+          const pid12 = ('000000000000' + pid).slice(-12);
+          const pid3  = ('000' + Math.floor(pid / 100)).slice(-3);
+          const thumbNo = ('00' + (Number(it.thumbnail_number || productImage) || 1)).slice(-2);
+          representativeImgSrc = 'https://shiraistore.itembox.design/product/' +
+                                 pid3 + '/' + pid12 + '/' + pid12 + '-' + thumbNo + '-' + productImageSize + '.jpg';
+        }
+      });
+
+      let priceText = '';
+      if (totalSellingPrice > 0 && totalNormalPrice > 0 && totalSellingPrice < totalNormalPrice) {
+        priceText =
+          '<p class="productPrice"><span>price</span>' +
+          '<span class="mark-sale">SALE</span>' +
+          '<span class="normalPrice">¥' + totalNormalPrice.toLocaleString() + '<span class="tax">（税込）</span></span>' +
+          '<span class="sellingPrice">¥' + totalSellingPrice.toLocaleString() + '<span class="tax">（税込）</span></span>' +
+          '</p>';
+      } else if (totalSellingPrice > 0) {
+        priceText =
+          '<p class="productPrice"><span>price</span>' +
+          '<span class="sellingPrice">¥' + totalSellingPrice.toLocaleString() + '<span class="tax">（税込）</span></span>' +
+          '</p>';
+      }
+
+      if (representativeImgSrc) {
+        $wrap.find('.addToCartImage').empty().prepend('<img src="' + representativeImgSrc + '">');
+      }
+      $wrap.find('.addToCartInner').prepend(priceText);
+    });
+
+    // （必要あれば数量セレクトのイベントを追加）
+    $('.quantitySelect').off('change').on('change', function(){
+      const val = $(this).val();
+      $(this).closest('.cartBlock').find('.quantityInput').val(val);
+    });
+
+  }).fail(function(xhr, status, err){
+    console.error('get_product_list_add_data API error:', status, err, xhr && xhr.responseText);
+  });
 }
