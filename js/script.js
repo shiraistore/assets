@@ -42,7 +42,7 @@ $(function () {
 	product_detail_ncm_contents_banner();
 	product_detail_cma_contents_banner();
 	product_detail_monitor_campaign_banner();
-	product_detail_size_modal(); //開発中
+	//product_detail_size_modal(); //開発中
 	searchTagsTitleDescriptionChange();
 	check_member_opt_in_policy();
 	get_top_ranking();
@@ -9314,12 +9314,12 @@ function category_icon_display() {
 
 /* product_detail_size_modal ※開発中
    ========================================================================== */
-function product_detail_size_modal(){
-	$('.product-spec-table .product_spec_image_size').on('click', function () {
-		// $('header').css('display', 'none');
-		$('#globalNavi-overlay').fadeIn(200);
-	});
-	$('.pswp__button--close').on('click', function () {
-		$('header').css('display', 'block');
-	});
-}
+// function product_detail_size_modal(){
+// 	$('.product-spec-table .product_spec_image_size').on('click', function () {
+// 		// $('header').css('display', 'none');
+// 		$('#globalNavi-overlay').fadeIn(200);
+// 	});
+// 	$('.pswp__button--close').on('click', function () {
+// 		$('header').css('display', 'block');
+// 	});
+// }
