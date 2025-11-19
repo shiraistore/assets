@@ -1,5 +1,5 @@
 $(function () {
-	get_instagram_post();
+	//get_instagram_post();
 	review_modal();
 });
 
