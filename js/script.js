@@ -1185,11 +1185,11 @@ function productSortSelect() {
 //セール会場用バナー表示
 function searchTagTitle() {
 	var params = parameterToArray();
-	if (params.tag == 'sale20250925-20251016') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250925-20251016_1184x240.jpg" alt="Autumn SALE 対象商品">');
-		$('#fs_ProductSearch h1').html('Autumn SALE 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('Autumn SALE 対象商品');
-		$('title').text('Autumn SALE 対象商品');
+	if (params.tag == 'sale20251120-20251204') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20251120-20251204_1184x240.jpg" alt="BLACK FRIDAY 対象商品">');
+		$('#fs_ProductSearch h1').html('BLACK FRIDAY 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('BLACK FRIDAY 対象商品');
+		$('title').text('BLACK FRIDAY 対象商品');
 	} else if (params.tag == 'sale20251023-20251030') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20251023-20251030_1184x240.jpg" alt="ノアリスセール 対象商品">');
 		$('#fs_ProductSearch h1').html('ノアリスセール 対象商品');
@@ -9315,11 +9315,31 @@ function category_icon_display() {
 /* product_detail_size_modal ※開発中
    ========================================================================== */
 // function product_detail_size_modal(){
-// 	$('.product-spec-table .product_spec_image_size').on('click', function () {
-// 		// $('header').css('display', 'none');
-// 		$('#globalNavi-overlay').fadeIn(200);
-// 	});
-// 	$('.pswp__button--close').on('click', function () {
-// 		$('header').css('display', 'block');
-// 	});
+// 	// サイズ画像クリック → data-full の画像をオーバーレイに表示
+//     $('.product-spec-table .product_spec_image_size img').on('click', function () {
+
+//         var full_src = $(this).data('full');
+//         var overlay = $('#globalNavi-overlay');
+
+//         // 画像レイヤーをオーバーレイ内に挿入
+//         var modal_html = ''
+//             + '<div class="size_modal_image_layer">'
+//             + '  <img src="' + full_src + '" alt="サイズ画像">'
+//             + '</div>';
+
+//         overlay.html(modal_html).fadeIn(200);
+//     });
+
+//     // オーバーレイのどこかをクリックしたら閉じる
+//     $('#globalNavi-overlay').on('click', function (event) {
+
+//         //画像そのものをクリックした時は閉じないようにする場合 ↓
+//         if ($(event.target).closest('.size_modal_image_layer img').length) {
+//             return;
+//         }
+
+//         $(this).fadeOut(200, function () {
+//             $(this).empty(); // 中身(画像レイヤー)を削除
+//         });
+//     });
 // }
