@@ -1190,11 +1190,11 @@ function searchTagTitle() {
 		$('#fs_ProductSearch h1').html('BLACK FRIDAY 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('BLACK FRIDAY 対象商品');
 		$('title').text('BLACK FRIDAY 対象商品');
-	} else if (params.tag == 'sale20251023-20251030') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20251023-20251030_1184x240.jpg" alt="ノアリスセール 対象商品">');
-		$('#fs_ProductSearch h1').html('ノアリスセール 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('ノアリスセール 対象商品');
-		$('title').text('ノアリスセール 対象商品');
+	} else if (params.tag == 'sale20251204-20251225') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20251204-20251225_1184x240.jpg" alt="Winter SALE 対象商品">');
+		$('#fs_ProductSearch h1').html('Winter SALE 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('Winter SALE 対象商品');
+		$('title').text('Winter SALE 対象商品');
 	} else if (params.tag == 'sale20250904-20250918') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250904-20250918_1184x240.jpg" alt="タナリオセール 対象商品">');
 		$('#fs_ProductSearch h1').html('タナリオセール 対象商品');
@@ -9312,34 +9312,85 @@ function category_icon_display() {
 	}
 }
 
-/* product_detail_size_modal ※開発中
+/* product_detail_size_modal ※開発中 
    ========================================================================== */
-// function product_detail_size_modal(){
-// 	// サイズ画像クリック → data-full の画像をオーバーレイに表示
-//     $('.product-spec-table .product_spec_image_size img').on('click', function () {
+// function product_detail_size_modal(retry_count) {
+// 	if ($('#fs_ProductDetails').length) {
+// 		var url = location.href;
+// 		if (url == 'https://shirai-store.net/c/category/rack/book-shelf/test') {
+// 			if (retry_count == null) retry_count = 0;
+// 			//console.log('insert_and_bind_spec_image_retry try:', retry_count);
 
-//         var full_src = $(this).data('full');
-//         var overlay = $('#globalNavi-overlay');
+// 			var target_link = $('.fs-c-productPlainImage a').filter(function () {
+// 				var href = $(this).attr('href') || '';
+// 				return /-38-[a-z]+\.jpg/i.test(href);
+// 			}).first();
 
-//         // 画像レイヤーをオーバーレイ内に挿入
-//         var modal_html = ''
-//             + '<div class="size_modal_image_layer">'
-//             + '  <img src="' + full_src + '" alt="サイズ画像">'
-//             + '</div>';
+// 			if (!target_link.length) {
+// 				if (retry_count < 20) {
+// 					setTimeout(function () {
+// 						product_detail_size_modal(retry_count + 1);
+// 					}, 300);
+// 				} else {
+// 					console.warn('「-38-*.jpg」の画像リンクが見つかりません。');
+// 				}
+// 				return;
+// 			}
 
-//         overlay.html(modal_html).fadeIn(200);
-//     });
+// 			// ===== 見つかった後の通常処理 =====
+// 			var original_href = target_link.attr('href');
 
-//     // オーバーレイのどこかをクリックしたら閉じる
-//     $('#globalNavi-overlay').on('click', function (event) {
+// 			var href_parts = original_href.split('?');
+// 			var base_url = href_parts[0];
+// 			var query_str = href_parts[1] ? '?' + href_parts[1] : '';
 
-//         //画像そのものをクリックした時は閉じないようにする場合 ↓
-//         if ($(event.target).closest('.size_modal_image_layer img').length) {
-//             return;
-//         }
+// 			var thumb_src = base_url.replace(/-([a-z]+)\.jpg$/i, '-m.jpg') + query_str;
+// 			var full_src  = base_url.replace(/-([a-z]+)\.jpg$/i, '-xl.jpg') + query_str;
 
-//         $(this).fadeOut(200, function () {
-//             $(this).empty(); // 中身(画像レイヤー)を削除
-//         });
-//     });
+// 			var size_td = $('.product-spec-table tr')
+// 				.filter(function () {
+// 					return $(this).find('th').text().trim() === 'サイズ';
+// 				})
+// 				.find('td')
+// 				.first();
+
+// 			if (!size_td.length) return;
+
+// 			var image_wrap = size_td.find('.product_spec_image_size');
+// 			if (!image_wrap.length) {
+// 				size_td.append('<div class="product_spec_image_size"></div>');
+// 				image_wrap = size_td.find('.product_spec_image_size');
+// 			}
+
+// 			image_wrap.html('<img src="' + thumb_src + '" class="spec_size_thumb">');
+
+// 			function open_full_image() {
+// 				$('#globalNavi-overlay')
+// 					.html(
+// 						'<div class="size_modal_image_wrap">' +
+// 							'<img src="' + full_src + '">' +
+// 						'</div>'
+// 					)
+// 					.fadeIn(200);
+// 			}
+
+// 			// 画像クリック
+// 			size_td.find('.spec_size_thumb')
+// 				.off('click')
+// 				.on('click', open_full_image);
+
+// 			image_wrap
+// 				.off('click')
+// 				.on('click', open_full_image);
+
+// 			// オーバーレイクリックで閉じる
+// 			$('#globalNavi-overlay')
+// 				.off('click')
+// 				.on('click', function () {
+// 					$(this).fadeOut(200, function () {
+// 						$(this).empty();
+// 					});
+// 				});
+// 		}
+// 	}
 // }
