@@ -9312,204 +9312,121 @@ function category_icon_display() {
 	}
 }
 
-/* product_detail_size_modal　旧
+/* product_detail_size_modal
    ========================================================================== */
 function product_detail_size_modal(retry_count) {
-	if ($('#fs_ProductDetails').length) {
-		var url = location.href;
-		//if (url == 'https://shirai-store.net/c/category/rack/book-shelf/test') {
-			if (retry_count == null) retry_count = 0;
-			//console.log('insert_and_bind_spec_image_retry try:', retry_count);
+    if ($('#fs_ProductDetails').length) {
+        var url = location.href;
+        //if (url == '...') { 
+            if (retry_count == null) retry_count = 0;
 
-			var target_link = $('.fs-c-productPlainImage a').filter(function () {
-				var href = $(this).attr('href') || '';
-				return /-38-[a-z]+\.jpg/i.test(href);
-			}).first();
+            // 1. 画像リンクの取得
+            var target_links = $('.fs-c-productPlainImage a').filter(function () {
+                var href = $(this).attr('href') || '';
+                return /-3[68]-[a-z]+\.jpg/i.test(href);
+            });
 
-			if (!target_link.length) {
-				if (retry_count < 20) {
-					setTimeout(function () {
-						product_detail_size_modal(retry_count + 1);
-					}, 300);
-				} else {
-					console.warn('「-38-*.jpg」の画像リンクが見つかりません。');
-				}
-				return;
-			}
+            if (!target_links.length) {
+                if (retry_count < 20) {
+                    setTimeout(function () {
+                        product_detail_size_modal(retry_count + 1);
+                    }, 300);
+                } else {
+                    console.warn('「-36-*.jpg」または「-38-*.jpg」の画像リンクが見つかりません。');
+                }
+                return;
+            }
 
-			// ===== 見つかった後の通常処理 =====
-			var original_href = target_link.attr('href');
-
-			var href_parts = original_href.split('?');
-			var base_url = href_parts[0];
-			var query_str = href_parts[1] ? '?' + href_parts[1] : '';
-
-			var thumb_src = base_url.replace(/-([a-z]+)\.jpg$/i, '-m.jpg') + query_str;
-			var full_src  = base_url.replace(/-([a-z]+)\.jpg$/i, '-xl.jpg') + query_str;
-
-			var size_td = $('.product-spec-table tr')
-				.filter(function () {
-					return $(this).find('th').text().trim() === 'サイズ';
-				})
-				.find('td')
-				.first();
-
-			if (!size_td.length) return;
-
-			var image_wrap = size_td.find('.product_spec_image_size');
-			if (!image_wrap.length) {
-				size_td.append('<div class="product_spec_image_size"></div>');
-				image_wrap = size_td.find('.product_spec_image_size');
-			}
-
-			image_wrap.html('<img src="' + thumb_src + '" class="spec_size_thumb">');
-
-			function open_full_image() {
-				$('#globalNavi-overlay')
-					.html(
-						'<div class="size_modal_image_wrap">' +
-							'<img src="' + full_src + '">' +
-						'</div>'
-					)
-					.fadeIn(200);
-			}
-
-			// 画像クリック
-			size_td.find('.spec_size_thumb')
-				.off('click')
-				.on('click', open_full_image);
-
-			image_wrap
-				.off('click')
-				.on('click', open_full_image);
-
-			// オーバーレイクリックで閉じる
-			$('#globalNavi-overlay')
-				.off('click')
-				.on('click', function () {
-					$(this).fadeOut(200, function () {
-						$(this).empty();
-					});
-				});
-		//}
-	}
-}
-
-/* product_detail_size_modal 開発中
-   ========================================================================== */
-// function product_detail_size_modal(retry_count) {
-//     if ($('#fs_ProductDetails').length) {
-//         var url = location.href;
-//         //if (url == '...') { 
-//             if (retry_count == null) retry_count = 0;
-
-//             // 1. 画像リンクの取得
-//             var target_links = $('.fs-c-productPlainImage a').filter(function () {
-//                 var href = $(this).attr('href') || '';
-//                 return /-3[68]-[a-z]+\.jpg/i.test(href);
-//             });
-
-//             if (!target_links.length) {
-//                 if (retry_count < 20) {
-//                     setTimeout(function () {
-//                         product_detail_size_modal(retry_count + 1);
-//                     }, 300);
-//                 } else {
-//                     console.warn('「-36-*.jpg」または「-38-*.jpg」の画像リンクが見つかりません。');
-//                 }
-//                 return;
-//             }
-
-//             // ▼変更点: 取得した要素を並び替える（38を先に、36を後に）
-//             var sorted_links = target_links.toArray().sort(function(a, b) {
-//                 var hrefA = $(a).attr('href') || '';
-//                 var hrefB = $(b).attr('href') || '';
+            // 取得した要素を並び替える
+            var sorted_links = target_links.toArray().sort(function(a, b) {
+                var hrefA = $(a).attr('href') || '';
+                var hrefB = $(b).attr('href') || '';
                 
-//                 // "-36-" を含むかどうか判定
-//                 var is36A = /-36-/.test(hrefA);
-//                 var is36B = /-36-/.test(hrefB);
+                // "-36-" を含むかどうか判定
+                var is36A = /-36-/.test(hrefA);
+                var is36B = /-36-/.test(hrefB);
 
-//                 // Aが36でBが36じゃない(38)なら、Aを後ろにする（プラスの値を返す）
-//                 if (is36A && !is36B) return 1;
-//                 // Aが36じゃなくて(38)、Bが36なら、Aを前にする（マイナスの値を返す）
-//                 if (!is36A && is36B) return -1;
+                // Aが36でBが36でない(38)なら、Aを後ろにする（プラスの値を返す）
+                if (is36A && !is36B) return 1;
+                // Aが36でなくて(38)、Bが36なら、Aを前にする（マイナスの値を返す）
+                if (!is36A && is36B) return -1;
                 
-//                 return 0; // どちらも同じタイプなら変更なし
-//             });
+                return 0; // どちらも同じタイプなら変更なし
+            });
 
 
-//             // 2. 「サイズ」の td を特定
-//             var size_td = $('.product-spec-table tr')
-//                 .filter(function () {
-//                     return $(this).find('th').text().trim() === 'サイズ';
-//                 })
-//                 .find('td')
-//                 .first();
+            // 2. 「サイズ」の td を特定
+            var size_td = $('.product-spec-table tr')
+                .filter(function () {
+                    return $(this).find('th').text().trim() === 'サイズ';
+                })
+                .find('td')
+                .first();
 
-//             if (!size_td.length) return;
+            if (!size_td.length) return;
 
-//             // 3. 画像群をまとめる親ラッパーを作成
-//             var wrapper_class = 'spec_images_container';
-//             var container = size_td.find('.' + wrapper_class);
+            // 3. 画像群をまとめる親ラッパーを作成
+            var wrapper_class = 'spec_images_container';
+            var container = size_td.find('.' + wrapper_class);
             
-//             if (!container.length) {
-//                 size_td.append('<div class="' + wrapper_class + '"></div>');
-//                 container = size_td.find('.' + wrapper_class);
-//             }
+            if (!container.length) {
+                size_td.append('<div class="' + wrapper_class + '"></div>');
+                container = size_td.find('.' + wrapper_class);
+            }
             
-//             container.empty();
+            container.empty();
 
-//             // 4. 並び替えた配列(sorted_links)を使ってループ処理
-//             // jQueryオブジェクトとして扱うために $() で囲みます
-//             $(sorted_links).each(function() {
-//                 var original_href = $(this).attr('href');
-//                 var href_parts = original_href.split('?');
-//                 var base_url = href_parts[0];
-//                 var query_str = href_parts[1] ? '?' + href_parts[1] : '';
+            // 4. 並び替えた配列(sorted_links)を使ってループ処理
+            // jQueryオブジェクトとして扱うために $() で囲みます
+            $(sorted_links).each(function() {
+                var original_href = $(this).attr('href');
+                var href_parts = original_href.split('?');
+                var base_url = href_parts[0];
+                var query_str = href_parts[1] ? '?' + href_parts[1] : '';
 
-//                 var thumb_src = base_url.replace(/-([a-z]+)\.jpg$/i, '-m.jpg') + query_str;
-//                 var full_src  = base_url.replace(/-([a-z]+)\.jpg$/i, '-xl.jpg') + query_str;
+                var thumb_src = base_url.replace(/-([a-z]+)\.jpg$/i, '-m.jpg') + query_str;
+                var full_src  = base_url.replace(/-([a-z]+)\.jpg$/i, '-xl.jpg') + query_str;
 
-//                 var html = 
-//                     '<div class="product_spec_image_size">' +
-//                         '<img src="' + thumb_src + '" class="spec_size_thumb" data-full-src="' + full_src + '">' +
-//                     '</div>';
+                var html = 
+                    '<div class="product_spec_image_size">' +
+                        '<img src="' + thumb_src + '" class="spec_size_thumb" data-full-src="' + full_src + '">' +
+                    '</div>';
                 
-//                 container.append(html);
-//             });
+                container.append(html);
+            });
 
-//             // 5. モーダル表示関数
-//             function open_full_image(src) {
-//                 $('#globalNavi-overlay')
-//                     .html(
-//                         '<div class="size_modal_image_wrap">' +
-//                             '<img src="' + src + '">' +
-//                         '</div>'
-//                     )
-//                     .fadeIn(200);
-//             }
+            // 5. モーダル表示関数
+            function open_full_image(src) {
+                $('#globalNavi-overlay')
+                    .html(
+                        '<div class="size_modal_image_wrap">' +
+                            '<img src="' + src + '">' +
+                        '</div>'
+                    )
+                    .fadeIn(200);
+            }
 
-//             // 6. クリックイベント設定
-//             container.find('.product_spec_image_size, .spec_size_thumb')
-//                 .off('click')
-//                 .on('click', function (e) {
-//                     e.stopPropagation();
-//                     var $target = $(this).hasClass('spec_size_thumb') ? $(this) : $(this).find('.spec_size_thumb');
-//                     var src = $target.attr('data-full-src');
+            // 6. クリックイベント設定
+            container.find('.product_spec_image_size, .spec_size_thumb')
+                .off('click')
+                .on('click', function (e) {
+                    e.stopPropagation();
+                    var $target = $(this).hasClass('spec_size_thumb') ? $(this) : $(this).find('.spec_size_thumb');
+                    var src = $target.attr('data-full-src');
                     
-//                     if(src) {
-//                         open_full_image(src);
-//                     }
-//                 });
+                    if(src) {
+                        open_full_image(src);
+                    }
+                });
 
-//             // オーバーレイクリックで閉じる
-//             $('#globalNavi-overlay')
-//                 .off('click')
-//                 .on('click', function () {
-//                     $(this).fadeOut(200, function () {
-//                         $(this).empty();
-//                     });
-//                 });
-//         //}
-//     }
-// }
+            // オーバーレイクリックで閉じる
+            $('#globalNavi-overlay')
+                .off('click')
+                .on('click', function () {
+                    $(this).fadeOut(200, function () {
+                        $(this).empty();
+                    });
+                });
+        //}
+    }
+}
