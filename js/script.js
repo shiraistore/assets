@@ -4815,6 +4815,18 @@ function rewriteDOM() {
 			// console.log('match!');
 			var deliveryCaution = 
 				'<div class="deliveryCaution mt-8" style=""><p style="font-size: 1.2rem;" class="red">【ご注意】<br>この商品は、上部と下部をそれぞれ工場にて組み立て、梱包を2つに分けて発送いたします。<u>配送業者がお客様指定の場所に運び入れ、上部と下部の連結作業を行います。</u>作業時間が10〜20分程度を要しますのでご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合があります。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■この商品の梱包サイズ<br>上部：幅92cm 高さ132cm 奥行44cm<br>下部：幅92cm 高さ81cm 奥行44cm</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下や階段の折り返しスペースの広さが、商品サイズに対し十分な余裕があるか<br>・出入り口の幅と高さが、商品サイズに対し十分な余裕があるか<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.design/item/src/product_detail/detail_delivery_route.png" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>'
+		} else if (location.href.match('cma-1890h')) {
+			// console.log('match!');
+			var deliveryCaution = 
+				'<div class="deliveryCaution mt-8" style=""><p style="font-size: 1.2rem;" class="red">【ご注意】<br>この商品は、上部と下部をそれぞれ工場にて組み立て、梱包を2つに分けて発送いたします。<u>配送業者がお客様指定の場所に運び入れ、上部と下部の連結作業を行います。</u>作業時間が10〜20分程度を要しますのでご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合があります。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■この商品の梱包サイズ<br>上部：幅94cm 高さ96cm 奥行57cm<br>下部：幅94cm 高さ95cm 奥行60cm</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下や階段の折り返しスペースの広さが、商品サイズに対し十分な余裕があるか<br>・出入り口の幅と高さが、商品サイズに対し十分な余裕があるか<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.design/item/src/product_detail/detail_delivery_route.png" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>'
+		} else if (location.href.match('cma-1812sla')) {
+			// console.log('match!');
+			var deliveryCaution = 
+				'<div class="deliveryCaution mt-8" style=""><p style="font-size: 1.2rem;" class="red">【ご注意】<br>この商品は、上部と下部をそれぞれ工場にて組み立て、梱包を2つに分けて発送いたします。<u>配送業者がお客様指定の場所に運び入れ、上部と下部の連結作業を行います。</u>作業時間が10〜20分程度を要しますのでご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合があります。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■この商品の梱包サイズ<br>上部：幅124cm 高さ95cm 奥行57cm<br>下部：幅124cm 高さ96cm 奥行60cm</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下や階段の折り返しスペースの広さが、商品サイズに対し十分な余裕があるか<br>・出入り口の幅と高さが、商品サイズに対し十分な余裕があるか<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.design/item/src/product_detail/detail_delivery_route.png" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>'
+		} else if (location.href.match('cma-1812slb')) {
+			// console.log('match!');
+			var deliveryCaution = 
+				'<div class="deliveryCaution mt-8" style=""><p style="font-size: 1.2rem;" class="red">【ご注意】<br>この商品は、上部と下部をそれぞれ工場にて組み立て、梱包を2つに分けて発送いたします。<u>配送業者がお客様指定の場所に運び入れ、上部と下部の連結作業を行います。</u>作業時間が10〜20分程度を要しますのでご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合があります。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■この商品の梱包サイズ<br>上部：幅124cm 高さ95cm 奥行56cm<br>下部：幅124cm 高さ96cm 奥行57cm</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下や階段の折り返しスペースの広さが、商品サイズに対し十分な余裕があるか<br>・出入り口の幅と高さが、商品サイズに対し十分な余裕があるか<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.design/item/src/product_detail/detail_delivery_route.png" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>'
 		} else {
 			// console.log('not match...');
 			var deliveryCaution =
@@ -6955,6 +6967,163 @@ function productDetailAddData() {
 		// });
 
 		sns_post_list_product_detail_10();
+
+		// //ノアリス カラーボックス2セット購入表示処理
+		// // --- 定数定義 ---
+		// const TARGET_CLASS_SELECTOR = '[class*="fs-body-product-nal-9045"]';
+		// const INSERT_TARGET_ID = '#product-comment_5';
+		// const ACTION_BOX_SELECTOR = '#productActionBox';
+		// const OPTION_AREA_SELECTOR = '.fs-c-productOption__option';
+		// const WARNING_MSG_ID = 'set-purchase-warning';
+		
+		// // フォームの入力要素ターゲット
+		// const FORM_PRODUCT_ID_SELECTOR = 'input[name="productId"]';
+		// // 組立サービスのセレクトボックス（HTMLからIDを特定）
+		// const OPTION_SELECT_SELECTOR = '#optionWithPrice_1'; 
+		// // 「組立なし」の値（HTMLのvalue値に基づく）
+		// const OPTION_VALUE_NONE = 'ADIS-00';
+
+		// // 【仮設定】API実装までのプレースホルダーID
+		// const TEMP_SET_PRODUCT_ID = '4683';
+
+		// // ターゲットページ判定
+		// if ($(TARGET_CLASS_SELECTOR).length) {
+
+		// 	// --- 1. 初期化と変数定義 ---
+		// 	const pathSegments = window.location.pathname.replace(/\/$/, '').split('/');
+		// 	const rawProductCode = pathSegments[pathSegments.length - 1];
+		// 	const productCodeRegex = /^[a-zA-Z0-9-]+$/;
+
+		// 	if (!rawProductCode || !productCodeRegex.test(rawProductCode)) {
+		// 		console.warn('Invalid product code detected.');
+		// 		return;
+		// 	}
+
+		// 	const currentProductCode = rawProductCode;              
+		// 	const setProductCode = `${currentProductCode}-2set`;    
+			
+		// 	const $targetElement = $(INSERT_TARGET_ID);
+		// 	const $actionBox = $(ACTION_BOX_SELECTOR);
+
+		// 	// ▼▼▼ 修正箇所: お問い合わせボタン(.fs-c-inquiryAboutProduct)を除外して取得 ▼▼▼
+		// 	const $dataTarget = $actionBox.find('[data-product-id]').not('.fs-c-inquiryAboutProduct');
+			
+		// 	const $formInput = $(FORM_PRODUCT_ID_SELECTOR); // 隠しフィールド
+
+		// 	if (!$targetElement.length || !$actionBox.length) return;
+
+		// 	// 【重要】初期の商品ID（単品のID）を保存
+		// 	let originalProductId = $formInput.val(); 
+		// 	if (!originalProductId) {
+		// 		// $dataTargetから除外したので、正しいメイン商品のIDが取得されます
+		// 		originalProductId = $dataTarget.attr('data-product-id');
+		// 	}
+
+		// 	// --- 2. UI生成と挿入 ---
+		// 	const setPurchaseHtml = `
+		// 		<div id="set-select-container" class="set-select-area">
+		// 			<h4>お得なセット購入</h4>
+		// 			<ul class="set-select-list">
+		// 				<li data-productcode="${currentProductCode}" class="active">
+		// 					<span>
+		// 						<img src="https://shiraistore.itembox.design/item/src/product_variation/${currentProductCode}.jpg" alt="単品">
+		// 						<span>単品購入</span>
+		// 					</span>
+		// 				</li>
+		// 				<li data-productcode="${setProductCode}" class="">
+		// 					<span>
+		// 						<img src="https://shiraistore.itembox.design/item/src/product_variation/${setProductCode}.jpg" alt="2個セット">
+		// 						<span>2個セット購入</span>
+		// 					</span>
+		// 				</li>
+		// 			</ul>
+		// 		</div>
+		// 	`;
+
+		// 	$targetElement.before(setPurchaseHtml);
+
+		// 	// --- 3. イベントハンドラ ---
+		// 	$(document).on('click', '.set-select-list li', function() {
+		// 		const $clickedItem = $(this);
+		// 		if ($clickedItem.hasClass('active')) return;
+
+		// 		$clickedItem.addClass('active').siblings().removeClass('active');
+		// 		const selectedCode = $clickedItem.data('productcode');
+				
+		// 		handleProductChange(selectedCode);
+		// 	});
+
+		// 	/**
+		// 	 * 商品選択時のメインロジック
+		// 	 */
+		// 	function handleProductChange(selectedCode) {
+		// 		console.log(`Selected: ${selectedCode}`);
+
+		// 		try {
+		// 			if (selectedCode === currentProductCode) {
+		// 				// === 単品購入時 ===
+		// 				updateOptionUI(false);
+		// 				updateProductData(originalProductId); 
+
+		// 			} else if (selectedCode === setProductCode) {
+		// 				// === 2個セット購入時 ===
+		// 				updateOptionUI(true);
+		// 				updateProductData(TEMP_SET_PRODUCT_ID);
+		// 			}
+		// 		} catch (error) {
+		// 			console.error('Error handling product change:', error);
+		// 		}
+		// 	}
+
+		// 	/**
+		// 	 * 商品IDデータの更新処理
+		// 	 */
+		// 	function updateProductData(newId) {
+		// 		if (newId) {
+		// 			// フォーム送信用のhidden input値を書き換える
+		// 			$formInput.val(newId);
+
+		// 			// data属性も一応更新（お問い合わせボタン以外が更新されます）
+		// 			if ($dataTarget.length) {
+		// 				$dataTarget.attr('data-product-id', newId);
+		// 			}
+					
+		// 			console.log(`Updated form productId to: ${newId}`);
+		// 		}
+		// 	}
+
+		// 	/**
+		// 	 * オプションエリアと警告メッセージの表示切替
+		// 	 */
+		// 	function updateOptionUI(isSetItem) {
+		// 		const $optionArea = $(OPTION_AREA_SELECTOR);
+		// 		const $optionSelect = $(OPTION_SELECT_SELECTOR);
+
+		// 		// 警告メッセージ要素の作成（なければ）
+		// 		if ($('#' + WARNING_MSG_ID).length === 0) {
+		// 			const warningHtml = `<p id="${WARNING_MSG_ID}" style="display: none;">2個セット商品は組立サービスをご利用いただけません。</p>`;
+		// 			$optionArea.after(warningHtml);
+		// 		}
+		// 		const $warningMsg = $('#' + WARNING_MSG_ID);
+
+		// 		if (isSetItem) {
+		// 			// --- セット選択時 ---
+		// 			$optionArea.hide();
+		// 			$warningMsg.show();
+					
+		// 			// 値を「なし(ADIS-00)」に強制変更
+		// 			if ($optionSelect.length) {
+		// 				$optionSelect.val(OPTION_VALUE_NONE);
+		// 				$optionSelect.trigger('change');
+		// 			}
+
+		// 		} else {
+		// 			// --- 単品選択時 ---
+		// 			$optionArea.show();
+		// 			$warningMsg.hide();
+		// 		}
+		// 	}
+		// }
 	}
 }
 
