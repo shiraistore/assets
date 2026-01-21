@@ -4752,7 +4752,7 @@ function rewriteDOM() {
 		}
 
 		//URLで分岐
-		if (location.href.match('por-5530du|hnb-4540d|por-1830d')) {
+		if (location.href.match('por-5530du|hnb-4540d|por-1830d|brm-1840d')) {
 			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-doorOpeningDirection.png">');
 		} else if (location.href.match('adl')) {
 			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-adlOpeningDirection.png">');
