@@ -4171,6 +4171,8 @@ function get_sale_items() {
 
 			$('.sale_items_slider.sale_items ul').before('<h2>SALE<span>セール</span></h2>');
 			$('.sale_items_slider.sale_items').after('<div class="fs-c-buttonContainer more-button"><a href="/f/sale_list" class="fs-c-button--standard">セール商品を見る</a></div>');
+		} else {
+			$('.sale_items_slider.sale_items').parent().parent().hide();
 		}
 	}
 }
