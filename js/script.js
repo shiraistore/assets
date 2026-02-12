@@ -43,6 +43,7 @@ $(function () {
 	product_detail_cma_contents_banner();
 	//product_detail_monitor_campaign_banner();
 	product_detail_size_modal();
+	caution_image_zoom_nal();
 	searchTagsTitleDescriptionChange();
 	check_member_opt_in_policy();
 	get_top_ranking();
@@ -313,46 +314,59 @@ function transfer() {
 ========================================================================== */
 
 function getUrlRedirect() {
-	var url = location.href;
-	if (url.indexOf('https://shirai-store.net/f/feature/magazine/newLife2022') > -1) {
-		window.location.href = 'https://shirai-store.net/f/feature/magazine/newLife';
-	} else if (url == 'https://shirai-store.net/f/shirai-fan') {
-		window.location.href = 'https://shirai-store.net/f/shirai_fan';
-	} else if (url == 'https://shirai-store.net/f/terms_use') {
-		window.location.href = 'https://shirai-store.net/f/terms-use';
-	} else if (url == 'https://shirai-store.net/f/ranking_rack') {
-		window.location.href = 'https://shirai-store.net/f/ranking-rack';
-	} else if (url == 'https://shirai-store.net/f/ranking_tv-stand') {
-		window.location.href = 'https://shirai-store.net/f/ranking-tv-stand';
-	} else if (url == 'https://shirai-store.net/f/ranking_kitchen') {
-		window.location.href = 'https://shirai-store.net/f/ranking-kitchen';
-	} else if (url == 'https://shirai-store.net/f/ranking_clothing') {
-		window.location.href = 'https://shirai-store.net/f/ranking-clothing';
-	} else if (url == 'https://shirai-store.net/f/ranking_entrance') {
-		window.location.href = 'https://shirai-store.net/f/ranking-entrance';
-	} else if (url == 'https://shirai-store.net/f/ranking_cabinet') {
-		window.location.href = 'https://shirai-store.net/f/ranking-cabinet';
-	} else if (url == 'https://shirai-store.net/f/ranking_wall-unit-storage') {
-		window.location.href = 'https://shirai-store.net/f/ranking-wall-unit-storage';
-	} else if (url == 'https://shirai-store.net/f/ranking_table') {
-		window.location.href = 'https://shirai-store.net/f/ranking-table';
-	} else if (url == 'https://shirai-store.net/f/ranking_desk') {
-		window.location.href = 'https://shirai-store.net/f/ranking-desk';
-	} else if (url == 'https://shirai-store.net/f/ranking_kids') {
-		window.location.href = 'https://shirai-store.net/f/ranking-kids';
-	} else if (url == 'https://shirai-store.net/f/ranking_office-furniture') {
-		window.location.href = 'https://shirai-store.net/f/ranking-office-furniture';
-	} else if (url.match(/https:\/\/shirai-store\.net\/p\/auth\/sizeOrder\/tnl-em(?![tsu])[^\s\/]*/)) {
-		window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-em';
-	} else if (url.match(/https:\/\/shirai-store\.net\/p\/auth\/sizeOrder\/tnl-emts[^\s\/]*/)) {
-		window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-emts';
-	} else if (url.match(/https:\/\/shirai-store\.net\/p\/auth\/sizeOrder\/tnl-emu[^\s\/]*/)) {
-		window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-emu';
-	} else if (url.match(/https:\/\/shirai-store\.net\/p\/auth\/sizeOrder\/sep-em(?![desk])[^\s\/]*/)) {
-		window.location.href = 'https://shirai-store.net/f/sizeOrder/sep-emrack';
-	} else if (url.match(/https:\/\/shirai-store\.net\/p\/auth\/sizeOrder\/sep-emdesk[^\s\/]*/)) {
-		window.location.href = 'https://shirai-store.net/f/sizeOrder/sep-emdesk';
-	}
+    var url = location.href;
+
+    // --- 追加：隠しページ（カラーバリエーション）の動的転送設定 ---
+    // パターン: /p/auth/hidden/([型番])-([カラー2文字])\2-set
+    var hiddenMatch = url.match(/https:\/\/shirai-store\.net\/p\/auth\/hidden\/([a-z]+-[0-9]+)-([a-z]{2})\2-set/);
+    if (hiddenMatch) {
+        var seriesId = hiddenMatch[1].split('-')[0]; // 例: nal
+        var modelId = hiddenMatch[1];               // 例: nal-9045
+        var color = hiddenMatch[2];                 // 例: pk
+        window.location.replace('https://shirai-store.net/c/series/' + seriesId + '/' + modelId + '-' + color);
+        return; // 転送を実行した場合は処理を終了
+    }
+    // -------------------------------------------------------
+
+    if (url.indexOf('https://shirai-store.net/f/feature/magazine/newLife2022') > -1) {
+        window.location.href = 'https://shirai-store.net/f/feature/magazine/newLife';
+    } else if (url == 'https://shirai-store.net/f/shirai-fan') {
+        window.location.href = 'https://shirai-store.net/f/shirai_fan';
+    } else if (url == 'https://shirai-store.net/f/terms_use') {
+        window.location.href = 'https://shirai-store.net/f/terms-use';
+    } else if (url == 'https://shirai-store.net/f/ranking_rack') {
+        window.location.href = 'https://shirai-store.net/f/ranking-rack';
+    } else if (url == 'https://shirai-store.net/f/ranking_tv-stand') {
+        window.location.href = 'https://shirai-store.net/f/ranking-tv-stand';
+    } else if (url == 'https://shirai-store.net/f/ranking_kitchen') {
+        window.location.href = 'https://shirai-store.net/f/ranking-kitchen';
+    } else if (url == 'https://shirai-store.net/f/ranking_clothing') {
+        window.location.href = 'https://shirai-store.net/f/ranking-clothing';
+    } else if (url == 'https://shirai-store.net/f/ranking_entrance') {
+        window.location.href = 'https://shirai-store.net/f/ranking-entrance';
+    } else if (url == 'https://shirai-store.net/f/ranking_cabinet') {
+        window.location.href = 'https://shirai-store.net/f/ranking-cabinet';
+    } else if (url == 'https://shirai-store.net/f/ranking_wall-unit-storage') {
+        window.location.href = 'https://shirai-store.net/f/ranking-wall-unit-storage';
+    } else if (url == 'https://shirai-store.net/f/ranking_table') {
+        window.location.href = 'https://shirai-store.net/f/ranking-table';
+    } else if (url == 'https://shirai-store.net/f/ranking_desk') {
+        window.location.href = 'https://shirai-store.net/f/ranking-desk';
+    } else if (url == 'https://shirai-store.net/f/ranking_kids') {
+        window.location.href = 'https://shirai-store.net/f/ranking-kids';
+    } else if (url == 'https://shirai-store.net/f/ranking_office-furniture') {
+        window.location.href = 'https://shirai-store.net/f/ranking-office-furniture';
+    } else if (url.match(/https:\/\/shirai-store\.net\/p\/auth\/sizeOrder\/tnl-em(?![tsu])[^\s\/]*/)) {
+        window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-em';
+    } else if (url.match(/https:\/\/shirai-store\.net\/p\/auth\/sizeOrder\/tnl-emts[^\s\/]*/)) {
+        window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-emts';
+    } else if (url.match(/https:\/\/shirai-store\.net\/p\/auth\/sizeOrder\/tnl-emu[^\s\/]*/)) {
+        window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-emu';
+    } else if (url.match(/https:\/\/shirai-store\.net\/p\/auth\/sizeOrder\/sep-em(?![desk])[^\s\/]*/)) {
+        window.location.href = 'https://shirai-store.net/f/sizeOrder/sep-emrack';
+    } else if (url.match(/https:\/\/shirai-store\.net\/p\/auth\/sizeOrder\/sep-emdesk[^\s\/]*/)) {
+        window.location.href = 'https://shirai-store.net/f/sizeOrder/sep-emdesk';
+    }
 }
 
 // function reviewsDisplayForSearchResults() {
@@ -1185,16 +1199,16 @@ function productSortSelect() {
 //セール会場用バナー表示
 function searchTagTitle() {
 	var params = parameterToArray();
-	if (params.tag == 'sale20251225-20260113') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20251225-20260113_1184x240.jpg" alt="歳末＆新春SALE 対象商品">');
-		$('#fs_ProductSearch h1').html('歳末＆新春SALE 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('歳末＆新春SALE 対象商品');
-		$('title').text('歳末＆新春SALE 対象商品');
-	} else if (params.tag == 'sale20251204-20251225') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20251204-20251225_1184x240.jpg" alt="Winter SALE 対象商品">');
-		$('#fs_ProductSearch h1').html('Winter SALE 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('Winter SALE 対象商品');
-		$('title').text('Winter SALE 対象商品');
+	if (params.tag == 'sale20260219-20260316') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20260219-20260316_1184x240.jpg" alt="新生活応援セール第1弾 対象商品">');
+		$('#fs_ProductSearch h1').html('新生活応援セール第1弾 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール第1弾 対象商品');
+		$('title').text('新生活応援セール第1弾 対象商品');
+	} else if (params.tag == 'sale20260217-20260224') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20260217-20260224_1184x240.jpg" alt="猫家具「ニャコモ」セール 対象商品">');
+		$('#fs_ProductSearch h1').html('猫家具「ニャコモ」セール 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('猫家具「ニャコモ」セール 対象商品');
+		$('title').text('猫家具「ニャコモ」セール 対象商品');
 	} else if (params.tag == 'sale20250904-20250918') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250904-20250918_1184x240.jpg" alt="タナリオセール 対象商品">');
 		$('#fs_ProductSearch h1').html('タナリオセール 対象商品');
@@ -3167,6 +3181,8 @@ function modal_content_all(data, thumbnail_url, element) {
 
 /* get_top_ranking (トップページランキング v2)
 ========================================================================== */
+/* get_top_ranking (トップページランキング v2)
+========================================================================== */
 function get_top_ranking() {
 	//if ($('#fs_Top').length) {
 		get_ranking('overall');
@@ -3388,6 +3404,231 @@ function get_top_ranking() {
 		}
 	//}
 }
+
+// API GATEWAY GETメソッドキャッシュ版（コストメリットが出なかったためコメントアウトしている）
+// function get_top_ranking() {
+//     //if ($('#fs_Top').length) {
+//     get_ranking('overall');
+//     $('#ranking-categories').css('display', 'block');
+
+//     $(document).on('click', '.tablink', function () {
+//         var category = $(this).data('category');
+//         get_ranking(category);
+//     });
+
+//     function get_ranking(category) {
+//         var url = 'https://h15yyu8zof.execute-api.ap-northeast-1.amazonaws.com/prod/get_add_data_v2';
+//         var ul_html = $(".tabcontent[data-category='" + category + "'] ul").html();
+
+//         var category_param = 'ranking_items_10_' + category;
+
+//         var params = { items: category_param };
+
+//         // ▼▼▼ 変更箇所: POSTからGETへ変更 ▼▼▼
+//         $.ajax({
+//             type: 'get', // post から get に変更
+//             url: url,
+//             data: params, // JSON.stringifyを削除し、オブジェクトを直接渡す (jQueryがクエリパラメータに変換します)
+//             // contentType: 'application/json', // GETの場合は不要なので削除
+//             dataType: 'text',
+//             scriptCharset: 'utf-8',
+//             success: function (response) {
+//                 // Success
+//                 response = JSON.parse(response);
+//                 var data = response.data;
+//                 if (ul_html == '') {
+//                     if (data != undefined && data != '') {
+//                         var html = '';
+//                         $.each(data.slice(0, 10), function (index, product) {
+//                             var sku_no = product.sku_no.toLowerCase(),
+//                                 id = product.id,
+//                                 productId_12Len = zeroPadding(id, 12),
+//                                 name = product.name,
+//                                 selling_price = Number(product.selling_price),
+//                                 normal_price = Number(product.normal_price),
+//                                 icon = product.icon,
+//                                 size = product.size,
+//                                 product_image_group = Math.floor(id / 100),
+//                                 average_rating = product.average_rating,
+//                                 number_review = product.number_review,
+//                                 category_url = product.category_url,
+//                                 category_name = product.category_name,
+//                                 thumbnail_number = product.thumbnail_number,
+//                                 ranking = index + 1;
+
+//                             thumbnail = ('00' + thumbnail_number).slice(-2);
+//                             seriesCode = sku_no.slice(0, 3);
+
+//                             if (seriesCode == 'tl1' || seriesCode == 'tl2' || seriesCode == 'tl3') {
+//                                 seriesCode = 'tl';
+//                             } else if (seriesCode == 'ona' || seriesCode == 'obk') {
+//                                 seriesCode = 'of2';
+//                             } else if (seriesCode == 'gbp') {
+//                                 seriesCode = 'gbt';
+//                             }
+
+//                             if (selling_price < normal_price) {
+//                                 selling_price = '<p class="priceBox salePriceBox"><span class="price">¥ ' + normal_price.toLocaleString('ja-JP') + '<span class="tax">(税込)</span></span><span class="memberPrice"><span class="sale">特別価格</span> ¥ ' + selling_price.toLocaleString('ja-JP') + '<span class="tax">(税込)</span></span></p>';
+//                             } else {
+//                                 selling_price = '<p class="priceBox"><span class="price">¥ ' + selling_price.toLocaleString('ja-JP') + '<span class="tax">(税込)</span></span></p>';
+//                             }
+
+//                             var icon_ary = icon.split(',');
+//                             //console.log(icon_ary);
+
+//                             var iconHtml = '';
+//                             for (var j = 0; j < icon_ary.length; j++) {
+//                                 if (icon_ary[j] != '') {
+//                                     icon_ary[j] = icon_ary[j].split(':');
+
+//                                     if (icon_ary[j][0] == 'mark-rank') {
+//                                         categoryName = categoryNameShorter(category_name);
+//                                         iconHtml += '<span class="mark-rank">' + ranking + '位</span>';
+//                                     }
+
+//                                     // if (icon_ary[j][0] == 'mark-categoryRank' && category_url != '') {
+//                                     //  categoryName = categoryNameShorter(category_name);
+//                                     //  iconHtml += '<span class="mark-rank">' + icon_ary[j][1] + '位</span>';
+//                                     // }
+
+//                                     if (icon_ary[j][0] == 'mark-new') {
+//                                         iconHtml += '<span class="mark-new">新着</span>';
+//                                     }
+
+//                                     if (icon_ary[j][0] == 'mark-longseller') {
+//                                         iconHtml += '<span class="mark-longseller">ロングセラー</span>';
+//                                     }
+
+//                                     if (icon_ary[j][0] == 'mark-limitedProduct') {
+//                                         iconHtml += '<span class="mark-limitedProduct">当店限定商品</span>';
+//                                     }
+
+//                                     if (icon_ary[j][0] == 'mark-sale') {
+//                                         iconHtml += '<span class="mark-sale">SALE</span>';
+//                                     }
+
+//                                     if (icon_ary[j][0] == 'mark-outlet') {
+//                                         iconHtml += '<span class="mark-outlet">OUTLET</span>';
+//                                     }
+//                                 }
+//                             }
+
+//                             if (average_rating < 0.5) {
+//                                 average_rating = '0';
+//                             } else if (average_rating < 1.0) {
+//                                 average_rating = '0.5';
+//                             } else if (average_rating < 1.5) {
+//                                 average_rating = '1.0';
+//                             } else if (average_rating < 2.0) {
+//                                 reviewaverage_ratingScore = '1.5';
+//                             } else if (average_rating < 2.5) {
+//                                 average_rating = '2.0';
+//                             } else if (average_rating < 3.0) {
+//                                 average_rating = '2.5';
+//                             } else if (average_rating < 3.5) {
+//                                 average_rating = '3.0';
+//                             } else if (average_rating < 4.0) {
+//                                 average_rating = '3.5';
+//                             } else if (average_rating < 4.5) {
+//                                 average_rating = '4.0';
+//                             } else if (average_rating < 5) {
+//                                 average_rating = '4.5';
+//                             } else if (average_rating == 5) {
+//                                 average_rating = '5.0';
+//                             }
+
+//                             var reviewHTML = '';
+
+//                             if (average_rating != 0) {
+//                                 reviewHTML = '<div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="' + average_rating + '"><a href="https://shirai-store.net/f/reviewList?modelCode=' + sku_no + '">（' + number_review + '）</a></div>';
+//                             } else {
+//                                 reviewHTML = '';
+//                             }
+
+//                             html +=
+//                                 '<li><a href="/c/series/' +
+//                                 seriesCode +
+//                                 '/' +
+//                                 sku_no +
+//                                 '"><img src="https://shiraistore.itembox.design/product/' +
+//                                 zeroPadding(product_image_group, 3) +
+//                                 '/' +
+//                                 productId_12Len +
+//                                 '/' +
+//                                 productId_12Len +
+//                                 '-' +
+//                                 thumbnail +
+//                                 '-m.jpg" alt="' +
+//                                 name +
+//                                 '" ><h3>' +
+//                                 name +
+//                                 '</h3></a>' +
+//                                 '<div class="productMarks">' +
+//                                 iconHtml +
+//                                 '</div>' +
+//                                 '<div class="productSize">' +
+//                                 size +
+//                                 '</div>' +
+//                                 reviewHTML +
+//                                 '<a href="/c/series/' +
+//                                 seriesCode +
+//                                 '/' +
+//                                 sku_no +
+//                                 '">' +
+//                                 selling_price +
+//                                 '</a></li>';
+//                             //console.log(html);
+//                         });
+//                         $(".tabcontent[data-category='" + category + "'] ul").html(html);
+//                     }
+//                 }
+//                 // $('.tablink').removeClass('active');
+//                 // $('.tablink[data-category="' + category + '"]').addClass('active');
+
+//                 // $('.tabcontent').removeClass('active').hide();
+//                 // $('.tabcontent[data-category="' + category + '"]')
+//                 //  .addClass('active')
+//                 //  .show();
+
+//                 $('.tablink').removeClass('active');
+//                 $('.tablink[data-category="' + category + '"]').addClass('active');
+
+//                 // フェードアニメーションで切り替え
+//                 $('.tabcontent.active').removeClass('active').fadeOut(200, function () {
+//                     $('.tabcontent[data-category="' + category + '"]')
+//                         .addClass('active')
+//                         .fadeIn(200);
+//                 });
+
+
+//                 if (category == 'overall') {
+//                     if ($(".tabcontent[data-category='overall'] .fs-c-buttonContainer").length === 0) {
+//                         $(".tabcontent[data-category='overall'] ul").after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking" class="fs-c-button--standard">ランキングを見る</a></div>');
+//                         $(".tabcontent[data-category='overall']").addClass('active').show();
+//                     }
+//                 } else if (category !== 'dresser') {
+//                     if ($(".tabcontent[data-category='" + category + "'] .fs-c-buttonContainer").length === 0) {
+//                         $(".tabcontent[data-category='" + category + "'] ul").after('<div class="fs-c-buttonContainer more-button"><a href="/f/ranking-' + category + '" class="fs-c-button--standard">ランキングを見る</a></div>');
+//                     }
+//                 }
+//             },
+//             error: function (response) {
+//                 // Error
+//                 console.log(JSON.stringify(response));
+//             },
+//         });
+//         // ▲▲▲ 変更箇所終わり ▲▲▲
+
+//         // // 他のタブを非アクティブにし、このタブをアクティブにする
+//         // $('.tablink').removeClass('active');
+//         // $(this).addClass('active');
+
+//         // // タブの内容を非表示にして、選択されたタブのコンテンツを表示
+//         // $('.tabcontent').removeClass('active').hide();
+//         // $('.tabcontent[data-category="' + category + '"]').addClass('active').show();
+//     }
+//     //}
+// }
 
 
 /* getCouponItems
@@ -4854,7 +5095,7 @@ function rewriteDOM() {
 
 		//在庫がない場合のフラグ
 		if ($('.fs-c-productNotice--outOfStock').length) {
-			$('body').addClass('outOfStock');
+			$('#productActionBox').addClass('outOfStock');
 		}
 
 		if (!$('.fs-c-productOption').length) {
@@ -4912,6 +5153,7 @@ function rewriteDOM() {
 	}
 
 	cart_size_order_dom_change();
+	cart_set_dom_change();
 
 }
 
@@ -6969,163 +7211,575 @@ function productDetailAddData() {
 		// });
 
 		sns_post_list_product_detail_10();
-
-		// //ノアリス カラーボックス2セット購入表示処理
-		// // --- 定数定義 ---
-		// const TARGET_CLASS_SELECTOR = '[class*="fs-body-product-nal-9045"]';
-		// const INSERT_TARGET_ID = '#product-comment_5';
-		// const ACTION_BOX_SELECTOR = '#productActionBox';
-		// const OPTION_AREA_SELECTOR = '.fs-c-productOption__option';
-		// const WARNING_MSG_ID = 'set-purchase-warning';
 		
-		// // フォームの入力要素ターゲット
-		// const FORM_PRODUCT_ID_SELECTOR = 'input[name="productId"]';
-		// // 組立サービスのセレクトボックス（HTMLからIDを特定）
-		// const OPTION_SELECT_SELECTOR = '#optionWithPrice_1'; 
-		// // 「組立なし」の値（HTMLのvalue値に基づく）
-		// const OPTION_VALUE_NONE = 'ADIS-00';
+		// ノアリス カラーボックス2セット購入表示処理
+		const TARGET_CLASS_SELECTOR = '[class*="fs-body-product-nal-9045"]';
 
-		// // 【仮設定】API実装までのプレースホルダーID
-		// const TEMP_SET_PRODUCT_ID = '4683';
+		if ($(TARGET_CLASS_SELECTOR).length) {
+			const INSERT_TARGET_ID = '#product-comment_5';
+			const ACTION_BOX_SELECTOR = '#productActionBox';
+			const OPTION_AREA_SELECTOR = '.fs-c-productOption__option';
+			const WARNING_MSG_ID = 'set-purchase-warning';
 
-		// // ターゲットページ判定
-		// if ($(TARGET_CLASS_SELECTOR).length) {
+			const FORM_PRODUCT_ID_SELECTOR = 'input[name="productId"]';
+			const FORM_GOODS_GROUP_URL_SELECTOR = 'input[name="goodsGroupUrl"]';
+			const OPTION_SELECT_SELECTOR = '#optionWithPrice_1';
+			const OPTION_VALUE_NONE = 'ADIS-00';
 
-		// 	// --- 1. 初期化と変数定義 ---
-		// 	const pathSegments = window.location.pathname.replace(/\/$/, '').split('/');
-		// 	const rawProductCode = pathSegments[pathSegments.length - 1];
-		// 	const productCodeRegex = /^[a-zA-Z0-9-]+$/;
+			const PRICE_AREA_SELECTOR = '.fs-c-productPrice--selling';
+			const POSTAGE_AREA_SELECTOR = '.fs-c-productPostage';
 
-		// 	if (!rawProductCode || !productCodeRegex.test(rawProductCode)) {
-		// 		console.warn('Invalid product code detected.');
-		// 		return;
-		// 	}
+			const SET_PRODUCT_MAP = {
+				'bgbg': '4684', 'bkbk': '4686', 'blbl': '4683', 'dkdk': '4688',
+				'nana': '4689', 'pkpk': '4685', 'whwh': '4687'
+			};
 
-		// 	const currentProductCode = rawProductCode;              
-		// 	const setProductCode = `${currentProductCode}-2set`;    
+			let time_sale_flag = $('body').hasClass('time-sale') ? 1 : 0;
+
+			let setProductDataCache = null;
+			let originalPriceHtml = null;
+			let originalPostageHtml = null;
 			
-		// 	const $targetElement = $(INSERT_TARGET_ID);
-		// 	const $actionBox = $(ACTION_BOX_SELECTOR);
+			// 単品時のHTMLとクラス状態の保存
+			let originalActionBoxHtml = null;
+			let originalHasOutOfStockClass = false;
 
-		// 	// ▼▼▼ 修正箇所: お問い合わせボタン(.fs-c-inquiryAboutProduct)を除外して取得 ▼▼▼
-		// 	const $dataTarget = $actionBox.find('[data-product-id]').not('.fs-c-inquiryAboutProduct');
+			// ★重要: お気に入りボタンのDOM要素自体を保存するための変数
+			let $liveWishlistBtn = null;
+
+			// --- 1. 初期設定 ---
+			const pathSegments = window.location.pathname.replace(/\/$/, '').split('/');
+			const currentProductCode = pathSegments[pathSegments.length - 1];
+			const segments = currentProductCode.split('-');
+			const colorPart = segments[segments.length - 1];
+			const setKey = colorPart + colorPart;
+			const setProductCode = `nal-9045-${setKey}-set`;
+			const setProductId = SET_PRODUCT_MAP[setKey];
+
+			const $targetElement = $(INSERT_TARGET_ID);
+			const $actionBox = $(ACTION_BOX_SELECTOR);
+			const $formInputId = $(FORM_PRODUCT_ID_SELECTOR);
+			const $formInputUrl = $(FORM_GOODS_GROUP_URL_SELECTOR);
+			const $cartButtons = $('[data-product-id]').not('.fs-c-inquiryAboutProduct');
+
+			if (!$targetElement.length || !$actionBox.length) return;
+
+			let originalProductId = $formInputId.val() || $actionBox.find('[data-product-id]').first().attr('data-product-id');
+			let originalProductCode = $formInputUrl.val() || currentProductCode;
+
+			let $priceContainer = $(PRICE_AREA_SELECTOR).parent();
+			if (!$priceContainer.length) $priceContainer = $(PRICE_AREA_SELECTOR);
+			originalPriceHtml = $priceContainer.html();
+			originalPostageHtml = $(POSTAGE_AREA_SELECTOR).html();
 			
-		// 	const $formInput = $(FORM_PRODUCT_ID_SELECTOR); // 隠しフィールド
+			// HTML保存
+			originalActionBoxHtml = $actionBox.html();
+			originalHasOutOfStockClass = $actionBox.hasClass('outOfStock');
 
-		// 	if (!$targetElement.length || !$actionBox.length) return;
+			// ★重要: 初期表示されている「生きている」お気に入りボタン要素を取得して保持
+			// (これを使い回すことでイベントや状態を維持する)
+			$liveWishlistBtn = $actionBox.find('.fs-c-productQuantityAndWishlist__wishlist').first();
 
-		// 	// 【重要】初期の商品ID（単品のID）を保存
-		// 	let originalProductId = $formInput.val(); 
-		// 	if (!originalProductId) {
-		// 		// $dataTargetから除外したので、正しいメイン商品のIDが取得されます
-		// 		originalProductId = $dataTarget.attr('data-product-id');
-		// 	}
+			let currentSinglePriceText = $(PRICE_AREA_SELECTOR).find('.fs-c-price__value').last().text().trim();
+			if (!currentSinglePriceText) currentSinglePriceText = '-';
 
-		// 	// --- 2. UI生成と挿入 ---
-		// 	const setPurchaseHtml = `
-		// 		<div id="set-select-container" class="set-select-area">
-		// 			<h4>お得なセット購入</h4>
-		// 			<ul class="set-select-list">
-		// 				<li data-productcode="${currentProductCode}" class="active">
-		// 					<span>
-		// 						<img src="https://shiraistore.itembox.design/item/src/product_variation/${currentProductCode}.jpg" alt="単品">
-		// 						<span>単品購入</span>
-		// 					</span>
-		// 				</li>
-		// 				<li data-productcode="${setProductCode}" class="">
-		// 					<span>
-		// 						<img src="https://shiraistore.itembox.design/item/src/product_variation/${setProductCode}.jpg" alt="2個セット">
-		// 						<span>2個セット購入</span>
-		// 					</span>
-		// 				</li>
-		// 			</ul>
-		// 		</div>
-		// 	`;
+			// --- 2. UI生成 ---
+			const setPurchaseHtml = `
+				<div id="set-select-container" class="set-select-area">
+					<h4>お得なセット購入</h4>
+					<ul class="set-select-list">
+						<li data-type="single" class="active">
+							<span>
+								<img src="https://shiraistore.itembox.design/item/src/product_variation/${currentProductCode}.jpg" alt="単品">
+								<span>単品購入<br><span class="single-price">¥${currentSinglePriceText}</span></span>
+							</span>
+						</li>
+						<li data-type="set">
+							<span>
+								<img src="https://shiraistore.itembox.design/item/src/product_variation/${setProductCode}.jpg" alt="2個セット">
+								<span>2個セット購入<br><span class="set-price" id="btn-set-price">...</span></span>
+							</span>
+						</li>
+					</ul>
+				</div>
+			`;
 
-		// 	$targetElement.before(setPurchaseHtml);
+			$targetElement.before(setPurchaseHtml);
 
-		// 	// --- 3. イベントハンドラ ---
-		// 	$(document).on('click', '.set-select-list li', function() {
-		// 		const $clickedItem = $(this);
-		// 		if ($clickedItem.hasClass('active')) return;
+			fetchSetData(setProductCode).done(function(response) {
+				setProductDataCache = response.result || response;
+				const priceInfo = getPriceInfo(setProductDataCache);
+				if (priceInfo) {
+					$('#btn-set-price').text(`¥${priceInfo.sellingPrice.toLocaleString()}`);
+				} else {
+					$('#btn-set-price').text('Check');
+				}
+			}).fail(function() {
+				$('#btn-set-price').text('-');
+			});
 
-		// 		$clickedItem.addClass('active').siblings().removeClass('active');
-		// 		const selectedCode = $clickedItem.data('productcode');
+			// --- 3. イベントハンドラ ---
+			$(document).on('click', '.set-select-list li', function() {
+				const $this = $(this);
+				if ($this.hasClass('active')) return;
+
+				$('.set-select-list li').removeClass('active');
+				$this.addClass('active');
+
+				const isSet = ($this.data('type') === 'set');
+
+				if (isSet) {
+					// === セット選択 ===
+					updateOptionUI(true);
+					applyProductData(setProductId, setProductCode);
+
+					if (setProductDataCache) {
+						renderSetInfo(setProductDataCache);
+					} else {
+						fetchSetData(setProductCode).done(function(response) {
+							setProductDataCache = response.result || response;
+							renderSetInfo(setProductDataCache);
+						});
+					}
+				} else {
+					// === 単品選択 ===
+					updateOptionUI(false);
+					applyProductData(originalProductId, originalProductCode);
+
+					// 価格復元
+					if (originalPriceHtml) $priceContainer.html(originalPriceHtml);
+					if (originalPostageHtml) $(POSTAGE_AREA_SELECTOR).html(originalPostageHtml);
+					
+					// HTML復元 (DOM要素の移動を含む)
+					updateActionBoxHtml(originalActionBoxHtml);
+
+					// クラス復元
+					if (originalHasOutOfStockClass) {
+						$actionBox.addClass('outOfStock');
+					} else {
+						$actionBox.removeClass('outOfStock');
+					}
+
+					if (time_sale_flag == 1) {
+						$('body').addClass('time-sale');
+					} else {
+						$('body').removeClass('time-sale');
+					}
+				}
+			});
+
+			// --- 4. 共通関数 ---
+
+			// ★重要: HTMLを書き換える際は必ずこの関数を通す
+			// 生きているお気に入りボタンを退避→復元する処理を行う
+			function updateActionBoxHtml(newHtml) {
+				// 1. 生きているボタンをDOMから切り離して保護 (イベントは維持される)
+				if ($liveWishlistBtn && $liveWishlistBtn.length) {
+					$liveWishlistBtn.detach();
+				}
+
+				// 2. HTMLを書き換え
+				$actionBox.html(newHtml);
+
+				// 3. 所定の位置に生きているボタンを戻す
+				// セット商品表示時: .wishlist-restore-target を探して置換
+				let $restoreTarget = $actionBox.find('.wishlist-restore-target');
 				
-		// 		handleProductChange(selectedCode);
-		// 	});
+				// 単品復元時: .wishlist-restore-target は無いので、元のクラス名を探す
+				if ($restoreTarget.length === 0) {
+					$restoreTarget = $actionBox.find('.fs-c-productQuantityAndWishlist__wishlist');
+				}
 
-		// 	/**
-		// 	 * 商品選択時のメインロジック
-		// 	 */
-		// 	function handleProductChange(selectedCode) {
-		// 		console.log(`Selected: ${selectedCode}`);
+				if ($restoreTarget.length && $liveWishlistBtn) {
+					$restoreTarget.replaceWith($liveWishlistBtn);
+				}
+			}
 
-		// 		try {
-		// 			if (selectedCode === currentProductCode) {
-		// 				// === 単品購入時 ===
-		// 				updateOptionUI(false);
-		// 				updateProductData(originalProductId); 
+			function applyProductData(id, code) {
+				if (!id) return;
+				$formInputId.val(id);
+				$cartButtons.each(function() {
+					// カートボタン等のIDは書き換えるが、
+					// お気に入りボタン自体は DOMを使い回すためここでは触らない
+					// (updateActionBoxHtml内のロジックで制御)
+					$(this).attr('data-product-id', id);
+					$.data(this, 'product-id', id);
+				});
+				if ($formInputUrl.length) {
+					$formInputUrl.val(code);
+				}
+			}
 
-		// 			} else if (selectedCode === setProductCode) {
-		// 				// === 2個セット購入時 ===
-		// 				updateOptionUI(true);
-		// 				updateProductData(TEMP_SET_PRODUCT_ID);
-		// 			}
-		// 		} catch (error) {
-		// 			console.error('Error handling product change:', error);
-		// 		}
-		// 	}
+			function updateOptionUI(isSetItem) {
+				const $optionArea = $(OPTION_AREA_SELECTOR);
+				const $optionSelect = $(OPTION_SELECT_SELECTOR);
+				if ($('#' + WARNING_MSG_ID).length === 0) {
+					$optionArea.after(`<p id="${WARNING_MSG_ID}" style="display:none;">2個セット商品は組立サービスをご利用いただけません。</p>`);
+				}
+				if (isSetItem) {
+					$optionArea.hide();
+					$('#' + WARNING_MSG_ID).show();
+					if ($optionSelect.length) $optionSelect.val(OPTION_VALUE_NONE);
+				} else {
+					$optionArea.show();
+					$('#' + WARNING_MSG_ID).hide();
+				}
+			}
 
-		// 	/**
-		// 	 * 商品IDデータの更新処理
-		// 	 */
-		// 	function updateProductData(newId) {
-		// 		if (newId) {
-		// 			// フォーム送信用のhidden input値を書き換える
-		// 			$formInput.val(newId);
+			function fetchSetData(sku) {
+				return $.ajax({
+					type: 'post',
+					url: 'https://h15yyu8zof.execute-api.ap-northeast-1.amazonaws.com/prod/get_product_detail_add_data_v2',
+					data: JSON.stringify({ sku_no: sku.toUpperCase() }),
+					contentType: 'application/json',
+					dataType: 'json'
+				});
+			}
 
-		// 			// data属性も一応更新（お問い合わせボタン以外が更新されます）
-		// 			if ($dataTarget.length) {
-		// 				$dataTarget.attr('data-product-id', newId);
-		// 			}
+			function getPriceInfo(data) {
+				if (data && data.price && data.price.length > 0) {
+					const p = data.price[0];
+					return {
+						normalPrice: parseInt(p.normal_price, 10),
+						sellingPrice: parseInt(p.selling_price, 10),
+						postage: parseInt(data.individual_postage || 0, 10)
+					};
+				}
+				return null;
+			}
+
+			function renderSetInfo(data) {
+				const info = getPriceInfo(data);
+				if (info) {
+					const { normalPrice, sellingPrice, postage } = info;
+					const sellingPriceStr = sellingPrice.toLocaleString();
+					const normalPriceStr = normalPrice.toLocaleString();
+					let newPriceHtml = '';
+
+					if (sellingPrice < normalPrice) {
+						$('body').addClass('time-sale');
+						const priceOffValue = Math.round((1 - sellingPrice / normalPrice) * 100 * 10) / 10;
+						newPriceHtml = `
+							<div class="fs-c-productPrice fs-c-productPrice--selling">
+								<span class="fs-c-productPrice__main">
+									<span class="fs-c-productPrice__main__price fs-c-price">
+										<span class="fs-c-price__currencyMark">¥</span><span class="fs-c-price__value">${normalPriceStr}</span>
+									</span>
+								</span><span class="fs-c-productPrice__addon"><span class="fs-c-productPrice__addon__label">税込</span></span>
+							</div>
+							<div class="fs-c-productPrice fs-c-productPrice--selling salePrice">
+								<span class="fs-c-productPrice__main">
+									<span class="fs-c-productPrice__main__price fs-c-price">
+										<span class="fs-c-price__currencyMark">¥</span> <span class="fs-c-price__value">${sellingPriceStr}</span>
+									</span>
+								</span>
+								<span class="fs-c-productPrice__addon"><span class="priceOffValue">${priceOffValue}% OFF</span><span class="fs-c-productPrice__addon__label">税込</span></span>
+							</div>`;
+					} else {
+						$('body').removeClass('time-sale');
+						newPriceHtml = `
+							<div class="fs-c-productPrice fs-c-productPrice--selling">
+								<span class="fs-c-productPrice__main">
+									<span class="fs-c-productPrice__main__price fs-c-price">
+										<span class="fs-c-price__currencyMark">¥</span>
+										<span class="fs-c-price__value">${sellingPriceStr}</span>
+									</span>
+								</span>
+								<span class="fs-c-productPrice__addon"><span class="fs-c-productPrice__addon__label">税込</span></span>
+							</div>`;
+					}
+
+					$priceContainer.html(newPriceHtml);
+					let newPostageHtml = `<span class="fs-c-productPostage__label">送料個別</span>
+					<span class="fs-c-productPostage__price fs-c-price fs-c-price--inline"><span class="fs-c-price__currencyMark">¥</span><span class="fs-c-price__value">${postage.toLocaleString()}</span>`;
+					$(POSTAGE_AREA_SELECTOR).html(newPostageHtml);
+				}
+
+				// --- 在庫数に応じたHTML書き換え ---
+				const inventory = typeof data.inventory_count !== 'undefined' ? parseInt(data.inventory_count, 10) : 0;
+				const currentSetId = setProductId;
+				let newActionBoxHtml = '';
+
+				const modalHtml = getModalHtmlTemplate();
+
+				if (inventory === 0) {
+					$actionBox.addClass('outOfStock');
+					newActionBoxHtml = getOutOfStockHtml(currentSetId) + modalHtml;
+				} else {
+					$actionBox.removeClass('outOfStock');
+					if (inventory >= 1 && inventory <= 3) {
+						newActionBoxHtml = getLowStockHtml(currentSetId) + modalHtml;
+					} else {
+						newActionBoxHtml = getInStockHtml(currentSetId) + modalHtml;
+					}
+				}
+
+				// ★DOM移動を含む更新処理を実行
+				updateActionBoxHtml(newActionBoxHtml);
+			}
+
+			// --- 5. HTML生成関数 ---
+
+			const getHiddenInputs = () => `
+				<input type="hidden" name="verticalVariationNo" value="">
+				<input type="hidden" name="horizontalVariationNo" value="">
+				<input type="hidden" name="verticalVariationName" value="">
+				<input type="hidden" name="horizontalVariationName" value="">
+				<input type="hidden" name="verticalAdminNo" value="">
+				<input type="hidden" name="horizontalAdminNo" value="">
+				<input type="hidden" name="staffStartSkuCode" value="">
+			`;
+
+			// ★お気に入りボタンのプレースホルダー
+			// 単品ID (originalProductId) を持つコンテナを用意し、そこにボタンを復元する
+			// これにより、システムは「単品商品」に対する操作だと認識する
+			function getWishlistPlaceholder() {
+				return `
+					<div class="fs-c-productQuantityAndWishlist wishlist-restore-container" data-product-id="${originalProductId}" data-vertical-variation-no="" data-horizontal-variation-no="" style="display: inline-block;">
+						<span class="wishlist-restore-target"></span>
+					</div>
+				`;
+			}
+
+			// 在庫0用 HTML
+			function getOutOfStockHtml(productId) {
+				return `
+					<div class="fs-c-productNotice fs-c-productNotice--outOfStock"> 申し訳ございません。ただいま在庫がございません。
+					<span>次回の入荷日は未定です。<br>「商品についてのお問い合わせ」よりお問い合わせください。</span></div>
 					
-		// 			console.log(`Updated form productId to: ${newId}`);
-		// 		}
-		// 	}
+					${getHiddenInputs()}
 
-		// 	/**
-		// 	 * オプションエリアと警告メッセージの表示切替
-		// 	 */
-		// 	function updateOptionUI(isSetItem) {
-		// 		const $optionArea = $(OPTION_AREA_SELECTOR);
-		// 		const $optionSelect = $(OPTION_SELECT_SELECTOR);
+					${getWishlistPlaceholder()}
 
-		// 		// 警告メッセージ要素の作成（なければ）
-		// 		if ($('#' + WARNING_MSG_ID).length === 0) {
-		// 			const warningHtml = `<p id="${WARNING_MSG_ID}" style="display: none;">2個セット商品は組立サービスをご利用いただけません。</p>`;
-		// 			$optionArea.after(warningHtml);
-		// 		}
-		// 		const $warningMsg = $('#' + WARNING_MSG_ID);
+					<div class="fs-c-productActionButton fs-c-buttonContainer" data-product-id="${productId}" data-vertical-variation-no="" data-horizontal-variation-no="">
+						<button type="button" class="fs-c-button--subscribeToArrivalNotice--detail fs-c-button--secondary">
+							<span class="fs-c-button__label">再入荷したらメールを受け取る</span>
+						</button>
+					</div>
 
-		// 		if (isSetItem) {
-		// 			// --- セット選択時 ---
-		// 			$optionArea.hide();
-		// 			$warningMsg.show();
-					
-		// 			// 値を「なし(ADIS-00)」に強制変更
-		// 			if ($optionSelect.length) {
-		// 				$optionSelect.val(OPTION_VALUE_NONE);
-		// 				$optionSelect.trigger('change');
-		// 			}
+					<div class="fs-c-inquiryAboutProduct fs-c-buttonContainer fs-c-buttonContainer--inquiryAboutProduct" data-product-id="${productId}">
+						<button type="button" class="fs-c-button--inquiryAboutProduct fs-c-button--plain">
+							<span class="fs-c-button__label">商品についてのお問い合わせ</span>
+						</button>
+					</div>
+				`;
+			}
 
-		// 		} else {
-		// 			// --- 単品選択時 ---
-		// 			$optionArea.show();
-		// 			$warningMsg.hide();
-		// 		}
-		// 	}
-		// }
+			// 在庫1〜3用 HTML
+			function getLowStockHtml(productId) {
+				return `
+					${getHiddenInputs()}
+
+					<div class="fs-c-productStock leftOver" style="display: inline-block;">残りわずか</div>
+
+					<div class="fs-c-productQuantityAndWishlist" data-product-id="${productId}" data-vertical-variation-no="" data-horizontal-variation-no="">
+						<span class="fs-c-productQuantityAndWishlist__quantity fs-c-quantity fs-system-assistTarget">
+						<select name="quantity" class="fs-c-quantity__select fs-system-quantity-list" data-cart-type="normal">
+							<option value="1" selected="">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10+</option>
+						</select>
+						<input name="quantity" class="fs-c-quantity__number fs-system-quantity-text" value="1" maxlength="4" style="display:none" type="tel" data-cart-type="normal" disabled="">
+						<span class="fs-c-quantity__message"></span>
+						</span>
+					</div>
+					<div class="fs-c-productActionButton fs-c-buttonContainer" data-product-id="${productId}" data-vertical-variation-no="" data-horizontal-variation-no="">
+						<button type="button" class="fs-c-button--addToCart--detail fs-c-button--primary">
+							<span class="fs-c-button__label">カートに入れる</span>
+						</button>
+						${getWishlistPlaceholder()}
+					</div>
+
+					<p class="coupon_reference">クーポンは注文手続き画面にてご利用いただけます</p>
+					<div class="fs-c-inquiryAboutProduct fs-c-buttonContainer fs-c-buttonContainer--inquiryAboutProduct" data-product-id="${productId}">
+					<button type="button" class="fs-c-button--inquiryAboutProduct fs-c-button--plain">
+						<span class="fs-c-button__label">商品についてのお問い合わせ</span>
+					</button>
+					</div>
+				`;
+			}
+
+			// 在庫4以上用 HTML
+			function getInStockHtml(productId) {
+				return `
+					${getHiddenInputs()}
+
+					<div class="fs-c-productStock" style="display: inline-block;">在庫あり</div>
+
+					<div class="fs-c-productQuantityAndWishlist" data-product-id="${productId}" data-vertical-variation-no="" data-horizontal-variation-no="">
+						<span class="fs-c-productQuantityAndWishlist__quantity fs-c-quantity fs-system-assistTarget">
+						<select name="quantity" class="fs-c-quantity__select fs-system-quantity-list" data-cart-type="normal">
+							<option value="1" selected="">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10+</option>
+						</select>
+						<input name="quantity" class="fs-c-quantity__number fs-system-quantity-text" value="1" maxlength="4" style="display:none" type="tel" data-cart-type="normal" disabled="">
+						<span class="fs-c-quantity__message"></span>
+						</span>
+					</div>
+					<div class="fs-c-productActionButton fs-c-buttonContainer" data-product-id="${productId}" data-vertical-variation-no="" data-horizontal-variation-no="">
+						<button type="button" class="fs-c-button--addToCart--detail fs-c-button--primary">
+							<span class="fs-c-button__label">カートに入れる</span>
+						</button>
+						${getWishlistPlaceholder()}
+					</div>
+
+					<p class="coupon_reference">クーポンは注文手続き画面にてご利用いただけます</p>
+					<div class="fs-c-inquiryAboutProduct fs-c-buttonContainer fs-c-buttonContainer--inquiryAboutProduct" data-product-id="${productId}">
+					<button type="button" class="fs-c-button--inquiryAboutProduct fs-c-button--plain">
+						<span class="fs-c-button__label">商品についてのお問い合わせ</span>
+					</button>
+					</div>
+				`;
+			}
+
+			// 問い合わせモーダル（共通）
+			function getModalHtmlTemplate() {
+				return `
+					<script id="fs-productInquiries-template" type="text/x-handlebars">
+					<aside class="fs-c-modal fs-c-modal--inquiry" style="display: none;">
+					<div class="fs-c-modal__inner">
+						<div class="fs-c-modal__header">
+						{{{productInquiryTitle}}}
+						<span class="fs-c-modal__close" role="button" aria-label="閉じる"></span>
+						</div>
+						<div class="fs-c-modal__contents">
+						<div class="fs-c-inquiryProduct">
+							{{#if productImageSrc}}
+							<div class="fs-c-inquiryProduct__productImage fs-c-productImage">
+							<img src="{{productImageSrc}}" alt="{{productImageAlt}}" class="fs-c-inquiryProduct__productImage__image fs-c-productImage__image">
+							</div>
+							{{/if}}
+							<div class="fs-c-inquiryProduct__productName fs-c-productName">
+							{{#if productCatchCopy}}
+							<span class="fs-c-productName__copy">{{{productCatchCopy}}}</span>
+							{{/if}}
+							<span class="fs-c-productName__name">{{{productName}}}</span>
+							</div>
+						</div>
+						{{{productInquiryComment}}}
+						<div class="fs-c-inputInformation">
+							<form>
+							<fieldset name="inquiryEdit" class="fs-c-inquiryEditField">
+								<table class="fs-c-inputTable fs-c-inputTable--inModal">
+								<tbody>
+									<tr>
+									<th class="fs-c-inputTable__headerCell" scope="row">
+										<label for="fs_input_name" class="fs-c-inputTable__label">氏名
+										<span class="fs-c-requiredMark">(必須)</span>
+										</label>
+									</th>
+									<td class="fs-c-inputTable__dataCell">
+										<div class="fs-c-inputField">
+										<div class="fs-c-inputField__field fs-system-assistTarget">
+											<input type="text" name="name" id="fs_input_name" value="{{name}}" data-rule-required="true">
+										</div>
+										</div>
+									</td>
+									</tr>
+									<tr>
+									<th class="fs-c-inputTable__headerCell" scope="row">
+										<label for="fs_input_mailAddress" class="fs-c-inputTable__label">メールアドレス
+										<span class="fs-c-requiredMark">(必須)</span>
+										</label>
+									</th>
+									<td class="fs-c-inputTable__dataCell">
+										<div class="fs-c-inputField">
+										<div class="fs-c-inputField__field fs-system-assistTarget">
+											<input type="text" name="mailAddress" id="fs_input_mailAddress" value="{{email}}"
+												data-rule-mailNoCommaInDomain="true"
+												data-rule-mailValidCharacters="true"
+												data-rule-mailHasAt="true"
+												data-rule-mailHasLocalPart="true"
+												data-rule-mailHasDomain="true"
+												data-rule-mailNoMultipleAts="true"
+												data-rule-mailHasDot="true"
+												data-rule-mailValidDomain="true"
+												data-rule-mailHasTextAfterDot="true"
+												data-rule-required="true">
+										</div>
+										</div>
+									</td>
+									</tr>
+									{{#if phoneNumberEnabled}}
+									<tr>
+									<th class="fs-c-inputTable__headerCell" scope="row">
+										<label for="fs_input_phoneNumber" class="fs-c-inputTable__label">お電話番号
+										{{#if phoneNumberRequired}}<span class="fs-c-requiredMark">(必須)</span>{{/if}}
+										</label>
+									</th>
+									<td class="fs-c-inputTable__dataCell">
+										<div class="fs-c-inputField">
+										<div class="fs-c-inputField__field fs-system-assistTarget">
+											<input type="tel" name="phoneNumber" id="fs_input_phoneNumber" maxlength="17" pattern="\\d*-{0,1}\\d*-{0,1}\\d*" data-rule-phoneNumber="true"{{#if phoneNumberRequired}} data-rule-required="true"{{/if}}>
+										</div>
+										</div>
+									</td>
+									</tr>
+									{{/if}}
+									<tr>
+									<th class="fs-c-inputTable__headerCell" scope="row">
+										<label for="fs_input_inquiry" class="fs-c-inputTable__label">お問い合わせ内容
+										<span class="fs-c-requiredMark">(必須)</span>
+										</label>
+									</th>
+									<td class="fs-c-inputTable__dataCell">
+										<div class="fs-c-inputField">
+										<div class="fs-c-inputField__field fs-system-assistTarget">
+											<textarea name="inquiry" id="fs_input_inquiry" data-rule-required="true"></textarea>
+										</div>
+										</div>
+									</td>
+									</tr>
+								</tbody>
+								</table>
+							</fieldset>
+							{{#with privacyPolicyAgree as |privacyPolicyAgree|}}{{#if privacyPolicyAgree.displayAgreeArea}}
+					{{#if privacyPolicyAgree.displayAgreeCheckbox}}
+					<fieldset form="fs_form" name="privacyAgree" class="fs-c-privacyPolicyAgreeField fs-c-additionalCheckField">
+					<div class="fs-c-inputField">
+						<div class="fs-c-inputField__field">
+						<span class="fs-c-checkbox">
+							<input type="checkbox" id="fs_input_privacyAgree" name="privacyPolicyAgreed" class="fs-c-checkbox__checkbox"{{#if privacyPolicyAgree.agreeCheckboxChecked}} checked{{/if}}>
+							<label for="fs_input_privacyAgree" class="fs-c-checkbox__label">
+							<span class="fs-c-checkbox__checkMark"></span>
+							{{{privacyPolicyAgree.checkLabel}}}
+							</label>
+						</span>
+						</div>
+					</div>
+					</fieldset>
+					{{else}}
+					{{{privacyPolicyAgree.uncheckedComment}}}
+					{{/if}}
+					{{/if}}{{/with}}
+							<div class="fs-c-inputInformation__button fs-c-buttonContainer fs-c-buttonContainer--sendInquiry">
+								{{#with sendInquiryButton as |button|}}<button type="button" class="{{button.classes}}{{#if button.disabled}} is-disabled{{/if}}"{{#if button.disabled}} disabled{{/if}}>
+					{{#if button.image}}<img class="fs-c-button__image" src="{{button.imageUrl}}" alt="{{button.label}}">{{else}}<span class="fs-c-button__label">{{button.label}}</span>{{/if}}
+					</button>{{/with}}
+							</div>
+							</form>
+						</div>
+						</div>
+					</div>
+					</aside>
+					<\/script>`;
+			}
+		}
 	}
 }
 
@@ -9029,6 +9683,19 @@ function cartRegistBranch() {
 	}
 }
 
+function cart_set_dom_change(){
+	if ($('#fs_ShoppingCart').length) {
+		$('.fs-c-cartTable a').each(function () {
+			var href = $(this).attr('href');
+			if (href.indexOf('/hidden/nal-9045') >= 0) {
+				const regex = /\/hidden\/(nal-\d{4})-([a-z]{2})\2-set/;
+				const newHref = href.replace(regex, '/series/nal/$1-$2');
+				$(this).attr('href', newHref);
+			}
+		});
+	}
+}
+
 
 function cart_size_order_dom_change(){
 
@@ -9390,6 +10057,7 @@ function cart_select_quantity() {
 				});
 
 				cart_size_order_dom_change();
+				cart_set_dom_change();
 
 			} else {
 				// pre-emfotがカートに入っていない場合にループを抜けるために代入する
@@ -9503,7 +10171,7 @@ function product_detail_size_modal(retry_count) {
                         product_detail_size_modal(retry_count + 1);
                     }, 300);
                 } else {
-                    console.warn('「-36-*.jpg」または「-38-*.jpg」の画像リンクが見つかりません。');
+                    //console.warn('「-36-*.jpg」または「-38-*.jpg」の画像リンクが見つかりません。');
                 }
                 return;
             }
@@ -9599,5 +10267,46 @@ function product_detail_size_modal(retry_count) {
                     });
                 });
         //}
+    }
+}
+
+/* caution_image_zoom_nal
+   ========================================================================== */
+function caution_image_zoom_nal() {
+    // 商品詳細のコンテナが存在するか確認
+    if ($('#fs_ProductDetails').length) {
+        // 現在のURL（パス名）を取得
+        const current_path = window.location.pathname;
+
+        // URLに「nal-9045」が含まれているかチェック
+        if (current_path.includes('nal-9045')) {
+            // 対象となる要素のセレクタ
+            const target_wrapper_selector = ".productDescriptionCaution";
+            const target_image_selector = target_wrapper_selector + " img";
+
+            // --- CSS制御用の処理 ---
+            // 条件に一致する場合、親要素にクラスを付与してCSSが効くようにする
+            $(target_wrapper_selector).addClass("is_zoomable");
+
+            // --- 拡大機能のイベント登録 ---
+            $(target_image_selector).on("click", function () {
+                const image_source = $(this).attr("src");
+
+                const overlay_element = $(`
+                    <div id="image_zoom_overlay">
+                        <img src="${image_source}" class="zoom_image_content">
+                    </div>
+                `);
+
+                $("body").append(overlay_element);
+                overlay_element.css("display", "flex").hide().fadeIn(200);
+
+                overlay_element.on("click", function () {
+                    $(this).fadeOut(200, function () {
+                        $(this).remove();
+                    });
+                });
+            });
+        }
     }
 }
