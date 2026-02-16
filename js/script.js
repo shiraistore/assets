@@ -9351,6 +9351,7 @@ function calendar() {
 /* GlobalNavi
 ========================================================================== */
 function globalNavi() {
+	// ドロップダウンメニュー（ホバー動作）
 	$('.dropDown').hover(
 		function () {
 			$(this).children('div').hide().stop().fadeIn(200);
@@ -9362,18 +9363,51 @@ function globalNavi() {
 			$('#globalNavi-overlay').stop().fadeOut(200);
 		}
 	);
+
+	// ▼▼▼ PC版カテゴリ開閉状態の維持ロジック ▼▼▼
+	const PC_NAV_STORAGE_KEY = 'shirai_pc_nav_tab';
+
+	// クリックイベント（エリア開閉 + クラス付与 + 状態保存）
 	$('.globalNavi-productLevel1 span').on('click', function () {
-		var i = $(this).data('category-tab'),
-			target = '.data-category-area' + i;
+		var i = $(this).data('category-tab');
+		var target = '.data-category-area' + i;
+
+		// 1. エリアの開閉アニメーション
 		$('[class^="data-category-area"]').not(target).slideUp(200);
 		$(target).slideDown(200);
+
+		// 2. タブのアクティブクラス切り替え
+		var $parentLi = $(this).parent('li');
+		$parentLi.addClass('is-menuopen');
+		$('.globalNavi-productLevel1 li').not($parentLi).removeClass('is-menuopen');
+
+		// 3. 状態の保存 (sessionStorage)
+		sessionStorage.setItem(PC_NAV_STORAGE_KEY, i);
 	});
 
-	$('.globalNavi-productLevel1 li').click(function() {
-		$(this).addClass('is-menuopen');
-		$('.globalNavi-productLevel1 li').not($(this)).removeClass('is-menuopen');
-	});
+	// 初期化時の復元処理
+	var savedTab = sessionStorage.getItem(PC_NAV_STORAGE_KEY);
+	if (savedTab) {
+		var $targetSpan = $('.globalNavi-productLevel1 span[data-category-tab="' + savedTab + '"]');
+		
+		// 保存されたタブが存在する場合のみ実行
+		if ($targetSpan.length) {
+			var targetArea = '.data-category-area' + savedTab;
+			
+			// アニメーションなしで即時表示
+			$('[class^="data-category-area"]').not(targetArea).hide();
+			$(targetArea).show();
 
+			// クラスの復元
+			var $parentLi = $targetSpan.parent('li');
+			$parentLi.addClass('is-menuopen');
+			$('.globalNavi-productLevel1 li').not($parentLi).removeClass('is-menuopen');
+		}
+	}
+	// ▲▲▲ PC版カテゴリ開閉ここまで ▲▲▲
+
+
+	// ログインボックス（レスポンシブ動作）
 	var windowWidth = parseInt($(window).width());
 	if (windowWidth > 480) {
 		$('.dropDownloginBox').hover(
@@ -9549,50 +9583,150 @@ function windowWidthDOMChange() {
 /* windowWidthprocessingChange
 ========================================================================== */
 function windowWidthprocessingChange() {
-	$('#slideNavi-button').on('click', function () {
-		var windowWidth = $(window).width();
-		if (windowWidth <= 1024) {
-			if ($(this).hasClass('active')) {
-				$(this).removeClass('active');
-				$('#slideNavi').removeClass('open');
-				if (windowWidth <= 768) {
-					$('#slideNavi').animate({ left: '-100%' });
-				} else {
-					$('#slideNavi').animate({ left: '-50%' });
-				}
-				$('#slideNavi-overlay').fadeOut();
-			} else {
-				$(this).addClass('active');
-				$('html').css('overflow', 'hidden');
-				$('#slideNavi').addClass('open');
-				$('#slideNavi').animate({ left: '0' });
-				$('#slideNavi-overlay').fadeIn();
-			}
-		}
-	});
-	$('#slideNavi .close, #slideNavi-overlay').on('click', function () {
-		var windowWidth = $(window).width();
-		if (windowWidth <= 1024) {
-			$('#slideNavi-button').removeClass('active');
-			$('#slideNavi').removeClass('open');
-			if (windowWidth <= 768) {
-				$('#slideNavi').animate({ left: '-100%' });
-				$('html').css('overflow', 'scroll');
-			} else {
-				$('#slideNavi').animate({ left: '-50%' });
-				$('html').css('overflow', 'scroll');
-			}
-			$('#slideNavi-overlay').fadeOut();
-		}
-	});
-	$(document).on('click', '.slideNavi-list-category, .slideNavi-list-series', function () {
-		$(this).next('ul').slideToggle();
-		$(this).toggleClass('open');
-	});
-	$(document).on('click', '.slideNavi-list-category-item > li > span', function () {
-		$(this).next('.slideNavi-list-category-item-sub').slideToggle();
-		$(this).toggleClass('open');
-	});
+    // ▼▼▼ 追加：メニュー開閉状態 ＆ スクロール位置の維持ロジック ▼▼▼
+    const STORAGE_KEY_OPEN = 'shirai_slide_nav_state';       // 開閉状態のキー
+    const STORAGE_KEY_SCROLL = 'shirai_slide_nav_scroll';    // スクロール位置のキー
+    const $scrollTarget = $('#slideNavi-body');              // スクロールする要素
+
+    // 状態を保存する関数
+    function saveNavState() {
+        // 1. 開閉状態の保存
+        const openItems = [];
+        $('.slideNavi-list-category, .slideNavi-list-series').each(function() {
+            if ($(this).hasClass('open')) {
+                openItems.push($(this).text().trim());
+            }
+        });
+        $('.slideNavi-list-category-item > li > span').each(function() {
+            if ($(this).hasClass('open')) {
+                openItems.push($(this).text().trim());
+            }
+        });
+        sessionStorage.setItem(STORAGE_KEY_OPEN, JSON.stringify(openItems));
+
+        // 2. スクロール位置の保存
+        const scrollTop = $scrollTarget.scrollTop();
+        sessionStorage.setItem(STORAGE_KEY_SCROLL, scrollTop);
+    }
+
+    // 状態を復元する関数
+    function restoreNavState() {
+        // 1. 開閉状態の復元
+        const storedOpen = sessionStorage.getItem(STORAGE_KEY_OPEN);
+        if (storedOpen) {
+            let openItems = [];
+            try {
+                openItems = JSON.parse(storedOpen);
+            } catch (e) {}
+
+            if (Array.isArray(openItems)) {
+                // 大カテゴリの復元
+                $('.slideNavi-list-category, .slideNavi-list-series').each(function() {
+                    if (openItems.includes($(this).text().trim())) {
+                        $(this).addClass('open');
+                        $(this).next('ul').show();
+                    }
+                });
+                // サブカテゴリの復元
+                $('.slideNavi-list-category-item > li > span').each(function() {
+                    if (openItems.includes($(this).text().trim())) {
+                        $(this).addClass('open');
+                        $(this).next('.slideNavi-list-category-item-sub').show();
+                    }
+                });
+            }
+        }
+
+        // 2. スクロール位置の復元
+        // (開閉状態を復元して高さが確定した後に実行する必要があります)
+        const storedScroll = sessionStorage.getItem(STORAGE_KEY_SCROLL);
+        if (storedScroll) {
+            // 確実にDOM描画を待つためわずかに遅延させる（念のため）
+            setTimeout(function() {
+                $scrollTarget.scrollTop(parseInt(storedScroll, 10));
+            }, 0);
+        }
+    }
+
+    // 初期化時に復元を実行
+    restoreNavState();
+
+    // スクロールイベントで位置を随時保存（負荷軽減のためデバウンス処理）
+    let scrollTimer;
+    $scrollTarget.on('scroll', function() {
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(function() {
+            saveNavState();
+        }, 100); // スクロール停止から0.1秒後に保存
+    });
+    // ▲▲▲ 追加ここまで ▲▲▲
+
+
+    // ▼▼▼ 既存処理 + 保存処理の組み込み ▼▼▼
+    
+    // スライドメニュー開閉ボタン
+    $('#slideNavi-button').off('click').on('click', function () {
+        var windowWidth = $(window).width();
+        if (windowWidth <= 1024) {
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+                $('#slideNavi').removeClass('open');
+                if (windowWidth <= 768) {
+                    $('#slideNavi').animate({ left: '-100%' });
+                } else {
+                    $('#slideNavi').animate({ left: '-50%' });
+                }
+                $('#slideNavi-overlay').fadeOut();
+            } else {
+                $(this).addClass('active');
+                $('html').css('overflow', 'hidden');
+                $('#slideNavi').addClass('open');
+                $('#slideNavi').animate({ left: '0' });
+                $('#slideNavi-overlay').fadeIn();
+                
+                // メニューを開いた瞬間にスクロール位置を再適用（念のため）
+                const storedScroll = sessionStorage.getItem(STORAGE_KEY_SCROLL);
+                if (storedScroll) {
+                    $scrollTarget.scrollTop(parseInt(storedScroll, 10));
+                }
+            }
+        }
+    });
+
+    // 閉じるボタン・オーバーレイ
+    $('#slideNavi .close, #slideNavi-overlay').off('click').on('click', function () {
+        var windowWidth = $(window).width();
+        if (windowWidth <= 1024) {
+            $('#slideNavi-button').removeClass('active');
+            $('#slideNavi').removeClass('open');
+            if (windowWidth <= 768) {
+                $('#slideNavi').animate({ left: '-100%' });
+                $('html').css('overflow', 'scroll');
+            } else {
+                $('#slideNavi').animate({ left: '-50%' });
+                $('html').css('overflow', 'scroll');
+            }
+            $('#slideNavi-overlay').fadeOut();
+        }
+    });
+
+    // 大カテゴリクリック時の処理
+    $(document).off('click', '.slideNavi-list-category, .slideNavi-list-series').on('click', '.slideNavi-list-category, .slideNavi-list-series', function () {
+        $(this).next('ul').slideToggle(function(){
+            saveNavState();
+        });
+        $(this).toggleClass('open');
+        saveNavState();
+    });
+
+    // サブカテゴリクリック時の処理
+    $(document).off('click', '.slideNavi-list-category-item > li > span').on('click', '.slideNavi-list-category-item > li > span', function () {
+        $(this).next('.slideNavi-list-category-item-sub').slideToggle(function(){
+            saveNavState();
+        });
+        $(this).toggleClass('open');
+        saveNavState();
+    });
 }
 
 /* cartADISCaution
