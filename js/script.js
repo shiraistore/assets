@@ -1103,7 +1103,7 @@ function productCategorySubCategoryMenu() {
 		var urlPath = window.location.pathname;
 		var pathArray = urlPath.split('/');
 
-		var categoryArray = ['rack', 'tv-stand', 'kitchen', 'clothing', 'entrance', 'cabinet', 'wall-unit-storage', 'table', 'desk', 'kids', 'office-furniture', 'parts', 'outdoor', 'altar'];
+		var categoryArray = ['rack', 'tv-stand', 'kitchen', 'clothing', 'entrance', 'cabinet', 'wall-unit-storage', 'table', 'desk', 'kids', 'office-furniture', 'parts', 'outdoor', 'altar','bed'];
 
 		for (i = 0; i < categoryArray.length; i++) {
 			var result = $.inArray(categoryArray[i], pathArray);
