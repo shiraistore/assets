@@ -356,12 +356,12 @@ function getUrlRedirect() {
         window.location.href = 'https://shirai-store.net/f/ranking-kids';
     } else if (url == 'https://shirai-store.net/f/ranking_office-furniture') {
         window.location.href = 'https://shirai-store.net/f/ranking-office-furniture';
-    } else if (url.match(/https:\/\/shirai-store\.net\/p\/auth\/sizeOrder\/tnl-em(?![tsu])[^\s\/]*/)) {
-        window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-em';
     } else if (url.match(/https:\/\/shirai-store\.net\/p\/auth\/sizeOrder\/tnl-emts[^\s\/]*/)) {
         window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-emts';
     } else if (url.match(/https:\/\/shirai-store\.net\/p\/auth\/sizeOrder\/tnl-emu[^\s\/]*/)) {
         window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-emu';
+    } else if (url.match(/https:\/\/shirai-store\.net\/p\/auth\/sizeOrder\/tnl-em(?![tsu])[^\s\/]*/)) {
+        window.location.href = 'https://shirai-store.net/f/sizeOrder/tnl-em';
     } else if (url.match(/https:\/\/shirai-store\.net\/p\/auth\/sizeOrder\/sep-em(?![desk])[^\s\/]*/)) {
         window.location.href = 'https://shirai-store.net/f/sizeOrder/sep-emrack';
     } else if (url.match(/https:\/\/shirai-store\.net\/p\/auth\/sizeOrder\/sep-emdesk[^\s\/]*/)) {
@@ -1199,8 +1199,8 @@ function productSortSelect() {
 //セール会場用バナー表示
 function searchTagTitle() {
 	var params = parameterToArray();
-	if (params.tag == 'sale20260219-20260316') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20260219-20260316_1184x240.jpg" alt="新生活応援セール第1弾 対象商品">');
+	if (params.tag == 'sale20260219-20260319') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20260219-20260319_1184x240.jpg" alt="新生活応援セール第1弾 対象商品">');
 		$('#fs_ProductSearch h1').html('新生活応援セール第1弾 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール第1弾 対象商品');
 		$('title').text('新生活応援セール第1弾 対象商品');
