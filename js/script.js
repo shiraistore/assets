@@ -809,8 +809,7 @@ function initAdvancedSearchRealtimePreview() {
     let debounceTimer;
 
     // 1. APIへリクエストを送る関数
-    function fetchRealtimePreview() {
-        // 選択されたinputからAPI用のコードを取得する
+function fetchRealtimePreview() {
         const getCode = (name) => {
             const checked = $(`.advancedSearchForm input[name="${name}"]:checked`);
             return checked.length ? checked.attr('data-api-code') : 'any';
@@ -821,11 +820,12 @@ function initAdvancedSearchRealtimePreview() {
         const d   = getCode('depth');
         const h   = getCode('height');
         const p   = getCode('productSearchPrice');
-        const asm = getCode('assenbly'); // HTMLのname属性(assenbly)に合わせる
+        const asm = getCode('assenbly'); 
         const col = getCode('color');
+        const feat = getCode('features'); // ★機能・特徴を追加
 
-        // 固定順序で結合
-        const searchKey = [cat, w, d, h, p, asm, col].join('|');
+        // ★固定順序で結合（最後に feat を追加）
+        const searchKey = [cat, w, d, h, p, asm, col, feat].join('|');
         const requestUrl = `${API_URL}?key=${encodeURIComponent(searchKey)}`;
 
         // デバッグ用: コンソールでリクエストされたキーを確認できます
