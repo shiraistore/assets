@@ -1452,9 +1452,11 @@ function expectedArrivalTime_YHC(checkZipCodeResult) {
 /* check_option
 // 商品名からサイズオーダーまたは受注生産品かどうかを判定し、その判定とオプションの有無によってコードを設定する関数
 ========================================================================== */
-var check_option_result = [];
+// ※グローバル変数の初期化を防ぐため、元の位置の var check_option_result = []; は削除または関数内に移動を推奨します
 
 function check_option() {
+	var check_option_result = []; // 実行のたびに配列を初期化（配列の肥大化防止）
+
 	$('.fs-c-cartTable__productInfo').each(function () {
 		// 商品名のテキストを取得
 		var product_name = $(this).find('.fs-c-listedProductName__name').text();
@@ -1467,13 +1469,10 @@ function check_option() {
 				.each(function () {
 					var option_name = $(this).text().trim();
 					if (option_name.includes('組立済+玄関渡し')) {
-						// 組立済+玄関渡しの場合の処理
 						check_option_result.push('21');
 					} else if (option_name.includes('組立済+搬入')) {
-						// 組立済+搬入の場合の処理
 						check_option_result.push('22');
 					} else {
-						// 組立サービスが設定されていない場合の処理
 						check_option_result.push('20');
 					}
 				});
@@ -1485,13 +1484,10 @@ function check_option() {
 					.each(function () {
 						var option_name = $(this).text().trim();
 						if (option_name.includes('組立済+玄関渡し')) {
-							// 組立済+玄関渡しの場合の処理
 							check_option_result.push('11');
 						} else if (option_name.includes('組立済+搬入')) {
-							// 組立済+搬入の場合の処理
 							check_option_result.push('12');
 						} else {
-							// 組立サービスが設定されていない場合の処理
 							check_option_result.push('10');
 						}
 					});
@@ -1500,9 +1496,32 @@ function check_option() {
 			}
 		}
 	});
-	// コードの最大値を取得し値を返す
-	const check_result = Math.max(...check_option_result);
-	return check_result;
+
+	// --- 修正箇所：優先度に基づく評価ロジック ---
+	// リードタイムや配送制約の厳しさに応じた優先度を定義（数値が大きいほど優先）
+	const priorityMap = {
+		'10': 1, // 通常品 + オプションなし (LT最短)
+		'20': 2, // オーダー品 + オプションなし (LT中・通常配送)
+		'11': 3, // 通常品 + 組立済+玄関渡し (LT中・組立工数あり)
+		'12': 4, // 通常品 + 組立済+搬入 (LT中・YHC配送曜日制約あり)
+		'21': 5, // オーダー品 + 組立済+玄関渡し (LT長・製造+組立)
+		'22': 6  // オーダー品 + 組立済+搬入 (LT最長・製造+組立+YHC制約)
+	};
+
+	let maxPriority = -1;
+	let check_result = '10'; // カートが空などの場合のデフォルト値
+
+	for (let i = 0; i < check_option_result.length; i++) {
+		const code = check_option_result[i];
+		const priority = priorityMap[code] || 0;
+		if (priority > maxPriority) {
+			maxPriority = priority;
+			check_result = code;
+		}
+	}
+
+	// 既存のコード体系に合わせるため整数型にパースして返す
+	return parseInt(check_result, 10);
 }
 
 /* check_option

@@ -68,6 +68,7 @@ $(function () {
 	featureMamihapiByage_cart(); //OK
 	productListAddData();
 	productDetailAddData(); //OK
+	displayEstimatedDeliveryDate();
 	//orderChangeCancelForm();
 	//order_change_cancel_form();
 	//contacts_form();
@@ -127,6 +128,8 @@ $(function () {
 
 	advancedSearchFormSelected();
 	advancedSearchForm();
+	// initAdvancedSearchRealtimePreview();
+
 	cartInPopUp();
 
 	// multipleRankingTop10(); //汎用的に使えるランキング
@@ -796,6 +799,125 @@ function advancedSearchFormSelected() {
 			});
 		}
 	}
+}
+
+/* initAdvancedSearchRealtimePreview
+リアルタイムプレビュー機能の初期化関数
+========================================================================== */
+function initAdvancedSearchRealtimePreview() {
+    const API_URL = 'https://h15yyu8zof.execute-api.ap-northeast-1.amazonaws.com/prod/advanced_search';
+    let debounceTimer;
+
+    // 1. APIへリクエストを送る関数
+    function fetchRealtimePreview() {
+        // 選択されたinputからAPI用のコードを取得する
+        const getCode = (name) => {
+            const checked = $(`.advancedSearchForm input[name="${name}"]:checked`);
+            return checked.length ? checked.attr('data-api-code') : 'any';
+        };
+
+        const cat = getCode('category');
+        const w   = getCode('width');
+        const d   = getCode('depth');
+        const h   = getCode('height');
+        const p   = getCode('productSearchPrice');
+        const asm = getCode('assenbly'); // HTMLのname属性(assenbly)に合わせる
+        const col = getCode('color');
+
+        // 固定順序で結合
+        const searchKey = [cat, w, d, h, p, asm, col].join('|');
+        const requestUrl = `${API_URL}?key=${encodeURIComponent(searchKey)}`;
+
+        // デバッグ用: コンソールでリクエストされたキーを確認できます
+        console.log('[RealtimeSearch] Fetching:', searchKey);
+
+        fetch(requestUrl)
+            .then(response => response.json())
+            .then(data => {
+                renderPreview(data.total_count, data.items);
+            })
+            .catch(error => {
+                console.error('[RealtimeSearch] API Error:', error);
+                $('#previewTotalCount').text('-');
+                $('#previewThumbnails').empty();
+            });
+    }
+
+	// 2. 画面への描画と表示制御の関数
+    function renderPreview(totalCount, items) {
+        $('#realtimeSearchPreview').show();
+        $('#previewTotalCount').text(totalCount);
+
+        const $thumbnailsContainer = $('#previewThumbnails');
+        $thumbnailsContainer.empty();
+
+        if (totalCount > 0 && items && items.length > 0) {
+            items.forEach(item => {
+                // --- 画像URLの生成ロジック (変更なし) ---
+                const productId = parseInt(item.id, 10);
+                const product_id_12Len = zeroPadding(productId, 12);
+                
+                const item_image_group = Math.floor(productId / 100);
+                const image_group_3Len = zeroPadding(item_image_group, 3);
+                
+                const thumb_number = zeroPadding(item.thumbnail_number || 1, 2);
+                const imageUrl = `https://shiraistore.itembox.design/product/${image_group_3Len}/${product_id_12Len}/${product_id_12Len}-${thumb_number}-s.jpg`;
+
+                // --- 新しいリンク先(a href)の生成ロジック ---
+                // 品番を小文字にしてベースコードを作成
+                const productCode = item.sku_no.toLowerCase();
+                let seriesCode = productCode.slice(0, 3);
+
+                // 特殊なシリーズコードの例外処理を適用
+                if (seriesCode === 'tl1' || seriesCode === 'tl2' || seriesCode === 'tl3') {
+                    seriesCode = 'tl';
+                } else if (seriesCode === 'ona' || seriesCode === 'obk') {
+                    seriesCode = 'of2';
+                } else if (seriesCode === 'gbp') {
+                    seriesCode = 'gbt';
+                }
+
+                // 商品詳細ページへの直リンクURLを組み立て
+                const detailUrl = `/c/series/${seriesCode}/${productCode}`; 
+
+                const html = `
+                    <a href="${detailUrl}" style="width: 18%; max-width: 60px; display: inline-block;">
+                        <img src="${imageUrl}" alt="${item.sku_no}" style="width: 100%; height: auto; border: 1px solid #ccc; border-radius: 4px; object-fit: cover;" onerror="this.src='https://shiraistore.itembox.design/item/src/loading.svg'">
+                    </a>
+                `;
+                $thumbnailsContainer.append(html);
+            });
+        }
+    }
+
+    // 3. デバウンス処理（連続実行防止）
+    function triggerPreviewUpdate() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(fetchRealtimePreview, 300);
+    }
+
+    // ==========================================
+    // イベントリスナーの登録（※既存JSとの競合回避版）
+    // ==========================================
+
+    // A: ネイティブのchangeイベント（直接inputを操作できた場合）
+    $('.advancedSearchForm').on('change', 'input[type="radio"], input[type="checkbox"]', function() {
+        triggerPreviewUpdate();
+    });
+
+    // B: 既存の独自JSによって「labelクリック時にチェックが切り替わる」仕様への対応
+    $('.advancedSearchForm').on('click', '.fs-c-radio__label, .fs-c-checkbox__label', function() {
+        // 既存JSの処理が終わってから状態を取得するため、50msだけ遅延させる
+        setTimeout(triggerPreviewUpdate, 50);
+    });
+
+    // C: 各項目のクリア・すべてクリアボタンが押された時
+    $('.advancedSearchForm').on('click', '.clearButton, .clearButton_all', function() {
+        setTimeout(triggerPreviewUpdate, 50);
+    });
+
+    // 初期表示時にも1回実行（全体件数を表示させるため）
+    triggerPreviewUpdate();
 }
 
 /* productDetailSeriesLink
@@ -5057,23 +5179,23 @@ function rewriteDOM() {
 		if (location.href.match('lmd-2085d')) {
 			// console.log('match!');
 			var deliveryCaution = 
-				'<div class="deliveryCaution mt-8" style=""><p style="font-size: 1.2rem;" class="red">【ご注意】<br>この商品は、上部と下部をそれぞれ工場にて組み立て、梱包を2つに分けて発送いたします。<u>配送業者がお客様指定の場所に運び入れ、上部と下部の連結作業を行います。</u>作業時間が10〜20分程度を要しますのでご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合があります。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■この商品の梱包サイズ<br>上部：幅92cm 高さ132cm 奥行44cm<br>下部：幅92cm 高さ81cm 奥行44cm</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下や階段の折り返しスペースの広さが、商品サイズに対し十分な余裕があるか<br>・出入り口の幅と高さが、商品サイズに対し十分な余裕があるか<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.design/item/src/product_detail/detail_delivery_route.png" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>'
+				'<div class="deliveryCaution mt-8" style=""><p style="font-size: 1.2rem;" class="red">【ご注意】<br>この商品は、上部と下部をそれぞれ工場にて組み立て、梱包を2つに分けて発送いたします。<u>配送業者がお客様指定の場所に運び入れ、上部と下部の連結作業を行います。</u>作業時間が10〜20分程度を要しますのでご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合がございます。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■この商品の梱包サイズ<br>上部：幅92cm 高さ132cm 奥行44cm<br>下部：幅92cm 高さ81cm 奥行44cm</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下や階段の折り返しスペースの広さが、商品サイズに対し十分な余裕があるか<br>・出入り口の幅と高さが、商品サイズに対し十分な余裕があるか<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.design/item/src/product_detail/detail_delivery_route.png" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>'
 		} else if (location.href.match('cma-1890h')) {
 			// console.log('match!');
 			var deliveryCaution = 
-				'<div class="deliveryCaution mt-8" style=""><p style="font-size: 1.2rem;" class="red">【ご注意】<br>この商品は、上部と下部をそれぞれ工場にて組み立て、梱包を2つに分けて発送いたします。<u>配送業者がお客様指定の場所に運び入れ、上部と下部の連結作業を行います。</u>作業時間が10〜20分程度を要しますのでご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合があります。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■この商品の梱包サイズ<br>上部：幅94cm 高さ96cm 奥行57cm<br>下部：幅94cm 高さ95cm 奥行60cm</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下や階段の折り返しスペースの広さが、商品サイズに対し十分な余裕があるか<br>・出入り口の幅と高さが、商品サイズに対し十分な余裕があるか<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.design/item/src/product_detail/detail_delivery_route.png" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>'
+				'<div class="deliveryCaution mt-8" style=""><p style="font-size: 1.2rem;" class="red">【ご注意】<br>この商品は、上部と下部をそれぞれ工場にて組み立て、梱包を2つに分けて発送いたします。<u>配送業者がお客様指定の場所に運び入れ、上部と下部の連結作業を行います。</u>作業時間が10〜20分程度を要しますのでご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合がございます。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■この商品の梱包サイズ<br>上部：幅94cm 高さ96cm 奥行57cm<br>下部：幅94cm 高さ95cm 奥行60cm</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下や階段の折り返しスペースの広さが、商品サイズに対し十分な余裕があるか<br>・出入り口の幅と高さが、商品サイズに対し十分な余裕があるか<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.design/item/src/product_detail/detail_delivery_route.png" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>'
 		} else if (location.href.match('cma-1812sla')) {
 			// console.log('match!');
 			var deliveryCaution = 
-				'<div class="deliveryCaution mt-8" style=""><p style="font-size: 1.2rem;" class="red">【ご注意】<br>この商品は、上部と下部をそれぞれ工場にて組み立て、梱包を2つに分けて発送いたします。<u>配送業者がお客様指定の場所に運び入れ、上部と下部の連結作業を行います。</u>作業時間が10〜20分程度を要しますのでご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合があります。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■この商品の梱包サイズ<br>上部：幅124cm 高さ95cm 奥行57cm<br>下部：幅124cm 高さ96cm 奥行60cm</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下や階段の折り返しスペースの広さが、商品サイズに対し十分な余裕があるか<br>・出入り口の幅と高さが、商品サイズに対し十分な余裕があるか<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.design/item/src/product_detail/detail_delivery_route.png" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>'
+				'<div class="deliveryCaution mt-8" style=""><p style="font-size: 1.2rem;" class="red">【ご注意】<br>この商品は、上部と下部をそれぞれ工場にて組み立て、梱包を2つに分けて発送いたします。<u>配送業者がお客様指定の場所に運び入れ、上部と下部の連結作業を行います。</u>作業時間が10〜20分程度を要しますのでご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合がございます。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■この商品の梱包サイズ<br>上部：幅124cm 高さ95cm 奥行57cm<br>下部：幅124cm 高さ96cm 奥行60cm</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下や階段の折り返しスペースの広さが、商品サイズに対し十分な余裕があるか<br>・出入り口の幅と高さが、商品サイズに対し十分な余裕があるか<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.design/item/src/product_detail/detail_delivery_route.png" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>'
 		} else if (location.href.match('cma-1812slb')) {
 			// console.log('match!');
 			var deliveryCaution = 
-				'<div class="deliveryCaution mt-8" style=""><p style="font-size: 1.2rem;" class="red">【ご注意】<br>この商品は、上部と下部をそれぞれ工場にて組み立て、梱包を2つに分けて発送いたします。<u>配送業者がお客様指定の場所に運び入れ、上部と下部の連結作業を行います。</u>作業時間が10〜20分程度を要しますのでご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合があります。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■この商品の梱包サイズ<br>上部：幅124cm 高さ95cm 奥行56cm<br>下部：幅124cm 高さ96cm 奥行57cm</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下や階段の折り返しスペースの広さが、商品サイズに対し十分な余裕があるか<br>・出入り口の幅と高さが、商品サイズに対し十分な余裕があるか<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.design/item/src/product_detail/detail_delivery_route.png" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>'
+				'<div class="deliveryCaution mt-8" style=""><p style="font-size: 1.2rem;" class="red">【ご注意】<br>この商品は、上部と下部をそれぞれ工場にて組み立て、梱包を2つに分けて発送いたします。<u>配送業者がお客様指定の場所に運び入れ、上部と下部の連結作業を行います。</u>作業時間が10〜20分程度を要しますのでご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合がございます。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■この商品の梱包サイズ<br>上部：幅124cm 高さ95cm 奥行56cm<br>下部：幅124cm 高さ96cm 奥行57cm</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下や階段の折り返しスペースの広さが、商品サイズに対し十分な余裕があるか<br>・出入り口の幅と高さが、商品サイズに対し十分な余裕があるか<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.design/item/src/product_detail/detail_delivery_route.png" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>'
 		} else {
 			// console.log('not match...');
 			var deliveryCaution =
-				'<div class="deliveryCaution mt-8"><p style="font-size: 1.2rem;">【お願い】<br>■輸送時における破損軽減のため、移動棚・取っ手・フット・キャスター・引戸ガラス等の一部部品は、お客様ご自身でのお取り付けをお願いしております。ご了承ください。</p><p style="font-size: 1.1rem;">※商品によって異なります。</p><p style="font-size: 1.2rem;">■[組立済+搬入]サービスには、<u>以下ような工具が必要となる作業は含まれておりません。</u><br>・商品同士の「上下」「左右」の連結作業<br>・扉の「隙間」や「傾き」の調節作業<br>これら作業はお客様ご自身での対応となります。ご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合があります。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下や階段の折り返しスペースの広さが、商品サイズに対し十分な余裕があるか<br>・出入り口の幅と高さが、商品サイズに対し十分な余裕があるか<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.design/item/src/product_detail/detail_delivery_route.png" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>';
+				'<div class="deliveryCaution mt-8"><p style="font-size: 1.2rem;">【お願い】<br>■輸送時における破損軽減のため、移動棚・取っ手・フット・キャスター・引戸ガラス等の一部部品は、お客様ご自身でのお取り付けをお願いしております。ご了承ください。</p><p style="font-size: 1.1rem;">※商品によって異なります。</p><p style="font-size: 1.2rem;">■[組立済+搬入]サービスには、<u>以下ような工具が必要となる作業は含まれておりません。</u><br>・商品同士の「上下」「左右」の連結作業<br>・扉の「隙間」や「傾き」の調節作業<br>これら作業はお客様ご自身での対応となります。ご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合がございます。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下や階段の折り返しスペースの広さが、商品サイズに対し十分な余裕があるか<br>・出入り口の幅と高さが、商品サイズに対し十分な余裕があるか<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.design/item/src/product_detail/detail_delivery_route.png" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>';
 		}
 
 		$(deliveryCaution).insertAfter('.fs-c-productOption__comment');
@@ -7780,6 +7902,334 @@ function productDetailAddData() {
 					<\/script>`;
 			}
 		}
+	}
+}
+
+/* displayEstimatedDeliveryDate
+// 郵便番号と組立オプションから最短お届け予定日を計算・表示する関数
+========================================================================== */
+function displayEstimatedDeliveryDate() {
+	if (!$('#fs_ProductDetails').length) return;
+	if ($('#productActionBox').length === 0) return;
+	if ($('#estimatedDeliveryBox').length > 0) return;
+
+	// UIの挿入（郵便番号のみ）
+	const uiHtml = `
+	<dl class="fs-c-productOption" id="estimatedDeliveryBox">
+		<dt class="fs-c-productOption__name">
+			<label class="fs-c-productOption__label">最短お届け予定日 <span style="font-size: 12px; font-weight: normal; color: #666;">(目安)</span></label>
+		</dt>
+		<dd>
+			<div style="margin-bottom: 8px;">
+				<div style="display: flex; align-items: center; gap: 8px;">
+					<span style="font-size: 14px; font-weight: bold; color: #333;">〒</span>
+					<input type="text" id="zipInput" placeholder="例: 123-4567" style="padding: 6px; font-size: 14px; border: 1px solid #ccc; border-radius: 4px; width: 140px;">
+					<button type="button" id="zipCalcBtn" style="padding: 6px 12px; font-size: 14px; border: 1px solid #ccc; background: #eee; border-radius: 4px; cursor: pointer;">予定日を確認</button>
+				</div>
+				<p id="zipErrorMsg" style="color: #d9534f; font-size: 12px; margin: 4px 0 0; display: none;"></p>
+			</div>
+
+			<div style="margin-bottom: 8px; font-size: 14px; color: #333;">
+				予定日: <strong id="estimatedDeliveryDate" style="color: #e87909; font-size: 18px;">---</strong>
+			</div>
+			<div>
+				<p id="remoteIslandCaution" style="display: none; margin: 0 0 4px 0; font-size: 12px; color: #d9534f; line-height: 1.4; text-align: left;">
+					※沖縄・離島は組立サービス対象外のため表示できません。
+				</p>
+				<p style="margin: 0; font-size: 12px; color: #777; line-height: 1.4; text-align: left;">
+					※在庫状況、実際の詳細な住所により変動する場合がございます。<br>
+					※正確なお届け予定日はご注文手続き画面にてご確認ください。
+				</p>
+			</div>
+		</dd>
+	</dl>
+	`;
+	$('#productActionBox').before(uiHtml);
+	console.log(uiHtml)
+
+	// localStorageから復元
+	const savedZip = localStorage.getItem('shirai_input_zip') || "";
+	$('#zipInput').val(savedZip);
+
+	// 郵便番号の正規化 (全角数字を半角に、ハイフン・スペースを削除)
+	function normalizeZipCode(zip) {
+		let normalized = zip.replace(/[０-９]/g, function(s) {
+			return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
+		});
+		normalized = normalized.replace(/[-－ー\s]/g, '');
+		return normalized;
+	}
+
+	// キャッシュ用変数
+	let operationHolyDay = [];
+	let factoryHolyDay = [];
+	let isHolydayLoaded = false;
+
+	// 休日データの取得
+	async function loadHolydayAsync() {
+		if (isHolydayLoaded) return;
+		try {
+			const response = await fetch('https://h15yyu8zof.execute-api.ap-northeast-1.amazonaws.com/prod/get_add_data_v2', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ items: 'holyday' })
+			});
+			if (!response.ok) throw new Error('Holyday API Error');
+			const res = await response.json();
+			let data = typeof res.data === 'string' ? JSON.parse(res.data) : res.data;
+			operationHolyDay = Array.isArray(data.operation) ? data.operation : [];
+			factoryHolyDay = Array.isArray(data.factory) ? data.factory : [];
+			isHolydayLoaded = true;
+		} catch (e) {
+			console.error(e);
+			isHolydayLoaded = true;
+		}
+	}
+
+	// 配送情報の取得
+	async function fetchZipCodeDeliveryInfo(zipCode) {
+		try {
+			const response = await fetch('https://h15yyu8zof.execute-api.ap-northeast-1.amazonaws.com/prod/get_zip_code_delivery/20260201', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ zip_code: zipCode })
+			});
+			if (!response.ok) throw new Error('ZipCode API Error');
+			return await response.json();
+		} catch (e) {
+			console.error(e);
+			return null;
+		}
+	}
+
+	// 休業日をスキップしながらリードタイム日数を進める
+	function consumeLeadTime(dateArray, leadTime, holyDays) {
+		for (let i = 0; i < leadTime; i++) {
+			if ($.inArray(dateArray[i], holyDays) > -1) {
+				dateArray[i] = ''; 
+				leadTime++;
+			} else {
+				dateArray[i] = '';
+			}
+		}
+		return dateArray.filter(Boolean);
+	}
+
+	// 商品状態・オプション状態の取得
+	function getOptionCode() {
+		const productName = $('.fs-c-productNameHeading__name').text();
+		const currentUrl = window.location.pathname;
+		
+		// 商品名に「受注生産」「サイズオーダー」が含まれるか、またはURLに特定のシリーズコードが含まれるか
+		const isSizeOrder = /(サイズオーダー|受注生産)/.test(productName) || /(tnl-em|sep-em|pre-em|por-em)/.test(currentUrl);
+
+		let isAssemblyGenkan = false;
+		let isAssemblyHannyu = false;
+		
+		const $assemblySelect = $('select[name^="productOptionsWithPrice"] option:selected');
+		if ($assemblySelect.length > 0) {
+			const optText = $assemblySelect.text();
+			if (optText.includes('組立済+玄関渡し')) isAssemblyGenkan = true;
+			if (optText.includes('組立済+搬入')) isAssemblyHannyu = true;
+		}
+
+		if (isSizeOrder) {
+			if (isAssemblyGenkan) return 21;
+			if (isAssemblyHannyu) return 22;
+			return 20; // オーダー品 + オプションなし
+		} else {
+			if (isAssemblyGenkan) return 11;
+			if (isAssemblyHannyu) return 12;
+			return 10;
+		}
+	}
+
+	// 再計算＆描画
+	async function updateEstimatedDelivery() {
+		const $dateDisplay = $('#estimatedDeliveryDate');
+		const $caution = $('#remoteIslandCaution');
+		const $zipError = $('#zipErrorMsg');
+		
+		$caution.hide();
+		$zipError.hide();
+
+		const rawZip = $('#zipInput').val();
+		if (!rawZip) {
+			$dateDisplay.text('---');
+			return;
+		}
+
+		localStorage.setItem('shirai_input_zip', rawZip);
+		
+		const normalizedZip = normalizeZipCode(rawZip);
+		if (!normalizedZip) {
+			$dateDisplay.text('---');
+			return;
+		}
+		
+		// 7桁の数字チェック
+		if (!/^\d{7}$/.test(normalizedZip)) {
+			$zipError.text('郵便番号はハイフンなしの7桁の数字で入力してください。').show();
+			$dateDisplay.text('---');
+			return;
+		}
+
+		$dateDisplay.text('計算中...');
+
+		const [_, zipCodeInfo] = await Promise.all([
+			loadHolydayAsync(),
+			fetchZipCodeDeliveryInfo(normalizedZip)
+		]);
+
+		// DBに郵便番号が存在しない場合などのエラーハンドリング
+		if (!zipCodeInfo || typeof zipCodeInfo.sgw_prefectures_delivery_lead_time === 'undefined') {
+			$zipError.text('入力された郵便番号の配送情報が見つかりません。').show();
+			$dateDisplay.text('算出できませんでした');
+			return;
+		}
+
+		const optionCode = getOptionCode();
+
+		// 沖縄県(郵便番号が90から始まる)・離島での組立サービス利用不可判定
+		const isOkinawa = normalizedZip.startsWith('90');
+		const isAssemblySelected = [11, 12, 21, 22].includes(optionCode);
+		if ((isOkinawa || zipCodeInfo.is_remote_island == 1) && isAssemblySelected) {
+			$dateDisplay.text('組立サービス利用不可');
+			$caution.show();
+			return;
+		}
+		
+		// クライアントの環境に依存せず、強制的に日本時間(JST)の現在時刻を起点とする
+		const now = new Date();
+		const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+		const jstTime = new Date(utc + (9 * 60 * 60 * 1000));
+
+		// FutureShopのプルダウンと同じ構造にするため、先頭にダミー要素 'none' を追加
+		let arrivalDateArray = ['none']; 
+		for (let i = 1; i <= 60; i++) {
+			let d = new Date(jstTime);
+			d.setDate(jstTime.getDate() + i);
+			let yyyy = d.getFullYear();
+			let mm = String(d.getMonth() + 1).padStart(2, '0');
+			let dd = String(d.getDate()).padStart(2, '0');
+			arrivalDateArray.push(`${yyyy}-${mm}-${dd}`);
+		}
+
+		// 注文手続き画面(script-se.js)と完全に同期させるため、SGWの場合でも yhc_additional_delivery_lead_time を加算する
+		const sgwLeadTime = Number(zipCodeInfo.sgw_prefectures_delivery_lead_time || 1) + Number(zipCodeInfo.yhc_additional_delivery_lead_time || 0);
+		const yhcBaseLeadTime = zipCodeInfo.yhc_prefectures_delivery_lead_time !== undefined ? Number(zipCodeInfo.yhc_prefectures_delivery_lead_time) : Number(zipCodeInfo.sgw_prefectures_delivery_lead_time || 1);
+		const yhcLeadTime = yhcBaseLeadTime + Number(zipCodeInfo.yhc_additional_delivery_lead_time || 0);
+
+		let deliveryLeadTime = 0;
+
+		// リードタイム消化ロジック
+		if (optionCode === 10) { 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 2, operationHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			deliveryLeadTime = sgwLeadTime;
+		} else if (optionCode === 11) { 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 5, operationHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			deliveryLeadTime = sgwLeadTime;
+		} else if (optionCode === 12) { 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 5, operationHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			deliveryLeadTime = yhcLeadTime;
+		} else if (optionCode === 20) { 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 5, factoryHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			deliveryLeadTime = sgwLeadTime;
+		} else if (optionCode === 21) { 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 5, factoryHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 2, operationHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			deliveryLeadTime = sgwLeadTime;
+		} else if (optionCode === 22) { 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 5, factoryHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 2, operationHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
+			deliveryLeadTime = yhcLeadTime;
+		}
+
+		// 配送のリードタイム分を無条件に削る
+		arrivalDateArray.splice(0, deliveryLeadTime);
+
+		// YHC (組立済+搬入) の場合の曜日・年末年始除外処理
+		if (optionCode === 12 || optionCode === 22) {
+			const unavailableDaysStr = zipCodeInfo.yhc_delivery_unavailable_days || "";
+			const dayMap = { "日":0, "月":1, "火":2, "水":3, "木":4, "金":5, "土":6 };
+			const unavailableSet = {};
+			unavailableDaysStr.split("").forEach(ch => {
+				if (dayMap.hasOwnProperty(ch)) unavailableSet[dayMap[ch]] = true;
+			});
+
+			const blockedMonthDays = ["12-30","12-31","01-01","01-02","01-03"];
+
+			arrivalDateArray = arrivalDateArray.filter(dateStr => {
+				const parts = dateStr.split("-");
+				// JSTとしてパースして曜日を確実にとる
+				const d = new Date(`${parts[0]}-${parts[1]}-${parts[2]}T00:00:00+09:00`);
+				if (unavailableSet[d.getDay()]) return false; 
+				
+				const monthDay = parts[1] + "-" + parts[2];
+				if (blockedMonthDays.includes(monthDay)) return false;
+
+				return true;
+			});
+		}
+
+		// 最終表示
+		if (arrivalDateArray.length > 0) {
+			const resultDateStr = arrivalDateArray[0];
+			const parts = resultDateStr.split('-');
+			const dObj = new Date(`${parts[0]}-${parts[1]}-${parts[2]}T00:00:00+09:00`);
+			const dayStr = ['日', '月', '火', '水', '木', '金', '土'][dObj.getDay()];
+			$dateDisplay.text(`${parts[0]}年${parts[1]}月${parts[2]}日(${dayStr}) 以降`);
+		} else {
+			$dateDisplay.text('算出できませんでした');
+		}
+	}
+
+	// ===== イベントリスナーの登録 =====
+
+	// オプション（組立サービスなど）変更時
+	$(document).on('change', 'select[name^="productOptionsWithPrice"]', updateEstimatedDelivery);
+
+	// 郵便番号 計算ボタンクリック時
+	$('#zipCalcBtn').on('click', updateEstimatedDelivery);
+
+	// 郵便番号 Enterキー押下時
+	$('#zipInput').on('keypress', function(e) {
+		if (e.which === 13) {
+			e.preventDefault(); 
+			updateEstimatedDelivery();
+		}
+	});
+
+	// 初期描画処理 (郵便番号が保存されていれば計算)
+	if ($('#zipInput').val()) {
+		updateEstimatedDelivery();
 	}
 }
 
