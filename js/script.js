@@ -128,7 +128,7 @@ $(function () {
 
 	advancedSearchFormSelected();
 	advancedSearchForm();
-	// initAdvancedSearchRealtimePreview();
+	initAdvancedSearchRealtimePreview();
 
 	cartInPopUp();
 
@@ -567,238 +567,156 @@ function searchTagsTitleDescriptionChange() {
 	}
 }
 
-/* advancedSearchForm
+/* advancedSearchForm (複数フォーム同期対応版)
 ========================================================================== */
-
 function advancedSearchForm() {
-	//検索ボタンを押したら詳細検索フォームが開く
-	$(document).on('click', '#header-keywordSearch .keywordSearch', function () {
-		if ($('#header-keywordSearch .advancedSearchForm').css('display') == 'none') {
-			$('#header-keywordSearch .advancedSearchForm').slideDown();
-			$('#globalNavi-overlay').fadeIn(200);
-		}
-	});
+    // 検索ボタン等による開閉ロジック（既存のまま）
+    $(document).on('click', '#header-keywordSearch .keywordSearch', function () {
+        if ($('#header-keywordSearch .advancedSearchForm').css('display') == 'none') {
+            $('#header-keywordSearch .advancedSearchForm').slideDown();
+            $('#globalNavi-overlay').fadeIn(200);
+        }
+    });
 
-	//スマホで検索ボタンを押したら詳細検索フォームが開く
-	$(document).on('click', '#searchOpenButton', function () {
-		if ($('#header-keywordSearch').css('display') == 'none') {
-			$('#header-keywordSearch .advancedSearchForm').css('display', 'flex');
-			$('#header-keywordSearch').slideDown();
-			$('#globalNavi-overlay').fadeIn(200);
-		} else {
-			$('#header-keywordSearch').slideUp();
-			$('#globalNavi-overlay').fadeOut(200);
-		}
-	});
+    $(document).on('click', '#searchOpenButton', function () {
+        if ($('#header-keywordSearch').css('display') == 'none') {
+            $('#header-keywordSearch .advancedSearchForm').css('display', 'flex');
+            $('#header-keywordSearch').slideDown();
+            $('#globalNavi-overlay').fadeIn(200);
+        } else {
+            $('#header-keywordSearch').slideUp();
+            $('#globalNavi-overlay').fadeOut(200);
+        }
+    });
 
-	//詳細検索フォームの外側をクリックしたら閉じる
-	$('#header-keywordSearch .formClose,#globalNavi-overlay, #header-keywordSearch .advancedSearchForm .close').on('click', function () {
-		if ($('#header-keywordSearch').hasClass('max768')) {
-			$('#header-keywordSearch').slideUp();
-		} else {
-			$('#header-keywordSearch .advancedSearchForm').slideUp();
-		}
-		$('#globalNavi-overlay').fadeOut(200);
-	});
+    $('#header-keywordSearch .formClose,#globalNavi-overlay, #header-keywordSearch .advancedSearchForm .close').on('click', function () {
+        if ($('#header-keywordSearch').hasClass('max768')) {
+            $('#header-keywordSearch').slideUp();
+        } else {
+            $('#header-keywordSearch .advancedSearchForm').slideUp();
+        }
+        $('#globalNavi-overlay').fadeOut(200);
+    });
 
-	//検索結果なしのメッセージがあったら
-	var is_noResultMessage;
-	if ($('#noResultMessage').length) {
-		var html = $('#header-keywordSearch').html();
-		html = html.replace(/name="(.+)"/g, 'name="noResultMessage_$1"');
-		//その下に検索フォームを表示する
-		$('#noResultMessageAdvancedSearchForm').html(html);
-		is_noResultMessage = true;
-	} else {
-		is_noResultMessage = false;
-	}
+    // 検索結果なし時の複製ロジック（これも動作します）
+    var is_noResultMessage = false;
+    if ($('#noResultMessage').length) {
+        var html = $('#header-keywordSearch').html();
+        html = html.replace(/name="(.+)"/g, 'name="noResultMessage_$1"');
+        $('#noResultMessageAdvancedSearchForm').html(html);
+        is_noResultMessage = true;
+    }
 
-	//チェックボタンのチェックを外せるようにする
-	//インプット要素を取得する
+    // ==========================================
+    // 【重要】入力項目の同期ロジック
+    // ==========================================
+    $('.advancedSearchForm').on('click', '.fs-c-radio__label, .fs-c-checkbox__label', function (e) {
+        e.preventDefault(); // デフォルトのチェック挙動を止め、JSで完全制御する
 
-	//インプット要素がクリックされたら
-	$('.advancedSearchForm .fs-c-radio__label, .advancedSearchForm .fs-c-checkbox__label').on('click', function () {
-		var inputElement = $(this).prev('input');
+        var inputElement = $(this).prev('input');
+        var isChecked = inputElement.prop('checked');
+        var inputName = inputElement.attr('name');
+        var inputValue = inputElement.val();
 
-		if (inputElement.prop('checked')) {
-			inputElement.prop('checked', false);
-		} else {
-			inputElement.prop('checked', true);
-			if (is_noResultMessage) {
-				//console.log(inputElement.val());
-				$('.searchTags,.priceRange').each(function () {
-					//valueと値が同じであればinputをチェック状態にする
-					if ($(this).val() == inputElement.val()) {
-						//console.log(inputElement.val());
-						$(this).prop('checked', true);
-					}
-				});
-			}
-		}
-		if ($(this).prev('input').hasClass('priceRange')) {
-			var priceRange = $(this).prev('input').val();
-			var priceRange_ary = priceRange.split('-');
-			$(".advancedSearchForm input[name='minprice']").val(priceRange_ary[0]);
-			$(".advancedSearchForm input[name='maxprice']").val(priceRange_ary[1]);
-		}
-	});
+        // 対象のinputが元々チェックされていたら「外す」、されていなければ「入れる」
+        var newState = !isChecked;
 
-	//クリアボタン
-	$('.advancedSearchForm .clearButton_all').on('click', function () {
-		$('.advancedSearchForm input').prop('checked', false);
-	});
-	$('.advancedSearchForm .clearButton').on('click', function () {
-		$(this).parent().next('td').find('input').prop('checked', false);
-	});
-	$('#header-keywordSearch .advancedSearchForm button').on('click', function () {
-		var is_noResultForm = $(this).parents('#noResultMessageAdvancedSearchForm').length;
-		advancedSearchFormURL(is_noResultForm);
-	});
+        // 【同期】ページ内の全フォームの同名inputのチェックを一旦すべて外す
+        $(`.advancedSearchForm input[name="${inputName}"]`).prop('checked', false);
 
-	$('#noResultMessageAdvancedSearchForm .advancedSearchForm button').on('click', function () {
-		var is_noResultForm = $(this).parents('#noResultMessageAdvancedSearchForm').length;
-		advancedSearchFormURL(is_noResultForm);
-	});
+        // 新しい状態が「チェックを入れる」であれば、全フォームの該当valueにチェックを入れる
+        if (newState) {
+            $(`.advancedSearchForm input[name="${inputName}"][value="${inputValue}"]`).prop('checked', true);
+        }
+
+        // 価格(priceRange)が操作された場合、全フォームのhiddenも同期する
+        if (inputElement.hasClass('priceRange')) {
+            if (newState) {
+                var priceRange_ary = inputValue.split('-');
+                $(".advancedSearchForm .productSearchPrice_min").val(priceRange_ary[0]);
+                $(".advancedSearchForm .productSearchPrice2_max").val(priceRange_ary[1] || '');
+            } else {
+                $(".advancedSearchForm .productSearchPrice_min, .advancedSearchForm .productSearchPrice2_max").val('');
+            }
+        }
+        
+        // プレビューの更新をトリガーする（initAdvancedSearchRealtimePreview側でキャッチされます）
+        $('body').trigger('advancedSearchUpdated');
+    });
+
+    // ==========================================
+    // クリアボタンの同期ロジック
+    // ==========================================
+    $('.advancedSearchForm').on('click', '.clearButton_all', function () {
+        $('.advancedSearchForm input[type="radio"], .advancedSearchForm input[type="checkbox"]').prop('checked', false);
+        $('.advancedSearchForm .productSearchPrice_min, .advancedSearchForm .productSearchPrice2_max').val('');
+        $('body').trigger('advancedSearchUpdated');
+    });
+
+    $('.advancedSearchForm').on('click', '.clearButton', function () {
+        // クリックされた行(tr)の中にあるinputのname属性を取得
+        var targetName = $(this).closest('tr').find('input').attr('name');
+        if (targetName) {
+            // 全フォームの該当nameのチェックを外す
+            $(`.advancedSearchForm input[name="${targetName}"]`).prop('checked', false);
+            
+            if (targetName === 'productSearchPrice') {
+                $(".advancedSearchForm .productSearchPrice_min, .advancedSearchForm .productSearchPrice2_max").val('');
+            }
+            $('body').trigger('advancedSearchUpdated');
+        }
+    });
+
+    // ==========================================
+    // 検索実行ボタン
+    // ==========================================
+    $('.advancedSearchForm button').on('click', function () {
+        // すべてのフォームが同期されているため、引数による出し分けは不要になります
+        advancedSearchFormURL();
+    });
 }
 
-//URL生成
-function advancedSearchFormURL(is_noResultForm) {
-	var keyword = '';
-	var advancedSearchValue = $('.fs-p-searchForm__input').val();
+// URL生成 (同期されているため、最初のフォームの値だけ見ればOK)
+function advancedSearchFormURL() {
+    var keyword = '';
+    var advancedSearchValue = $('.fs-p-searchForm__input').first().val();
 
-	if (advancedSearchValue != undefined) {
-		keyword = '&keyword=' + advancedSearchValue;
-	}
+    if (advancedSearchValue != undefined && advancedSearchValue != '') {
+        keyword = '&keyword=' + advancedSearchValue;
+    }
 
-	var tags = '';
-	var formType = '';
-	var price = '';
-	var priceRange = '';
-	var minprice = '';
-	var maxprice = '';
+    var tags = '';
+    var price = '';
+    
+    // 最初のフォーム要素を基準に値を取得
+    var $baseForm = $('.advancedSearchForm').first();
 
-	if (is_noResultForm == 1) {
-		formType = $('#noResultMessageAdvancedSearchForm .searchTags:checked');
-		priceRange = $('#noResultMessageAdvancedSearchForm .priceRange:checked').val();
-	} else {
-		formType = $('#header-keywordSearch .searchTags:checked');
-		priceRange = $('#header-keywordSearch .priceRange:checked').val();
-	}
-	formType.each(function () {
-		tags += ',' + $(this).val();
-	});
-	if (tags != '') {
-		tags = '&tag=' + tags.slice(1);
-	}
+    var formType = $baseForm.find('.searchTags:checked');
+    var priceRange = $baseForm.find('.priceRange:checked').val();
 
-	//console.log(priceRange);
+    formType.each(function () {
+        tags += ',' + $(this).val();
+    });
+    
+    if (tags != '') {
+        tags = '&tag=' + tags.slice(1);
+    }
 
-	if (priceRange != undefined) {
-		var priceRange_ary = priceRange.split('-');
-		minprice = priceRange_ary[0];
-		maxprice = priceRange_ary[1];
+    if (priceRange != undefined) {
+        var priceRange_ary = priceRange.split('-');
+        var minprice = priceRange_ary[0];
+        var maxprice = priceRange_ary[1];
 
-		if (minprice != 30000) {
-			price = `&minprice=${minprice}&maxprice=${maxprice}`;
-		} else {
-			price = `&minprice=${minprice}`;
-		}
-	}
+        if (minprice != 30000) {
+            price = `&minprice=${minprice}&maxprice=${maxprice}`;
+        } else {
+            price = `&minprice=${minprice}`;
+        }
+    }
 
-	// $('.priceRange:checked').each(function () {
-	// 	var priceRange = $(this).val();
-	// 	var priceRange_ary = priceRange.split('-');
-	// 	minprice = priceRange_ary[0];
-	// 	maxprice = priceRange_ary[1];
-
-	// 	if (minprice != 30000) {
-	// 		price = `&minprice=${minprice}&maxprice=${maxprice}`;
-	// 	} else {
-	// 		price = `&minprice=${minprice}`;
-	// 	}
-	// });
-
-	//var param = `${keyword}${tags}${price}&mode=advanceSearch`;
-	var param = `${tags}${price}&mode=advanceSearch`;
-	param = param.slice(1);
-	//console.log(param);
-	window.location.href = `/p/search?${param}`;
-}
-
-//遷移後もボタンを選択状態にする
-function advancedSearchFormSelected() {
-	if ($('#fs_ProductSearch').length) {
-		//tagに値がある場合
-		//urlを取得
-		var searchUrl = decodeURIComponent($(location).attr('search'));
-
-		//urlを?を削除
-		searchUrl = searchUrl.replace('?', '');
-		//urlを&で配列に格納
-		var searchUrl_ary = [];
-		if (searchUrl.indexOf('&') > -1) {
-			searchUrl_ary = searchUrl.split('&');
-		}
-
-		var tags = '';
-		var tags_ary = [];
-
-		for (var i = 0; i < searchUrl_ary.length; i++) {
-			if (searchUrl_ary[i].indexOf('keyword=') != -1) {
-				var keyword = searchUrl_ary[i].replace('keyword=', '');
-				$('.fs-p-searchForm__input').each(function () {
-					$(this).val(keyword);
-				});
-			} else if (searchUrl_ary[i].indexOf('tag') != -1) {
-				tags = searchUrl_ary[i].replace('tag=', '');
-			}
-
-			var selectedPropChecked = function () {
-				$('.priceRange').each(function () {
-					// console.log('price:', price);
-					// console.log('input:', $(this).val());
-					if ($(this).val() == price) {
-						$(this).prop('checked', true);
-					}
-				});
-			};
-
-			if (searchUrl_ary[i].indexOf('minprice') > -1) {
-				var minprice = searchUrl_ary[i].replace('minprice=', '');
-
-				var price = `${minprice}`;
-				// console.log(price);
-
-				selectedPropChecked();
-			}
-
-			if (searchUrl_ary[i].indexOf('maxprice') > -1) {
-				var maxprice = searchUrl_ary[i].replace('maxprice=', '');
-
-				var price = `${minprice}-${maxprice}`;
-				// console.log(price);
-
-				selectedPropChecked();
-			}
-		}
-
-		if (tags.indexOf(',') != -1) {
-			tags_ary = tags.split(',');
-		} else {
-			tags_ary = [tags];
-		}
-
-		//判定
-		for (var i = 0; i < tags_ary.length; i++) {
-			$('.searchTags').each(function () {
-				//valueと値が同じであればinputをチェック状態にする
-				if ($(this).val() == tags_ary[i]) {
-					//console.log(tags_ary[i]);
-					$(this).prop('checked', true);
-				}
-			});
-		}
-	}
+    var param = `${tags}${price}&mode=advanceSearch`;
+    param = param.slice(1);
+    window.location.href = `/p/search?${param}`;
 }
 
 /* initAdvancedSearchRealtimePreview
@@ -808,115 +726,96 @@ function initAdvancedSearchRealtimePreview() {
     const API_URL = 'https://h15yyu8zof.execute-api.ap-northeast-1.amazonaws.com/prod/advanced_search';
     let debounceTimer;
 
-    // 1. APIへリクエストを送る関数
-function fetchRealtimePreview() {
+    function fetchRealtimePreview() {
+        // 最初のフォームの状態だけ見てAPIキーを生成
+        const $baseForm = $('.advancedSearchForm').first();
         const getCode = (name) => {
-            const checked = $(`.advancedSearchForm input[name="${name}"]:checked`);
+            const checked = $baseForm.find(`input[name="${name}"]:checked`);
             return checked.length ? checked.attr('data-api-code') : 'any';
         };
 
-        const cat = getCode('category');
-        const w   = getCode('width');
-        const d   = getCode('depth');
-        const h   = getCode('height');
-        const p   = getCode('productSearchPrice');
-        const asm = getCode('assenbly'); 
-        const col = getCode('color');
-        const feat = getCode('features'); // ★機能・特徴を追加
+        const searchKey = [
+            getCode('category'),
+            getCode('width'),
+            getCode('depth'),
+            getCode('height'),
+            getCode('productSearchPrice'),
+            getCode('assenbly'),
+            getCode('color'),
+            getCode('features')
+        ].join('|');
 
-        // ★固定順序で結合（最後に feat を追加）
-        const searchKey = [cat, w, d, h, p, asm, col, feat].join('|');
-        const requestUrl = `${API_URL}?key=${encodeURIComponent(searchKey)}`;
-
-        // デバッグ用: コンソールでリクエストされたキーを確認できます
         console.log('[RealtimeSearch] Fetching:', searchKey);
 
-        fetch(requestUrl)
+        fetch(`${API_URL}?key=${encodeURIComponent(searchKey)}`)
             .then(response => response.json())
-            .then(data => {
-                renderPreview(data.total_count, data.items);
-            })
+            .then(data => renderPreview(data.total_count, data.items))
             .catch(error => {
                 console.error('[RealtimeSearch] API Error:', error);
-                $('#previewTotalCount').text('-');
-                $('#previewThumbnails').empty();
+                $('.previewTotalCount').text('-');
+                $('.previewThumbnails').empty();
             });
     }
 
-	// 2. 画面への描画と表示制御の関数
-    function renderPreview(totalCount, items) {
-        $('#realtimeSearchPreview').show();
-        $('#previewTotalCount').text(totalCount);
+    // ゼロパディング補助関数
+    function zeroPadding(NUM, LEN) {
+        return (Array(LEN).join('0') + NUM).slice(-LEN);
+    }
 
-        const $thumbnailsContainer = $('#previewThumbnails');
-        $thumbnailsContainer.empty();
+    function renderPreview(totalCount, items) {
+        // 全てのプレビューエリアを表示
+        $('.realtimeSearchPreview').show();
+        $('.previewTotalCount').text(totalCount);
+
+        // 挿入するHTMLを先にまとめて生成する（DOM操作を最小限にして高速化）
+        let thumbsHtml = '';
 
         if (totalCount > 0 && items && items.length > 0) {
             items.forEach(item => {
-                // --- 画像URLの生成ロジック (変更なし) ---
                 const productId = parseInt(item.id, 10);
                 const product_id_12Len = zeroPadding(productId, 12);
-                
                 const item_image_group = Math.floor(productId / 100);
                 const image_group_3Len = zeroPadding(item_image_group, 3);
-                
                 const thumb_number = zeroPadding(item.thumbnail_number || 1, 2);
                 const imageUrl = `https://shiraistore.itembox.design/product/${image_group_3Len}/${product_id_12Len}/${product_id_12Len}-${thumb_number}-s.jpg`;
 
-                // --- 新しいリンク先(a href)の生成ロジック ---
-                // 品番を小文字にしてベースコードを作成
                 const productCode = item.sku_no.toLowerCase();
                 let seriesCode = productCode.slice(0, 3);
+                if (seriesCode === 'tl1' || seriesCode === 'tl2' || seriesCode === 'tl3') seriesCode = 'tl';
+                else if (seriesCode === 'ona' || seriesCode === 'obk') seriesCode = 'of2';
+                else if (seriesCode === 'gbp') seriesCode = 'gbt';
 
-                // 特殊なシリーズコードの例外処理を適用
-                if (seriesCode === 'tl1' || seriesCode === 'tl2' || seriesCode === 'tl3') {
-                    seriesCode = 'tl';
-                } else if (seriesCode === 'ona' || seriesCode === 'obk') {
-                    seriesCode = 'of2';
-                } else if (seriesCode === 'gbp') {
-                    seriesCode = 'gbt';
-                }
-
-                // 商品詳細ページへの直リンクURLを組み立て
                 const detailUrl = `/c/series/${seriesCode}/${productCode}`; 
 
-                const html = `
+                thumbsHtml += `
                     <a href="${detailUrl}" style="width: 18%; max-width: 60px; display: inline-block;">
                         <img src="${imageUrl}" alt="${item.sku_no}" style="width: 100%; height: auto; border: 1px solid #ccc; border-radius: 4px; object-fit: cover;" onerror="this.src='https://shiraistore.itembox.design/item/src/loading.svg'">
                     </a>
                 `;
-                $thumbnailsContainer.append(html);
             });
         }
+
+        // ★生成したHTMLを、ページ内の「すべての」サムネイルエリアに一斉に流し込む
+        $('.previewThumbnails').html(thumbsHtml);
+        
+        // （おまけ）スマホ等で高さが変わった時用のpadding補正
+        setTimeout(function() {
+            const resultAreaHeight = $('.fs-p-productSearch__searchRealtimeResult').first().outerHeight();
+            $('.fs-p-productSearch').css('padding-bottom', (resultAreaHeight + 30) + 'px');
+        }, 50);
     }
 
-    // 3. デバウンス処理（連続実行防止）
     function triggerPreviewUpdate() {
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(fetchRealtimePreview, 300);
     }
 
-    // ==========================================
-    // イベントリスナーの登録（※既存JSとの競合回避版）
-    // ==========================================
-
-    // A: ネイティブのchangeイベント（直接inputを操作できた場合）
-    $('.advancedSearchForm').on('change', 'input[type="radio"], input[type="checkbox"]', function() {
+    // カスタムイベントで更新を検知する
+    $('body').on('advancedSearchUpdated', function() {
         triggerPreviewUpdate();
     });
 
-    // B: 既存の独自JSによって「labelクリック時にチェックが切り替わる」仕様への対応
-    $('.advancedSearchForm').on('click', '.fs-c-radio__label, .fs-c-checkbox__label', function() {
-        // 既存JSの処理が終わってから状態を取得するため、50msだけ遅延させる
-        setTimeout(triggerPreviewUpdate, 50);
-    });
-
-    // C: 各項目のクリア・すべてクリアボタンが押された時
-    $('.advancedSearchForm').on('click', '.clearButton, .clearButton_all', function() {
-        setTimeout(triggerPreviewUpdate, 50);
-    });
-
-    // 初期表示時にも1回実行（全体件数を表示させるため）
+    // 初期表示時にも1回実行
     triggerPreviewUpdate();
 }
 
