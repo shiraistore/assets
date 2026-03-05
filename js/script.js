@@ -567,10 +567,15 @@ function searchTagsTitleDescriptionChange() {
 	}
 }
 
-/* advancedSearchForm (複数フォーム同期対応版)
+/* advancedSearchForm (複数フォーム同期・プレビュー対応版)
 ========================================================================== */
+
 function advancedSearchForm() {
-    // 検索ボタン等による開閉ロジック（既存のまま）
+    // ==========================================
+    // 1. フォームの開閉ロジック（検索窓はID、検索フォームはClass）
+    // ==========================================
+    
+    // PC: ヘッダーの検索ボタンを押したら、ヘッダー内の詳細検索フォームが開く
     $(document).on('click', '#header-keywordSearch .keywordSearch', function () {
         if ($('#header-keywordSearch .advancedSearchForm').css('display') == 'none') {
             $('#header-keywordSearch .advancedSearchForm').slideDown();
@@ -578,6 +583,7 @@ function advancedSearchForm() {
         }
     });
 
+    // スマホ: 検索ボタンを押したらヘッダーの検索窓と詳細検索フォームが開く
     $(document).on('click', '#searchOpenButton', function () {
         if ($('#header-keywordSearch').css('display') == 'none') {
             $('#header-keywordSearch .advancedSearchForm').css('display', 'flex');
@@ -589,7 +595,8 @@ function advancedSearchForm() {
         }
     });
 
-    $('#header-keywordSearch .formClose,#globalNavi-overlay, #header-keywordSearch .advancedSearchForm .close').on('click', function () {
+    // 詳細検索フォームの外側や閉じるボタンをクリックしたら閉じる
+    $(document).on('click', '#header-keywordSearch .formClose, #globalNavi-overlay, .advancedSearchForm .close', function () {
         if ($('#header-keywordSearch').hasClass('max768')) {
             $('#header-keywordSearch').slideUp();
         } else {
@@ -598,38 +605,40 @@ function advancedSearchForm() {
         $('#globalNavi-overlay').fadeOut(200);
     });
 
-    // 検索結果なし時の複製ロジック（これも動作します）
+    // 検索結果なしのメッセージがあったら複製する
     var is_noResultMessage = false;
     if ($('#noResultMessage').length) {
         var html = $('#header-keywordSearch').html();
-        html = html.replace(/name="(.+)"/g, 'name="noResultMessage_$1"');
-        $('#noResultMessageAdvancedSearchForm').html(html);
-        is_noResultMessage = true;
+        if(html) {
+            html = html.replace(/name="(.+)"/g, 'name="noResultMessage_$1"');
+            $('#noResultMessageAdvancedSearchForm').html(html);
+            is_noResultMessage = true;
+        }
     }
 
     // ==========================================
-    // 【重要】入力項目の同期ロジック
+    // 2. 入力項目の完全同期ロジック (以下、前回のコードが続きます)
     // ==========================================
     $('.advancedSearchForm').on('click', '.fs-c-radio__label, .fs-c-checkbox__label', function (e) {
-        e.preventDefault(); // デフォルトのチェック挙動を止め、JSで完全制御する
+        e.preventDefault(); // デフォルト挙動を止め、JSで状態を管理する
 
         var inputElement = $(this).prev('input');
         var isChecked = inputElement.prop('checked');
         var inputName = inputElement.attr('name');
         var inputValue = inputElement.val();
 
-        // 対象のinputが元々チェックされていたら「外す」、されていなければ「入れる」
+        // 状態の反転
         var newState = !isChecked;
 
-        // 【同期】ページ内の全フォームの同名inputのチェックを一旦すべて外す
+        // ページ内の全フォームの該当項目のチェックを一旦外す
         $(`.advancedSearchForm input[name="${inputName}"]`).prop('checked', false);
 
-        // 新しい状態が「チェックを入れる」であれば、全フォームの該当valueにチェックを入れる
+        // 新しい状態が「チェックON」であれば、全フォームの該当valueにチェックを入れる
         if (newState) {
             $(`.advancedSearchForm input[name="${inputName}"][value="${inputValue}"]`).prop('checked', true);
         }
 
-        // 価格(priceRange)が操作された場合、全フォームのhiddenも同期する
+        // 価格(priceRange)の場合、hidden要素も同期する
         if (inputElement.hasClass('priceRange')) {
             if (newState) {
                 var priceRange_ary = inputValue.split('-');
@@ -640,12 +649,12 @@ function advancedSearchForm() {
             }
         }
         
-        // プレビューの更新をトリガーする（initAdvancedSearchRealtimePreview側でキャッチされます）
+        // プレビューの更新をトリガー
         $('body').trigger('advancedSearchUpdated');
     });
 
     // ==========================================
-    // クリアボタンの同期ロジック
+    // 3. クリアボタンの同期ロジック
     // ==========================================
     $('.advancedSearchForm').on('click', '.clearButton_all', function () {
         $('.advancedSearchForm input[type="radio"], .advancedSearchForm input[type="checkbox"]').prop('checked', false);
@@ -654,12 +663,9 @@ function advancedSearchForm() {
     });
 
     $('.advancedSearchForm').on('click', '.clearButton', function () {
-        // クリックされた行(tr)の中にあるinputのname属性を取得
         var targetName = $(this).closest('tr').find('input').attr('name');
         if (targetName) {
-            // 全フォームの該当nameのチェックを外す
             $(`.advancedSearchForm input[name="${targetName}"]`).prop('checked', false);
-            
             if (targetName === 'productSearchPrice') {
                 $(".advancedSearchForm .productSearchPrice_min, .advancedSearchForm .productSearchPrice2_max").val('');
             }
@@ -668,15 +674,15 @@ function advancedSearchForm() {
     });
 
     // ==========================================
-    // 検索実行ボタン
+    // 4. 検索実行ボタン
     // ==========================================
-    $('.advancedSearchForm button').on('click', function () {
-        // すべてのフォームが同期されているため、引数による出し分けは不要になります
+    $('.advancedSearchForm button[type="submit"], .advancedSearchForm .fs-p-productSearch__searchButton').on('click', function (e) {
+        e.preventDefault();
         advancedSearchFormURL();
     });
 }
 
-// URL生成 (同期されているため、最初のフォームの値だけ見ればOK)
+// URL生成処理（同期されているため、最初のフォームの値を基準に生成）
 function advancedSearchFormURL() {
     var keyword = '';
     var advancedSearchValue = $('.fs-p-searchForm__input').first().val();
@@ -688,9 +694,7 @@ function advancedSearchFormURL() {
     var tags = '';
     var price = '';
     
-    // 最初のフォーム要素を基準に値を取得
     var $baseForm = $('.advancedSearchForm').first();
-
     var formType = $baseForm.find('.searchTags:checked');
     var priceRange = $baseForm.find('.priceRange:checked').val();
 
@@ -714,20 +718,69 @@ function advancedSearchFormURL() {
         }
     }
 
-    var param = `${tags}${price}&mode=advanceSearch`;
-    param = param.slice(1);
+    var param = `${keyword}${tags}${price}&mode=advanceSearch`;
+    param = param.replace(/^&/, ''); // 先頭の&を削除
     window.location.href = `/p/search?${param}`;
 }
 
-/* initAdvancedSearchRealtimePreview
-リアルタイムプレビュー機能の初期化関数
+// 遷移後もボタンを選択状態にする (Class対応版)
+function advancedSearchFormSelected() {
+    if ($('.fs_ProductSearch, #fs_ProductSearch').length || window.location.pathname.indexOf('/p/search') > -1) {
+        var searchUrl = decodeURIComponent(window.location.search);
+        searchUrl = searchUrl.replace('?', '');
+        var searchUrl_ary = searchUrl.indexOf('&') > -1 ? searchUrl.split('&') : [searchUrl];
+
+        var tags = '';
+        var priceRangeVal = null;
+
+        for (var i = 0; i < searchUrl_ary.length; i++) {
+            if (searchUrl_ary[i].indexOf('keyword=') != -1) {
+                var keyword = searchUrl_ary[i].replace('keyword=', '');
+                $('.fs-p-searchForm__input').val(keyword);
+            } else if (searchUrl_ary[i].indexOf('tag=') != -1) {
+                tags = searchUrl_ary[i].replace('tag=', '');
+            } else if (searchUrl_ary[i].indexOf('minprice=') > -1) {
+                priceRangeVal = searchUrl_ary[i].replace('minprice=', '');
+            } else if (searchUrl_ary[i].indexOf('maxprice=') > -1) {
+                if (priceRangeVal) priceRangeVal += '-' + searchUrl_ary[i].replace('maxprice=', '');
+            }
+        }
+
+        // 価格のチェック復元
+        if (priceRangeVal) {
+            $('.priceRange').each(function () {
+                var val = $(this).val();
+                if (val === priceRangeVal || val.startsWith(priceRangeVal)) {
+                    $(this).prop('checked', true);
+                    var priceRange_ary = val.split('-');
+                    $(".advancedSearchForm .productSearchPrice_min").val(priceRange_ary[0]);
+                    $(".advancedSearchForm .productSearchPrice2_max").val(priceRange_ary[1] || '');
+                }
+            });
+        }
+
+        // タグのチェック復元
+        if (tags !== '') {
+            var tags_ary = tags.split(',');
+            for (var i = 0; i < tags_ary.length; i++) {
+                $('.searchTags').each(function () {
+                    if ($(this).val() == tags_ary[i]) {
+                        $(this).prop('checked', true);
+                    }
+                });
+            }
+        }
+    }
+}
+
+/* リアルタイムプレビュー機能
 ========================================================================== */
 function initAdvancedSearchRealtimePreview() {
     const API_URL = 'https://h15yyu8zof.execute-api.ap-northeast-1.amazonaws.com/prod/advanced_search';
     let debounceTimer;
 
     function fetchRealtimePreview() {
-        // 最初のフォームの状態だけ見てAPIキーを生成
+        // 最初のフォームの状態を元にAPIリクエスト用のキーを生成
         const $baseForm = $('.advancedSearchForm').first();
         const getCode = (name) => {
             const checked = $baseForm.find(`input[name="${name}"]:checked`);
@@ -742,7 +795,7 @@ function initAdvancedSearchRealtimePreview() {
             getCode('productSearchPrice'),
             getCode('assenbly'),
             getCode('color'),
-            getCode('features')
+            getCode('features') // 機能・特徴も追加
         ].join('|');
 
         console.log('[RealtimeSearch] Fetching:', searchKey);
@@ -763,15 +816,14 @@ function initAdvancedSearchRealtimePreview() {
     }
 
     function renderPreview(totalCount, items) {
-        // 全てのプレビューエリアを表示
         $('.realtimeSearchPreview').show();
         $('.previewTotalCount').text(totalCount);
 
-        // 挿入するHTMLを先にまとめて生成する（DOM操作を最小限にして高速化）
         let thumbsHtml = '';
 
         if (totalCount > 0 && items && items.length > 0) {
             items.forEach(item => {
+                // 画像URLの生成ロジック (100で割る仕様を反映)
                 const productId = parseInt(item.id, 10);
                 const product_id_12Len = zeroPadding(productId, 12);
                 const item_image_group = Math.floor(productId / 100);
@@ -779,6 +831,7 @@ function initAdvancedSearchRealtimePreview() {
                 const thumb_number = zeroPadding(item.thumbnail_number || 1, 2);
                 const imageUrl = `https://shiraistore.itembox.design/product/${image_group_3Len}/${product_id_12Len}/${product_id_12Len}-${thumb_number}-s.jpg`;
 
+                // 詳細ページURLの生成ロジック
                 const productCode = item.sku_no.toLowerCase();
                 let seriesCode = productCode.slice(0, 3);
                 if (seriesCode === 'tl1' || seriesCode === 'tl2' || seriesCode === 'tl3') seriesCode = 'tl';
@@ -787,6 +840,7 @@ function initAdvancedSearchRealtimePreview() {
 
                 const detailUrl = `/c/series/${seriesCode}/${productCode}`; 
 
+                // サムネイルHTML (target="_blank" を削除)
                 thumbsHtml += `
                     <a href="${detailUrl}" style="width: 18%; max-width: 60px; display: inline-block;">
                         <img src="${imageUrl}" alt="${item.sku_no}" style="width: 100%; height: auto; border: 1px solid #ccc; border-radius: 4px; object-fit: cover;" onerror="this.src='https://shiraistore.itembox.design/item/src/loading.svg'">
@@ -795,10 +849,10 @@ function initAdvancedSearchRealtimePreview() {
             });
         }
 
-        // ★生成したHTMLを、ページ内の「すべての」サムネイルエリアに一斉に流し込む
+        // 生成したHTMLをすべてのプレビューエリアに一斉に挿入
         $('.previewThumbnails').html(thumbsHtml);
         
-        // （おまけ）スマホ等で高さが変わった時用のpadding補正
+        // プレビュー表示後に、可変した高さに合わせてフォーム下部の余白を調整する
         setTimeout(function() {
             const resultAreaHeight = $('.fs-p-productSearch__searchRealtimeResult').first().outerHeight();
             $('.fs-p-productSearch').css('padding-bottom', (resultAreaHeight + 30) + 'px');
@@ -810,14 +864,19 @@ function initAdvancedSearchRealtimePreview() {
         debounceTimer = setTimeout(fetchRealtimePreview, 300);
     }
 
-    // カスタムイベントで更新を検知する
+    // 他の処理からトリガーされた時に更新を走らせる
     $('body').on('advancedSearchUpdated', function() {
         triggerPreviewUpdate();
     });
-
-    // 初期表示時にも1回実行
-    triggerPreviewUpdate();
 }
+
+// ==========================================
+// DOM読み込み完了時の初期化
+// ==========================================
+$(function() {    
+    // 初期表示で復元されたチェック状態をもとに、プレビューを1回更新する
+    $('body').trigger('advancedSearchUpdated');
+});
 
 /* productDetailSeriesLink
 ========================================================================== */
