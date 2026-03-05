@@ -10708,7 +10708,7 @@ function product_detail_size_modal(retry_count) {
             // 1. 画像リンクの取得
             var target_links = $('.fs-c-productPlainImage a').filter(function () {
                 var href = $(this).attr('href') || '';
-                return /-3[68]-[a-z]+\.jpg/i.test(href);
+                return /-3[68](-[a-z]+)?\.jpg/i.test(href);
             });
 
             if (!target_links.length) {
@@ -10717,28 +10717,25 @@ function product_detail_size_modal(retry_count) {
                         product_detail_size_modal(retry_count + 1);
                     }, 300);
                 } else {
-                    //console.warn('「-36-*.jpg」または「-38-*.jpg」の画像リンクが見つかりません。');
+                    console.warn('「-36」または「-38」の画像リンクが見つかりません。');
                 }
                 return;
             }
 
-            // 取得した要素を並び替える
+            // 取得した要素を並び替える（38を先に、36を後に）
             var sorted_links = target_links.toArray().sort(function(a, b) {
                 var hrefA = $(a).attr('href') || '';
                 var hrefB = $(b).attr('href') || '';
                 
-                // "-36-" を含むかどうか判定
-                var is36A = /-36-/.test(hrefA);
-                var is36B = /-36-/.test(hrefB);
+                // "-36" を含むかどうか判定 (新旧フォーマット対応)
+                var is36A = /-36(-[a-z]+)?\.jpg/i.test(hrefA);
+                var is36B = /-36(-[a-z]+)?\.jpg/i.test(hrefB);
 
-                // Aが36でBが36でない(38)なら、Aを後ろにする（プラスの値を返す）
                 if (is36A && !is36B) return 1;
-                // Aが36でなくて(38)、Bが36なら、Aを前にする（マイナスの値を返す）
                 if (!is36A && is36B) return -1;
                 
-                return 0; // どちらも同じタイプなら変更なし
+                return 0; 
             });
-
 
             // 2. 「サイズ」の td を特定
             var size_td = $('.product-spec-table tr')
@@ -10761,17 +10758,45 @@ function product_detail_size_modal(retry_count) {
             
             container.empty();
 
-            // 4. 並び替えた配列(sorted_links)を使ってループ処理
-            // jQueryオブジェクトとして扱うために $() で囲みます
+            // 4. URL変換とHTML生成ループ
             $(sorted_links).each(function() {
                 var original_href = $(this).attr('href');
-                var href_parts = original_href.split('?');
-                var base_url = href_parts[0];
-                var query_str = href_parts[1] ? '?' + href_parts[1] : '';
+                var thumb_src = '';
+                var full_src = '';
 
-                var thumb_src = base_url.replace(/-([a-z]+)\.jpg$/i, '-m.jpg') + query_str;
-                var full_src  = base_url.replace(/-([a-z]+)\.jpg$/i, '-xl.jpg') + query_str;
+                // 新フォーマットの判定（URLに ?size= が含まれるか、ファイル名が -38.jpg の形式）
+                if (original_href.indexOf('?') !== -1 && /[?&]size=/i.test(original_href)) {
+                    try {
+                        // 新フォーマット：URLパラメータを操作
+                        // 相対パスの場合も考慮して location.origin をベースにする
+                        var urlObj = new URL(original_href, location.origin);
+                        
+                        // サムネイル用
+                        urlObj.searchParams.set('size', 'm');
+                        urlObj.searchParams.delete('w');
+                        thumb_src = urlObj.href;
 
+                        // 拡大用
+                        urlObj.searchParams.set('size', 'xl');
+                        urlObj.searchParams.delete('w');
+                        full_src = urlObj.href;
+
+                    } catch (e) {
+                        // URLパースに失敗した場合の予備処理（単純な文字列置換）
+                        thumb_src = original_href.replace(/size=[a-z]+/i, 'size=m').replace(/&w=[a-zA-Z0-9=]+/g, '');
+                        full_src = original_href.replace(/size=[a-z]+/i, 'size=xl').replace(/&w=[a-zA-Z0-9=]+/g, '');
+                    }
+                } else {
+                    // 旧フォーマットの処理（-38-l.jpg などの形式）
+                    var href_parts = original_href.split('?');
+                    var base_url = href_parts[0];
+                    var query_str = href_parts[1] ? '?' + href_parts[1] : '';
+
+                    thumb_src = base_url.replace(/-([a-z]+)\.jpg$/i, '-m.jpg') + query_str;
+                    full_src  = base_url.replace(/-([a-z]+)\.jpg$/i, '-xl.jpg') + query_str;
+                }
+
+                // HTMLに追加
                 var html = 
                     '<div class="product_spec_image_size">' +
                         '<img src="' + thumb_src + '" class="spec_size_thumb" data-full-src="' + full_src + '">' +
