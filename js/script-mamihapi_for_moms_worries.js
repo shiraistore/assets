@@ -122,7 +122,7 @@ function addCart() {
 			const pid12 = ('000000000000' + productId).slice(-12);
 			const pid3 = ('000' + Math.floor(productId / 100)).slice(-3);
 			const imgNo = ('00' + (thumbnail || productImage)).slice(-2);
-			const imgSrc = 'https://shiraistore.itembox.design/product/' + pid3 + '/' + pid12 + '/' + pid12 + '-' + imgNo + '-' + productImageSize + '.jpg';
+			const imgSrc = 'https://shiraistore.itembox.cloud/product/' + pid3 + '/' + pid12 + '/' + pid12 + '-' + imgNo + '.jpg?size=s&w=MjAw';
 
 			// ADIS（任意）
 			let adisHtml = '';
@@ -198,7 +198,7 @@ function addCart() {
 					const pid12 = ('000000000000' + productId).slice(-12);
 					const pid3 = ('000' + Math.floor(productId / 100)).slice(-3);
 					const imgNo = ('00' + (Number(it.thumbnail_number || productImage) || 1)).slice(-2);
-					lastImgSrc = 'https://shiraistore.itembox.design/product/' + pid3 + '/' + pid12 + '/' + pid12 + '-' + imgNo + '-' + productImageSize + '.jpg';
+					lastImgSrc = 'https://shiraistore.itembox.cloud/product/' + pid3 + '/' + pid12 + '/' + pid12 + '-' + imgNo + '.jpg?size=s&w=MjAw';
 				}
 
 				// まとめてカート投入用 hidden

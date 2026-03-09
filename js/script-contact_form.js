@@ -162,7 +162,7 @@ function contacts_form() {
                 date_input.attr('type', 'text');
 
                 // input直後にカレンダーアイコンを挿入
-                date_input.after('<img src="https://shiraistore.itembox.design/item/src/icon_calendar.svg" alt="" class="calendar_icon">');
+                date_input.after('<img src="https://shiraistore.itembox.cloud/item/src/icon_calendar.svg" alt="" class="calendar_icon">');
 
                 // ここでflatpickr等のカレンダーピッカーをinputに適用
                 if (typeof flatpickr !== 'undefined') {

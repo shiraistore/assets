@@ -378,7 +378,7 @@ function build_review_summary(sum_review) {
 
 						var commentHTML = '<div class="fs-c-reviewList__item__body fs-c-reviewBody">' + review_body + '</div>';
 
-						var imageHTML = '<div class="reviewImage"><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.design/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '-xs.jpg" alt="" ></a></div>';
+						var imageHTML = '<div class="reviewImage"><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.cloud/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '.jpg?size=xs&w=MTAw" alt="" ></a></div>';
 
 						var h = '<li class="fs-c-reviewList__item reviewScore-' + reviewScoreToFixed + '">' + imageHTML + '<div class="reviewContent">' + reviewerHTML + profHTML + dateHTML + commentHTML + '</div></li>';
 
@@ -1216,11 +1216,11 @@ function get_price(sku_no) {
 		scriptCharset: 'utf-8',
 		success: function (response) {
 			// Success
-			// console.log(JSON.stringify(response));
+			console.log(JSON.stringify(response));
 		},
 		error: function (response) {
 			// Error
-			// console.log(JSON.stringify(response));
+			console.log(JSON.stringify(response));
 		},
 	}).responseText;
 	var price = JSON.parse(response);

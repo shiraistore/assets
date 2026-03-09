@@ -438,7 +438,7 @@ function getUrlRedirect() {
 // 					// console.log('productGroup3Length:',productGroup3Length);
 // 					// console.log('productUrl:',productUrl);
 
-// 					reviewsHtml += `<li class="fs-c-reviewList__item reviewScore-${review.rating}"><div class="reviewImage"><a href="${productUrl}"><img src="https://shiraistore.itembox.design/product/${productGroup3Length}/${productId12Length}/${productId12Length}-${productThumbnailNumber2Length}-xs.jpg" alt=""></a></div><h3 class="productName">${review.product_name}</h3><div class="reviewContent"><div class="fs-c-reviewList__item__info fs-c-reviewInfo"><div class="fs-c-reviewInfo__reviewer fs-c-reviewer"><div class="fs-c-reviewer__name"><span class="fs-c-reviewer__name__nickname">${review.nickname}</span></div><div class="fs-c-reviewer__status"><span class="fs-c-reviewerStatus">購入者</span></div><div class="fs-c-reviewer__profile"></div></div><dl class="fs-c-reviewInfo__date"><dt>投稿/更新日投稿日</dt><dd><time datetime="${review.created_at}" class="fs-c-time">${upDate}</time></dd></dl><div class="fs-c-reviewRating"><div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="${review.rating}.0"></div></div></div><div class="color">${review.product_color}</div><div class="fs-c-reviewList__item__body fs-c-reviewBody">${review.body}</div><div class="text-right"><a href="${productUrl}" class="text-link-color">商品詳細を見る</a></div></div></li>`;
+// 					reviewsHtml += `<li class="fs-c-reviewList__item reviewScore-${review.rating}"><div class="reviewImage"><a href="${productUrl}"><img src="https://shiraistore.itembox.cloud/product/${productGroup3Length}/${productId12Length}/${productId12Length}-${productThumbnailNumber2Length}.jpg?size=xs&w=MTAw" alt=""></a></div><h3 class="productName">${review.product_name}</h3><div class="reviewContent"><div class="fs-c-reviewList__item__info fs-c-reviewInfo"><div class="fs-c-reviewInfo__reviewer fs-c-reviewer"><div class="fs-c-reviewer__name"><span class="fs-c-reviewer__name__nickname">${review.nickname}</span></div><div class="fs-c-reviewer__status"><span class="fs-c-reviewerStatus">購入者</span></div><div class="fs-c-reviewer__profile"></div></div><dl class="fs-c-reviewInfo__date"><dt>投稿/更新日投稿日</dt><dd><time datetime="${review.created_at}" class="fs-c-time">${upDate}</time></dd></dl><div class="fs-c-reviewRating"><div class="fs-c-rating__stars fs-c-reviewStars" data-ratingcount="${review.rating}.0"></div></div></div><div class="color">${review.product_color}</div><div class="fs-c-reviewList__item__body fs-c-reviewBody">${review.body}</div><div class="text-right"><a href="${productUrl}" class="text-link-color">商品詳細を見る</a></div></div></li>`;
 // 				}
 
 // 				if ($('.advanceSearchTag').length) {
@@ -503,7 +503,7 @@ function getUrlRedirect() {
 // 					$('.fs-c-productList').after(
 // 						'<div id="shirai_fan"><h2>#shirai_fan<span>みんなのInstagram投稿写真集</span></h2><p class="text-center">Instagramで投稿していただいた写真をご紹介しています。<br>紹介時にはSHIRAI STOREスタッフからご連絡後、みなさんの写真を掲載します。#shirai_fanをつけてお気に入りのアイテムをぜひ投稿してください！</p><ul id="postedList">' +
 // 							listHtml +
-// 							'</ul><div class="fs-c-buttonContainer more-button"><a href="/f/shirai_fan" class="fs-c-button--standard">その他の投稿を見る</a></div><div id="instagramPost-modal" class="modal"><div class="modal-bg modal-close"></div><div id="instagramPost-modal_outer" class="modal-close"><div class="modal-content"><div class="modal-content_inner"></div><a class="modal-close_btn modal-close" href=""><img src="https://shiraistore.itembox.design/item/src/icon-close.svg" alt="閉じる" title="閉じる"></a><ul id="modal-control"><li class="modal-ctr-open prev" data-target="instagramPost-modal" data-postid=""></li><li class="modal-ctr-open next" data-target="instagramPost-modal" data-postid=""></li></ul></div></div></div></div></div>'
+// 							'</ul><div class="fs-c-buttonContainer more-button"><a href="/f/shirai_fan" class="fs-c-button--standard">その他の投稿を見る</a></div><div id="instagramPost-modal" class="modal"><div class="modal-bg modal-close"></div><div id="instagramPost-modal_outer" class="modal-close"><div class="modal-content"><div class="modal-content_inner"></div><a class="modal-close_btn modal-close" href=""><img src="https://shiraistore.itembox.cloud/item/src/icon-close.svg" alt="閉じる" title="閉じる"></a><ul id="modal-control"><li class="modal-ctr-open prev" data-target="instagramPost-modal" data-postid=""></li><li class="modal-ctr-open next" data-target="instagramPost-modal" data-postid=""></li></ul></div></div></div></div></div>'
 // 					);
 // 				}
 
@@ -529,7 +529,7 @@ function getUrlRedirect() {
 
 // function campaignBannerForSearchResults() {
 // 		if ($('#fs_ProductSearch').length) {
-// 			$('.fs-c-productList').after(`<div id="banner-search"><a href="https://shirai-store.net/f/4thAnniversaryPresentCampaign"><img class="imageChange mt-40 mb-40" src="https://shiraistore.itembox.design/item/src/mainVisual_4thAnniversaryPresentCampaign_pc.jpg" alt="4th Anniversary プレゼントキャンペーン"></a></div>`);
+// 			$('.fs-c-productList').after(`<div id="banner-search"><a href="https://shirai-store.net/f/4thAnniversaryPresentCampaign"><img class="imageChange mt-40 mb-40" src="https://shiraistore.itembox.cloud/item/src/mainVisual_4thAnniversaryPresentCampaign_pc.jpg" alt="4th Anniversary プレゼントキャンペーン"></a></div>`);
 // 		}
 // }
 
@@ -833,7 +833,7 @@ function initAdvancedSearchRealtimePreview() {
                 const item_image_group = Math.floor(productId / 100);
                 const image_group_3Len = zeroPadding(item_image_group, 3);
                 const thumb_number = zeroPadding(item.thumbnail_number || 1, 2);
-                const imageUrl = `https://shiraistore.itembox.design/product/${image_group_3Len}/${product_id_12Len}/${product_id_12Len}-${thumb_number}-s.jpg`;
+                const imageUrl = `https://shiraistore.itembox.cloud/product/${image_group_3Len}/${product_id_12Len}/${product_id_12Len}-${thumb_number}.jpg?size=s&w=MjAw`;
 
                 // 詳細ページURLの生成ロジック
                 const productCode = item.sku_no.toLowerCase();
@@ -847,7 +847,7 @@ function initAdvancedSearchRealtimePreview() {
                 // サムネイルHTML (target="_blank" を削除)
                 thumbsHtml += `
                     <a href="${detailUrl}" style="width: 18%; max-width: 60px; display: inline-block;">
-                        <img src="${imageUrl}" alt="${item.sku_no}" style="width: 100%; height: auto; border: 1px solid #ccc; border-radius: 4px; object-fit: cover;" onerror="this.src='https://shiraistore.itembox.design/item/src/loading.svg'">
+                        <img src="${imageUrl}" alt="${item.sku_no}" style="width: 100%; height: auto; border: 1px solid #ccc; border-radius: 4px; object-fit: cover;" onerror="this.src='https://shiraistore.itembox.cloud/item/src/loading.svg'">
                     </a>
                 `;
             });
@@ -941,8 +941,8 @@ function product_detail_series_caption() {
             <div>
                 <div class="serise-left">
                     <a href="/c/series/${seriesName}">
-                        <img data-src="https://shiraistore.itembox.design/item/src/series/thum-${seriesName}.jpg"
-                             src="https://shiraistore.itembox.design/item/src/series/thum-${seriesName}.jpg"
+                        <img data-src="https://shiraistore.itembox.cloud/item/src/series/thum-${seriesName}.jpg"
+                             src="https://shiraistore.itembox.cloud/item/src/series/thum-${seriesName}.jpg"
                              class="lazyloaded" alt="">
                     </a>
                 </div>
@@ -970,10 +970,10 @@ function productDetail_mhpContentsBanner() {
 		var series = url[url.length - 1].split('-');
 		if (series[0] == 'mhp') {
 			var html =
-				'<ul id="contents-banner"><li><a href="/f/feature/mamihapi-howToStoreClothes"><img src="https://shiraistore.itembox.design/item/src/banner_mamihapi-howToStoreClothes_460x96.jpg"></a></li><li><a href="/f/feature/mamihapi-byage"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-byage.png"></a></li><li><a href="/f/feature/mamihapi-questionnaire"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-questionnaire.png"></a></li><li><a href="/f/feature/mamihapi-tidyingUpReview"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-tidyingUpReview.jpg"></a></li></ul>';
+				'<ul id="contents-banner"><li><a href="/f/feature/mamihapi-howToStoreClothes"><img src="https://shiraistore.itembox.cloud/item/src/banner_mamihapi-howToStoreClothes_460x96.jpg"></a></li><li><a href="/f/feature/mamihapi-byage"><img src="https://shiraistore.itembox.cloud/item/src/gNav-banner-mamihapi-byage.png"></a></li><li><a href="/f/feature/mamihapi-questionnaire"><img src="https://shiraistore.itembox.cloud/item/src/gNav-banner-mamihapi-questionnaire.png"></a></li><li><a href="/f/feature/mamihapi-tidyingUpReview"><img src="https://shiraistore.itembox.cloud/item/src/gNav-banner-mamihapi-tidyingUpReview.jpg"></a></li></ul>';
 			if (series[1] == '2590bsa' || series[1] == '2590bsb' || series[1] == '5590desk') {
 				var html =
-					'<ul id="contents-banner"><li><a href="/f/feature/mamihapi-howToStoreClothes"><img src="https://shiraistore.itembox.design/item/src/banner_mamihapi-howToStoreClothes_460x96.jpg"></a></li><li><a href="/f/feature/mamihapi-byage"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-byage.png"></a></li><li><a href="/f/feature/mamihapi-questionnaire"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-questionnaire.png"></a></li><li><a href="/f/feature/mamihapi-tidyingUpReview"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-mamihapi-tidyingUpReview.jpg"></a></li><li><a href="/f/feature/howToStoreKidsBooks"><img src="https://shiraistore.itembox.design/item/src/banner_howToStoreKidsBooks_460x96.jpg"></a></li></ul>';
+					'<ul id="contents-banner"><li><a href="/f/feature/mamihapi-howToStoreClothes"><img src="https://shiraistore.itembox.cloud/item/src/banner_mamihapi-howToStoreClothes_460x96.jpg"></a></li><li><a href="/f/feature/mamihapi-byage"><img src="https://shiraistore.itembox.cloud/item/src/gNav-banner-mamihapi-byage.png"></a></li><li><a href="/f/feature/mamihapi-questionnaire"><img src="https://shiraistore.itembox.cloud/item/src/gNav-banner-mamihapi-questionnaire.png"></a></li><li><a href="/f/feature/mamihapi-tidyingUpReview"><img src="https://shiraistore.itembox.cloud/item/src/gNav-banner-mamihapi-tidyingUpReview.jpg"></a></li><li><a href="/f/feature/howToStoreKidsBooks"><img src="https://shiraistore.itembox.cloud/item/src/banner_howToStoreKidsBooks_460x96.jpg"></a></li></ul>';
 			}
 			$('#productActionBox').after(html);
 		}
@@ -988,7 +988,7 @@ function productDetail_ptsContentsBanner() {
 		url = url.split('/');
 		var series = url[url.length - 1].split('-');
 		if (series[0] == 'pts') {
-			var html = '<ul id="contents-banner"><li><a href="/f/feature/pitashie-featureAndCombination"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-pitashie-featureAndCombination.jpg"></a></li><li><a href="/f/feature/pitashie-review"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-pitashie-review.jpg"></a></li></ul>';
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/pitashie-featureAndCombination"><img src="https://shiraistore.itembox.cloud/item/src/gNav-banner-pitashie-featureAndCombination.jpg"></a></li><li><a href="/f/feature/pitashie-review"><img src="https://shiraistore.itembox.cloud/item/src/gNav-banner-pitashie-review.jpg"></a></li></ul>';
 
 			$('#productActionBox').after(html);
 		}
@@ -1003,7 +1003,7 @@ function productDetail_bookShelfContentsBanner() {
 		url = url.split('/');
 		// var series = url[url.length - 1].split('-');
 		if (url[3] == 'book-shelf') {
-			var html = '<ul id="contents-banner"><li><a href="/f/feature/book-shelf-capacity"><img src="https://shiraistore.itembox.design/item/src/book-shelf-capacity_460x96.jpg"></a></li></ul>';
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/book-shelf-capacity"><img src="https://shiraistore.itembox.cloud/item/src/book-shelf-capacity_460x96.jpg"></a></li></ul>';
 			$('#productActionBox').after(html);
 		}
 	}
@@ -1017,7 +1017,7 @@ function productDetail_tlfContentsBanner() {
 		url = url.split('/');
 		var series = url[url.length - 1].split('-');
 		if (series[0] == 'tlf') {
-			var html = '<ul id="contents-banner"><li><a href="/f/feature/tallflat-review"><img src="https://shiraistore.itembox.design/item/src/banner_tallflat-review_460x96.jpg"></a></li></ul>';
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/tallflat-review"><img src="https://shiraistore.itembox.cloud/item/src/banner_tallflat-review_460x96.jpg"></a></li></ul>';
 			$('#productActionBox').after(html);
 		}
 	}
@@ -1031,7 +1031,7 @@ function productDetail_logContentsBanner() {
 		url = url.split('/');
 		var series = url[url.length - 1].split('-');
 		if (series[0] == 'log') {
-			var html = '<ul id="contents-banner"><li><a href="/f/feature/loguno-review"><img src="https://shiraistore.itembox.design/item/src/banner_loguno-review_460x96.jpg"></a></li></ul>';
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/loguno-review"><img src="https://shiraistore.itembox.cloud/item/src/banner_loguno-review_460x96.jpg"></a></li></ul>';
 			$('#productActionBox').after(html);
 		}
 	}
@@ -1045,7 +1045,7 @@ function productDetail_porContentsBanner() {
 		url = url.split('/');
 		var series = url[url.length - 1].split('-');
 		if (series[0] == 'por') {
-			var html = '<ul id="contents-banner"><li><a href="/f/feature/portale-review"><img src="https://shiraistore.itembox.design/item/src/banner_portale-review_460x96.jpg"></a></li></ul>';
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/portale-review"><img src="https://shiraistore.itembox.cloud/item/src/banner_portale-review_460x96.jpg"></a></li></ul>';
 			$('#productActionBox').after(html);
 		}
 	}
@@ -1059,7 +1059,7 @@ function productDetail_howToStoreKidsBooksContentsBanner() {
 		url = url.split('/');
 		var series = url[url.length - 1].split('-');
 		if (series[1] == '7075bs' || series[1] == '7055bsb' || series[1] == '7055bsa') {
-			var html = '<ul id="contents-banner"><li><a href="/f/feature/howToStoreKidsBooks"><img src="https://shiraistore.itembox.design/item/src/banner_howToStoreKidsBooks_460x96.jpg"></a></li></ul>';
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/howToStoreKidsBooks"><img src="https://shiraistore.itembox.cloud/item/src/banner_howToStoreKidsBooks_460x96.jpg"></a></li></ul>';
 			$('#productActionBox').after(html);
 		}
 	}
@@ -1073,7 +1073,7 @@ function product_detail_am2() {
 		url = url.split('/');
 		var series = url[url.length - 1];
 		if (series.match(/am2-1480ds/)) {
-			var html = '<div class="amr-adis-caution" style="display:none;"><img src="https://shiraistore.itembox.design/item/src/product_detail/detail-amr-adis-caution.png"></div>';
+			var html = '<div class="amr-adis-caution" style="display:none;"><img src="https://shiraistore.itembox.cloud/item/src/product_detail/detail-amr-adis-caution.png"></div>';
 			$('.fs-c-productOption__comment').after(html);
 			$('#optionWithPrice_1').change(function () {
 				var str = $(this).val();
@@ -1091,7 +1091,7 @@ function product_detail_am2() {
 		url = url.split('/');
 		var series = url[url.length - 1].split('-');
 		if (series[0] == 'am2') {
-			var html = '<ul id="contents-banner"><li><a href="/f/feature/admira-capacity"><img src="https://shiraistore.itembox.design/item/src/banner_admira-capacity_460x96.jpg"></a></li></ul>';
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/admira-capacity"><img src="https://shiraistore.itembox.cloud/item/src/banner_admira-capacity_460x96.jpg"></a></li></ul>';
 			$('#productActionBox').after(html);
 		}
 	}
@@ -1105,7 +1105,7 @@ function productDetail_ntuContentsBanner() {
 		url = url.split('/');
 		var series = url[url.length - 1].split('-');
 		if (series[0] == 'ntu') {
-			var html = '<ul id="contents-banner"><li><a href="/f/feature/naturica-coordinate"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-naturica-coordinate.jpg"></a></li></ul>';
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/naturica-coordinate"><img src="https://shiraistore.itembox.cloud/item/src/gNav-banner-naturica-coordinate.jpg"></a></li></ul>';
 
 			$('#productActionBox').after(html);
 		}
@@ -1120,7 +1120,7 @@ function product_detail_ncm_contents_banner() {
 		url = url.split('/');
 		var series = url[url.length - 1].split('-');
 		if (series[0] == 'ncm') {
-			var html = '<ul id="contents-banner"><li><a href="/f/feature/nyacomo_series"><img src="https://shiraistore.itembox.design/item/src/product_detail_banner_nyacomo_series.jpg"></a></li></ul>';
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/nyacomo_series"><img src="https://shiraistore.itembox.cloud/item/src/product_detail_banner_nyacomo_series.jpg"></a></li></ul>';
 
 			$('#productActionBox').after(html);
 		}
@@ -1135,7 +1135,7 @@ function product_detail_cma_contents_banner() {
 		url = url.split('/');
 		var series = url[url.length - 1].split('-');
 		if (series[0] == 'cma') {
-			var html = '<ul id="contents-banner"><li><a href="/f/feature/comopia_idea"><img src="https://shiraistore.itembox.design/item/src/banner_comopia_idea_460x96.jpg"></a></li></ul>';
+			var html = '<ul id="contents-banner"><li><a href="/f/feature/comopia_idea"><img src="https://shiraistore.itembox.cloud/item/src/banner_comopia_idea_460x96.jpg"></a></li></ul>';
 
 			$('#productActionBox').after(html);
 		}
@@ -1150,7 +1150,7 @@ function product_detail_monitor_campaign_banner() {
 		url = url.split('/');
 		var series = url[url.length - 1].split('-');
 		if (series[0] == 'nor') {
-			var html = '<ul id="contents-banner"><li><a href="/f/monitor_campaign_nor"><img src="https://shiraistore.itembox.design/item/src/gNav-banner-campaign20251114-20251119.jpg"></a></li></ul>';
+			var html = '<ul id="contents-banner"><li><a href="/f/monitor_campaign_nor"><img src="https://shiraistore.itembox.cloud/item/src/gNav-banner-campaign20251114-20251119.jpg"></a></li></ul>';
 
 			$('#productActionBox').after(html);
 		}
@@ -1284,34 +1284,34 @@ function productSortSelect() {
 function searchTagTitle() {
 	var params = parameterToArray();
 	if (params.tag == 'sale20260219-20260319') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20260219-20260319_1184x240.jpg" alt="新生活応援セール第1弾 対象商品">');
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.cloud/item/src/salePage-banner-sale20260219-20260319_1184x240.jpg" alt="新生活応援セール第1弾 対象商品">');
 		$('#fs_ProductSearch h1').html('新生活応援セール第1弾 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール第1弾 対象商品');
 		$('title').text('新生活応援セール第1弾 対象商品');
 	} else if (params.tag == 'sale20260217-20260224') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20260217-20260224_1184x240.jpg" alt="猫家具「ニャコモ」セール 対象商品">');
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.cloud/item/src/salePage-banner-sale20260217-20260224_1184x240.jpg" alt="猫家具「ニャコモ」セール 対象商品">');
 		$('#fs_ProductSearch h1').html('猫家具「ニャコモ」セール 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('猫家具「ニャコモ」セール 対象商品');
 		$('title').text('猫家具「ニャコモ」セール 対象商品');
 	} else if (params.tag == 'sale20250904-20250918') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-sale20250904-20250918_1184x240.jpg" alt="タナリオセール 対象商品">');
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.cloud/item/src/salePage-banner-sale20250904-20250918_1184x240.jpg" alt="タナリオセール 対象商品">');
 		$('#fs_ProductSearch h1').html('タナリオセール 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('タナリオセール 対象商品');
 		$('title').text('タナリオセール 対象商品');
 	} else if (params.tag == 'feature20250228-1') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-feature20250228.jpg" alt="入園・入学準備 キッズ家具特集">');
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.cloud/item/src/salePage-banner-feature20250228.jpg" alt="入園・入学準備 キッズ家具特集">');
 		$('#fs_ProductSearch h1').html('入園・入学準備 キッズ家具特集');
 		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li class="active">入園</li><li><a href="/p/search?tag=feature20250228-2">入学</a></li></ul>');
 		$('.fs-c-breadcrumb__listItem:last-child').text('入園・入学準備 キッズ家具特集');
 		$('title').text('入園・入学準備 キッズ家具特集');
 	} else if (params.tag == 'feature20250228-2') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-feature20250228.jpg" alt="入園・入学準備 キッズ家具特集">');
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.cloud/item/src/salePage-banner-feature20250228.jpg" alt="入園・入学準備 キッズ家具特集">');
 		$('#fs_ProductSearch h1').html('入園・入学準備 キッズ家具特集');
 		$('#fs_ProductSearch h1').after('<ul class="sale-tab"><li><a href="/p/search?tag=feature20250228-1">入園</a></li><li class="active">入学</li></ul>');
 		$('.fs-c-breadcrumb__listItem:last-child').text('入園・入学準備 キッズ家具特集');
 		$('title').text('入園・入学準備 キッズ家具特集');
 	} else if (params.tag == 'outlet') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-outlet_1184x240.jpg" alt="アウトレット家具 対象商品">');
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.cloud/item/src/salePage-banner-outlet_1184x240.jpg" alt="アウトレット家具 対象商品">');
 		$('#fs_ProductSearch h1').html('アウトレット家具 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('アウトレット家具 対象商品');
 		$('title').text('アウトレット家具対象商品 | 家具インテリア通販のSHIRAI STORE(白井産業)');
@@ -1321,7 +1321,7 @@ function searchTagTitle() {
 			'<div id="outlet-description"><h3>アウトレット家具について</h3><ul><li>廃番商品をアウトレット家具として特別価格でご提供しております。お届けする商品はすべて新品です。</li><li>アウトレット家具は在庫限りとなっております。商品の品質には万全を期しておりますが、万が一、返品交換の対象となった場合に交換品がご用意できない場合がございます。その際は返金にて対応させていただきます。</li><li>アウトレット家具は組立サービス対象外となっております。</li><li>ストア会員様は通常商品と同様に、商品割引クーポンと送料無料クーポンをお使いいただけます。</li></ul></div>'
 		);
 	} else if (params.tag == 'pricedown') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.design/item/src/salePage-banner-pricedown_1184x240.jpg" alt="価格見直し 対象商品">');
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.cloud/item/src/salePage-banner-pricedown_1184x240.jpg" alt="価格見直し 対象商品">');
 		$('#fs_ProductSearch h1').html('価格見直し 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('価格見直し 対象商品');
 		$('title').text('価格見直し 対象商品 | 家具インテリア通販のSHIRAI STORE(白井産業)');
@@ -1515,7 +1515,7 @@ function productVariation() {
 				} else if (seriesCode == 'gbp') {
 					seriesCode = 'gbt';
 				}
-				htmlSource = htmlSource + '<li data-productcode="' + productCode + '" class="' + activeFlag + '"><a href="/c/series/' + seriesCode + '/' + productCode + '"><img src="https://shiraistore.itembox.design/item/src/product_variation/' + productCode + '.jpg" alt=""><span>' + colorName + '</span></a></li>';
+				htmlSource = htmlSource + '<li data-productcode="' + productCode + '" class="' + activeFlag + '"><a href="/c/series/' + seriesCode + '/' + productCode + '"><img src="https://shiraistore.itembox.cloud/item/src/product_variation/' + productCode + '.jpg" alt=""><span>' + colorName + '</span></a></li>';
 			}
 			//$('#product-comment_5').html('<h4>カラー：' + variation_ary[0][1] + '</h4><ul>' + htmlSource + '</ul>');
 			$('#product-comment_5').html('<h4>カラー</h4><ul>' + htmlSource + '</ul>');
@@ -1616,7 +1616,7 @@ function productCompatibleList() {
 				}
 
 				if (productCode.indexOf('tnl-em') == -1) {
-					htmlSource = htmlSource + '<li><a  href="/c/series/' + seriesCode + '/' + productCode + '" class="compatibleItem"><img src="https://shiraistore.itembox.design/item/src/product_variation/' + productCode + '.jpg"><span>' + productName + '</span></a></li>';
+					htmlSource = htmlSource + '<li><a  href="/c/series/' + seriesCode + '/' + productCode + '" class="compatibleItem"><img src="https://shiraistore.itembox.cloud/item/src/product_variation/' + productCode + '.jpg"><span>' + productName + '</span></a></li>';
 				} else {
 					var url = $('link[rel="canonical"]').attr('href');
 					// console.log('url:',url);
@@ -1758,9 +1758,9 @@ function reviewSlideDown(id, cssHeight) {
 // 		id +
 // 		'/" target="_blank"><img width="320" data-src="' +
 // 		thumbnail_url +
-// 		'" src="https://shiraistore.itembox.design/item/src/loading.svg" id="thumbnail" class="lazyload" alt="instagramPost_' +
+// 		'" src="https://shiraistore.itembox.cloud/item/src/loading.svg" id="thumbnail" class="lazyload" alt="instagramPost_' +
 // 		id +
-// 		'"></a><span id="author"><img src="https://shiraistore.itembox.design/item/src/icon-instagram-gr.svg" width="16"><span>Photo by</span><a href=https://www.instagram.com/' +
+// 		'"></a><span id="author"><img src="https://shiraistore.itembox.cloud/item/src/icon-instagram-gr.svg" width="16"><span>Photo by</span><a href=https://www.instagram.com/' +
 // 		author_name +
 // 		' target="_blank">' +
 // 		author_name +
@@ -1850,7 +1850,7 @@ function reviewSlideDown(id, cssHeight) {
 // 			'/' +
 // 			productUrl +
 // 			'"><img data-src="' +
-// 			'https://shiraistore.itembox.design/product/' +
+// 			'https://shiraistore.itembox.cloud/product/' +
 // 			zeroPadding(item_image_group, 3) +
 // 			'/' +
 // 			productId_12Len +
@@ -1858,11 +1858,11 @@ function reviewSlideDown(id, cssHeight) {
 // 			productId_12Len +
 // 			'-' +
 // 			thumbNumber +
-// 			'-s.jpg" alt="instagramPost_' +
+// 			'.jpg?size=s&w=MjAw" alt="instagramPost_' +
 // 			id +
 // 			' ' +
 // 			productName +
-// 			'" src="https://shiraistore.itembox.design/item/src/loading.svg" class="lazyload"></a><p><a href="https://shirai-store.net/c/series/' +
+// 			'" src="https://shiraistore.itembox.cloud/item/src/loading.svg" class="lazyload"></a><p><a href="https://shirai-store.net/c/series/' +
 // 			seriesCode +
 // 			'/' +
 // 			productUrl +
@@ -2140,9 +2140,9 @@ function modal_content(data, thumbnail_url, element) {
 		id +
 		'/" target="_blank"><img width="320" data-src="' +
 		thumbnail_url +
-		'" src="https://shiraistore.itembox.design/item/src/loading.svg" id="thumbnail" class="lazyload" alt="sns_post_' +
+		'" src="https://shiraistore.itembox.cloud/item/src/loading.svg" id="thumbnail" class="lazyload" alt="sns_post_' +
 		id +
-		'"></a><span id="author"><img src="https://shiraistore.itembox.design/item/src/icon-instagram-gr.svg" width="16"><span>Photo by</span><a href=https://www.instagram.com/' +
+		'"></a><span id="author"><img src="https://shiraistore.itembox.cloud/item/src/icon-instagram-gr.svg" width="16"><span>Photo by</span><a href=https://www.instagram.com/' +
 		author_name +
 		' target="_blank">' +
 		author_name +
@@ -2153,9 +2153,9 @@ function modal_content(data, thumbnail_url, element) {
 		id +
 		'/" target="_blank"><img width="320" data-src="' +
 		thumbnail_url +
-		'" src="https://shiraistore.itembox.design/item/src/loading.svg" id="thumbnail" class="lazyload" alt="sns_post_' +
+		'" src="https://shiraistore.itembox.cloud/item/src/loading.svg" id="thumbnail" class="lazyload" alt="sns_post_' +
 		id +
-		'"></a><span id="author"><img src="https://shiraistore.itembox.design/item/src/icon-roomclip-gr.svg" width="16"><span>Photo by</span><a href=https://roomclip.jp/myroom/' +
+		'"></a><span id="author"><img src="https://shiraistore.itembox.cloud/item/src/icon-roomclip-gr.svg" width="16"><span>Photo by</span><a href=https://roomclip.jp/myroom/' +
 		user_id +
 		' target="_blank">' +
 		author_name +
@@ -2246,7 +2246,7 @@ function modal_content(data, thumbnail_url, element) {
 			'/' +
 			product_url +
 			'"><img data-src="' +
-			'https://shiraistore.itembox.design/product/' +
+			'https://shiraistore.itembox.cloud/product/' +
 			zeroPadding(item_image_group, 3) +
 			'/' +
 			product_id_12Len +
@@ -2254,11 +2254,11 @@ function modal_content(data, thumbnail_url, element) {
 			product_id_12Len +
 			'-' +
 			thumb_number +
-			'-s.jpg" alt="sns_post_' +
+			'.jpg?size=s&w=MjAw" alt="sns_post_' +
 			id +
 			' ' +
 			product_name +
-			'" src="https://shiraistore.itembox.design/item/src/loading.svg" class="lazyload"></a><p><a href="https://shirai-store.net/c/series/' +
+			'" src="https://shiraistore.itembox.cloud/item/src/loading.svg" class="lazyload"></a><p><a href="https://shirai-store.net/c/series/' +
 			series_code +
 			'/' +
 			product_url +
@@ -2395,9 +2395,9 @@ function modal_content_all(data, thumbnail_url, element) {
 		id +
 		'/" target="_blank"><img width="320" data-src="' +
 		thumbnail_url +
-		'" src="https://shiraistore.itembox.design/item/src/loading.svg" id="thumbnail" class="lazyload" alt="sns_post_' +
+		'" src="https://shiraistore.itembox.cloud/item/src/loading.svg" id="thumbnail" class="lazyload" alt="sns_post_' +
 		id +
-		'"></a><span id="author"><img src="https://shiraistore.itembox.design/item/src/icon-instagram-gr.svg" width="16"><span>Photo by</span><a href=https://www.instagram.com/' +
+		'"></a><span id="author"><img src="https://shiraistore.itembox.cloud/item/src/icon-instagram-gr.svg" width="16"><span>Photo by</span><a href=https://www.instagram.com/' +
 		author_name +
 		' target="_blank">' +
 		author_name +
@@ -2408,9 +2408,9 @@ function modal_content_all(data, thumbnail_url, element) {
 		id +
 		'/" target="_blank"><img width="320" data-src="' +
 		thumbnail_url +
-		'" src="https://shiraistore.itembox.design/item/src/loading.svg" id="thumbnail" class="lazyload" alt="sns_post_' +
+		'" src="https://shiraistore.itembox.cloud/item/src/loading.svg" id="thumbnail" class="lazyload" alt="sns_post_' +
 		id +
-		'"></a><span id="author"><img src="https://shiraistore.itembox.design/item/src/icon-roomclip-gr.svg" width="16"><span>Photo by</span><a href=https://roomclip.jp/myroom/' +
+		'"></a><span id="author"><img src="https://shiraistore.itembox.cloud/item/src/icon-roomclip-gr.svg" width="16"><span>Photo by</span><a href=https://roomclip.jp/myroom/' +
 		user_id +
 		' target="_blank">' +
 		author_name +
@@ -2501,7 +2501,7 @@ function modal_content_all(data, thumbnail_url, element) {
 			'/' +
 			product_url +
 			'"><img data-src="' +
-			'https://shiraistore.itembox.design/product/' +
+			'https://shiraistore.itembox.cloud/product/' +
 			zeroPadding(item_image_group, 3) +
 			'/' +
 			product_id_12Len +
@@ -2509,11 +2509,11 @@ function modal_content_all(data, thumbnail_url, element) {
 			product_id_12Len +
 			'-' +
 			thumb_number +
-			'-s.jpg" alt="sns_post_' +
+			'.jpg?size=s&w=MjAw" alt="sns_post_' +
 			id +
 			' ' +
 			product_name +
-			'" src="https://shiraistore.itembox.design/item/src/loading.svg" class="lazyload"></a><p><a href="https://shirai-store.net/c/series/' +
+			'" src="https://shiraistore.itembox.cloud/item/src/loading.svg" class="lazyload"></a><p><a href="https://shirai-store.net/c/series/' +
 			series_code +
 			'/' +
 			product_url +
@@ -2686,7 +2686,7 @@ function modal_content_all(data, thumbnail_url, element) {
 // 						seriesCode +
 // 						'/' +
 // 						productUrl +
-// 						'"><img src="https://shiraistore.itembox.design/product/' +
+// 						'"><img src="https://shiraistore.itembox.cloud/product/' +
 // 						zeroPadding(product_image_group, 3) +
 // 						'/' +
 // 						productId_12Len +
@@ -2694,7 +2694,7 @@ function modal_content_all(data, thumbnail_url, element) {
 // 						productId_12Len +
 // 						'-' +
 // 						thumbnail +
-// 						'-m.jpg" alt="' +
+// 						'.jpg?size=m&w=NDAw" alt="' +
 // 						productName +
 // 						'" >' +
 // 						productName +
@@ -2848,7 +2848,7 @@ function modal_content_all(data, thumbnail_url, element) {
 // 				productUrl +
 // 				'?fp=' +
 // 				category +
-// 				'ranking"><img src="https://shiraistore.itembox.design/product/' +
+// 				'ranking"><img src="https://shiraistore.itembox.cloud/product/' +
 // 				zeroPadding(product_image_group, 3) +
 // 				'/' +
 // 				productId_12Len +
@@ -2856,7 +2856,7 @@ function modal_content_all(data, thumbnail_url, element) {
 // 				productId_12Len +
 // 				'-' +
 // 				thumbnail +
-// 				'-m.jpg" alt="' +
+// 				'.jpg?size=m&w=NDAw" alt="' +
 // 				productName +
 // 				'" ><h3>' +
 // 				productName +
@@ -3048,7 +3048,7 @@ function modal_content_all(data, thumbnail_url, element) {
 // 				productUrl +
 // 				'?fp=' +
 // 				categoryUrl +
-// 				'HitItem"><div class="hitItemProduct_forFanplayr-inner-left"><img src="https://shiraistore.itembox.design/product/' +
+// 				'HitItem"><div class="hitItemProduct_forFanplayr-inner-left"><img src="https://shiraistore.itembox.cloud/product/' +
 // 				zeroPadding(product_image_group, 3) +
 // 				'/' +
 // 				productId_12Len +
@@ -3056,7 +3056,7 @@ function modal_content_all(data, thumbnail_url, element) {
 // 				productId_12Len +
 // 				'-' +
 // 				thumbnail +
-// 				'-s.jpg" alt="' +
+// 				'.jpg?size=s&w=MjAw" alt="' +
 // 				productName +
 // 				'" >' +
 // 				'</div><div class="hitItemProduct_forFanplayr-inner-right"><h4>HIT ITEM</h4><h5>' +
@@ -3230,7 +3230,7 @@ function modal_content_all(data, thumbnail_url, element) {
 // 				productUrl +
 // 				'?fp=' +
 // 				categoryUrl +
-// 				'HitItem"><div class="hitItemProduct_forFanplayr-inner-left"><img src="https://shiraistore.itembox.design/product/' +
+// 				'HitItem"><div class="hitItemProduct_forFanplayr-inner-left"><img src="https://shiraistore.itembox.cloud/product/' +
 // 				zeroPadding(product_image_group, 3) +
 // 				'/' +
 // 				productId_12Len +
@@ -3238,7 +3238,7 @@ function modal_content_all(data, thumbnail_url, element) {
 // 				productId_12Len +
 // 				'-' +
 // 				thumbnail +
-// 				'-s.jpg" alt="' +
+// 				'.jpg?size=s&w=MjAw" alt="' +
 // 				productName +
 // 				'" >' +
 // 				'</div><div class="hitItemProduct_forFanplayr-inner-right"><h4>HIT ITEM</h4><h5>' +
@@ -3410,7 +3410,7 @@ function get_top_ranking() {
 									seriesCode +
 									'/' +
 									sku_no +
-									'"><img src="https://shiraistore.itembox.design/product/' +
+									'"><img src="https://shiraistore.itembox.cloud/product/' +
 									zeroPadding(product_image_group, 3) +
 									'/' +
 									productId_12Len +
@@ -3418,7 +3418,7 @@ function get_top_ranking() {
 									productId_12Len +
 									'-' +
 									thumbnail +
-									'-m.jpg" alt="' +
+									'.jpg?size=m&w=NDAw" alt="' +
 									name +
 									'" ><h3>' +
 									name +
@@ -3634,7 +3634,7 @@ function get_top_ranking() {
 //                                 seriesCode +
 //                                 '/' +
 //                                 sku_no +
-//                                 '"><img src="https://shiraistore.itembox.design/product/' +
+//                                 '"><img src="https://shiraistore.itembox.cloud/product/' +
 //                                 zeroPadding(product_image_group, 3) +
 //                                 '/' +
 //                                 productId_12Len +
@@ -3642,7 +3642,7 @@ function get_top_ranking() {
 //                                 productId_12Len +
 //                                 '-' +
 //                                 thumbnail +
-//                                 '-m.jpg" alt="' +
+//                                 '.jpg?size=m&w=NDAw" alt="' +
 //                                 name +
 //                                 '" ><h3>' +
 //                                 name +
@@ -3863,7 +3863,7 @@ function getCouponItems() {
 					series_code +
 					'/' +
 					sku_no +
-					'"><img src="https://shiraistore.itembox.design/product/' +
+					'"><img src="https://shiraistore.itembox.cloud/product/' +
 					zeroPadding(product_image_group, 3) +
 					'/' +
 					product_id_12Len +
@@ -3871,7 +3871,7 @@ function getCouponItems() {
 					product_id_12Len +
 					'-' +
 					thumbnail +
-					'-m.jpg" alt="' +
+					'.jpg?size=m&w=NDAw" alt="' +
 					name +
 					'" ><h3>' +
 					name +
@@ -4059,7 +4059,7 @@ function getNewItems() {
 					series_code +
 					'/' +
 					sku_no +
-					'"><img src="https://shiraistore.itembox.design/product/' +
+					'"><img src="https://shiraistore.itembox.cloud/product/' +
 					zeroPadding(product_image_group, 3) +
 					'/' +
 					product_id_12Len +
@@ -4067,7 +4067,7 @@ function getNewItems() {
 					product_id_12Len +
 					'-' +
 					thumbnail +
-					'-m.jpg" alt="' +
+					'.jpg?size=m&w=NDAw" alt="' +
 					name +
 					'" ><h3>' +
 					name +
@@ -4255,7 +4255,7 @@ function get_outlet_items() {
 					series_code +
 					'/' +
 					sku_no +
-					'"><img src="https://shiraistore.itembox.design/product/' +
+					'"><img src="https://shiraistore.itembox.cloud/product/' +
 					zeroPadding(product_image_group, 3) +
 					'/' +
 					product_id_12Len +
@@ -4263,7 +4263,7 @@ function get_outlet_items() {
 					product_id_12Len +
 					'-' +
 					thumbnail +
-					'-m.jpg" alt="' +
+					'.jpg?size=m&w=NDAw" alt="' +
 					name +
 					'" ><h3>' +
 					name +
@@ -4451,7 +4451,7 @@ function get_sale_items() {
 					series_code +
 					'/' +
 					sku_no +
-					'"><img src="https://shiraistore.itembox.design/product/' +
+					'"><img src="https://shiraistore.itembox.cloud/product/' +
 					zeroPadding(product_image_group, 3) +
 					'/' +
 					product_id_12Len +
@@ -4459,7 +4459,7 @@ function get_sale_items() {
 					product_id_12Len +
 					'-' +
 					thumbnail +
-					'-m.jpg" alt="' +
+					'.jpg?size=m&w=NDAw" alt="' +
 					name +
 					'" ><h3>' +
 					name +
@@ -4650,7 +4650,7 @@ function sale_list() {
 					series_code +
 					'/' +
 					sku_no +
-					'"><img src="https://shiraistore.itembox.design/product/' +
+					'"><img src="https://shiraistore.itembox.cloud/product/' +
 					zeroPadding(product_image_group, 3) +
 					'/' +
 					product_id_12Len +
@@ -4658,7 +4658,7 @@ function sale_list() {
 					product_id_12Len +
 					'-' +
 					thumbnail +
-					'-m.jpg" alt="' +
+					'.jpg?size=m&w=NDAw" alt="' +
 					name +
 					'" ><h2>' +
 					name +
@@ -4849,7 +4849,7 @@ function ranking_list() {
 								series_code +
 								'/' +
 								sku_no +
-								'"><img src="https://shiraistore.itembox.design/product/' +
+								'"><img src="https://shiraistore.itembox.cloud/product/' +
 								zeroPadding(product_image_group, 3) +
 								'/' +
 								product_id_12Len +
@@ -4857,7 +4857,7 @@ function ranking_list() {
 								product_id_12Len +
 								'-' +
 								thumbnail +
-								'-m.jpg" alt="' +
+								'.jpg?size=m&w=NDAw" alt="' +
 								name +
 								'" ><h2>' +
 								name +
@@ -5080,41 +5080,41 @@ function rewriteDOM() {
 
 		//URLで分岐
 		if (location.href.match('por-5530du|hnb-4540d|por-1830d|brm-1840d')) {
-			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-doorOpeningDirection.png">');
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.cloud/item/src/product_detail/detail-doorOpeningDirection.png">');
 		} else if (location.href.match('adl')) {
-			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-adlOpeningDirection.png">');
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.cloud/item/src/product_detail/detail-adlOpeningDirection.png">');
 		} else if (location.href.match('lge-1612-na')) {
-			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-1612-na.png">');
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.cloud/item/src/product_detail/detail-lgeOption-1612-na.png">');
 		} else if (location.href.match('lge-1612-iv')) {
-			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-1612-iv.png">');
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.cloud/item/src/product_detail/detail-lgeOption-1612-iv.png">');
 		} else if (location.href.match('lge-1612-dk')) {
-			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-1612-dk.png">');
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.cloud/item/src/product_detail/detail-lgeOption-1612-dk.png">');
 		} else if (location.href.match('lge-1212-na')) {
-			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-1212-na.png">');
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.cloud/item/src/product_detail/detail-lgeOption-1212-na.png">');
 		} else if (location.href.match('lge-1212-iv')) {
-			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-1212-iv.png">');
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.cloud/item/src/product_detail/detail-lgeOption-1212-iv.png">');
 		} else if (location.href.match('lge-1212-dk')) {
-			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-1212-dk.png">');
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.cloud/item/src/product_detail/detail-lgeOption-1212-dk.png">');
 		} else if (location.href.match('lge-1285-na')) {
-			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-1285-na.png">');
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.cloud/item/src/product_detail/detail-lgeOption-1285-na.png">');
 		} else if (location.href.match('lge-1285-iv')) {
-			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-1285-iv.png">');
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.cloud/item/src/product_detail/detail-lgeOption-1285-iv.png">');
 		} else if (location.href.match('lge-1285-dk')) {
-			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-1285-dk.png">');
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.cloud/item/src/product_detail/detail-lgeOption-1285-dk.png">');
 		} else if (location.href.match('lge-8545-na')) {
-			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-8545-na.png">');
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.cloud/item/src/product_detail/detail-lgeOption-8545-na.png">');
 		} else if (location.href.match('lge-8545-iv')) {
-			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-8545-iv.png">');
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.cloud/item/src/product_detail/detail-lgeOption-8545-iv.png">');
 		} else if (location.href.match('lge-8545-dk')) {
-			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-8545-dk.png">');
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.cloud/item/src/product_detail/detail-lgeOption-8545-dk.png">');
 		} else if (location.href.match('lge-8585-na')) {
-			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-8585-na.png">');
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.cloud/item/src/product_detail/detail-lgeOption-8585-na.png">');
 		} else if (location.href.match('lge-8585-iv')) {
-			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-8585-iv.png">');
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.cloud/item/src/product_detail/detail-lgeOption-8585-iv.png">');
 		} else if (location.href.match('lge-8585-dk')) {
-			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-lgeOption-8585-dk.png">');
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.cloud/item/src/product_detail/detail-lgeOption-8585-dk.png">');
 		} else if (location.href.match('sep-1690ar')) {
-			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.design/item/src/product_detail/detail-sepOption.png">');
+			$('.fs-c-productSelection .fs-c-productSelection__field').append('<img src="https://shiraistore.itembox.cloud/item/src/product_detail/detail-sepOption.png">');
 		}
 
 		//組立サービス変更
@@ -5141,23 +5141,23 @@ function rewriteDOM() {
 		if (location.href.match('lmd-2085d')) {
 			// console.log('match!');
 			var deliveryCaution = 
-				'<div class="deliveryCaution mt-8" style=""><p style="font-size: 1.2rem;" class="red">【ご注意】<br>この商品は、上部と下部をそれぞれ工場にて組み立て、梱包を2つに分けて発送いたします。<u>配送業者がお客様指定の場所に運び入れ、上部と下部の連結作業を行います。</u>作業時間が10〜20分程度を要しますのでご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合がございます。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■この商品の梱包サイズ<br>上部：幅92cm 高さ132cm 奥行44cm<br>下部：幅92cm 高さ81cm 奥行44cm</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下や階段の折り返しスペースの広さが、商品サイズに対し十分な余裕があるか<br>・出入り口の幅と高さが、商品サイズに対し十分な余裕があるか<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.design/item/src/product_detail/detail_delivery_route.png" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>'
+				'<div class="deliveryCaution mt-8" style=""><p style="font-size: 1.2rem;" class="red">【ご注意】<br>この商品は、上部と下部をそれぞれ工場にて組み立て、梱包を2つに分けて発送いたします。<u>配送業者がお客様指定の場所に運び入れ、上部と下部の連結作業を行います。</u>作業時間が10〜20分程度を要しますのでご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合がございます。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■この商品の梱包サイズ<br>上部：幅92cm 高さ132cm 奥行44cm<br>下部：幅92cm 高さ81cm 奥行44cm</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下や階段の折り返しスペースの広さが、商品サイズに対し十分な余裕があるか<br>・出入り口の幅と高さが、商品サイズに対し十分な余裕があるか<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.cloud/item/src/product_detail/detail_delivery_route.png" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>'
 		} else if (location.href.match('cma-1890h')) {
 			// console.log('match!');
 			var deliveryCaution = 
-				'<div class="deliveryCaution mt-8" style=""><p style="font-size: 1.2rem;" class="red">【ご注意】<br>この商品は、上部と下部をそれぞれ工場にて組み立て、梱包を2つに分けて発送いたします。<u>配送業者がお客様指定の場所に運び入れ、上部と下部の連結作業を行います。</u>作業時間が10〜20分程度を要しますのでご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合がございます。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■この商品の梱包サイズ<br>上部：幅94cm 高さ96cm 奥行57cm<br>下部：幅94cm 高さ95cm 奥行60cm</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下や階段の折り返しスペースの広さが、商品サイズに対し十分な余裕があるか<br>・出入り口の幅と高さが、商品サイズに対し十分な余裕があるか<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.design/item/src/product_detail/detail_delivery_route.png" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>'
+				'<div class="deliveryCaution mt-8" style=""><p style="font-size: 1.2rem;" class="red">【ご注意】<br>この商品は、上部と下部をそれぞれ工場にて組み立て、梱包を2つに分けて発送いたします。<u>配送業者がお客様指定の場所に運び入れ、上部と下部の連結作業を行います。</u>作業時間が10〜20分程度を要しますのでご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合がございます。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■この商品の梱包サイズ<br>上部：幅94cm 高さ96cm 奥行57cm<br>下部：幅94cm 高さ95cm 奥行60cm</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下や階段の折り返しスペースの広さが、商品サイズに対し十分な余裕があるか<br>・出入り口の幅と高さが、商品サイズに対し十分な余裕があるか<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.cloud/item/src/product_detail/detail_delivery_route.png" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>'
 		} else if (location.href.match('cma-1812sla')) {
 			// console.log('match!');
 			var deliveryCaution = 
-				'<div class="deliveryCaution mt-8" style=""><p style="font-size: 1.2rem;" class="red">【ご注意】<br>この商品は、上部と下部をそれぞれ工場にて組み立て、梱包を2つに分けて発送いたします。<u>配送業者がお客様指定の場所に運び入れ、上部と下部の連結作業を行います。</u>作業時間が10〜20分程度を要しますのでご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合がございます。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■この商品の梱包サイズ<br>上部：幅124cm 高さ95cm 奥行57cm<br>下部：幅124cm 高さ96cm 奥行60cm</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下や階段の折り返しスペースの広さが、商品サイズに対し十分な余裕があるか<br>・出入り口の幅と高さが、商品サイズに対し十分な余裕があるか<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.design/item/src/product_detail/detail_delivery_route.png" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>'
+				'<div class="deliveryCaution mt-8" style=""><p style="font-size: 1.2rem;" class="red">【ご注意】<br>この商品は、上部と下部をそれぞれ工場にて組み立て、梱包を2つに分けて発送いたします。<u>配送業者がお客様指定の場所に運び入れ、上部と下部の連結作業を行います。</u>作業時間が10〜20分程度を要しますのでご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合がございます。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■この商品の梱包サイズ<br>上部：幅124cm 高さ95cm 奥行57cm<br>下部：幅124cm 高さ96cm 奥行60cm</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下や階段の折り返しスペースの広さが、商品サイズに対し十分な余裕があるか<br>・出入り口の幅と高さが、商品サイズに対し十分な余裕があるか<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.cloud/item/src/product_detail/detail_delivery_route.png" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>'
 		} else if (location.href.match('cma-1812slb')) {
 			// console.log('match!');
 			var deliveryCaution = 
-				'<div class="deliveryCaution mt-8" style=""><p style="font-size: 1.2rem;" class="red">【ご注意】<br>この商品は、上部と下部をそれぞれ工場にて組み立て、梱包を2つに分けて発送いたします。<u>配送業者がお客様指定の場所に運び入れ、上部と下部の連結作業を行います。</u>作業時間が10〜20分程度を要しますのでご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合がございます。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■この商品の梱包サイズ<br>上部：幅124cm 高さ95cm 奥行56cm<br>下部：幅124cm 高さ96cm 奥行57cm</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下や階段の折り返しスペースの広さが、商品サイズに対し十分な余裕があるか<br>・出入り口の幅と高さが、商品サイズに対し十分な余裕があるか<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.design/item/src/product_detail/detail_delivery_route.png" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>'
+				'<div class="deliveryCaution mt-8" style=""><p style="font-size: 1.2rem;" class="red">【ご注意】<br>この商品は、上部と下部をそれぞれ工場にて組み立て、梱包を2つに分けて発送いたします。<u>配送業者がお客様指定の場所に運び入れ、上部と下部の連結作業を行います。</u>作業時間が10〜20分程度を要しますのでご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合がございます。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■この商品の梱包サイズ<br>上部：幅124cm 高さ95cm 奥行56cm<br>下部：幅124cm 高さ96cm 奥行57cm</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下や階段の折り返しスペースの広さが、商品サイズに対し十分な余裕があるか<br>・出入り口の幅と高さが、商品サイズに対し十分な余裕があるか<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.cloud/item/src/product_detail/detail_delivery_route.png" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>'
 		} else {
 			// console.log('not match...');
 			var deliveryCaution =
-				'<div class="deliveryCaution mt-8"><p style="font-size: 1.2rem;">【お願い】<br>■輸送時における破損軽減のため、移動棚・取っ手・フット・キャスター・引戸ガラス等の一部部品は、お客様ご自身でのお取り付けをお願いしております。ご了承ください。</p><p style="font-size: 1.1rem;">※商品によって異なります。</p><p style="font-size: 1.2rem;">■[組立済+搬入]サービスには、<u>以下ような工具が必要となる作業は含まれておりません。</u><br>・商品同士の「上下」「左右」の連結作業<br>・扉の「隙間」や「傾き」の調節作業<br>これら作業はお客様ご自身での対応となります。ご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合がございます。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下や階段の折り返しスペースの広さが、商品サイズに対し十分な余裕があるか<br>・出入り口の幅と高さが、商品サイズに対し十分な余裕があるか<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.design/item/src/product_detail/detail_delivery_route.png" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>';
+				'<div class="deliveryCaution mt-8"><p style="font-size: 1.2rem;">【お願い】<br>■輸送時における破損軽減のため、移動棚・取っ手・フット・キャスター・引戸ガラス等の一部部品は、お客様ご自身でのお取り付けをお願いしております。ご了承ください。</p><p style="font-size: 1.1rem;">※商品によって異なります。</p><p style="font-size: 1.2rem;">■[組立済+搬入]サービスには、<u>以下ような工具が必要となる作業は含まれておりません。</u><br>・商品同士の「上下」「左右」の連結作業<br>・扉の「隙間」や「傾き」の調節作業<br>これら作業はお客様ご自身での対応となります。ご了承ください。</p><p style="font-size: 1.2rem;">【搬入経路について】<br>商品の大きさにより玄関またはお部屋まで搬入できない場合がございます。<br>ご注文の際は、必ず事前に商品サイズと設置場所までの搬入経路をご確認ください。</p><p style="font-size: 1.2rem;">■購入前にご確認いただきたいポイント<br>・廊下や階段の折り返しスペースの広さが、商品サイズに対し十分な余裕があるか<br>・出入り口の幅と高さが、商品サイズに対し十分な余裕があるか<br>・家の前の道路へトラックが出入りできるかどうか</p><img src="https://shiraistore.itembox.cloud/item/src/product_detail/detail_delivery_route.png" class="mt-8 mb-8"><p class="red" style="font-size: 1.1rem;">商品の運び入れができない場合であっても、返品をお受けすることができません。<br>また、商品を配送業者が持ち戻った場合でも、再配送のご対応はできかねます。</p></div>';
 		}
 
 		$(deliveryCaution).insertAfter('.fs-c-productOption__comment');
@@ -5199,21 +5199,21 @@ function rewriteDOM() {
 		// console.log('seriseCode:', seriseCode);
 
 		if (seriseCode.indexOf('tnl-t') != -1) {
-			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div>【サイズオーダー】ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-emts">横幅1cm単位でご注文はこちら</a></div></div>');
+			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.cloud/item/src/icon-sizeOrder.svg" width="30"><div>【サイズオーダー】ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-emts">横幅1cm単位でご注文はこちら</a></div></div>');
 		} else if (seriseCode.indexOf('tnl-198') != -1 || seriseCode.indexOf('tnl-18') != -1) {
 			// $('.fs-c-productPostage').after(
-			// 	'<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div><span class="mark-sale fs-c-productMark__mark--0 fs-c-productMark__mark"><span class="fs-c-productMark__label">サイズオーダー 10%OFF SALE</span></span><br>ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-em-introduction">横幅1cm単位でご注文はこちら</a><a href="/f/sizeOrder/tnl-emu">上置きのご注文はこちら</a></span></div></div>'
+			// 	'<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.cloud/item/src/icon-sizeOrder.svg" width="30"><div><span class="mark-sale fs-c-productMark__mark--0 fs-c-productMark__mark"><span class="fs-c-productMark__label">サイズオーダー 10%OFF SALE</span></span><br>ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-em-introduction">横幅1cm単位でご注文はこちら</a><a href="/f/sizeOrder/tnl-emu">上置きのご注文はこちら</a></span></div></div>'
 			// );
-			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div>ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-em-introduction">横幅1cm単位でご注文はこちら</a><a href="/f/sizeOrder/tnl-emu">上置きのご注文はこちら</a></span></div></div>');
+			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.cloud/item/src/icon-sizeOrder.svg" width="30"><div>ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-em-introduction">横幅1cm単位でご注文はこちら</a><a href="/f/sizeOrder/tnl-emu">上置きのご注文はこちら</a></span></div></div>');
 		} else if (seriseCode.indexOf('tnl-') != -1) {
-			// $('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div><span class="mark-sale fs-c-productMark__mark--0 fs-c-productMark__mark"><span class="fs-c-productMark__label">サイズオーダー 10%OFF SALE</span></span><br>ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-em-introduction">横幅1cm単位でご注文はこちら</a></div></div>');
-			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div>ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-em-introduction">横幅1cm単位でご注文はこちら</a></div></div>');
+			// $('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.cloud/item/src/icon-sizeOrder.svg" width="30"><div><span class="mark-sale fs-c-productMark__mark--0 fs-c-productMark__mark"><span class="fs-c-productMark__label">サイズオーダー 10%OFF SALE</span></span><br>ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-em-introduction">横幅1cm単位でご注文はこちら</a></div></div>');
+			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.cloud/item/src/icon-sizeOrder.svg" width="30"><div>ご希望のサイズでお作りします。<a href="/f/sizeOrder/tnl-em-introduction">横幅1cm単位でご注文はこちら</a></div></div>');
 		} else if (seriseCode.match(/.*sep-[0-9]{4}?-.*/) != null) {
-			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div>【サイズオーダー】1〜30マスまでご希望のサイズでお作りします。<a href="/f/sizeOrder/sep-emrack">1マス単位でのご注文はこちら</a></div></div>');
+			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.cloud/item/src/icon-sizeOrder.svg" width="30"><div>【サイズオーダー】1〜30マスまでご希望のサイズでお作りします。<a href="/f/sizeOrder/sep-emrack">1マス単位でのご注文はこちら</a></div></div>');
 		} else if (seriseCode.match(/.*sep-[0-9]{4}?desk.+-.*/) != null) {
-			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div>【サイズオーダー】横幅60〜210cmまでご希望のサイズでお作りします。<a href="/f/sizeOrder/sep-emdesk">横幅1cm単位でご注文はこちら</a></div></div>');
+			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.cloud/item/src/icon-sizeOrder.svg" width="30"><div>【サイズオーダー】横幅60〜210cmまでご希望のサイズでお作りします。<a href="/f/sizeOrder/sep-emdesk">横幅1cm単位でご注文はこちら</a></div></div>');
 		} else if (seriseCode.match(/.*por-[0-9]{4}?du-.*/) != null) {
-			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.design/item/src/icon-sizeOrder.svg" width="30"><div>【サイズオーダー】天井の高さに合わせてご希望のサイズでお作りします。<a href="/f/sizeOrder/por-emdu">特別なサイズのご注文はこちら</a></div></div>');
+			$('.fs-c-productPostage').after('<div class="sizeOrder_bannar"><img src="https://shiraistore.itembox.cloud/item/src/icon-sizeOrder.svg" width="30"><div>【サイズオーダー】天井の高さに合わせてご希望のサイズでお作りします。<a href="/f/sizeOrder/por-emdu">特別なサイズのご注文はこちら</a></div></div>');
 		}
 
 		// console.log('match:', seriseCode.match(/.*sep-[0-9]{4}?-.*/));
@@ -5482,10 +5482,10 @@ function pinterestTagWrite() {
 		var url = $('link[rel="canonical"]').attr('href');
 		var imgsrc = $('.fs-c-productPlainImage--0 img')
 			.data('layzr')
-			.replace('-l.jpg', '-xl.jpg')
+			.replace('.jpg?size=l&w=ODAw', '.jpg?size=xl&w=MTIwMA')
 			.replace(/\?t=.*/g, '');
 		var description = $('meta[name="description"]').attr('content');
-		$('#product-sns-share ul li:last-child').after('<li><a data-pin-do="buttonPin" data-pin-tall="true" data-pin-round="true" target="_blank" href="https://www.pinterest.com/pin/create/button/?url=' + url + '&media=' + imgsrc + '&description=' + description + '"><img src="https://shiraistore.itembox.design/item/src/icon-pinterest-bk.svg" /></a></li>');
+		$('#product-sns-share ul li:last-child').after('<li><a data-pin-do="buttonPin" data-pin-tall="true" data-pin-round="true" target="_blank" href="https://www.pinterest.com/pin/create/button/?url=' + url + '&media=' + imgsrc + '&description=' + description + '"><img src="https://shiraistore.itembox.cloud/item/src/icon-pinterest-bk.svg" /></a></li>');
 	}
 }
 
@@ -5929,7 +5929,7 @@ function multipleReviewList() {
 							seriesCode +
 							'/' +
 							productUrl +
-							'"><img src="https://shiraistore.itembox.design/product/' +
+							'"><img src="https://shiraistore.itembox.cloud/product/' +
 							zeroPadding(product_image_group, 3) +
 							'/' +
 							productId_12Len +
@@ -5937,7 +5937,7 @@ function multipleReviewList() {
 							productId_12Len +
 							'-' +
 							thumbnail +
-							'-xs.jpg" alt="" ></a></div>';
+							'.jpg?size=xs&w=MTAw" alt="" ></a></div>';
 		
 						var h = '<li class="fs-c-reviewList__item reviewScore-' + reviewScoreToFixed + '">' + imageHTML + '<div class="reviewContent">' + reviewerHTML + profHTML + dateHTML + colorHTML + commentHTML + '</div></li>';
 		
@@ -6375,7 +6375,7 @@ function productDetailAddData() {
 					} else if (seriesCode == 'gbp') {
 						seriesCode = 'gbt';
 					}
-					htmlSource = htmlSource + '<li data-productcode="' + productCode + '" class="' + activeFlag + '"><a href="/c/series/' + seriesCode + '/' + productCode + '"><img src="https://shiraistore.itembox.design/item/src/product_variation/' + productCode + '.jpg" alt=""><span>' + colorName + '</span></a></li>';
+					htmlSource = htmlSource + '<li data-productcode="' + productCode + '" class="' + activeFlag + '"><a href="/c/series/' + seriesCode + '/' + productCode + '"><img src="https://shiraistore.itembox.cloud/item/src/product_variation/' + productCode + '.jpg" alt=""><span>' + colorName + '</span></a></li>';
 				}
 				$('#product-comment_5').html('<h4>カラー</h4><ul>' + htmlSource + '</ul>');
 	
@@ -6445,7 +6445,7 @@ function productDetailAddData() {
 				}
 
 				if (productCode.indexOf('tnl-em') == -1) {
-					htmlSource = htmlSource + '<li><a  href="/c/series/' + seriesCode + '/' + productCode + '" class="compatibleItem"><img src="https://shiraistore.itembox.design/item/src/product_variation/' + productCode + '.jpg"><span>' + productName + '</span></a></li>';
+					htmlSource = htmlSource + '<li><a  href="/c/series/' + seriesCode + '/' + productCode + '" class="compatibleItem"><img src="https://shiraistore.itembox.cloud/item/src/product_variation/' + productCode + '.jpg"><span>' + productName + '</span></a></li>';
 				} else {
 					var url = $('link[rel="canonical"]').attr('href');
 					// console.log('url:',url);
@@ -6573,7 +6573,7 @@ function productDetailAddData() {
 					seriesCode +
 					'/' +
 					productUrl +
-					'"><img src="https://shiraistore.itembox.design/product/' +
+					'"><img src="https://shiraistore.itembox.cloud/product/' +
 					zeroPadding(product_image_group, 3) +
 					'/' +
 					productId_12Len +
@@ -6581,7 +6581,7 @@ function productDetailAddData() {
 					productId_12Len +
 					'-' +
 					thumbnail +
-					'-m.jpg" alt="' +
+					'.jpg?size=m&w=NDAw" alt="' +
 					productName +
 					'" ><h3>' +
 					productName +
@@ -6760,9 +6760,9 @@ function productDetailAddData() {
 
 				if (i == 0) {
 					comparisonImage +=
-						'<td><div class="displayProduct">表示中</div><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.design/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '-m.jpg" alt="" >' + comparisonIconHtml + productName + '</td>';
+						'<td><div class="displayProduct">表示中</div><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.cloud/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '.jpg?size=m&w=NDAw" alt="" >' + comparisonIconHtml + productName + '</td>';
 				} else {
-					comparisonImage += '<td><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.design/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '-m.jpg" alt="" >' + comparisonIconHtml + '</div>' + productName + '</td>';
+					comparisonImage += '<td><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.cloud/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '.jpg?size=m&w=NDAw" alt="" >' + comparisonIconHtml + '</div>' + productName + '</td>';
 				}
 
 				// += '<td><div>' + iconHtml + '</div><a href="/c/series/' + seriesCode + '/' + productUrl + '">' + productName + '</a></td>'
@@ -6867,7 +6867,7 @@ function productDetailAddData() {
 
 			var commentHTML = '<div class="fs-c-reviewList__item__body fs-c-reviewBody">' + reviewBody + '</div>';
 
-			var imageHTML = '<div class="reviewImage"><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.design/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '-xs.jpg" alt="" ></a></div>';
+			var imageHTML = '<div class="reviewImage"><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.cloud/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '.jpg?size=xs&w=MTAw" alt="" ></a></div>';
 
 			var h = '<li class="fs-c-reviewList__item reviewScore-' + reviewScoreToFixed + '">' + imageHTML + '<div class="reviewContent">' + reviewerHTML + profHTML + dateHTML + colorHTML + commentHTML + '</div></li>';
 
@@ -7073,7 +7073,7 @@ function productDetailAddData() {
 					seriesCode +
 					'/' +
 					productUrl +
-					'"><img src="https://shiraistore.itembox.design/product/' +
+					'"><img src="https://shiraistore.itembox.cloud/product/' +
 					zeroPadding(product_image_group, 3) +
 					'/' +
 					productId_12Len +
@@ -7081,7 +7081,7 @@ function productDetailAddData() {
 					productId_12Len +
 					'-' +
 					thumbnail +
-					'-m.jpg" alt="' +
+					'.jpg?size=m&w=NDAw" alt="' +
 					productName +
 					'" ><h3>' +
 					productName +
@@ -7203,7 +7203,7 @@ function productDetailAddData() {
 					seriesCode +
 					'/' +
 					productUrl +
-					'"><img src="https://shiraistore.itembox.design/product/' +
+					'"><img src="https://shiraistore.itembox.cloud/product/' +
 					zeroPadding(product_image_group, 3) +
 					'/' +
 					productId_12Len +
@@ -7211,7 +7211,7 @@ function productDetailAddData() {
 					productId_12Len +
 					'-' +
 					thumbnail +
-					'-m.jpg" alt="' +
+					'.jpg?size=m&w=NDAw" alt="' +
 					productName +
 					'" ><h3>' +
 					productName +
@@ -7276,7 +7276,7 @@ function productDetailAddData() {
 		// 		$('#feature').before(
 		// 			'<div id="shirai_fan"><h2 class="productDescriptionTitle">みんなの投稿写真<span>#shirai_fan</span></h2><p class="text-center">Instagramでみなさんに投稿していただいた写真をご紹介しています。</p><ul id="postedList">' +
 		// 				listHtml +
-		// 				'</ul><div class="fs-c-buttonContainer more-button"><a href="/f/shirai_fan" class="fs-c-button--standard">その他の投稿を見る</a></div><div id="instagramPost-modal" class="modal"><div class="modal-bg modal-close"></div><div id="instagramPost-modal_outer" class="modal-close"><div class="modal-content"><div class="modal-content_inner"></div><a class="modal-close_btn modal-close" href=""><img src="https://shiraistore.itembox.design/item/src/icon-close.svg" alt="閉じる" title="閉じる"></a><ul id="modal-control"><li class="modal-ctr-open prev" data-target="instagramPost-modal" data-postid=""></li><li class="modal-ctr-open next" data-target="instagramPost-modal" data-postid=""></li></ul></div></div></div></div></div>'
+		// 				'</ul><div class="fs-c-buttonContainer more-button"><a href="/f/shirai_fan" class="fs-c-button--standard">その他の投稿を見る</a></div><div id="instagramPost-modal" class="modal"><div class="modal-bg modal-close"></div><div id="instagramPost-modal_outer" class="modal-close"><div class="modal-content"><div class="modal-content_inner"></div><a class="modal-close_btn modal-close" href=""><img src="https://shiraistore.itembox.cloud/item/src/icon-close.svg" alt="閉じる" title="閉じる"></a><ul id="modal-control"><li class="modal-ctr-open prev" data-target="instagramPost-modal" data-postid=""></li><li class="modal-ctr-open next" data-target="instagramPost-modal" data-postid=""></li></ul></div></div></div></div></div>'
 		// 		);
 		// 	}
 
@@ -7374,13 +7374,13 @@ function productDetailAddData() {
 					<ul class="set-select-list">
 						<li data-type="single" class="active">
 							<span>
-								<img src="https://shiraistore.itembox.design/item/src/product_variation/${currentProductCode}.jpg" alt="単品">
+								<img src="https://shiraistore.itembox.cloud/item/src/product_variation/${currentProductCode}.jpg" alt="単品">
 								<span>単品購入<br><span class="single-price">¥${currentSinglePriceText}</span></span>
 							</span>
 						</li>
 						<li data-type="set">
 							<span>
-								<img src="https://shiraistore.itembox.design/item/src/product_variation/${setProductCode}.jpg" alt="2個セット">
+								<img src="https://shiraistore.itembox.cloud/item/src/product_variation/${setProductCode}.jpg" alt="2個セット">
 								<span>2個セット購入<br><span class="set-price" id="btn-set-price">...</span></span>
 							</span>
 						</li>
@@ -8610,7 +8610,7 @@ function categoryNameShorter(categoryName) {
 // 				seriesCode +
 // 				'/' +
 // 				productUrl +
-// 				'"><img src="https://shiraistore.itembox.design/product/' +
+// 				'"><img src="https://shiraistore.itembox.cloud/product/' +
 // 				zeroPadding(product_image_group, 3) +
 // 				'/' +
 // 				productId_12Len +
@@ -8618,7 +8618,7 @@ function categoryNameShorter(categoryName) {
 // 				productId_12Len +
 // 				'-' +
 // 				thumbnail +
-// 				'-m.jpg" alt="' +
+// 				'.jpg?size=m&w=NDAw" alt="' +
 // 				productName +
 // 				'" ><h3>' +
 // 				productName +
@@ -8757,8 +8757,8 @@ function recommendTop10() {
       }
 
       var h =
-        '<li><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.design/product/' +
-        zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '-m.jpg" alt="' + productName + '" >' +
+        '<li><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.cloud/product/' +
+        zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '.jpg?size=m&w=NDAw" alt="' + productName + '" >' +
         '<h3>' + productName + '</h3></a>' +
         '<div class="productMarks">' + iconHtml + '</div>' +
         '<div class="productSize">' + size + '</div>' +
@@ -8897,7 +8897,7 @@ function recommendTop10() {
 // 				seriesCode +
 // 				'/' +
 // 				productUrl +
-// 				'"><img src="https://shiraistore.itembox.design/product/' +
+// 				'"><img src="https://shiraistore.itembox.cloud/product/' +
 // 				zeroPadding(product_image_group, 3) +
 // 				'/' +
 // 				productId_12Len +
@@ -8905,7 +8905,7 @@ function recommendTop10() {
 // 				productId_12Len +
 // 				'-' +
 // 				thumbnail +
-// 				'-m.jpg" alt="' +
+// 				'.jpg?size=m&w=NDAw" alt="' +
 // 				productName +
 // 				'" ><h3>' +
 // 				productName +
@@ -9056,8 +9056,8 @@ function recommendList() {
       }
 
       var h =
-        '<li><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.design/product/' +
-        zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '-m.jpg" alt="' + productName + '" >' +
+        '<li><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.cloud/product/' +
+        zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '.jpg?size=m&w=NDAw" alt="' + productName + '" >' +
         '<h2>' + productName + '</h2></a>' +
         '<div class="productMarks">' + iconHtml + '</div>' +
         '<div class="productSize">' + sizeStr + '</div>' +
@@ -9178,7 +9178,7 @@ function recommendList() {
 // 				seriesCode +
 // 				'/' +
 // 				productUrl +
-// 				'"><img src="https://shiraistore.itembox.design/product/' +
+// 				'"><img src="https://shiraistore.itembox.cloud/product/' +
 // 				zeroPadding(product_image_group, 3) +
 // 				'/' +
 // 				productId_12Len +
@@ -9186,7 +9186,7 @@ function recommendList() {
 // 				productId_12Len +
 // 				'-' +
 // 				thumbnail +
-// 				'-m.jpg" alt="' +
+// 				'.jpg?size=m&w=NDAw" alt="' +
 // 				productName +
 // 				'" ><h2>' +
 // 				productName +
@@ -9324,7 +9324,7 @@ function recommendList() {
 // 				seriesCode +
 // 				'/' +
 // 				productUrl +
-// 				'"><img src="https://shiraistore.itembox.design/product/' +
+// 				'"><img src="https://shiraistore.itembox.cloud/product/' +
 // 				zeroPadding(product_image_group, 3) +
 // 				'/' +
 // 				productId_12Len +
@@ -9332,7 +9332,7 @@ function recommendList() {
 // 				productId_12Len +
 // 				'-' +
 // 				thumbnail +
-// 				'-m.jpg" alt="' +
+// 				'.jpg?size=m&w=NDAw" alt="' +
 // 				productName +
 // 				'" ><h2>' +
 // 				productName +
@@ -10550,7 +10550,7 @@ function cart_size_order_dom_change(){
 
 		$('.readyMade .fs-c-productImage img ').each(function () {
 			var readyMadeImage = $(this).attr('src');
-			readyMadeImage = readyMadeImage.replace(/[0-9]{2}-xs.jpg/, '02-xs.jpg');
+			readyMadeImage = readyMadeImage.replace(/[0-9]{2}.jpg?size=xs&w=MTAw/, '02.jpg?size=xs&w=MTAw');
 			//console.log(readyMadeImage);
 			$(this).attr('src', readyMadeImage);
 		});
@@ -10680,7 +10680,7 @@ function info_get_coupon() {
 function info_assembly_service() {
 	if ($('#fs_ProductDetails').length) {
 		if ($('.fs-c-productOption').length) {
-			$('#optionWithPrice_1').parents('.fs-c-productOption__field').before('<img src="https://shiraistore.itembox.design/item/src/option_assembly_service.jpg" class="option_assembly_service">');
+			$('#optionWithPrice_1').parents('.fs-c-productOption__field').before('<img src="https://shiraistore.itembox.cloud/item/src/option_assembly_service.jpg" class="option_assembly_service">');
 		}
 	}
 }
@@ -10787,13 +10787,13 @@ function product_detail_size_modal(retry_count) {
                         full_src = original_href.replace(/size=[a-z]+/i, 'size=xl').replace(/&w=[a-zA-Z0-9=]+/g, '');
                     }
                 } else {
-                    // 旧フォーマットの処理（-38-l.jpg などの形式）
+                    // 旧フォーマットの処理（-38.jpg?size=l&w=ODAw などの形式）
                     var href_parts = original_href.split('?');
                     var base_url = href_parts[0];
                     var query_str = href_parts[1] ? '?' + href_parts[1] : '';
 
-                    thumb_src = base_url.replace(/-([a-z]+)\.jpg$/i, '-m.jpg') + query_str;
-                    full_src  = base_url.replace(/-([a-z]+)\.jpg$/i, '-xl.jpg') + query_str;
+                    thumb_src = base_url.replace(/-([a-z]+)\.jpg$/i, '.jpg?size=m&w=NDAw') + query_str;
+                    full_src  = base_url.replace(/-([a-z]+)\.jpg$/i, '.jpg?size=xl&w=MTIwMA') + query_str;
                 }
 
                 // HTMLに追加

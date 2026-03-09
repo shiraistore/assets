@@ -118,9 +118,9 @@ function featurePts() {
 			const productId_Len12 = ('000000000000' + productId).slice(-12);
 			const productId_Len3 = ('000' + Math.floor(productId / 100)).slice(-3);
 			const productImageNumber = ('00' + (thumbnail || productImage)).slice(-2);
-			const imgSrc = 'https://shiraistore.itembox.design/product/' +
+			const imgSrc = 'https://shiraistore.itembox.cloud/product/' +
 				productId_Len3 + '/' + productId_Len12 + '/' +
-				productId_Len12 + '-' + productImageNumber + '-' + productImageSize + '.jpg';
+				productId_Len12 + '-' + productImageNumber + '.jpg?size=s&w=MjAw';
 
 			$wrap.find('.addToCartImage').empty().prepend('<img src="' + imgSrc + '">');
 
@@ -177,8 +177,8 @@ function featurePts() {
 					const pid12 = ('000000000000' + pid).slice(-12);
 					const pid3 = ('000' + Math.floor(pid / 100)).slice(-3);
 					const thumbNo = ('00' + (Number(it.thumbnail_number || productImage) || 1)).slice(-2);
-					representativeImgSrc = 'https://shiraistore.itembox.design/product/' +
-						pid3 + '/' + pid12 + '/' + pid12 + '-' + thumbNo + '-' + productImageSize + '.jpg';
+					representativeImgSrc = 'https://shiraistore.itembox.cloud/product/' +
+						pid3 + '/' + pid12 + '/' + pid12 + '-' + thumbNo + '.jpg?size=m&w=NDAw';
 				}
 			});
 

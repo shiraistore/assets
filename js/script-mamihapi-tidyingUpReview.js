@@ -110,9 +110,9 @@ function addCart() {
 			const productId_Len12 = ('000000000000' + productId).slice(-12);
 			const productId_Len3 = ('000' + Math.floor(productId / 100)).slice(-3);
 			const productImageNumber = ('00' + (thumbnail || productImage)).slice(-2);
-			const imgSrc = 'https://shiraistore.itembox.design/product/' +
+			const imgSrc = 'https://shiraistore.itembox.cloud/product/' +
 				productId_Len3 + '/' + productId_Len12 + '/' +
-				productId_Len12 + '-' + productImageNumber + '-' + productImageSize + '.jpg';
+				productId_Len12 + '-' + productImageNumber + '.jpg?size=m&w=NDAw';
 
 			const image = '<img src="' + imgSrc + '">';
 			const inner =

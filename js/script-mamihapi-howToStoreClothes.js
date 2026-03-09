@@ -101,7 +101,7 @@ function addCart() {
 			const productImageNumber = ('00' + (thumbnail || productImage)).slice(-2);
 			const imgSrc = 'https://shiraistore.itembox.design/product/' +
 				productId_Len3 + '/' + productId_Len12 + '/' +
-				productId_Len12 + '-' + productImageNumber + '-' + productImageSize + '.jpg';
+				productId_Len12 + '-' + productImageNumber + '.jpg?size=m&w=NDAw';
 
 			const image = '<img src="' + imgSrc + '">';
 			const inner =
