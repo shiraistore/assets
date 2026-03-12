@@ -1,5 +1,6 @@
 $(function () {
 	addCart();
+    get_top_ranking('tv-stand');
 });
 
 /* addCart
