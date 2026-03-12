@@ -46,7 +46,7 @@ $(function () {
 	caution_image_zoom_nal();
 	searchTagsTitleDescriptionChange();
 	check_member_opt_in_policy();
-	get_top_ranking();
+	get_top_ranking('overall');
 	getCouponItems();
 	getNewItems();
 	get_outlet_items();
@@ -3263,13 +3263,12 @@ function modal_content_all(data, thumbnail_url, element) {
 // 	}
 // }
 
+
 /* get_top_ranking (トップページランキング v2)
 ========================================================================== */
-/* get_top_ranking (トップページランキング v2)
-========================================================================== */
-function get_top_ranking() {
+function get_top_ranking(category) {
 	//if ($('#fs_Top').length) {
-		get_ranking('overall');
+		get_ranking(category);
 		$('#ranking-categories').css('display', 'block');
 
 		$(document).on('click', '.tablink', function () {
