@@ -1288,11 +1288,11 @@ function searchTagTitle() {
 		$('#fs_ProductSearch h1').html('新生活応援セール第1弾 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール第1弾 対象商品');
 		$('title').text('新生活応援セール第1弾 対象商品');
-	} else if (params.tag == 'sale20260217-20260224') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.cloud/item/src/salePage-banner-sale20260217-20260224_1184x240.jpg" alt="猫家具「ニャコモ」セール 対象商品">');
-		$('#fs_ProductSearch h1').html('猫家具「ニャコモ」セール 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('猫家具「ニャコモ」セール 対象商品');
-		$('title').text('猫家具「ニャコモ」セール 対象商品');
+	} else if (params.tag == 'sale20260319-20260416') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.cloud/item/src/salePage-banner-sale20260319-20260416_1184x240.jpg" alt="新生活応援セール第2弾 対象商品">');
+		$('#fs_ProductSearch h1').html('新生活応援セール第2弾 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール第2弾 対象商品');
+		$('title').text('新生活応援セール第2弾 対象商品');
 	} else if (params.tag == 'sale20250904-20250918') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.cloud/item/src/salePage-banner-sale20250904-20250918_1184x240.jpg" alt="タナリオセール 対象商品">');
 		$('#fs_ProductSearch h1').html('タナリオセール 対象商品');
