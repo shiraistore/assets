@@ -1332,18 +1332,23 @@ function productSortSelect() {
 //セール会場用バナー表示
 function searchTagTitle() {
 	var params = parameterToArray();
-	if (params.tag == 'sale20260219-20260319') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.cloud/item/src/salePage-banner-sale20260219-20260319_1184x240.jpg" alt="新生活応援セール第1弾 対象商品">');
-		$('#fs_ProductSearch h1').html('新生活応援セール第1弾 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール第1弾 対象商品');
-		$('title').text('新生活応援セール第1弾 対象商品');
+	if (params.tag == 'sale20260416-20260507-1') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.cloud/item/src/salePage-banner-sale20260416-20260507-1_1184x240.jpg" alt="6th Anniversary Sale 対象商品">');
+		$('#fs_ProductSearch h1').html('6th Anniversary Sale 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('6th Anniversary Sale 対象商品');
+		$('title').text('6th Anniversary Sale 対象商品');
 	} else if (params.tag == 'sale20260319-20260416') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.cloud/item/src/salePage-banner-sale20260319-20260416_1184x240.jpg" alt="新生活応援セール第2弾 対象商品">');
 		$('#fs_ProductSearch h1').html('新生活応援セール第2弾 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール第2弾 対象商品');
 		$('title').text('新生活応援セール第2弾 対象商品');
-	} else if (params.tag == 'sale20250904-20250918') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.cloud/item/src/salePage-banner-sale20250904-20250918_1184x240.jpg" alt="タナリオセール 対象商品">');
+	} else if (params.tag == 'sale20260406-20260420') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.cloud/item/src/salePage-banner-sale20260406-20260420_1184x240.jpg" alt="キッチン収納「コモピア」セール 対象商品">');
+		$('#fs_ProductSearch h1').html('キッチン収納「コモピア」セール 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('キッチン収納「コモピア」セール 対象商品');
+		$('title').text('キッチン収納「コモピア」セール 対象商品');
+	}  else if (params.tag == 'sale20260416-20260507-2') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.cloud/item/src/salePage-banner-sale20260416-20260507-2_1184x240.jpg" alt="タナリオセール 対象商品">');
 		$('#fs_ProductSearch h1').html('タナリオセール 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('タナリオセール 対象商品');
 		$('title').text('タナリオセール 対象商品');
