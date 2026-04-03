@@ -302,6 +302,15 @@ function transfer() {
 		} else if (productURL == 'https://shirai-store.net/c/series/amr/amr-4535s-wh') {
 			window.location.href = 'https://shirai-store.net/c/series/am2/am2-4535s-wh';
 		}
+
+		const regex = /^(https:\/\/shirai-store\.net\/c\/series\/nal\/nal-9045-)(..).*?-set.*$/i;
+
+		if (regex.test(productURL)) {
+			// 条件に合致した場合、グループ1($1)とグループ2($2)を結合した新しいURLを生成
+			const redirectURL = productURL.replace(regex, '$1$2');
+			// ページを転送
+			window.location.href = redirectURL;
+		}
 	}
 
 	if ($('#fs_ProductSearch').length) {
@@ -1332,18 +1341,23 @@ function productSortSelect() {
 //セール会場用バナー表示
 function searchTagTitle() {
 	var params = parameterToArray();
-	if (params.tag == 'sale20260219-20260319') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.cloud/item/src/salePage-banner-sale20260219-20260319_1184x240.jpg" alt="新生活応援セール第1弾 対象商品">');
-		$('#fs_ProductSearch h1').html('新生活応援セール第1弾 対象商品');
-		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール第1弾 対象商品');
-		$('title').text('新生活応援セール第1弾 対象商品');
+	if (params.tag == 'sale20260416-20260507-1') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.cloud/item/src/salePage-banner-sale20260416-20260507-1_1184x240.jpg" alt="6th Anniversary Sale 対象商品">');
+		$('#fs_ProductSearch h1').html('6th Anniversary Sale 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('6th Anniversary Sale 対象商品');
+		$('title').text('6th Anniversary Sale 対象商品');
 	} else if (params.tag == 'sale20260319-20260416') {
 		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.cloud/item/src/salePage-banner-sale20260319-20260416_1184x240.jpg" alt="新生活応援セール第2弾 対象商品">');
 		$('#fs_ProductSearch h1').html('新生活応援セール第2弾 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('新生活応援セール第2弾 対象商品');
 		$('title').text('新生活応援セール第2弾 対象商品');
-	} else if (params.tag == 'sale20250904-20250918') {
-		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.cloud/item/src/salePage-banner-sale20250904-20250918_1184x240.jpg" alt="タナリオセール 対象商品">');
+	} else if (params.tag == 'sale20260406-20260420') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.cloud/item/src/salePage-banner-sale20260406-20260420_1184x240.jpg" alt="キッチン収納「コモピア」セール 対象商品">');
+		$('#fs_ProductSearch h1').html('キッチン収納「コモピア」セール 対象商品');
+		$('.fs-c-breadcrumb__listItem:last-child').text('キッチン収納「コモピア」セール 対象商品');
+		$('title').text('キッチン収納「コモピア」セール 対象商品');
+	}  else if (params.tag == 'sale20260416-20260507-2') {
+		$('#fs_ProductSearch h1').before('<img src="https://shiraistore.itembox.cloud/item/src/salePage-banner-sale20260416-20260507-2_1184x240.jpg" alt="タナリオセール 対象商品">');
 		$('#fs_ProductSearch h1').html('タナリオセール 対象商品');
 		$('.fs-c-breadcrumb__listItem:last-child').text('タナリオセール 対象商品');
 		$('title').text('タナリオセール 対象商品');
@@ -6876,8 +6890,18 @@ function productDetailAddData() {
 		for (var i in data.review_detail) {
 			//reviewScore_ary.push(item.rating);
 
-			var productUrl = data.review_detail[i].sku_no.toLowerCase(),
-				seriesCode = productUrl.slice(0, 3),
+			var productUrl = data.review_detail[i].sku_no.toLowerCase();
+
+			// --- リンク出力用の例外処理（9045の型番のみ適用） ---
+			var linkProductUrl = productUrl; 
+			var urlRegex = /^([a-z]+-9045-)(..).*?-set.*$/; 
+			
+			if (urlRegex.test(productUrl)) {
+				linkProductUrl = productUrl.replace(urlRegex, '$1$2');
+			}
+			// ---------------------------------------------------
+
+			var seriesCode = productUrl.slice(0, 3),
 				productId = data.review_detail[i].product_id,
 				nickname = data.review_detail[i].nickname,
 				prefecture = data.review_detail[i].area_group,
@@ -6901,7 +6925,7 @@ function productDetailAddData() {
 
 			profHTML = '<div class="fs-c-reviewer__profile">' + profHTML + '</div></div>';
 
-			var reviewerHTML = '<div class="fs-c-reviewList__item__info fs-c-reviewInfo"><div class="fs-c-reviewInfo__reviewer fs-c-reviewer"><div class="fs-c-reviewer__name"><span class="fs-c-reviewer__name__nickname">' + nickname + '</span></div><div class="fs-c-reviewer__status"><span class="fs-c-reviewerStatus">購入者</span></div>';
+			var reviewerHTML = '<div class="fs-c-reviewList__item__info fs-c-reviewInfo"><div class="fs-c-reviewer__name"><span class="fs-c-reviewer__name__nickname">' + nickname + '</span></div><div class="fs-c-reviewer__status"><span class="fs-c-reviewerStatus">購入者</span></div>';
 
 			if (is_monitor == 1) {
 				var mark_monitor = '<span class="mark-monitor">モニターレビュー</span>';
@@ -6915,7 +6939,8 @@ function productDetailAddData() {
 
 			var commentHTML = '<div class="fs-c-reviewList__item__body fs-c-reviewBody">' + reviewBody + '</div>';
 
-			var imageHTML = '<div class="reviewImage"><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.cloud/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '.jpg?size=xs&w=MTAw" alt="" ></a></div>';
+			// aタグのhref部分に linkProductUrl を適用
+			var imageHTML = '<div class="reviewImage"><a href="/c/series/' + seriesCode + '/' + linkProductUrl + '"><img src="https://shiraistore.itembox.cloud/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '.jpg?size=xs&w=MTAw" alt="" ></a></div>';
 
 			var h = '<li class="fs-c-reviewList__item reviewScore-' + reviewScoreToFixed + '">' + imageHTML + '<div class="reviewContent">' + reviewerHTML + profHTML + dateHTML + colorHTML + commentHTML + '</div></li>';
 
