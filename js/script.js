@@ -277,7 +277,7 @@ function cartInPopUp() {
 ========================================================================== */
 function transfer() {
 	// if ($('#fs_PageNotFound').length) {
-	// 	var productURL = location.href;
+	// 	
 
 	// 	if (productURL == 'https://shirai-store.net/c/series/mhp/mhp-8090p-na') {
 	// 		window.location.href = 'https://shirai-store.net/c/preSale/mhp-8090p-na';
@@ -286,8 +286,13 @@ function transfer() {
 	// 	}
 	// }
 
+	var productURL = location.href;
+
+	if (productURL == 'https://shirai-store.net/c/series/amr') {
+			window.location.href = 'https://shirai-store.net/c/series/am2';
+		}
+
 	if ($('#fs_PageNotFound').length) {
-		var productURL = location.href;
 
 		if (productURL == 'https://shirai-store.net/c/series/amr/amr-1480ds-wh') {
 			window.location.href = 'https://shirai-store.net/c/series/am2/am2-1480ds-wh';
