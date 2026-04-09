@@ -6417,7 +6417,7 @@ function productDetailAddData() {
 
 		data = response.result;
 
-		if (data.color_variations[0].value != undefined && data.color_variations[0].value != '') {
+		if (data.color_variations && data.color_variations.length > 0 && data.color_variations[0].value != undefined && data.color_variations[0].value != '') {
 				var url = $('link[rel="canonical"]').attr('href');
 				var variation_text = data.color_variations[0].value.split(',');
 				// console.log(variation_text)
@@ -6457,7 +6457,7 @@ function productDetailAddData() {
 
 		// console.log(data.size_variations[0].value)
 
-		if (data.size_variations[0].value != undefined && data.size_variations[0].value != '') {
+		if (data.size_variations && data.size_variations.length > 0 && data.size_variations[0].value != undefined && data.size_variations[0].value != '') {
 			var url = $('link[rel="canonical"]').attr('href');
 			var variation_text = data.size_variations[0].value.split(',');
 			// console.log(variation_text)
@@ -6495,7 +6495,7 @@ function productDetailAddData() {
 			var url_split = url.split('/');
 		}
 
-		if (data.compatible_products[0].value != undefined && data.compatible_products[0].value != '') {
+		if (data.compatible_products && data.compatible_products.length > 0 && data.compatible_products[0].value != undefined && data.compatible_products[0].value != '') {
 			var url = $('link[rel="canonical"]').attr('href');
 			var compatible_text = data.compatible_products[0].value.split(',');
 			// console.log(compatible_text)
@@ -6735,10 +6735,13 @@ function productDetailAddData() {
 			$('#product-review').before(`<div id="productDetail-faq"><h2 class="productDescriptionTitle">この商品に関するよくある質問</h2><dl>${faqHtml}</dl></div>`);
 		}
 
-		data.comparison_products = data.comparison_products.sort((a, b) => (a.url === modelCode ? -1 : b.url === modelCode ? 1 : 0));
+		// 1. 配列が存在し、かつ要素数が1つ以上あるか（空ではないか）を判定する
+		if (Array.isArray(data.comparison_products) && data.comparison_products.length > 0) {
+			
+			// 2. データがあることが確定してからソート処理を行う（安全）
+			data.comparison_products = data.comparison_products.sort((a, b) => (a.url === modelCode ? -1 : b.url === modelCode ? 1 : 0));
 
-		if (data.comparison_products != undefined && data.comparison_products != '') {
-			//console.log(data.comparison_products);
+			console.log(data.comparison_products);
 			var comparisonData = data.comparison_products,
 				comparisonHTML = '',
 				comparisonImage = '<td></td>',
@@ -6749,8 +6752,6 @@ function productDetailAddData() {
 				comparisonSize = '<th>サイズ</th>',
 				comparisonButton = '<td></td>';
 			
-
-
 			for (var i in comparisonData) {
 				var productUrl = comparisonData[i].url,
 					seriesCode = productUrl.slice(0, 3),
@@ -6777,13 +6778,11 @@ function productDetailAddData() {
 					sellingPrice = '<p class="priceBox"><span class="price">¥ ' + sellingPrice.toLocaleString() + '<span class="tax">(税込)</span></span></p>';
 				}
 
-				//console.log(icon)
 				var comparisonIconHtml = '';
 				if (icon != null) {
 					var icon_ary = icon.split(',');
 
 					for (var j = 0; j < icon_ary.length; j++) {
-						//console.log('icon_ary[j]:', icon_ary[j]);
 						if (icon_ary[j] != '') {
 							icon_ary[j] = icon_ary[j].split(':');
 
@@ -6838,7 +6837,6 @@ function productDetailAddData() {
 					comparisonImage += '<td><a href="/c/series/' + seriesCode + '/' + productUrl + '"><img src="https://shiraistore.itembox.cloud/product/' + zeroPadding(product_image_group, 3) + '/' + productId_12Len + '/' + productId_12Len + '-' + thumbnail + '.jpg?size=m&w=NDAw" alt="" >' + comparisonIconHtml + '</div>' + productName + '</td>';
 				}
 
-				// += '<td><div>' + iconHtml + '</div><a href="/c/series/' + seriesCode + '/' + productUrl + '">' + productName + '</a></td>'
 				comparisonReview += '<td>' + reviewHTML + '</td>';
 				comparisonPrice += '<td>' + sellingPrice + '</td>';
 				comparisonColor += '<td>' + productColor + '</td>';
