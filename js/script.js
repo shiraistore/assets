@@ -799,7 +799,7 @@ function advancedSearchFormURL() {
         else price = `&minprice=${minprice}`;
     }
     
-    var param = `${keyword}${tags}${price}&mode=advanceSearch`;
+    var param = `${keyword}${tags}${price}&sort=priority&mode=advanceSearch`;
     param = param.replace(/^&/, '');
     window.location.href = `/p/search?${param}`;
 }
