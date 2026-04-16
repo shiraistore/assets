@@ -6741,7 +6741,7 @@ function productDetailAddData() {
 			// 2. データがあることが確定してからソート処理を行う（安全）
 			data.comparison_products = data.comparison_products.sort((a, b) => (a.url === modelCode ? -1 : b.url === modelCode ? 1 : 0));
 
-			console.log(data.comparison_products);
+			// console.log(data.comparison_products);
 			var comparisonData = data.comparison_products,
 				comparisonHTML = '',
 				comparisonImage = '<td></td>',
@@ -10799,17 +10799,31 @@ function category_icon_display() {
 }
 
 /* product_detail_size_modal
-   ========================================================================== */
+ ========================================================================== */
 function product_detail_size_modal(retry_count) {
     if ($('#fs_ProductDetails').length) {
         var url = location.href;
         //if (url == '...') { 
             if (retry_count == null) retry_count = 0;
 
-            // 1. 画像リンクの取得
+            // 1. 画像リンクの取得と重複排除（Slickループ対策）
+            var seen_urls = []; // すでに取得した画像のURLパスを記録する配列
+            
             var target_links = $('.fs-c-productPlainImage a').filter(function () {
                 var href = $(this).attr('href') || '';
-                return /-3[68](-[a-z]+)?\.jpg/i.test(href);
+                var isTarget = /-3[68](-[a-z]+)?\.jpg/i.test(href);
+                
+                if (isTarget) {
+                    // URLパラメータ（?size=など）を除外し、純粋な画像パスだけで判定する
+                    var urlPath = href.split('?')[0];
+                    
+                    // まだ配列に記録されていないURLの場合のみ取得対象とする
+                    if (seen_urls.indexOf(urlPath) === -1) {
+                        seen_urls.push(urlPath);
+                        return true;
+                    }
+                }
+                return false;
             });
 
             if (!target_links.length) {
@@ -10867,6 +10881,7 @@ function product_detail_size_modal(retry_count) {
 
                 // 新フォーマットの判定（URLに ?size= が含まれるか、ファイル名が -38.jpg の形式）
                 if (original_href.indexOf('?') !== -1 && /[?&]size=/i.test(original_href)) {
+                    // console.log('BBB') 不要なログはコメントアウトまたは削除推奨
                     try {
                         // 新フォーマット：URLパラメータを操作
                         // 相対パスの場合も考慮して location.origin をベースにする
