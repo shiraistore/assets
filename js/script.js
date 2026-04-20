@@ -10798,8 +10798,7 @@ function category_icon_display() {
 	}
 }
 
-/* product_detail_size_modal
- ========================================================================== */
+/* product_detail_size_modal ========================================================================== */
 function product_detail_size_modal(retry_count) {
     if ($('#fs_ProductDetails').length) {
         var url = location.href;
@@ -10807,17 +10806,14 @@ function product_detail_size_modal(retry_count) {
             if (retry_count == null) retry_count = 0;
 
             // 1. 画像リンクの取得と重複排除（Slickループ対策）
-            var seen_urls = []; // すでに取得した画像のURLパスを記録する配列
+            var seen_urls = []; 
             
             var target_links = $('.fs-c-productPlainImage a').filter(function () {
                 var href = $(this).attr('href') || '';
                 var isTarget = /-3[68](-[a-z]+)?\.jpg/i.test(href);
                 
                 if (isTarget) {
-                    // URLパラメータ（?size=など）を除外し、純粋な画像パスだけで判定する
                     var urlPath = href.split('?')[0];
-                    
-                    // まだ配列に記録されていないURLの場合のみ取得対象とする
                     if (seen_urls.indexOf(urlPath) === -1) {
                         seen_urls.push(urlPath);
                         return true;
@@ -10842,7 +10838,6 @@ function product_detail_size_modal(retry_count) {
                 var hrefA = $(a).attr('href') || '';
                 var hrefB = $(b).attr('href') || '';
                 
-                // "-36" を含むかどうか判定 (新旧フォーマット対応)
                 var is36A = /-36(-[a-z]+)?\.jpg/i.test(hrefA);
                 var is36B = /-36(-[a-z]+)?\.jpg/i.test(hrefB);
 
@@ -10879,31 +10874,23 @@ function product_detail_size_modal(retry_count) {
                 var thumb_src = '';
                 var full_src = '';
 
-                // 新フォーマットの判定（URLに ?size= が含まれるか、ファイル名が -38.jpg の形式）
                 if (original_href.indexOf('?') !== -1 && /[?&]size=/i.test(original_href)) {
-                    // console.log('BBB') 不要なログはコメントアウトまたは削除推奨
                     try {
-                        // 新フォーマット：URLパラメータを操作
-                        // 相対パスの場合も考慮して location.origin をベースにする
                         var urlObj = new URL(original_href, location.origin);
                         
-                        // サムネイル用
                         urlObj.searchParams.set('size', 'm');
                         urlObj.searchParams.delete('w');
                         thumb_src = urlObj.href;
 
-                        // 拡大用
                         urlObj.searchParams.set('size', 'xl');
                         urlObj.searchParams.delete('w');
                         full_src = urlObj.href;
 
                     } catch (e) {
-                        // URLパースに失敗した場合の予備処理（単純な文字列置換）
                         thumb_src = original_href.replace(/size=[a-z]+/i, 'size=m').replace(/&w=[a-zA-Z0-9=]+/g, '');
                         full_src = original_href.replace(/size=[a-z]+/i, 'size=xl').replace(/&w=[a-zA-Z0-9=]+/g, '');
                     }
                 } else {
-                    // 旧フォーマットの処理（-38.jpg?size=l&w=ODAw などの形式）
                     var href_parts = original_href.split('?');
                     var base_url = href_parts[0];
                     var query_str = href_parts[1] ? '?' + href_parts[1] : '';
@@ -10912,7 +10899,6 @@ function product_detail_size_modal(retry_count) {
                     full_src  = base_url.replace(/-([a-z]+)\.jpg$/i, '.jpg?size=xl&w=MTIwMA') + query_str;
                 }
 
-                // HTMLに追加
                 var html = 
                     '<div class="product_spec_image_size">' +
                         '<img src="' + thumb_src + '" class="spec_size_thumb" data-full-src="' + full_src + '">' +
@@ -10953,6 +10939,32 @@ function product_detail_size_modal(retry_count) {
                         $(this).empty();
                     });
                 });
+
+            // ====================================================================
+            // 7. 「詳細サイズ」ボタンの追加と連携（今回の追加機能）
+            // ====================================================================
+            var $productSize = $('.productSize');
+            if ($productSize.length) {
+                // 重複追加を防ぐためのチェック
+                if (!$productSize.find('.btn-detail-size').length) {
+                    // デザインはインラインスタイルで簡易的に当てていますが、
+                    // 必要に応じてCSSファイルに移行してください。
+                    var btnHtml = '<span class="btn-detail-size">詳細サイズ</span>';
+                    $productSize.append(btnHtml);
+                }
+
+                // 追加したボタンに対するクリックイベント
+                $productSize.find('.btn-detail-size')
+                    .off('click')
+                    .on('click', function (e) {
+                        e.stopPropagation();
+                        // 既に生成されている画像要素（一番目）のクリックイベントを発火させる
+                        var $firstImage = container.find('.product_spec_image_size').first();
+                        if ($firstImage.length) {
+                            $firstImage.trigger('click');
+                        }
+                    });
+            }
         //}
     }
 }
