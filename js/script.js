@@ -10949,7 +10949,7 @@ function product_detail_size_modal(retry_count) {
                 if (!$productSize.find('.btn-detail-size').length) {
                     // デザインはインラインスタイルで簡易的に当てていますが、
                     // 必要に応じてCSSファイルに移行してください。
-                    var btnHtml = '<span class="btn-detail-size">詳細サイズ</span>';
+                    var btnHtml = '<span class="btn-detail-size">サイズ詳細</span>';
                     $productSize.append(btnHtml);
                 }
 
