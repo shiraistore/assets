@@ -3,6 +3,7 @@ $(function () {
 	getUrlRedirect();
 	rewriteDOM(); //OK
 	globalNavi(); //javaScriptParts
+	bottomNaviModal();
 	smoothScroll(); //javaScriptParts
 	slideToggleButton(); //javaScriptParts
 	birthdayYearDefaultSelected(); //javaScriptParts
@@ -1321,6 +1322,37 @@ function searchWordSave(name, url) {
 	if (!results[2]) return '';
 	if (results != '') $('header .fs-p-advancedSearchForm__input').val(decodeURIComponent(results[2].replace(/\+/g, ' ')));
 }
+
+/* bottomNaviModal
+========================================================================== */
+function bottomNaviModal() {
+		// モーダル関連の要素をjQueryオブジェクトとして取得
+        const $eventBtn = $('#nav-event-btn');
+        const $modal = $('#bottom-navi-event-modal');
+
+        // 対象の要素が存在しない場合はここで処理を終了（エラー防止）
+        if (!$eventBtn.length || !$modal.length) return;
+
+        const $overlay = $modal.find('.bottom-navi-event-modal-overlay');
+        const $closeBtn = $modal.find('.bottom-navi-event-modal-close');
+
+        // モーダルを開く処理
+        const openModal = () => {
+            $modal.addClass('is-open');
+            $('body').css('overflow', 'hidden');
+        };
+
+        // モーダルを閉じる処理
+        const closeModal = () => {
+            $modal.removeClass('is-open');
+            $('body').css('overflow', ''); // 空文字を指定してstyle属性をクリア
+        };
+
+        // クリックイベントのバインド
+        $eventBtn.on('click', openModal);
+        $closeBtn.on('click', closeModal);
+        $overlay.on('click', closeModal);
+	}
 
 /* productSortSelect
 ========================================================================== */
@@ -5307,6 +5339,8 @@ function rewriteDOM() {
 		// 		});
 		// 	});
 		// }
+
+
 	}
 
 	cart_size_order_dom_change();
@@ -6493,6 +6527,153 @@ function productDetailAddData() {
 			$('#product-comment_9').html('<h4>サイズ</h4><ul>' + htmlSource + '</ul>');
 			$('#product-comment_9').css('display', 'block');
 			var url_split = url.split('/');
+		}
+
+		// タナリオ既製品サイズバリエーション表示
+
+		var url = location.href;
+
+		const targetPattern = /\/tnl-\d+-[a-zA-Z]+\/?$/;
+
+		if (targetPattern.test(url)) {
+			// console.log('[tanario] 対象のURLパターンに一致しました。解析を開始します。');
+
+			// ---- 1. 現在のページのカラー・幅・高さを解析 ----
+			// 要素が存在するか確認
+			var $activeLink = $('#product-comment_5 li.active a');
+			if ($activeLink.length === 0) {
+				console.warn('[tanario] #product-comment_5 li.active a が見つかりません。');
+				return false;
+			}
+
+			var activeColorHref = $activeLink.attr('href') || '';
+			var currentCode = activeColorHref.split('/').pop(); // 例: "tnl-9087-dk"
+			
+			if (!currentCode || currentCode.indexOf('tnl-') !== 0) {
+				// console.warn('[tanario] 有効な商品コード(tnl-xxx)が取得できませんでした:', currentCode);
+				return false;
+			}
+
+			// カラーコード（末尾の -xx）
+			var colorCode = currentCode.replace(/^tnl-\d+-/, ''); // "dk" / "na" / "wh"
+			
+			// 高さコード＋幅の部分
+			var middlePart = currentCode.replace(/^tnl-/, '').replace(/-[a-zA-Z]+$/, '');
+			
+			// 幅候補（長い順にマッチさせる）
+			var widthCodes = ['117', '87', '59', '44', '31'];
+			var currentWidth = null;
+			var currentHeightCode = null;
+			
+			for (var i = 0; i < widthCodes.length; i++) {
+				if (middlePart.slice(-widthCodes[i].length) === widthCodes[i]) {
+					currentWidth = widthCodes[i];
+					currentHeightCode = middlePart.slice(0, middlePart.length - widthCodes[i].length);
+					break;
+				}
+			}
+			
+			if (!currentWidth || !currentHeightCode) {
+				console.warn('[tanario] 型番の解析に失敗しました。middlePart:', middlePart);
+				return false;
+			}
+
+			// ---- 2. 対応表 ----
+			var heightMap = [
+				{ code: '60', label: '60cm' },
+				{ code: '90', label: '90cm' },
+				{ code: '12', label: '120cm' },
+				{ code: '15', label: '150cm' },
+				{ code: '18', label: '180cm' },
+				{ code: '198', label: '198cm' }
+			];
+			var widthMap = [
+				{ code: '31', label: '31cm' },
+				{ code: '44', label: '44cm' },
+				{ code: '59', label: '59cm' },
+				{ code: '87', label: '87cm' },
+				{ code: '117', label: '117cm' }
+			];
+
+			// ---- 3. ヘルパー関数 ----
+			function makeCode(heightCode, widthCode, color) {
+				return 'tnl-' + heightCode + widthCode + '-' + color;
+			}
+			function makeHref(code) {
+				return '/c/series/tnl/' + code;
+			}
+			// 幅117cmは高さ60・90cmのみ存在
+			function isAvailable(heightCode, widthCode) {
+				if (widthCode === '117' && heightCode !== '60' && heightCode !== '90') return false;
+				return true;
+			}
+
+			// ---- 4. 横幅ulを生成 ----
+			var $widthUl = $('<ul>');
+			$.each(widthMap, function (_, w) {
+				if (!isAvailable(currentHeightCode, w.code)) return;
+				var code = makeCode(currentHeightCode, w.code, colorCode);
+				var isActive = (w.code === currentWidth);
+				var $li = $('<li>')
+					.attr('data-productcode', code)
+					.toggleClass('active', isActive);
+				var $a = $('<a>')
+					.attr('href', makeHref(code))
+					.addClass('variationItem')
+					.append($('<span>').text('横幅：' + w.label));
+				$li.append($a);
+				$widthUl.append($li);
+			});
+
+			// ---- 5. 高さulを生成 ----
+			var $heightUl = $('<ul>');
+			$.each(heightMap, function (_, h) {
+				if (!isAvailable(h.code, currentWidth)) return;
+				var code = makeCode(h.code, currentWidth, colorCode);
+				var isActive = (h.code === currentHeightCode);
+				var $li = $('<li>')
+					.attr('data-productcode', code)
+					.toggleClass('active', isActive);
+				var $a = $('<a>')
+					.attr('href', makeHref(code))
+					.addClass('variationItem')
+					.append($('<span>').text('高さ：' + h.label));
+				$li.append($a);
+				$heightUl.append($li);
+			});
+
+			// ---- 6. #product-comment_9 に挿入 ----
+			var $container = $('#product-comment_9');
+			if ($container.length === 0) {
+				console.warn('[tanario] 挿入先となる #product-comment_9 が見つかりませんでした。HTML上に存在するか確認してください。');
+				return false;
+			}
+
+			$container
+				.empty()
+				.css('display', 'block')
+				.append($('<h4>').text('サイズ：横幅'))
+				.append($widthUl)
+				.append($('<h4>').text('サイズ：高さ'))
+				.append($heightUl);
+
+			// 高さがMapに存在するかを安全に取得
+			var currentHeightLabel = '不明';
+			for (var j = 0; j < heightMap.length; j++) {
+				if (heightMap[j].code === currentHeightCode) {
+					currentHeightLabel = heightMap[j].label;
+					break;
+				}
+			}
+
+			// console.log('[tanario] バリエーションの挿入が完了しました:', {
+			// 	currentCode: currentCode,
+			// 	color: colorCode,
+			// 	width: currentWidth + 'cm',
+			// 	height: currentHeightLabel
+			// });
+		} else {
+			console.log('Not tnl本体')
 		}
 
 		if (data.compatible_products && data.compatible_products.length > 0 && data.compatible_products[0].value != undefined && data.compatible_products[0].value != '') {
