@@ -1,7 +1,5 @@
 ﻿/****** Elad Shechter's RESET *******/
 
-/*** box sizing border-box for all elements ***/
-
 *, *::before, *::after {
     box-sizing: border-box;
 }
