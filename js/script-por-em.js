@@ -680,7 +680,7 @@ function displayEstimatedDeliveryDate() {
 			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
 			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
 			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
-			arrivalDateArray = consumeLeadTime(arrivalDateArray, 6, factoryHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 5, factoryHolyDay); 
 			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
 			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
 			deliveryLeadTime = sgwLeadTime;
@@ -688,7 +688,7 @@ function displayEstimatedDeliveryDate() {
 			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
 			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
 			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
-			arrivalDateArray = consumeLeadTime(arrivalDateArray, 6, factoryHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 5, factoryHolyDay); 
 			arrivalDateArray = consumeLeadTime(arrivalDateArray, 2, operationHolyDay); 
 			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
 			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
@@ -697,7 +697,7 @@ function displayEstimatedDeliveryDate() {
 			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
 			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
 			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
-			arrivalDateArray = consumeLeadTime(arrivalDateArray, 6, factoryHolyDay); 
+			arrivalDateArray = consumeLeadTime(arrivalDateArray, 5, factoryHolyDay); 
 			arrivalDateArray = consumeLeadTime(arrivalDateArray, 2, operationHolyDay); 
 			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
 			arrivalDateArray = consumeLeadTime(arrivalDateArray, 1, operationHolyDay); 
